@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Crop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .back-button {
+            background-color: lightblue;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% comment %} {{ existing_certification }} {% endcomment %}
+        {% if existing_certification %}
+
+            {% if existing_certification.is_approved == 'pending' %}
+                <p class="certification-message">You Have Applied For The crop.</p>
+
+            {% elif existing_certification.is_approved == 'approved' %}
+                <p class="certification-message">Your Application Is Approved.</p>
+            {% elif existing_certification.is_approved == 'rejected' %}
+                <p class="certification-message">Your Application is Rejected.</p>
+            {% else %}
+                <p> Not working </p>                
+            {% endif %}
+        {% else %}
+        <h1>Apply for Crop</h1>
+        <a href="{% url 'crop' %}" class="back-button">Back to Crop Details</a>
+        <form method="POST" action="" autocomplete="off" id="apply">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cropName">Crop Name</label>
+                <input type="text" id="cname" name="cname" value="{{ crop_name }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="farmerName">Farmer Name</label>
+                <input type="text" id="farmerName" name="farmerName" placeholder="Enter Name" required>
+                <small id="nameError" class="form-text text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter Address" required>
+                <small id="addressError" class="form-text text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="contactNo">Contact No</label>
+                <input type="tel" id="contactNo" name="contactNo" placeholder="Enter Contact No" required>
+                <small id="contactNoError" class="form-text text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="wardNo">Ward No</label>
+                <input type="text" id="wardNo" name="wardNo" placeholder="Enter Ward No" required>
+                <small id="wardNoError" class="form-text text-danger"></small>
+            </div>
+            <div class="form-group">
+                <label for="wardNo">Annual Income</label>
+                <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Ward No" required>
+                <small id="annualIncomeError" class="form-text text-danger"></small>
+            </div>
+         
+            <button type="submit" class="apply-button">Apply</button>
+        </form>
+        {% endif %}
+
+    </div>
+    
+    <script>
+        const farmerNameInput = document.getElementById('farmerName');
+        const addressInput = document.getElementById('address');
+        const contactNoInput = document.getElementById('contactNo');
+        const wardNoInput = document.getElementById('wardNo');
+        const annualIncomeInput = document.getElementById('annualIncome');
+    
+        const nameError = document.getElementById('nameError');
+        const addressError = document.getElementById('addressError');
+        const contactNoError = document.getElementById('contactNoError');
+        const wardNoError = document.getElementById('wardNoError');
+        const annualIncomeError = document.getElementById('annualIncomeError');
+    
+        function validateName() {
+            const nameValue = farmerNameInput.value.trim();
+    
+            if (!nameValue) {
+                nameError.textContent = 'Name is required.';
+                nameError.style.color = 'red';
+                return false;
+            } else if (!/^[a-zA-Z]+$/.test(nameValue)) {
+                nameError.textContent = 'Name should contain only alphabetical characters.';
+                nameError.style.color = 'red';
+                return false;
+            } else {
+                nameError.textContent = ''; // Clear the error message
+                return true;
+            }
+        }
+    
+        function validateAddress() {
+            const addressValue = addressInput.value.trim();
+    
+            if (!addressValue) {
+                addressError.textContent = 'Address is required.';
+                addressError.style.color = 'red';
+                return false;
+            } else if (!/^[a-zA-Z0-9\s]+$/.test(addressValue)) {
+                addressError.textContent = 'Address should contain only alphabets, numbers, and spaces.';
+                addressError.style.color = 'red';
+                return false;
+            } else {
+                addressError.textContent = ''; // Clear the error message
+                return true;
+            }
+        }
+    
+        function validateContactNo() {
+            const contactNoValue = contactNoInput.value.trim();
+    
+            if (!contactNoValue) {
+                contactNoError.textContent = 'Contact No is required.';
+                contactNoError.style.color = 'red';
+                return false;
+            } else if (!/^\d{10}$/.test(contactNoValue)) {
+                contactNoError.textContent = 'Contact No should be a 10-digit number.';
+                contactNoError.style.color = 'red';
+                return false;
+            } else {
+                contactNoError.textContent = ''; // Clear the error message
+                return true;
+            }
+        }
+    
+        function validateWardNo() {
+            const wardNoValue = wardNoInput.value.trim();
+    
+            if (!wardNoValue) {
+                wardNoError.textContent = 'Ward No is required.';
+                wardNoError.style.color = 'red';
+                return false;
+            } else if (!/^[a-zA-Z0-9]+$/.test(wardNoValue)) {
+                wardNoError.textContent = 'Ward No should contain only alphabets and numbers.';
+                wardNoError.style.color = 'red';
+                return false;
+            } else {
+                wardNoError.textContent = ''; // Clear the error message
+                return true;
+            }
+        }
+    
+        function validateAnnualIncome() {
+            const annualIncomeValue = annualIncomeInput.value.trim();
+    
+            if (!annualIncomeValue) {
+                annualIncomeError.textContent = 'Annual Income is required.';
+                annualIncomeError.style.color = 'red';
+                return false;
+            } else if (!/^\d+$/.test(annualIncomeValue)) {
+                annualIncomeError.textContent = 'Annual Income should contain only numbers.';
+                annualIncomeError.style.color = 'red';
+                return false;
+            } else {
+                annualIncomeError.textContent = ''; // Clear the error message
+                return true;
+            }
+        }
+    
+        farmerNameInput.addEventListener('input', validateName);
+        addressInput.addEventListener('input', validateAddress);
+        contactNoInput.addEventListener('input', validateContactNo);
+        wardNoInput.addEventListener('input', validateWardNo);
+        annualIncomeInput.addEventListener('input', validateAnnualIncome);
+    
+        document.getElementById('apply').addEventListener('submit', function(event) {
+            if (!validateName() || !validateAddress() || !validateContactNo() || !validateWardNo() || !validateAnnualIncome()) {
+                event.preventDefault();
+            }
+        });
+    </script>
+    
+    
+    
+</body>
+</html>

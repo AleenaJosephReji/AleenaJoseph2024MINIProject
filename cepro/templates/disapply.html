@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .details {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Details Page</h1>
+        <div class="details">
+            {% if details %}
+                <table>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Farmer Name</th>
+                        <th>Address</th>
+                        <th>Contact No</th>
+                        <th>Ward No</th>
+                        <th>Annual Income</th>
+                    </tr>
+                    {% for detail in details %}
+                        <tr>
+                            <td>{{ detail.cname }}</td>
+                            <td>{{ detail.farmerName }}</td>
+                            <td>{{ detail.address }}</td>
+                            <td>{{ detail.contactNo }}</td>
+                            <td>{{ detail.wardNo }}</td>
+                            <td>{{ detail.AnnualIncome }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No details available.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

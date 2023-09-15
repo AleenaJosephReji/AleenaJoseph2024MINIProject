@@ -1,0 +1,214 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SIGNUP</title>
+  <!-- Add Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    h1{
+      color:white;
+    }
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    .image-container 
+      {
+        background-size:100%;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    .form-container 
+      {
+        background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145));
+        padding: 5px;
+        border-radius: 10px;
+        align-items:center;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+      }
+
+    .image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+
+  .btn-primary1 {
+width: 50%;
+height: 50px;
+margin-left: 25%;
+background-color: rgb(245, 236, 236);
+border-color: black;
+color: black;
+font-family: 'Times New Roman', Times, serif;
+font-size: 20px;
+position: relative;
+padding-left: 40px; /* Adjust as needed */
+ background-image: url("{% static 'img/google.png' %}");
+ background-size: 24px; 
+ /* Adjust the size of the Google image */
+background-repeat: no-repeat;
+background-position: 10px center; /* Adjust the position of the Google image */
+}
+
+.btn-primary1:hover {
+background-color:white; 
+border-color: darkgreen; 
+color:white;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 image-container">
+        
+        <img src="https://i.pinimg.com/736x/0b/da/44/0bda44489659f5dc3b00971f59e5c419.jpg" alt="" class="img">
+      </div>
+      <div class="col-md-6">
+        <div class="container form-container mt-5">
+          <h1>Registration Form</h1>
+          <form action="#" method="POST" id="registrationForm">
+            {% csrf_token %}
+            
+            {% comment %} <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" placeholder="Enter Name" id="name" name="name" required>
+              <small id="nameError" class="form-text text-danger"></small>
+            </div> {% endcomment %}
+
+            
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" placeholder="Enter Email" id="email" name="email" required>
+              <small id="emailError" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password"placeholder="Enter Password" name="password" required>
+              <small id="passwordError" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" class="form-control" id="confirmPassword" placeholder="Enter Confirm Password" name="confirmPassword" required>
+              <small id="confirmPasswordError" class="form-text text-danger"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+            <pre>Already have an account? <a href="loginn" style="color:blue; font-size: 14px;">Login</a></pre>
+            
+            <!-- <button class="btn btn-outline-info">
+              <a href="{% provider_login_url 'google'%}?next=/">
+                  <i class="fab fa-google"></i>
+                  Login with Google
+              </a>
+          </button> -->
+          </form>
+          <button type="submit" class="btn btn-primary1">
+            <a href="{% provider_login_url 'google' %}?next=/">
+            <span class="google-button-content">
+              Sign in with Google
+            </span>
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Bootstrap JS and jQuery scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script>
+    const registrationForm = document.getElementById('registrationForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    //const phoneNumberInput = document.getElementById('phoneNumber');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    function validatename() {
+      const nameValue = nameInput.value;
+      const nameError = document.getElementById('nameError');
+      
+      if (!/^[a-zA-Z]+$/.test(nameValue)) {
+        nameError.textContent = 'Username should contain only alphabetical characters.';
+        return false;
+      } else {
+        nameError.textContent = '';
+        return true;
+      }
+    }
+
+
+    function validateEmail() {
+      const emailValue = emailInput.value;
+      const emailError = document.getElementById('emailError');
+      
+      if (!/^\S+@\S+\.\S+$/.test(emailValue)) {
+        emailError.textContent = 'Enter a valid email address.';
+        return false;
+      } else {
+        emailError.textContent = '';
+        return true;
+      }
+    }
+
+    function validatePassword() {
+      const passwordValue = passwordInput.value;
+      const passwordError = document.getElementById('passwordError');
+      
+      if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}/.test(passwordValue)) {
+        passwordError.textContent = 'Password should contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.';
+        return false;
+      } else {
+        passwordError.textContent = '';
+        return true;
+      }
+    }
+
+    function validateConfirmPassword() {
+      const confirmPasswordValue = confirmPasswordInput.value;
+      const confirmPasswordError = document.getElementById('confirmPasswordError');
+      
+      if (confirmPasswordValue !== passwordInput.value) {
+        confirmPasswordError.textContent = 'Passwords do not match.';
+        return false;
+      } else {
+        confirmPasswordError.textContent = '';
+        return true;
+      }
+    }
+
+    // Validate on keyup for individual fields
+    nameInput.addEventListener('keyup', validatename);
+    emailInput.addEventListener('keyup', validateEmail);
+    //phoneNumberInput.addEventListener('keyup', validatePhoneNumber);
+    passwordInput.addEventListener('keyup', validatePassword);
+    confirmPasswordInput.addEventListener('keyup', validateConfirmPassword);
+
+    // Validate on form submit
+    registrationForm.addEventListener('submit', function(event) {
+      const isnameValid = validatename();
+      const isEmailValid = validateEmail();
+      //const isPhoneNumberValid = validatePhoneNumber();
+      const isPasswordValid = validatePassword();
+      const isConfirmPasswordValid = validateConfirmPassword();
+      if (!isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
