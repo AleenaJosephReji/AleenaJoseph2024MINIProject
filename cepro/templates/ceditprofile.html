@@ -67,20 +67,16 @@
                                             <div class="form-group form-focus"> 
                                                 {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
-                                                <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name">
+                                               <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name">
                                             </div>
                                         </div>
-                                     {% comment %} <div class="col-md-6">
+                                        <div class="col-md-6">
                                             <label>Birth Date </label>
                                             <div class="form-group form-focus"> 
-                                               <input class="form-control floating " type="date" value="" name="birth_date">
+                                               {% comment %} <input class="form-control floating " type="date" value="" name="birth_date"> {% endcomment %}
                                                <input class="form-control floating" type="date" value="{{ profile.birth_date|date:'Y-m-d' }}" name="birth_date">
                                             </div>
-                                     </div>      
-                                       {% endcomment %}
-                                        
-                                        
-
+                                     </div>     
                                         <div class="col-md-6">
                                             <label>Email</label>
                                             <div class="form-group form-focus"> 
@@ -101,12 +97,27 @@
                                             </div>
                                         </div>
                                     
-                                        <div class="col-md-6">
+                                        {% comment %} <div class="col-md-6">
                                             <label>House Name  </label>
-                                            <div class="form-group form-focus"> 
+                                            <div class="form-group form-focus">  {% endcomment %}
                                                 {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" class="form-control floating" value="" name="house_name"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
+                                                {% comment %} <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
+                                            </div> {% endcomment %}
+                                            <div class="col-md-6">
+                                                <label>Annual Income</label>
+                                                <div class="form-group form-focus"> 
+                                                    {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
+                                                    {% comment %} <input type="text" class="form-control floating" value="" name="house_name"> {% endcomment %}
+                                                    <input type="text" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Amount of land</label>
+                                                <div class="form-group form-focus"> 
+                                                    {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
+                                                    {% comment %} <input type="text" class="form-control floating" value="" name="house_name"> {% endcomment %}
+                                                    <input type="text" class="form-control floating" value="{{ profile.land }}" name="land">
                                             </div>
                                         </div>
                                     </div>
@@ -136,14 +147,13 @@
                                 <label>Panchayat</label>
                                 <div class="form-group form-focus"> 
                                      
-                                    <input type="text" class="form-control floating" value=" Parathodu" name="state" readonly>
+                                    <input type="text" class="form-control floating" value="Erumely" name="state" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label>Ward</label>
-                                <div class="form-group form-focus"> 
+                                <div class="form-group form-focus">
                                     <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward">
-                                    {% comment %} <input type="text" class="form-control floating" value="" name="ward"> {% endcomment %}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -155,9 +165,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label>Phone Number</label>
-                                <div class="form-group form-focus"> 
+                                <div class="form-group form-focus">
                                     <input type="text" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number">
-                                    {% comment %} <input type="text" class="form-control floating" value="" name="phone_number"> {% endcomment %}
                                 </div>
                             </div>
                         </div>

@@ -182,16 +182,20 @@ class FarmerProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     first_name = models.CharField(max_length=100, null=True,blank=True)
     last_name = models.CharField(max_length=100,null=True,blank=True)
-    # birth_date = models.DateField(null=True,blank=True)
+    birth_date = models.DateField(null=True,blank=True)
     email = models.EmailField(max_length=100,null=True,blank=True)
     profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
-    house_name = models.CharField(max_length=100, null=True,blank=True)
+    # house_name = models.CharField(max_length=100, null=True,blank=True)
+    annual_income = models.CharField(max_length=100, null=True,blank=True)
+    land = models.CharField(max_length=100, null=True,blank=True)
+
     house_no = models.IntegerField(max_length=100, null=True,blank=True)
     address = models.CharField(max_length=255,null=True,blank=True)
+    phone_number = models.IntegerField(max_length=12,null=True,blank=True)
     ward = models.CharField(max_length=100)
     pin_code = models.IntegerField(max_length=6,null=True,blank=True)
-    phone_number = models.IntegerField(max_length=12,null=True,blank=True)
+   
     
     # current_diagnosis = models.CharField(max_length=100, null=True,blank=True)
     # past_med_condition = models.CharField(max_length=100, null=True,blank=True)

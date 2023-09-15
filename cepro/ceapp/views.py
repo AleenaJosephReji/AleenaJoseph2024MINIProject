@@ -435,15 +435,24 @@ def ceditprofile(request):
         
         profile.last_name = request.POST.get('last_name')
         print("last name :",profile.last_name)
-        # profile.birth_date = request.POST.get('birth_date')
+        
+        profile.birth_date = request.POST.get('birth_date')
+        print("Date of Birth :",profile.birth_date)
+     
         profile.email = request.POST.get('email')
         print("email name :",profile.email)
 
+        
         profile.gender = request.POST.get('gender')
         print("gender :",profile.gender)
 
-        profile.house_name = request.POST.get('house_name')
-        print("house name :",profile.house_name)
+        profile.annual_income = request.POST.get('annual_income')
+        print("annual income  :",profile.annual_income)
+        profile.land = request.POST.get('land')
+        print("land :",profile.land)
+
+        # profile.house_name = request.POST.get('house_name')
+        # print("house name :",profile.house_name)
 
         profile.house_no = request.POST.get('house_no')
         print("house no :",profile.house_no)
@@ -460,7 +469,8 @@ def ceditprofile(request):
         profile.phone_number = request.POST.get('phone_number')
         print("phone :",profile.phone_number)
 
-       
+        # profile.phone_number = request.POST.get('phone_number')
+
         profile.save()
         
             
@@ -679,7 +689,8 @@ def apply(request):
         return render(request, 'apply.html', {'existing_certification': existing_certification})
     
     crop_name = request.GET.get('crop_name')
-    
+
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
     if request.method == 'POST':
         
     #    cname = request.POST.get('cname')
@@ -706,7 +717,12 @@ def apply(request):
 
     return render(request, 'apply.html', {
     'crop_name': crop_name,
-    'existing_certification': existing_certification,
+    'existing_certification': existing_certification,'farmer_name': farmer_profile.first_name,  # Add these fields to the context
+        'farmer_address': farmer_profile.address,
+        'farmer_contact': farmer_profile.phone_number,
+        # 'farmer_phone_number': farmer_profile.contactNo,
+        'farmer_ward': farmer_profile.ward,
+        'farmer_annual_income': farmer_profile.annual_income,
      
     })
     

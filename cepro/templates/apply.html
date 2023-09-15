@@ -106,27 +106,41 @@
             </div>
             <div class="form-group">
                 <label for="farmerName">Farmer Name</label>
-                <input type="text" id="farmerName" name="farmerName" placeholder="Enter Name" required>
+                <input type="text" id="farmerName" name="farmerName" placeholder="Enter Name"  value="{{ farmer_name }}" required readonly>
                 <small id="nameError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="address">Address</label>
-                <input type="text" id="address" name="address" placeholder="Enter Address" required>
+                <input type="text" id="address" name="address" placeholder="Enter Address" value="{{ farmer_address }}" required readonly>
                 <small id="addressError" class="form-text text-danger"></small>
             </div>
-            <div class="form-group">
+            <div class="col-md-6">
+                <label>Ward</label>
+                <div class="form-group form-focus">
+                    <input type="text" class="form-control floating" value="{{ farmer_ward }}" name="ward" readonly>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <label>Phone Number</label>
+                <div class="form-group form-focus">
+                    <input type="text" class="form-control floating" value="{{ farmer_contact }}" name="phone_number" readonly>
+                </div>
+            </div>
+            
+            {% comment %} <div class="form-group">
                 <label for="contactNo">Contact No</label>
-                <input type="tel" id="contactNo" name="contactNo" placeholder="Enter Contact No" required>
+                <input type="tel" id="contactNo" name="contactNo" placeholder="Enter Contact No" value="{{ farmer_contact }}" required>
                 <small id="contactNoError" class="form-text text-danger"></small>
             </div>
             <div class="form-group">
                 <label for="wardNo">Ward No</label>
-                <input type="text" id="wardNo" name="wardNo" placeholder="Enter Ward No" required>
+                <input type="text" id="wardNo" name="wardNo" placeholder="Enter Ward No" value="{{ farmer_ward }}" required>
                 <small id="wardNoError" class="form-text text-danger"></small>
-            </div>
+            </div> {% endcomment %}
             <div class="form-group">
                 <label for="wardNo">Annual Income</label>
-                <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Ward No" required>
+                <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Ward No" value="{{ farmer_annual_income }}" required readonly>
                 <small id="annualIncomeError" class="form-text text-danger"></small>
             </div>
          
