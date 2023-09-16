@@ -60,7 +60,7 @@
                                                 {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
                                                 <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name">
-                                            </div>
+                                                <small id="firstNameError" class="form-text text-danger"></small></div>
                                         </div>
                                         <div class="col-md-6">
                                             <label>Last Name</label>
@@ -68,6 +68,7 @@
                                                 {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
                                                <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name">
+                                               <small id="lastNameError" class="form-text text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -190,7 +191,38 @@
     <script src="{% static 'assets/js/app.js'%}"></script>
     <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
     
-    <script>
+
+        <script>
+            // Get form elements
+            var firstNameInput = document.getElementById("firstName");
+            var lastNameInput = document.getElementById("lastName");
+        
+            // Get error elements
+            var firstNameError = document.getElementById("firstNameError");
+            var lastNameError = document.getElementById("lastNameError");
+        
+            // Add event listeners for live validation
+            firstNameInput.addEventListener("input", validateFirstName);
+            lastNameInput.addEventListener("input", validateLastName);
+        
+            function validateFirstName() {
+                var firstName = firstNameInput.value;
+                firstNameError.textContent = "";
+                var regex = /^[A-Z][a-z]*$/; // Matches a string that starts with a capital letter and contains only lowercase letters
+                if (!regex.test(firstName)) {
+                    firstNameError.textContent = "First Name should start with a capital letter and not contain numbers or special symbols";
+                }
+            }
+        
+            function validateLastName() {
+                var lastName = lastNameInput.value;
+                lastNameError.textContent = "";
+                var regex = /^[A-Z][a-z]*$/; // Matches a string that starts with a capital letter and contains only lowercase letters
+                if (!regex.test(lastName)) {
+                    lastNameError.textContent = "Last Name should start with a capital letter and not contain numbers or special symbols";
+                }
+            }
+        
         function addRow() {
             var table = document.getElementById("medicationTable").getElementsByTagName('tbody')[0];
             var newRow = table.insertRow(table.rows.length);
@@ -209,6 +241,8 @@
             var row = button.parentNode.parentNode;
             row.parentNode.removeChild(row);
         }
+
+
     </script>
     
 </body>

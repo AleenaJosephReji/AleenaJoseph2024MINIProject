@@ -383,16 +383,17 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto py-0">
                 
-                <a href="{% url 'homepage' %}" class="nav-item nav-link active">Home</a>
-                <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" >Home</a>
+                <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 50px;">Notice</a>
+                {% comment %} <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <a href="{% url 'product' %}" class="nav-item nav-link">Product</a>
-                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
+                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a> {% endcomment %}
+                {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
                     <option value="" disabled selected>Select</option>
-                    {% comment %} <option value="{% url 'contact' %}">Book Crop</option> {% endcomment %}
+                    <option value="{% url 'contact' %}">Book Crop</option> 
                     <option value="{% url 'crop' %}">Register Crop</option>
-                </select>
+                </select> {% endcomment %}
 
 
                 {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
@@ -409,12 +410,12 @@
                 {% comment %} <a href="{% url 'fnotifications' %}" class="nav-item nav-link">Notifications</a> {% endcomment %}
 
                 {% comment %} <a href="{% url 'notification' %}" class="nav-item nav-link">Notification</a> {% endcomment %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown"style="float: left; margin-left:50px;" >
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: grey;">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span>{{ user.email }}</span>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: grey;">
                         
                         {% if user.is_authenticated %}
                         <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
