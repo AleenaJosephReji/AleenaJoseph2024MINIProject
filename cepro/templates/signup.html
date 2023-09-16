@@ -130,7 +130,62 @@ color:white;
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   
+
   <script>
+    // Get form elements
+    var emailInput = document.getElementById("email");
+    var passwordInput = document.getElementById("password");
+    var confirmPasswordInput = document.getElementById("confirmPassword");
+
+    // Get error elements
+    var emailError = document.getElementById("emailError");
+    var passwordError = document.getElementById("passwordError");
+    var confirmPasswordError = document.getElementById("confirmPasswordError");
+
+    // Add event listeners for live validation
+    emailInput.addEventListener("input", validateEmail);
+    passwordInput.addEventListener("input", validatePassword);
+    confirmPasswordInput.addEventListener("input", validateConfirmPassword);
+
+    function validateEmail() {
+        var email = emailInput.value;
+        emailError.textContent = "";
+        if (!validateEmailFormat(email)) {
+            emailError.textContent = "Invalid email format";
+        }
+    }
+
+    function validatePassword() {
+        var password = passwordInput.value;
+        passwordError.textContent = "";
+        if (password.length < 8) {
+            passwordError.textContent = "Password must be at least 8 characters long";
+        } else if (!/[A-Z]/.test(password)) {
+            passwordError.textContent = "Password must contain at least one capital letter";
+        } else if (!/\d/.test(password)) {
+            passwordError.textContent = "Password must contain at least one number";
+        } else if (!/[!@#$%^&*]/.test(password)) {
+            passwordError.textContent = "Password must contain at least one special character (!@#$%^&*)";
+        }
+    }
+
+    function validateConfirmPassword() {
+        var password = passwordInput.value;
+        var confirmPassword = confirmPasswordInput.value;
+        confirmPasswordError.textContent = "";
+        if (password !== confirmPassword) {
+            confirmPasswordError.textContent = "Passwords do not match";
+        }
+    }
+
+    function validateEmailFormat(email) {
+        var emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        return emailRegex.test(email);
+    }
+</script>
+
+
+  {% comment %} <script>
     const registrationForm = document.getElementById('registrationForm');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
@@ -209,6 +264,6 @@ color:white;
         event.preventDefault();
       }
     });
-  </script>
+  </script> {% endcomment %}
 </body>
 </html>

@@ -61,6 +61,18 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .apply-button-green {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 8px 16px; /* Adjust padding to make it smaller */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; /* Adjust font-size to make it smaller */
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -85,7 +97,8 @@
                     <td>{{ crop.end_date }}</td>
                     <td>
                         {% if crop.start_date <= today and crop.end_date >= today %}
-                            <a href="{% url 'apply' %}?crop_name={{ crop.Namec }}" class="apply-button-green" style="background-color: green; padding: 15px 30px; font-size: 20px;">Apply</a>                        {% else %}
+                            <a href="{% url 'apply' %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>                       
+                        {% else %}
                             <a href="{% url 'applyerror' %}?crops={{ crop.Namec }}" class="apply-button" style="background-color: red;">Apply</a>
                         {% endif %}
                     </td>

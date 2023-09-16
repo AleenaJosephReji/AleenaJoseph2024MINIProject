@@ -680,8 +680,8 @@ def crop(request):
 def disapply(request):
     applys = ApplyCrop.objects.all()
     return render(request, 'disapply.html', {'applys': applys})
-from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.decorators import login_required
 @login_required
 def apply(request):
     existing_certification = ApplyCrop.objects.filter(user=request.user).first()
@@ -725,6 +725,53 @@ def apply(request):
         'farmer_annual_income': farmer_profile.annual_income,
      
     })
+    
+
+
+
+# @login_required
+# def apply(request):
+#     existing_certification = ApplyCrop.objects.filter(user=request.user).first()
+#     if existing_certification:
+#         return render(request, 'apply.html', {'existing_certification': existing_certification})
+    
+#     crop_name = request.GET.get('crop_name')
+
+#     farmer_profile = FarmerProfile.objects.get(user=request.user)
+#     if request.method == 'POST':
+        
+#     #    cname = request.POST.get('cname')
+#         farmerName = request.POST.get('farmerName')
+#         address = request.POST.get('address')
+#         contactNo = request.POST.get('contactNo')
+#         wardNo  = request.POST.get('wardNo')
+#         annualIncome  = request.POST.get('annualIncome')
+
+        
+
+#         obj = ApplyCrop()
+#         obj.user = request.user
+#         obj.cname = crop_name
+#         obj.farmerName = farmerName
+#         obj.address = address
+#         obj.contactNo= contactNo
+#         obj.wardNo = wardNo
+#         obj.AnnualIncome = annualIncome
+#         obj.save()
+
+        
+#         return redirect('apply')
+
+#     return render(request, 'apply.html', {
+#     'crop_name': crop_name,
+#     'existing_certification': existing_certification,'farmer_name': farmer_profile.first_name,  # Add these fields to the context
+#         'farmer_address': farmer_profile.address,
+#         'farmer_contact': farmer_profile.phone_number,
+#         # 'farmer_phone_number': farmer_profile.contactNo,
+#         'farmer_ward': farmer_profile.ward,
+#         'farmer_annual_income': farmer_profile.annual_income,
+     
+#     })
     
 
         
