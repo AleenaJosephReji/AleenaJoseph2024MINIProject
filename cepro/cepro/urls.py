@@ -91,6 +91,8 @@ urlpatterns = [
     path('reject_certification/<int:certification_id>/', views.reject_certification, name='reject_certification'),
     path('approve_acertification/<int:certification_id>/', views.approve_acertification, name='approve_acertification'),
     path('reject_acertification/<int:certification_id>/', views.reject_acertification, name='reject_acertification'),
+    # path('membereditprofile', views.membereditprofile, name='membereditprofile'),
+
 
     path('loggout',loggout,name='loggout'),
     path('edit_member/<int:member_id>/', views.edit_member, name='edit_member'),

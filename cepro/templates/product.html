@@ -66,25 +66,26 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
         <a href="index.html" class="navbar-brand d-flex d-lg-none">
-            <h1 class="m-0 display-4 text-secondary"><span class="text-white">Farm</span>Fresh</h1>
+            {% comment %} <h1 class="m-0 display-4 text-secondary"><span class="text-white">Farm</span>Fresh</h1> {% endcomment %}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <h2>CropElevate</h2>
+        <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="">
+        <h2 style="margin-left:20px;">CropElevate</h2>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto py-0">
                 
-                <a href="{% url 'homepage' %}" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
                 <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
-                <a href="{% url 'product' %}" class="nav-item nav-link">Product</a>
+                <a href="{% url 'product' %}" class="nav-item nav-link active">Product</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
+                {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
                     <option value="" disabled selected>Select</option>
-                    {% comment %} <option value="{% url 'contact' %}">Book Crop</option> {% endcomment %}
+                    <option value="{% url 'contact' %}">Book Crop</option>
                     <option value="{% url 'crop' %}">Register Crop</option>
-                </select>
+                </select> {% endcomment %}
 
 
                 {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
@@ -125,7 +126,7 @@
                 <div class="col-lg-8 text-center text-lg-start">
                     <h1 class="display-1 text-white mb-md-4">Our Products</h1>
                     <a href="{% url 'index' %}" class="btn btn-primary py-md-3 px-md-5 me-3">Home</a>
-                    <a href="" class="btn btn-secondary py-md-3 px-md-5">Products</a>
+                    <a href="{% url 'product' %}" class="btn btn-secondary py-md-3 px-md-5">Products</a>
                 </div>
             </div>
         </div>
@@ -217,15 +218,15 @@
                             <h4 class="text-white mb-4">Get In Touch</h4>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-geo-alt text-white me-2"></i>
-                                <p class="text-white mb-0">123 Street, New York, USA</p>
+                                <p class="text-white mb-0">Kottayam ,Kanjirappally,Erumely, pin:686509</p>
                             </div>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-envelope-open text-white me-2"></i>
-                                <p class="text-white mb-0">info@example.com</p>
+                                <p class="text-white mb-0">info@emlypanchayath.com</p>
                             </div>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-telephone text-white me-2"></i>
-                                <p class="text-white mb-0">+012 345 67890</p>
+                                <p class="text-white mb-0">+91 9865742314</p>
                             </div>
                             <div class="d-flex mt-4">
                                 <a class="btn btn-secondary btn-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
@@ -237,15 +238,15 @@
                         <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
                             <h4 class="text-white mb-4">Quick Links</h4>
                             <div class="d-flex flex-column justify-content-start">
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Home</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>About Us</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Our Services</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Meet The Team</a>
-                                <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Latest Blog</a>
-                                <a class="text-white" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Contact Us</a>
+                                <a class="text-white mb-2" href="{% url 'index' %}"><i class="bi bi-arrow-right text-white me-2"></i>Home</a>
+                                <a class="text-white mb-2" href="{% url 'about' %}"><i class="bi bi-arrow-right text-white me-2"></i>About Us</a>
+                                <a class="text-white mb-2" href="{% url 'service' %}"><i class="bi bi-arrow-right text-white me-2"></i>Our Services</a>
+                                {% comment %} <a class="text-white mb-2" href="{% url 'service' %}"><i class="bi bi-arrow-right text-white me-2"></i>Meet The Team</a> {% endcomment %}
+                                {% comment %} <a class="text-white mb-2" href="{% url 'service' %}"><i class="bi bi-arrow-right text-white me-2"></i>Latest Blog</a> {% endcomment %}
+                                <a class="text-white" href="{% url 'contact' %}"><i class="bi bi-arrow-right text-white me-2"></i>Contact Us</a>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
+                        {% comment %} <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
                             <h4 class="text-white mb-4">Popular Links</h4>
                             <div class="d-flex flex-column justify-content-start">
                                 <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Home</a>
@@ -255,7 +256,7 @@
                                 <a class="text-white mb-2" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Latest Blog</a>
                                 <a class="text-white" href="#"><i class="bi bi-arrow-right text-white me-2"></i>Contact Us</a>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">

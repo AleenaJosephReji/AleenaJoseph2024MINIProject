@@ -245,14 +245,14 @@
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
                         </li>
-                        <li class="active">
+                        <li class"active">
                             <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'adapprovalpending' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
                         </li> {% endcomment %}
                         <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved</span></a>
+                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                         </li> 
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span>Approved</span></a>
@@ -552,7 +552,7 @@
                 <div class="container">
                     <!-- mfregistered.html -->
                     <div class="container">
-                        <h1>Approved list</h1>
+                        <h1>Pending Approval</h1>
                         <div class="details">
                             {% if pending_details %}
                                 <table>

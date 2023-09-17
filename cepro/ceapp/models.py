@@ -95,13 +95,14 @@ class Member(models.Model):
 
 
 
-    date_of_birth = models.CharField(max_length=100,null=True, blank=True)
+    # date_of_birth = models.CharField(max_length=100,null=True, blank=True)
     # gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     address = models.TextField()
     district= models.CharField(max_length=100,null=True, blank=True)
     taluk = models.CharField(max_length=255, null=True, blank=True)
     Panchayat = models.CharField(max_length=100,null=True, blank=True)
     ward = models.CharField(max_length=100,null=True, blank=True)
+    wardno = models.IntegerField(max_length=100,null=True, blank=True)
     postal = models.IntegerField()
     phone = models.IntegerField()
     bio=models.TextField()
@@ -163,6 +164,7 @@ class ApplyCrop(models.Model):
     contactNo = models .CharField(max_length=100,null=True,blank=True)
     wardNo = models .CharField(max_length=100,null=True,blank=True)
     AnnualIncome = models .IntegerField(null=True,blank=True)
+    # file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
     is_approved = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
@@ -187,7 +189,7 @@ class FarmerProfile(models.Model):
     profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
     # house_name = models.CharField(max_length=100, null=True,blank=True)
-    annual_income = models.CharField(max_length=100, null=True,blank=True)
+    annual_income = models.IntegerField(max_length=100, null=True,blank=True)
     land = models.CharField(max_length=100, null=True,blank=True)
 
     house_no = models.IntegerField(max_length=100, null=True,blank=True)
@@ -209,6 +211,29 @@ class FarmerProfile(models.Model):
     # dosage = models.CharField(max_length=12,null=True,blank=True)
     # frequency = models.CharField(max_length=12,null=True,blank=True)
     
+    def _str_(self):
+        return self.first_name
+
+class MemberProfile(models.Model):
+    
+    # user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True )
+    name = models.CharField(max_length=100, null=True,blank=True)
+    # last_name = models.CharField(max_length=100,null=True,blank=True)
+    # age = models.IntegerField(null=True,blank=True)
+    email = models.EmailField(max_length=100,null=True,blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
+    # house_name = models.CharField(max_length=100, null=True,blank=True)
+    # annual_income = models.IntegerField(max_length=100, null=True,blank=True)
+    # land = models.CharField(max_length=100, null=True,blank=True)
+
+    # house_no = models.IntegerField(max_length=100, null=True,blank=True)
+    address = models.CharField(max_length=255,null=True,blank=True)
+    phone_number = models.IntegerField(max_length=12,null=True,blank=True)
+    ward = models.CharField(max_length=100)
+    pin_code = models.IntegerField(max_length=6,null=True,blank=True)
+
     def _str_(self):
         return self.first_name
 

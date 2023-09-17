@@ -336,20 +336,26 @@
                                         <input class="form-control" id="name" name="email" type="email">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password"placeholder="Enter Password" name="password" required>
+                                    <small id="passwordError" class="form-text text-danger"></small>
+                                  </div>
+                                {% comment %} <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Password</label>
                                         <input class="form-control" id="password" name="password" type="password">
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
+                                </div> {% endcomment %}
+                                {% comment %} <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Date of Birth</label>
                                         <div class="cal-icon">
                                             <input type="text" class="form-control datetimepicker" name="date_of_birth">
                                         </div>
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                                 {% comment %} <div class="col-sm-6">
 									<div class="form-group gender-select">
 										<label class="gen-label">Gender:</label>
@@ -394,10 +400,16 @@
 												<input class="form-control" type="text" name="panchayat" value="Erumely" readonly="">
 											</div>
 										</div>
+                                        <div class="col-sm-6 col-md-6 col-lg-3">
+											<div class="form-group">
+												<label>Ward No</label>
+												<input class="form-control" type="number" name="wardno">
+											</div>
+										</div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-3">
                                             <div class="form-group">
-                                                <label>Ward</label>
+                                                <label>Ward Name</label>
                                                 <select class="form-control select" name="ward" id="ward">
                                                     <option>Ward 1-Pazhayidom</option>
                                                     <option>Ward 2-Chennappaddy</option>
@@ -527,6 +539,7 @@
                             return true;
                         }
                     }
+                    
                  
                     farmerNameInput.addEventListener('input', validateName);
                     addressInput.addEventListener('input', validateAddress);

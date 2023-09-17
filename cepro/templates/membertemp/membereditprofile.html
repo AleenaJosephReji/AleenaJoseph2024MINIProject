@@ -55,22 +55,30 @@
                                 <div class="profile-basic">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label>First Name  </label>
+                                            <label>Name  </label>
                                             <div class="form-group form-focus"> 
                                                 {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name" id="first_name">
+                                                <input type="text" class="form-control floating" value="{{ profile.name }}" name="name" id="name">
                                                 <small id="firstNameError" class="form-text text-danger"></small></div>
                                         </div>
-                                        <div class="col-md-6">
+                                        {% comment %} <div class="col-md-6">
+                                            <label>Age</label>
+                                            <div class="form-group form-focus"> 
+                                                <label class="focus-label">First Name</label>
+                                                <input type="text" class="form-control floating" value="" name="house_name">
+                                                <input type="text" class="form-control floating" value="{{ profile.age }}" name="age" id="age">
+                                        </div>
+                                    </div> {% endcomment %}
+                                        {% comment %} <div class="col-md-6">
                                             <label>Last Name</label>
                                             <div class="form-group form-focus"> 
-                                                {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
-                                                {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
-                                               <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name">
+                                                <label class="focus-label">Last Name</label>
+                                                <input type="text" placeholder="last" class="form-control floating" value="" name="last_name">
+                                               <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name">
                                                <small id="lastNameError" class="form-text text-danger"></small>
                                             </div>
-                                        </div>
+                                        </div> {% endcomment %}
                                         {% comment %} <div class="col-md-6">
                                             <label>Birth Date </label>
                                             <div class="form-group form-focus"> 
@@ -78,26 +86,25 @@
                                                <input class="form-control floating" type="date" value="{{ profile.birth_date|date:'Y-m-d' }}" name="birth_date">
                                             </div>
                                      </div>      {% endcomment %}
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                            <div class="form-group form-focus"> 
-                                                
-                                                {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.email }}" name="email">
-                                            </div>
-                                        </div>
+                                       
 
                                         <div class="col-md-6">
                                             <label class="focus-label">Gender</label>
                                             <div class="form-group form-focus select-focus">
-                                                <select class="select form-control floating" name="gender" required>
+                                                <select class="select form-control floating" name="gender">
                                                     <option value="" disabled selected>-Select Gender-</option>
                                                     <option value="Male" {% if profile.gender == 'Male' %} selected {% endif %}>Male</option>
                                                     <option value="Female" {% if profile.gender == 'Female' %} selected {% endif %}>Female</option>
                                                 </select>
                                             </div>
                                         </div>
-                                    
+                                        <div class="col-md-6">
+                                            <label>Email</label>
+                                            <div class="form-group form-focus"> 
+                                                {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
+                                                <input type="text" class="form-control floating" value="{{ profile.email }}" name="email">
+                                            </div>
+                                        </div>
                                         {% comment %} <div class="col-md-6">
                                             <label>House Name  </label>
                                             <div class="form-group form-focus">  {% endcomment %}
@@ -105,20 +112,22 @@
                                                 {% comment %} <input type="text" class="form-control floating" value="" name="house_name"> {% endcomment %}
                                                 {% comment %} <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
                                             </div> {% endcomment %}
-                                            <div class="col-md-6">
+                                            {% comment %} <div class="col-md-6">
                                                 <label>Annual Income</label>
-                                                <div class="form-group form-focus">
-                                                    <input type="number" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income" id="annual_income">
-                                                    <small id="annualIncomeError" class="form-text text-danger"></small>
+                                                <div class="form-group form-focus"> 
+                                                    <label class="focus-label">First Name</label>
+                                                    <input type="text" class="form-control floating" value="" name="house_name">
+                                                    <input type="integer" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label>Amount of land</label>
-                                                <div class="form-group form-focus">
-                                                    <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land">
-                                                    <small id="landError" class="form-text text-danger"></small>
-                                                </div>
+                                                <div class="form-group form-focus"> 
+                                                    <label class="focus-label">First Name</label>
+                                                    <input type="text" class="form-control floating" value="" name="house_name">
+                                                    <input type="text" class="form-control floating" value="{{ profile.land }}" name="land">
                                             </div>
+                                        </div> {% endcomment %}
                                     </div>
                                 </div>
                             </div>
@@ -130,56 +139,52 @@
                             {% comment %} <div class="col-md-6">
                                 <label>House Number</label>
                                 <div class="form-group form-focus"> 
-                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no">
+                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no">
                                     <input type="number" class="form-control floating" value=" " name="house_no">
-                                    <small id="houseNoError" class="form-text text-danger"></small>
                                 </div>
                             </div> {% endcomment %}
-                            <div class="col-md-6">
-                                <label>House Number</label>
-                                <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no">
-                                    <small id="houseNoError" class="form-text text-danger"></small>
-
-                                </div>
-                            </div>
                             <div class="col-md-6">
                                 <label>Address  </label>
                                 <div class="form-group form-focus"> 
                                     <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address">
-                                    <small id="addressError" class="form-text text-danger"></small>
                                     {% comment %} <input type="text" class="form-control floating" value=" " name="address"> {% endcomment %}
                                 </div>
                             </div>
-                            
+                            <div class="col-md-6">
+                                <label>District</label>
+                                <div class="form-group form-focus"> 
+                                     <input type="text" class="form-control floating" value="Kottayam" name="state" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Thaluk</label>
+                                <div class="form-group form-focus"> 
+                                     <input type="text" class="form-control floating" value="Kanjirappally" name="state" readonly>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <label>Panchayat</label>
                                 <div class="form-group form-focus"> 
-                                     
-                                    <input type="text" class="form-control floating" value="Erumely" name="state" readonly>
+                                     <input type="text" class="form-control floating" value="Erumely" name="state" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label>Ward</label>
                                 <div class="form-group form-focus">
                                     <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward">
-                                    <small id="wardError" class="form-text text-danger"></small>
-
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label>Pin Code  </label>
                                 <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code">
+                                    <input type="text" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code">
                                     {% comment %} <input type="text" class="form-control floating" value="" name="pin_code"> {% endcomment %}
-                                    <small id="pinError" class="form-text text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <label>Phone Number</label>
                                 <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number">
-                                    <small id="phoneError" class="form-text text-danger"></small>
+                                    <input type="text" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number">
                                 </div>
                             </div>
                         </div>
@@ -196,7 +201,6 @@
         </div>
     </div>
 
-
     
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js'%}"></script>
@@ -209,176 +213,35 @@
 
         <script>
             // Get form elements
-            var firstNameInput = document.getElementById("first_name");
-            var lastNameInput = document.getElementById("last_name");
-            const addressInput = document.getElementById('address');
-            var annualIncomeInput = document.getElementById("annual_income");
-            var landInput = document.getElementById("land");
-            var houseNoInput = document.getElementById("house_no");
-            var wardInput = document.getElementById("ward");
-            var pinCodeInput = document.getElementById("pin_code");
-            var phoneNumberInput = document.getElementById("phone_number");
-
-        
+            var firstNameInput = document.getElementById("firstName");
+            var lastNameInput = document.getElementById("lastName");
         
             // Get error elements
             var firstNameError = document.getElementById("firstNameError");
             var lastNameError = document.getElementById("lastNameError");
-            const addressError = document.getElementById('addressError')
-            var annualIncomeError = document.getElementById("annualIncomeError");
-            var landError = document.getElementById("landError");
-            var houseNoError = document.getElementById("houseNoError");
-            var wardError = document.getElementById("wardError");
-            var pinError = document.getElementById("pinError");
-            var phoneError = document.getElementById("phoneError");
-
         
-
-            annualIncomeInput.addEventListener("input", function () {
-                validateAnnualIncome();
-            });
-        
-            // Function to validate amount of land as you type
-            landInput.addEventListener("input", function () {
-                validateLand();
-            });
-            wardInput.addEventListener("input", function () {
-                validateWard();
-            });
-            houseNoInput.addEventListener("input", function () {
-                validateHouseNumber();
-            });
-            pinCodeInput.addEventListener("input", function () {
-                validatePinCode();
-            });
-        
-            // Function to validate phone number as you type
-            phoneNumberInput.addEventListener("input", function () {
-                validatePhoneNumber();
-            });
-            addressInput.addEventListener("input",function(){
-                validateAddress();
-            });
-
             // Add event listeners for live validation
-            {% comment %} firstNameInput.addEventListener("input", validateFirstName);
-            lastNameInput.addEventListener("input", validateLastName); {% endcomment %}
+            firstNameInput.addEventListener("input", validateFirstName);
+            lastNameInput.addEventListener("input", validateLastName);
         
-            firstNameInput.addEventListener("input", () => {
-                const firstName = firstNameInput.value.trim();
-                const regex = /^[A-Z][a-zA-Z]*$/;
-        
+            function validateFirstName() {
+                var firstName = firstNameInput.value;
+                firstNameError.textContent = "";
+                var regex = /^[A-Z][a-z]*$/; // Matches a string that starts with a capital letter and contains only lowercase letters
                 if (!regex.test(firstName)) {
-                    firstNameError.textContent = "First Name should start with a capital letter and contain only letters.";
-                } else {
-                    firstNameError.textContent = "";
+                    firstNameError.textContent = "First Name should start with a capital letter and not contain numbers or special symbols";
                 }
-            });
+            }
         
-            // Function to validate last name
-            lastNameInput.addEventListener("input", () => {
-                const lastName = lastNameInput.value.trim();
-                const regex = /^[A-Z][a-zA-Z]*$/;
-        
+            function validateLastName() {
+                var lastName = lastNameInput.value;
+                lastNameError.textContent = "";
+                var regex = /^[A-Z][a-z]*$/; // Matches a string that starts with a capital letter and contains only lowercase letters
                 if (!regex.test(lastName)) {
-                    lastNameError.textContent = "Last Name should start with a capital letter and contain only letters.";
-                } else {
-                    lastNameError.textContent = "";
-                }
-            });
-
-            function validateAddress() {
-                const addressValue = addressInput.value.trim();
-        
-                if (!addressValue) {
-                    addressError.textContent = 'Address is required.';
-                    addressError.style.color = 'red';
-                    return false;
-                } else if (!/^[a-zA-Z0-9\s]+$/.test(addressValue)) {
-                    addressError.textContent = 'Address should contain only alphabets, numbers, and spaces.';
-                    addressError.style.color = 'red';
-                    return false;
-                } else {
-                    addressError.textContent = ''; // Clear the error message
-                    return true;
-                }
-            }
-            function validateAnnualIncome() {
-                const annualIncome = annualIncomeInput.value.trim();
-                const regex = /^\d+$/; // Matches only digits
-        
-                if (!regex.test(annualIncome)) {
-                    annualIncomeError.textContent = "Annual Income should contain only numbers.";
-                } else {
-                    annualIncomeError.textContent = "";
+                    lastNameError.textContent = "Last Name should start with a capital letter and not contain numbers or special symbols";
                 }
             }
         
-            // Function to validate amount of land
-            function validateLand() {
-                const land = landInput.value.trim();
-                const regex = /^[a-zA-Z0-9\s]*$/; // Matches letters, numbers, and spaces
-        
-                if (!regex.test(land)) {
-                    landError.textContent = "Amount of Land should contain only letters, numbers, and spaces.";
-                } else {
-                    landError.textContent = "";
-                }
-            }
-
-
-
-            function validateWard() {
-                const ward = wardInput.value.trim();
-                const regex = /^\d+$/; // Matches only digits
-        
-                if (!regex.test(ward)) {
-                    wardError.textContent = "Ward should contain only numbers.";
-                } else if (parseInt(ward) >= 35) {
-                    wardError.textContent = "It should be less than 35.";
-                } else {
-                    wardError.textContent = "";
-                }
-            }
-        
-
-            function validateHouseNumber() {
-                const houseNo = houseNoInput.value.trim();
-                const regex = /^\d+$/; // Matches only digits
-        
-                if (!regex.test(houseNo)) {
-                    houseNoError.textContent = "House Number should contain only numbers.";
-                } else {
-                    houseNoError.textContent = "";
-                }
-            }
-
-             // Function to validate phone number as you type
-    phoneNumberInput.addEventListener("input", function () {
-        validatePhoneNumber();
-    });
-
-    function validatePinCode() {
-        const pinCode = pinCodeInput.value.trim();
-        const regex = /^\d{6}$/; // Matches exactly 6 digits
-
-        if (!regex.test(pinCode)) {
-            pinError.textContent = "Pin Code should contain exactly 6 digits.";
-        } else {
-            pinError.textContent = "";
-        }
-    }
-
-    function validatePhoneNumber() {
-        const phoneNumber = phoneNumberInput.value.trim();
-        const regex = /^\d{10}$/; // Matches exactly 10 digits
-
-        if (!regex.test(phoneNumber)) {
-            phoneError.textContent = "Phone Number should contain exactly 10 digits.";
-        } else {
-            phoneError.textContent = "";
-        }
-    }
         function addRow() {
             var table = document.getElementById("medicationTable").getElementsByTagName('tbody')[0];
             var newRow = table.insertRow(table.rows.length);

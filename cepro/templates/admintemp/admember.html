@@ -369,13 +369,15 @@
                                 <p>Member ID: {{ member.id }}</p>
 
                                 <p class="card-text">Email: {{ member.email }}</p>
-                                <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p>
+                                <p class="card-text">Password: {{ member.password }}</p>
+                                {% comment %} <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p> {% endcomment %}
                                 <!-- <p class="card-text">Date of Join: {{ member.date_of_join }}</p> -->
                                 {% comment %} <p class="card-text">Gender: {{ member.get_gender_display }}</p> {% endcomment %}
                                 {% comment %} <p class="card-text">Address: {{ member.address }}</p> {% endcomment %}
                                 <p class="card-text">District: {{ member.district }}</p>
                                 <p class="card-text">Taluk: {{ member.taluk }}</p>
                                 <p class="card-text">Panchayat: {{ member.Panchayat }}</p>
+                                <p class="card-text">Wardno: {{ member.wardno }}</p>
                                 <p class="card-text">Ward: {{ member.ward }}</p>
                                 <p class="card-text">Postal: {{ member.postal }}</p>
                                 <p class="card-text">Phone: {{ member.phone }}</p>

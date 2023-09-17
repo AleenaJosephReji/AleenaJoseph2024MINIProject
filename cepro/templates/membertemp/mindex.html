@@ -140,8 +140,7 @@
 						{% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="adprofile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="">Edit Profile</a>
+						<a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>
 						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
@@ -151,7 +150,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="">Edit Profile</a>
+                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>

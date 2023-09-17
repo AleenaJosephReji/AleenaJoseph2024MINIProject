@@ -463,6 +463,7 @@
                             <th>Contact No</th>
                             <th>Ward No</th>
                             <th>Annual Income</th>
+                            {% comment %} <th>file Upload</th> {% endcomment %}
                             <th>Approve</th>
                         </tr>
                         {% for  application in pending_details %}
@@ -473,6 +474,8 @@
                                 <td>{{ application.contactNo }}</td>
                                 <td>{{ application.wardNo }}</td>
                                 <td>{{ application.AnnualIncome }}</td>
+                                {% comment %} <td>{{ application.file_upload }}</td> {% endcomment %}
+
                                 <td>
                                     {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
                                     {% if annual_income|add:0 <= 30000 %}
