@@ -126,7 +126,8 @@
                 </li>
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
-                        <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
                         {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
@@ -315,7 +316,7 @@
 
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title">Add Member</h4>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Member</b></i></u></h4>
                     </div>
                 </div>
                 <div class="row">
@@ -325,23 +326,26 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label> Name <span class="text-danger">*</span></label>
+                                        <label><b>Name <span class="text-danger">*</span></b></label>
                                         <input class="form-control" name="name" type="text" id="name">
                                         <small id="nameError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Email <span class="text-danger">*</span></label>
-                                        <input class="form-control" id="name" name="email" type="email">
+                                        <label><b>Email <span class="text-danger">*</span></b></label>
+                                        <input class="form-control" id="email" name="email" type="email">
+                                        <small id="emailError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
-
+                                
+                                <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password"placeholder="Enter Password" name="password" required>
+                                    <label for="password"><b>Password</b></label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
                                     <small id="passwordError" class="form-text text-danger"></small>
                                   </div>
+                                </div>
                                 {% comment %} <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Password</label>
@@ -376,41 +380,41 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="form-group">
-												<label>Address</label>
+												<label><b>Address</b></label>
 												<input type="text" class="form-control " id="address" name="address">
                                                 <small id="addressError" class="form-text text-danger"></small>
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label>District</label>
+												<label><b>District</b></label>
                                                 <input class="form-control" type="text" name="dis" value="Kottayam" readonly="">
                                             </div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label>Thaluk</label>
+												<label><b>Thaluk</b></label>
 												<input class="form-control" type="text" name="taluk" value="Kanjirappally" readonly="">
 											</div>
 										</div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label>Panchayath</label>
+												<label><b>Panchayath</b></label>
 												<input class="form-control" type="text" name="panchayat" value="Erumely" readonly="">
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label>Ward No</label>
-												<input class="form-control" type="number" name="wardno">
+												<label><b>Ward No</b></label>
+												<input class="form-control" type="number" name="wardno" id="wardno" required>
 											</div>
 										</div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-3">
                                             <div class="form-group">
-                                                <label>Ward Name</label>
-                                                <select class="form-control select" name="ward" id="ward">
+                                                <label><b>Ward Name</b></label>
+                                                <select class="form-control select" name="ward" id="ward" required>
                                                     <option>Ward 1-Pazhayidom</option>
                                                     <option>Ward 2-Chennappaddy</option>
                                                     <option>Ward 3-Kizhakkekkerra</option>
@@ -425,7 +429,7 @@
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label>Postal Code</label>
+												<label><b>Postal Code</b></label>
 												<input type="text" class="form-control" id="pin" name="pin">
                                                 <small id="pinError" class="form-text text-danger"></small>
                                             </div>
@@ -434,14 +438,14 @@
 								</div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Phone </label>
+                                        <label><b>Phone </b></label>
                                         <input class="form-control" type="text" id="phone"name="phone">
                                         <small id="contactNoError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                             
 							<div class="form-group">
-                                <label>Short Biography</label>
+                                <label><b>Short Biography</b></label>
                                 <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
                             </div>
                             {% comment %} <div class="col-sm-6">
@@ -454,7 +458,7 @@
 
                                 
                             <div class="m-t-20 text-center">
-                                <button type="submit"class="btn btn-primary submit-btn">Create Memeber</button>
+                                <button type="submit"class="btn btn-primary submit-btn" style="background-color: green; color: white;">Create Memeber</button>
                             </div>
                         </form>
                     </div>
@@ -463,15 +467,54 @@
                     const farmerNameInput = document.getElementById('name');
                     const addressInput = document.getElementById('address');
                     const contactNoInput = document.getElementById('phone');
-                    const pinInput = document.getElementById('pin');
+                    {% comment %} const pinInput = document.getElementById('pin'); {% endcomment %}
 
 
                     const nameError = document.getElementById('nameError');
                     const addressError = document.getElementById('addressError');
                     const contactNoError = document.getElementById('contactNoError');
+                    {% comment %} const pinError = document.getElementById('pinError'); {% endcomment %}
+
+                    const passwordInput = document.getElementById('password');
+                    const passwordError = document.getElementById('passwordError');
+
+                    const emailInput = document.getElementById('email');
+                    const emailError = document.getElementById('emailError');
+
+                    const pinInput = document.getElementById('pin');
                     const pinError = document.getElementById('pinError');
 
+                    pinInput.addEventListener('input', function () {
+                        const postalCode = pinInput.value;
+                        const postalCodeRegex = /^[0-9]{6}$/; // Assuming a 5-digit postal code format
 
+                        if (postalCodeRegex.test(postalCode)) {
+                            pinError.textContent = '';
+                        } else {
+                            pinError.textContent = 'Please enter a valid 6-digit postal code.';
+                        }
+                    });
+                    
+                    emailInput.addEventListener('input', function () {
+                        const email = emailInput.value;
+                        const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+                    
+                        if (emailRegex.test(email)) {
+                            emailError.textContent = '';
+                        } else {
+                            emailError.textContent = 'Please enter a valid email address.';
+                        }
+                    });
+                    passwordInput.addEventListener('input', function () {
+                        const password = passwordInput.value;
+                        const validPasswordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$/;
+
+                        if (validPasswordRegex.test(password)) {
+                            passwordError.textContent = '';
+                        } else {
+                            passwordError.textContent = 'Password should contain at least 1 capital letter, 1 number, 1 special character, and be at least 8 characters long.';
+                        }
+                    });
                     function validateName() {
                         const nameValue = farmerNameInput.value.trim();
                 
@@ -523,23 +566,6 @@
                         }
                     }
 
-                    function validatePin() {
-                        const pinValue = pinInput.value.trim();
-                    
-                        if (!pinValue) {
-                            pinError.textContent = 'Pin No is required.';
-                            pinError.style.color = 'red';
-                            return false;
-                        } else if (!/^\d{6}$/.test(pinValue)) {
-                            pinError.textContent = 'Pin should be a 6-digit number.';
-                            pinError.style.color = 'red';
-                            return false;
-                        } else {
-                            pinError.textContent = ''; // Clear the error message
-                            return true;
-                        }
-                    }
-                    
                  
                     farmerNameInput.addEventListener('input', validateName);
                     addressInput.addEventListener('input', validateAddress);
@@ -547,7 +573,7 @@
                     PinInput.addEventListener('input', validatePin);
                    
                     document.getElementById('apply').addEventListener('submit', function(event) {
-                        if (!validateName() || !validateAddress() || !validateContactNo() || !validatePin()) {
+                        if (!validateName() || !validateAddress() || !validateContactNo()) {
                             event.preventDefault();
                         }
                     });

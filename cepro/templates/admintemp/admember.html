@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
     <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
@@ -323,11 +323,12 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-4 col-3">
-                        <h4 class="page-title">Members</h4>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Members List</b></i></u></h4>
                     </div>
                     <div class="col-sm-8 col-9 text-right m-b-20">
-                        <a href="{% url 'adaddmember' %}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Member</a>
+                        <a href="{% url 'adaddmember' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="fa fa-plus"></i> Add Member</a>
                     </div>
+                    
                 </div>
 
                 <div class="row doctor-grid">

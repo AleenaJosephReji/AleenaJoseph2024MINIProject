@@ -38,6 +38,10 @@
             color: green;
             background-color: #f3f3f3;
         }
+        .error-messages {
+            color: red;
+            font-size:28px;
+        }
     </style> 
 </head>
 
@@ -126,7 +130,7 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">7</span></a>
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                 </li>
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
@@ -156,7 +160,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Main</li>
+                        <li class="menu-title">Admin</li>
                         <li>
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
@@ -327,11 +331,20 @@
                 </div>
             </div>
         </div>
+
+       
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title">Add Crop</h4>
+                        {% if messages %}
+                        <ul class="messages error-messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Crop</b></i></u></h4>
                     </div>
                 </div>
                 <div class="row">
@@ -340,14 +353,14 @@
                             {% csrf_token %}
         
                             <div class="form-group">
-                                <label>Crop Name</label>
+                                <label><b>Crop Name</b></label>
                                 <input class="form-control" type="text" name="cname">
                             </div>
                             <div class="form-group">
-                                <label>Description</label>
+                                <label><b>Description</b></label>
                                 <textarea cols="30" rows="4" class="form-control" name="cdescription"></textarea>
                             </div>
-                            <label>Available Date :</label>
+                            <label><b>Available Date </b></label>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Start Date :</label>
@@ -361,7 +374,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Count</label>                                
+                                <label><b>Count</b></label>                                
                                 <input class="form-control" type="text" name="count">
                             </div>
                            
@@ -392,7 +405,7 @@
                             </div>
         
                             <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Create Crop</button>
+                                <button class="btn btn-primary submit-btn" style="background-color: green; color: white;">Create Crop</button>
                             </div>
                         </form>
                     </div>

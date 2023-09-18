@@ -718,6 +718,10 @@ def adaddcrop(request):
         #     notavail = True
 
         # Create a new Crop instance with the provided data
+        existing_crop = Crop.objects.filter(Namec=cname).first()
+        if existing_crop:
+            messages.error(request, f'A crop with the name "{cname}" already exists.')
+            return redirect('adaddcrop')
         new_crop = Crop(Namec=cname, des=cdescription, start_date = start_date ,end_date = end_date, count=count ,current=True)
         new_crop.save()
 
@@ -798,22 +802,24 @@ def edit_crop(request, crop_id):
     if request.method == 'POST':
         cname = request.POST.get('cname')
         details = request.POST.get('details')
-
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        count = request.POST.get('count')
         # Check the value of 'availability' to determine the selected option
-        availability = request.POST.get('availability')
-        if availability == '1':
-            avail = True
-            notavail = False
-        else:
-            avail = False
-            notavail = True
+        # availability = request.POST.get('availability')
+        # if availability == '1':
+        #     avail = True
+        #     notavail = False
+        # else:
+        #     avail = False
+        #     notavail = True
 
         # Update the member's attributes with the new data
         crop.Namec = cname
         crop.des = details
-        crop.available = avail
-        crop.notavailable = notavail
-
+        crop.start_date = start_date
+        crop.end_date = end_date
+        crop.count = count
         # Save the updated member object
         crop.save()
 
