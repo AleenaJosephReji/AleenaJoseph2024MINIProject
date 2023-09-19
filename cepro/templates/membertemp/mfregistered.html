@@ -517,10 +517,17 @@
                                           {% csrf_token %}
                                           <button class="btn btn-success approve-btn" type="submit" >Approve</button>
                                         </form>
-                                    
+                                        <form method="post" action="{% url 'reject_certification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                        </form>
                                         {% elif application.is_approved == 'approved' %}
                                         <span class="text-success" style="font-weight: bolder;
                                         font-size: large;" >Approved</span>
+                                        
+                                        {% elif application.is_approved == 'rejected' %}
+                                        <span class="text-danger" style="font-weight: bolder;
+                                        font-size: large;" >Rejected</span>
                                         {% endif %}
                                     {% endif %}
                                 {% endwith %}
