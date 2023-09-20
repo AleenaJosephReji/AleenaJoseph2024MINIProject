@@ -208,7 +208,7 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="adprofile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
@@ -218,7 +218,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="">Edit Profile</a>
+                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
@@ -583,10 +583,11 @@
                                                   <button class="btn btn-danger reject-btn" type="submit">Reject</button>
                                                 </form>
                                                 {% elif application.is_approved == 'approved' %}
-                                                    <span class="text-success" style="font-weight: bolder;
-                                                    font-size: large;" >Approved</span>
+                                                    {% comment %} <span class="text-success" style="font-weight: bolder;
+                                                    font-size: large;" >Approved</span> {% endcomment %}
                                                     <form method="post" action="{% url 'reject_acertification' application.id %}">
                                                       {% csrf_token %}
+                                
                                                       <button class="btn btn-danger reject-btn" type="submit">Reject</button>
                                                   </form> 
                                                 {% elif application.is_approved == 'rejected' %}

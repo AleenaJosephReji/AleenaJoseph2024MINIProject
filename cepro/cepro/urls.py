@@ -33,7 +33,7 @@ urlpatterns = [
     path('product',views.product,name='product'),
     path('contact',views.contact,name='contact'),
     path('crop',views.crop,name='crop'),
-    path('apply',views.apply,name='apply'),
+    path('apply/<int:crop_id>/',views.apply,name='apply'),
     path('applyerror',views.applyerror,name='applyerror'),
 
     path('disapply',views.disapply,name='disapply'),
@@ -74,7 +74,7 @@ urlpatterns = [
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
     path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),
 
-
+    path('search_crop', views.search_crop, name='search_crop'),
 
 
 

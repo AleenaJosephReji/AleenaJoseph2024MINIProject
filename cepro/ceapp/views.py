@@ -165,7 +165,12 @@ def apply(request):
 #     return render(request,'Atemp/aindex2.html')
 
 def adindex(request):
-    return render(request,'admintemp/adindex.html')
+    me=Member.objects.all()
+    me_count=me.count()
+    c=Crop.objects.all()
+    c_count=c.count()
+    context={'me':me,'me_count':me_count,'c':c,'c_count':c_count}
+    return render(request,'admintemp/adindex.html',context)
 # def amembers(request):
 #     return render(request,'Atemp/amembers.html')
 def alogin(request):
@@ -222,7 +227,11 @@ def adapprovalpending(request):
 
 
 def mindex(request):
-    return render(request,'membertemp/mindex.html')
+    fe=ApplyCrop.objects.all()
+    fe_count=fe.count()
+    context={'fe':fe,'fe_count':fe_count}
+
+    return render(request,'membertemp/mindex.html',context)
 def mblog(request):
     return render(request,'membertemp/mblog.html')
 # def mcrop(request):
@@ -862,8 +871,9 @@ def disapply(request):
 
 from django.contrib.auth.decorators import login_required
 @login_required
-def apply(request):
-    existing_certification = ApplyCrop.objects.filter(user=request.user).first()
+def apply(request,crop_id):
+    existing_certification = ApplyCrop.objects.filter(user=request.user,crop_id=crop_id).first()
+    print(existing_certification)
     if existing_certification:
         return render(request, 'apply.html', {'existing_certification': existing_certification})
     
@@ -880,7 +890,7 @@ def apply(request):
         annualIncome  = request.POST.get('annualIncome')
         # file_upload = request.FILES.get('file_upload')
         
-
+        crop=Crop.objects.filter(id=crop_id)
         obj = ApplyCrop()
         obj.user = request.user
         obj.cname = crop_name
@@ -888,12 +898,13 @@ def apply(request):
         obj.address = address
         obj.contactNo= phone_number
         obj.wardNo = ward
+        obj.crop_id=crop[0]
         obj.AnnualIncome = annualIncome
         # obj .file_upload = file_upload
         obj.save()
 
         
-        return redirect('apply')
+        return redirect('apply',crop_id=crop_id)
 
     return render(request, 'apply.html', {
     'crop_name': crop_name,
@@ -902,6 +913,7 @@ def apply(request):
         'farmer_phone_number': farmer_profile.phone_number,
         # 'farmer_phone_number': farmer_profile.contactNo,
         'farmer_ward': farmer_profile.ward,
+
         'farmer_annual_income': farmer_profile.annual_income,
         # 'farmer_file_upload' : farmer_profile.file_upload
      
@@ -1074,3 +1086,19 @@ def adapproval(request):
 # def mfregistered(request):
 #     details = ApplyCrop.objects.all()
 #     return render(request,'membertemp/mfregistered.html',{details : details})
+
+
+
+from django.shortcuts import render
+from .models import Crop
+
+def search_crop(request):
+    cropname = request.GET.get('cropname', '')
+    # crops = Crop.objects.filter(Namec__icontains=cropname)
+
+    if cropname:
+        crops = Crop.objects.filter(Namec__icontains=cropname)
+    else:
+        crops = Crop.objects.all()
+    
+    return render(request, 'admintemp/adcrop.html', {'crops': crops, 'cropname': cropname})

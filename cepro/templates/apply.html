@@ -82,7 +82,6 @@
 </head>
 <body>
     <div class="container">
-        {% comment %} {{ existing_certification }} {% endcomment %}
         {% if existing_certification %}
 
             {% if existing_certification.is_approved == 'pending' %}
@@ -145,10 +144,10 @@
             </div>
          
 
-            <div class="form-group">
+            {% comment %} <div class="form-group">
                 <label for="file_upload">Upload File</label>
                 <input type="file" name="file_upload" id="file_upload">
-            </div>
+            </div> {% endcomment %}
             <button type="submit" class="apply-button">Apply</button>
         </form>
         {% endif %}

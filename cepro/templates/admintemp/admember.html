@@ -133,7 +133,7 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
@@ -143,7 +143,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="">Edit Profile</a>
+                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
@@ -369,20 +369,20 @@
                             <div>
                                 <p>Member ID: {{ member.id }}</p>
 
-                                <p class="card-text">Email: {{ member.email }}</p>
-                                <p class="card-text">Password: {{ member.password }}</p>
+                                <p class="card-text"><b>Email: </b>{{ member.email }}</p>
+                                <p class="card-text"><b>Password: </b>{{ member.password }}</p>
                                 {% comment %} <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p> {% endcomment %}
                                 <!-- <p class="card-text">Date of Join: {{ member.date_of_join }}</p> -->
                                 {% comment %} <p class="card-text">Gender: {{ member.get_gender_display }}</p> {% endcomment %}
                                 {% comment %} <p class="card-text">Address: {{ member.address }}</p> {% endcomment %}
-                                <p class="card-text">District: {{ member.district }}</p>
-                                <p class="card-text">Taluk: {{ member.taluk }}</p>
-                                <p class="card-text">Panchayat: {{ member.Panchayat }}</p>
-                                <p class="card-text">Wardno: {{ member.wardno }}</p>
-                                <p class="card-text">Ward: {{ member.ward }}</p>
-                                <p class="card-text">Postal: {{ member.postal }}</p>
-                                <p class="card-text">Phone: {{ member.phone }}</p>
-                                <p class="card-text">Bio: {{ member.bio }}</p>
+                                <p class="card-text"><b>District: </b>{{ member.district }}</p>
+                                <p class="card-text"><b>Taluk: </b>{{ member.taluk }}</p>
+                                <p class="card-text"><b>Panchayat: </b>{{ member.Panchayat }}</p>
+                                <p class="card-text"><b>Wardno: </b>{{ member.wardno }}</p>
+                                <p class="card-text"><b>Ward: </b>{{ member.ward }}</p>
+                                <p class="card-text"><b>Postal: </b>{{ member.postal }}</p>
+                                <p class="card-text"><b>Phone: </b>{{ member.phone }}</p>
+                                <p class="card-text"><b>Bio: </b>{{ member.bio }}</p>
                             </div>
                         </div>
                     </div>

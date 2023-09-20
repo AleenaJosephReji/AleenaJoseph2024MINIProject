@@ -20,16 +20,95 @@
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .content {
+            max-width: 900px; /* Limit the maximum width of the form */
+            margin-right:25px auto; /* Center the form horizontally */
+            padding: 0px; /* Add some padding */
+        }
+        /* Style for the basic information div */
+        .card-box {
+            background-color: #c8f7ad; /* Set the background color */
+            padding: 20px; /* Add some padding */
+            border-radius: 10px; /* Add rounded corners */
+            margin-bottom: 10px; /* Add spacing between sections */
+            padding-right:50px; /* Align form elements to the left */
+
+        }
+        .card-box .form-group {
+            text-align: left; /* Align form elements to the left */
+        }
+        /* Style for the Save button */
+        .submit-btn {
+            background-color:#c8f7ad;; /* Set a blue background color */
+            color: green; /* Set white text color */
+            border: none; /* Remove borders */
+            padding: 10px 20px; /* Add padding */
+            border-radius: 5px; /* Add rounded corners */
+        }
+
+        .navbar {
+            background-color: #34AD54; /* Set the background color of the navbar */
+            padding-top: 20px; /* Add padding to the top */
+            padding-bottom: 20px; /* Add padding to the bottom */
+        }
+
+        /* Style for the navigation links */
+        .navbar-nav .nav-link {
+            color: white; /* Set the text color of the links */
+            margin-left: 20px; /* Add margin to separate the links */
+            
+        }
+
+        /* Style for the active link */
+        .navbar-nav .nav-link.active {
+            font-weight: bold; /* Apply a bold font weight to the active link */
+        }
+
+
+        /* Add more custom styles as needed */
+
+        .navbar-nav .nav-link[href="{% url 'homepage' %}"],
+        .navbar-nav .nav-link[href="{% url 'crop' %}"] {
+        color:white;
+        font-size:18px;
+        font-weight:bold;x
+}
+
+    </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="">
+        <h2 style="margin-left: 20px; color:#263A4F;">CropElevate</h2>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'crop' %}" class="nav-link">Notice</a>
+                </li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </div>
+    </nav>
+
+
+
+
     <div class="main-wrapper">
         
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h4 class="page-title">My Profile</h4>
+                        <h4 class="page-title"><b><i>My Profile</b></i></h4>
                     </div>
                   {% comment %} <div class="col-sm-20 col-11 text-right m-b-30">
                         <a href="{% url 'patient_profile' %}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Edit Profile</a>
@@ -55,7 +134,7 @@
                                 <div class="profile-basic">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label>First Name  </label>
+                                            <label><b>First Name  </b></label>
                                             <div class="form-group form-focus"> 
                                                 {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
@@ -63,7 +142,7 @@
                                                 <small id="firstNameError" class="form-text text-danger"></small></div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label>Last Name</label>
+                                            <label><b>Last Name</b></label>
                                             <div class="form-group form-focus"> 
                                                 {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
@@ -79,7 +158,7 @@
                                             </div>
                                      </div>      {% endcomment %}
                                         <div class="col-md-6">
-                                            <label>Email</label>
+                                            <label><b>Email</b></label>
                                             <div class="form-group form-focus"> 
                                                 
                                                 {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
@@ -88,7 +167,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="focus-label">Gender</label>
+                                            <label class="focus-label"><b>Gender</b></label>
                                             <div class="form-group form-focus select-focus">
                                                 <select class="select form-control floating" name="gender" required>
                                                     <option value="" disabled selected>-Select Gender-</option>
@@ -106,14 +185,14 @@
                                                 {% comment %} <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
                                             </div> {% endcomment %}
                                             <div class="col-md-6">
-                                                <label>Annual Income</label>
+                                                <label><b>Annual Income</b></label>
                                                 <div class="form-group form-focus">
                                                     <input type="number" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income" id="annual_income">
                                                     <small id="annualIncomeError" class="form-text text-danger"></small>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label>Amount of land</label>
+                                                <label><b>Amount of land</b></label>
                                                 <div class="form-group form-focus">
                                                     <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land">
                                                     <small id="landError" class="form-text text-danger"></small>
@@ -136,7 +215,7 @@
                                 </div>
                             </div> {% endcomment %}
                             <div class="col-md-6">
-                                <label>House Number</label>
+                                <label><b>House Number</b></label>
                                 <div class="form-group form-focus">
                                     <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no">
                                     <small id="houseNoError" class="form-text text-danger"></small>
@@ -144,7 +223,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label>Address  </label>
+                                <label><b>Address </b> </label>
                                 <div class="form-group form-focus"> 
                                     <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address">
                                     <small id="addressError" class="form-text text-danger"></small>
@@ -153,14 +232,14 @@
                             </div>
                             
                             <div class="col-md-6">
-                                <label>Panchayat</label>
+                                <label><b>Panchayat</b></label>
                                 <div class="form-group form-focus"> 
                                      
                                     <input type="text" class="form-control floating" value="Erumely" name="state" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label>Ward</label>
+                                <label><b>Ward</b></label>
                                 <div class="form-group form-focus">
                                     <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward">
                                     <small id="wardError" class="form-text text-danger"></small>
@@ -168,7 +247,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label>Pin Code  </label>
+                                <label><b>Pin Code  </b></label>
                                 <div class="form-group form-focus">
                                     <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code">
                                     {% comment %} <input type="text" class="form-control floating" value="" name="pin_code"> {% endcomment %}
@@ -176,7 +255,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label>Phone Number</label>
+                                <label><b>Phone Number</b></label>
                                 <div class="form-group form-focus">
                                     <input type="number" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number">
                                     <small id="phoneError" class="form-text text-danger"></small>
@@ -315,17 +394,17 @@
             }
         
             // Function to validate amount of land
+           
             function validateLand() {
-                const land = landInput.value.trim();
-                const regex = /^[a-zA-Z0-9\s]*$/; // Matches letters, numbers, and spaces
-        
-                if (!regex.test(land)) {
-                    landError.textContent = "Amount of Land should contain only letters, numbers, and spaces.";
+                const landValue = landInput.value.trim();
+                const regex = /^[\d,\.]+$/; // Allows numbers, commas, and decimal points
+            
+                if (!regex.test(landValue)) {
+                    landError.textContent = "Only numbers, decimal points, and commas are allowed.";
                 } else {
                     landError.textContent = "";
                 }
             }
-
 
 
             function validateWard() {

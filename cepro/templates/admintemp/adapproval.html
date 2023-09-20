@@ -182,7 +182,7 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
@@ -192,7 +192,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="">Edit Profile</a>
+                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
@@ -445,7 +445,7 @@
                     </div>
                     <div class="drop-scroll msg-list-scroll" id="msg_list">
                         <ul class="list-box">
-                            <li>
+                            {% comment %} <li>
                                 <a href="chat.html">
                                     <div class="list-item">
                                         <div class="list-left">
@@ -549,7 +549,7 @@
                                         </div>
                                     </div>
                                 </a>
-                            </li>
+                            </li> {% endcomment %}
                             {% comment %} <li>
                                 <a href="chat.html">
                                     <div class="list-item">

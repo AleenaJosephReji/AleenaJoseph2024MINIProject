@@ -131,7 +131,7 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
@@ -141,7 +141,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="">Edit Profile</a>
+                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
@@ -333,6 +333,21 @@
 
                 
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="search-form" method="GET" action="{% url 'search_crop' %}">
+                            <div class="input-group">
+                                <a href="{% url 'adcrop' %}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
+                                <input type="text" class="form-control" name="cropname" placeholder="Search By Crop Name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><br><br>
+
                 <div class="row">
                     {% for crop in crops %}
 
@@ -347,16 +362,16 @@
                                 </div>  
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ crop.Namec }}</h5>
-                                <p>Crop ID: {{ crop.id }}</p>
+                                <h5 class="card-title"style="color:#567806"><b><i>{{ crop.Namec }}</b></i></h5>
+                                {% comment %} <p>Crop ID: {{ crop.id }}</p> {% endcomment %}
 
-                                <p class="card-text">Details :  {{ crop.des }}</p>
+                                <p class="card-text"><b><i>Details :  </i></b>{{ crop.des }}</p>
                                 {% comment %} <p class="card-text">{{ crop.available }}</p>
                                 <p class="card-text">{{ crop.not_available }}</p> {% endcomment %}
-                                <p class="card-text">Availability :</p>
+                                <p class="card-text"><b><i>Availability :</i></b></p>
                                 <p class="card-text">Start Date :  {{ crop.start_date }}</p>
                                 <p class="card-text">End Date :  {{ crop.end_date }}</p>
-                                <p class="card-text">Count :  {{ crop.count }}</p>
+                                <p class="card-text"><b><i>Count :  </i></b>{{ crop.count }}</p>
 
                                 {% comment %} <p class="card-text"> Availability : 
                                     {% if crop.available %}

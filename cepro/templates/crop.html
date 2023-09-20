@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,10 @@
             margin: 0;
             padding: 0;
         }
-
+        .navbar {
+            background-color: #34AD54;
+            padding: 10px 0;
+        }
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -76,6 +80,15 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="container">
+            <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="">
+            <h2 style="margin-left: 20px; color:#263A4F;">CropElevate</h2>
+                    <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                    <a href="{% url 'crop' %}" class="nav-link">Notice</a>
+        </div>
+    </nav>
+    
     <div class="container">
         <h1>Crop Details</h1>
         <table>
@@ -97,7 +110,7 @@
                     <td>{{ crop.end_date }}</td>
                     <td>
                         {% if crop.start_date <= today and crop.end_date >= today %}
-                            <a href="{% url 'apply' %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>                       
+                            <a href="{% url 'apply' crop.id %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>                       
                         {% else %}
                             <a href="{% url 'applyerror' %}?crops={{ crop.Namec }}" class="apply-button" style="background-color: red;">Apply</a>
                         {% endif %}
