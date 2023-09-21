@@ -386,7 +386,7 @@
 					<div class="col-md-12">
 						<div class="container">
                             <h1>Approved list</h1>
-                            <div class="details">
+                            {% comment %} <div class="details">
                                 {% if pending_details %}
                                     <table>
                                         <tr>
@@ -410,7 +410,7 @@
                                             <p>No details available.</p>
                                         {% endif %}
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
 										{% comment %} <th>Status</th>
 										<th class="text-right">Action</th> {% endcomment %}
 									</tr>

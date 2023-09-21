@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
     <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
@@ -115,9 +115,9 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
+						<a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -125,9 +125,9 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
+                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -405,11 +405,7 @@
 							<div class="form-group">
                                 <label>Short Biography</label>
                                 <textarea class="form-control"id="bio" name="bio">{{ member.bio }}</textarea>
-                            </div>
-
-
-
-                                
+                            </div> 
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn">Create Memeber</button>
                             </div>

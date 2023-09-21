@@ -549,7 +549,66 @@
 
 
 
+
+
+
+
                 <div class="container">
+                    <!-- mfregistered.html -->
+                    <div class="container">
+                        <h1>Pending Approval</h1>
+                        <div class="details">
+                            {% if pending_details %}
+                                <table>
+                                    <tr>
+                                        <th  style="color: white;">No</th>
+                                        <th  style="color: white;">Crop Name</th>
+                                        <th  style="color: white;">Farmer Name</th>
+                                        <th style="color: white;">Contact No</th>
+                                        <th style="color: white;">Ward No</th>
+                                        <th style="color: white;">Status</th>
+                                    </tr>
+                                    {% for application in pending_details %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ application.cname }}</td>
+                                            <td>{{ application.farmerName }}</td>
+                                            <td>{{ application.contactNo }}</td>
+                                            <td>{{ application.wardNo }}</td>
+                                            <td>
+                                                {% comment %} {% if application.is_approved == 'pending' %} {% endcomment %}
+                                                    <form method="post" action="{% url 'approve_acertification' application.id %}">
+                                                        {% csrf_token %}
+                                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                                    </form>
+                                                   <form method="post" action="{% url 'waiting_acertification' application.id %}">
+                                                        {% csrf_token %}
+                                                        <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                                                    </form> 
+                                                    {% comment %} {% if application.is_approved == 'approved' %}
+                                                    <span class="text-success" style="font-weight: bolder;font-size: large;" >Approved</span>
+                                                    <form method="post" action="{% url 'reject_acertification' application.id %}"> {% endcomment %}
+                                                    {% comment %} {% elif application.is_approved == 'waiting' %} {% endcomment %}
+                                                    
+                                                    <!-- Display the "Approved" status -->
+                                                    {% comment %} {% elif application.is_approved == 'rejected' %} {% endcomment %}
+                                                    <!-- Display the "Rejected" status -->
+                                                    {% comment %} {% else %} {% endcomment %}
+                                                    {% comment %} <p>Not working</p> {% endcomment %}
+                                                    {% comment %} {% endif %} {% endcomment %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            {% else %}
+                                <p>No details available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+
+                {% comment %} <div class="container">
                     <!-- mfregistered.html -->
                     <div class="container">
                         <h1>Pending Approval</h1>
@@ -571,9 +630,9 @@
                                             <td>{{ application.farmerName }}</td>
                                             <td>{{ application.contactNo }}</td>
                                             <td>{{ application.wardNo }}</td>
-                                            <td>
+                                            <td> {% endcomment %}
                                                 {% comment %} <input type="checkbox" name="selected_items" value="{{ application.id }}"> {% endcomment %}
-                                                {% if application.is_approved == 'pending' %}
+                                                {% comment %} {% if application.is_approved == 'pending' %}
                                                 <form method="post" action="{% url 'approve_acertification' application.id %}">
                                                   {% csrf_token %}
                                                   <button class="btn btn-success approve-btn" type="submit" >Approve</button>
@@ -583,16 +642,14 @@
                                                   <button class="btn btn-danger reject-btn" type="submit">Reject</button>
                                                 </form>
                                                 {% elif application.is_approved == 'approved' %}
-                                                    {% comment %} <span class="text-success" style="font-weight: bolder;
-                                                    font-size: large;" >Approved</span> {% endcomment %}
+                                                <span class="text-success" style="font-weight: bolder;font-size: large;" >Approved</span>
                                                     <form method="post" action="{% url 'reject_acertification' application.id %}">
                                                       {% csrf_token %}
                                 
                                                       <button class="btn btn-danger reject-btn" type="submit">Reject</button>
                                                   </form> 
                                                 {% elif application.is_approved == 'rejected' %}
-                                                    <span class="text-danger" style="font-weight: bolder;
-                                                    font-size: large;" >Rejected</span>
+                                                    <span class="text-danger" style="font-weight: bolder;font-size: large;" >Rejected</span>
                                                    <form method="post" action="{% url 'approve_acertification' application.id %}">
                                                         {% csrf_token %}
                                                         <button class="btn btn-success approve-btn" type="submit">Approve</button>
@@ -610,7 +667,7 @@
                                 <p>No details available.</p>
                             {% endif %}
                         </div>
-                    </div>
+                    </div> {% endcomment %}
 
 
 

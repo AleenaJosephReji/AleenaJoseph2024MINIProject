@@ -498,11 +498,14 @@ def ceditprofile(request):
     }
 
     return render(request, 'ceditprofile.html',context)
+
+   
 def meditprofile(request):
+   
     user = request.user
 
     # profile1 = FarmerProfile.objects.get(user=user)
-    profile1, created = MemberProfile.objects.get_or_create(user=user)
+    member, created = Member.objects.get_or_create(user=user)
     
     if request.method == "POST":
         print ('POST')
@@ -510,8 +513,8 @@ def meditprofile(request):
         # user.last_name=request.POST.get('last_name')
         # Process the form data and save/update the profile
 
-        profile1.name = request.POST.get('name')
-        print("name :",profile1.name)
+        member.name = request.POST.get('name')
+        print("name :",member.name)
         
         
        
@@ -522,12 +525,12 @@ def meditprofile(request):
         # profile.birth_date = request.POST.get('birth_date')
         # print("Date of Birth :",profile.birth_date)
      
-        profile1.email = request.POST.get('email')
-        print("email name :",profile1.email)
+        member.email = request.POST.get('email')
+        print("email name :",member.email)
 
         
-        profile1.gender = request.POST.get('gender')
-        print("gender :",profile1.gender)
+        member.gender = request.POST.get('gender')
+        print("gender :",member.gender)
 
         # profile1.annual_income = request.POST.get('annual_income')
         # print("annual income  :",profile1.annual_income)
@@ -540,29 +543,28 @@ def meditprofile(request):
         # profile1.house_no = request.POST.get('house_no')
         # print("house no :",profile1.house_no)
 
-        profile1.address = request.POST.get('address')
-        print("adsress :",profile1.address)
+        member.address = request.POST.get('address')
+        print("adsress :",member.address)
 
-        profile1.ward = request.POST.get('ward')
-        print("ward :",profile1.ward)
+        member.ward = request.POST.get('ward')
+        print("ward :",member.ward)
 
-        profile1.pin_code = request.POST.get('pin_code')
-        print("pin code :",profile1.pin_code)
+        member.postal = request.POST.get('postal')
+        print("pin code :",member.postal)
 
-        profile1.phone_number = request.POST.get('phone_number')
-        print("phone :",profile1.phone_number)
+        member.phone = request.POST.get('phone')
+        print("phone :",member.phone)
 
         # profile.phone_number = request.POST.get('phone_number')
 
-        profile1.save()
+        member.save()
         
-            
 
         # messages.success(request, 'Profile updated successfully.')
         return redirect('meditprofile')  # Redirect to the profile page
     context = {
         'user': user,
-        'profile1': profile1
+        'member': member
     }
 
     return render(request, 'membertemp/meditprofile.html',context)
@@ -1019,7 +1021,13 @@ def reject_certification(request, certification_id):
         certification.save()
     return redirect('mfregistered')
 
-
+def waiting_list_certification(request, certification_id):
+    certification = get_object_or_404(ApplyCrop, id=certification_id)
+    if request.method == 'POST':
+        certification.is_approved = ApplyCrop.WAITING  # Set it to 'waiting'
+        certification.save()
+    return redirect('mfregistered')
+    
 def approve_acertification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
     if request.method == 'POST':
@@ -1033,13 +1041,20 @@ def reject_acertification(request, certification_id):
         certification.is_approved = ApplyCrop.REJECTED  # Set it to 'rejected'
         certification.save()
     return redirect('adpendingapproval')
+def waiting_acertification(request, certification_id):
+    certification = get_object_or_404(ApplyCrop, id=certification_id)
+    
+    if request.method == 'POST':
+        # Assuming you have a field in your model to store the status
+        certification.status = 'waiting'
+        certification.save()
+    
+    return redirect('adapproval')
 
 def mapprove(request):
     pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
-
     # Pass the data to the template
     context = {'pending_details': pending_details}
-
     return render(request, 'membertemp/mapprove.html', context)
     
 # user.role == CustomUser.MEMBER:

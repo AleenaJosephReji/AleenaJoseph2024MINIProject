@@ -151,11 +151,13 @@ class ApplyCrop(models.Model):
     APPROVED = 'approved'
     REJECTED = 'rejected'
     PENDING = 'pending'
+    WAITING = 'waiting'
     
     APPROVAL_CHOICES = [
     (APPROVED, 'Approved'),
     (REJECTED, 'Rejected'),
     (PENDING, 'Pending'),
+    (WAITING, 'waiting'),
     ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True,default=1)
     cname = models.CharField(max_length=100,null=True, blank=True)

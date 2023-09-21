@@ -89,8 +89,12 @@ urlpatterns = [
     path("mapprove", views.mapprove, name="mapprove"),
     path('approve_certification/<int:certification_id>/', views.approve_certification, name='approve_certification'),
     path('reject_certification/<int:certification_id>/', views.reject_certification, name='reject_certification'),
+    # path('pending_certification/<int:certification_id>/', views.pending_certification, name='pending_certification'),
+    path('waiting_list_certification/<int:certification_id>/', views.waiting_list_certification, name='waiting_list_certification'),
     path('approve_acertification/<int:certification_id>/', views.approve_acertification, name='approve_acertification'),
     path('reject_acertification/<int:certification_id>/', views.reject_acertification, name='reject_acertification'),
+    path('waiting_certification/<int:certification_id>/', views.waiting_acertification, name='waiting_acertification'),
+    
     # path('membereditprofile', views.membereditprofile, name='membereditprofile'),
 
 

@@ -489,7 +489,7 @@
                             <th>Approve</th>
                         </tr>
                         {% for application in pending_details %}
-                        <tr>
+                        <tr data-application-id="{{ application.id }}">
                             <td>{{ application.cname }}</td>
                             <td>{{ application.farmerName }}</td>
                             <td>{{ application.address }}</td>
@@ -497,17 +497,71 @@
                             <td>{{ application.wardNo }}</td>
                             <td>{{ application.AnnualIncome }}</td>
                             <td>
+                                
                                 {% if application.is_approved == 'pending' %}
-                                <span class="text-success" style="font-weight: bolder; font-size: large;">Pending</span>
+                                <span class="text-success" style="font-weight: bolder; font-size: large;"></span>
                                 {% elif application.is_approved == 'approved' %}
                                 <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
                                 {% elif application.is_approved == 'rejected' %}
                                 <span class="text-danger" style="font-weight: bolder; font-size: large;">Rejected</span>
-                                {% else %}
+                                {% comment %} {% elif application.is_approved == 'pending' %}
+                                <span class="text-danger" style="font-weight: bolder; font-size: large;">pending</span>{% endcomment%}
+                                {% elif application.is_approved == 'waiting' %}
+                                <span class="text-danger" style="font-weight: bolder; font-size: large; color: yellow;">Pending</span>
+                                {% else %}  
                                 <span class="text-danger" style="font-weight: bolder; font-size: large;"></span>
                                 {% endif %}
+                                
                             </td>
+
+                            <!-- ... (previous HTML code) ... -->
                             <td>
+                                {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
+                                {% if annual_income|add:0 <= 30000 %}
+                                {% if application.is_approved == 'pending' %}
+                                <form method="post" action="{% url 'approve_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                </form>
+                                <form method="post" action="{% url 'reject_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                </form>
+                                {% comment %} <form method="post" action="{% url 'pending_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-warning pending-btn" type="submit">Pending</button>
+                                </form> {% endcomment %}
+                                {% elif application.is_approved == 'approved' %}
+                                <form method="post" action="{% url 'reject_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                </form>
+                                {% elif application.is_approved == 'rejected' %}
+                                <form method="post" action="{% url 'approve_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                </form>
+                                {% else %}
+                                <p>Not working</p>
+                                {% endif %}
+                                {% else %}
+                                <span class="text-danger">Income too high</span>
+                                {% if application.is_approved == 'waiting' %}
+                                <form method="post" action="{% url 'waiting_list_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-warning waiting-btn" type="submit">Pending</button>
+                                </form>
+                                {% endif %}
+                                {% comment %} {% elif application.is_approved == 'pending' %}
+                                <form method="post" action="{% url 'reject_certification' application.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                </form> {% endcomment %}
+                                {% endif %}
+                                {% endwith %}
+                            </td>
+                           
+                            {% comment %} <td>
                                 {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
                                 {% if annual_income|add:0 <= 30000 %}
                                 {% if application.is_approved == 'pending' %}
@@ -540,7 +594,7 @@
                                 </form>
                                 {% endif %}
                                 {% endwith %}
-                            </td>
+                            </td> {% endcomment %}
                         </tr>
                         {% endfor %}
                     </table>
@@ -550,6 +604,25 @@
                 </div>
             </div>
             <script>
+                
+                    {% comment %} document.addEventListener("DOMContentLoaded", function () {
+                        const pendingButtons = document.querySelectorAll(".btn-warning.pending-btn");
+                
+                        pendingButtons.forEach(function (button) {
+                            button.addEventListener("click", function (event) {
+                                event.preventDefault();
+                                const row = event.target.closest("tr");
+                                const statusCell = row.querySelector("td:nth-child(7)"); // Assuming the status cell is the 7th cell in each row
+                                statusCell.innerHTML = '<span class="text-success" style="font-weight: bolder; font-size: large;">Pending</span>';
+                            });
+                        });
+                    }); {% endcomment %}
+            
+
+
+
+
+
                 $(document).ready(function () {
                     const input = $('#username');
                     const roleFilter = $('#role-filter');
