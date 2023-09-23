@@ -172,12 +172,26 @@
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
                         </li>
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'adpendingapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Pending Approval</span></a>
                         </li> 
                         <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li> 
+                        </li>  {% endcomment %}
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Pending List</span></a>
+                                </li>
+                            </ul>
+                        </li>
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">

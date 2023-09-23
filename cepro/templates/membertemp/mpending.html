@@ -13,34 +13,114 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #bdfa5a;
+                margin: 0;
+                padding: 0;
+            }
+            .header
+            {
+                background-color:#88a60f;
+    
+            }
+            .header .header-left 
+            {
+                background-color:#88a60f;
+    
+                {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
+    
+            }
+    
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+            }
+    
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+    
+            .details {
+                margin-top: 20px;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+    
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+    
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: lightgreen;
+            }
+    
+            .no-details {
+                text-align: center;
+                color: #777;
+            }
+    
+            .text-right {
+                text-align: right;
+            }
+    
+            .btn-primary {
+                background-color: #007BFF;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+            .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            }
+        
+    </style>
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
-    <style>
-        .header
-        {
-            background-color:green;
-        }
-        .header .header-left 
-        {
-            background-color:green;
-        }
-        .sidebar-menu li a:hover {
-            color: green;
-        }
-        .sidebar-menu li.active a {
-            color: green;
-            background-color: #f3f3f3;
-        }
-    </style> 
 </head>
 
 <body>
     <div class="main-wrapper">
         <div class="header">
 			<div class="header-left">
-				<a href="{% url 'adindex' %}" class="logo">
+				<a href="{% url 'mindex' %}" class="logo">
 					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
 				</a>
 			</div>
@@ -125,15 +205,17 @@
                 </li>
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
-                        <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+                        <span class="user-img">
+                            <span>{{ user.email }}</span>
+                            <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
                         {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
+						<a class="dropdown-item" href="#">Edit Profile</a>
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+						<a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -141,9 +223,9 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
+                    <a class="dropdown-item" href="#">Edit Profile</a>
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -151,48 +233,30 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Admin</li>
+                        <li class="menu-title">Member</li>
                         <li>
-                            <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                            <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-						<li>
+						{% comment %} <li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
-                        </li>
+                        </li> {% endcomment %}
                         {% comment %} <li>
                             <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
-                        </li> {% endcomment %}
-                        <li class="active">
-                            <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
-                        </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span>Approved</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+                        <li>
+                            <a href="{% url 'mfregistered' %}"><i class="fa fa-calendar-check-o"></i> <span>Registered Farmers</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li>  {% endcomment %}
-
-                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
-                            <a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;background-color:green;">
-                                <li>
-                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Pending List</span></a>
-                                </li>
-                            </ul>
+                            <a href="{% url 'mcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
+                        </li>
+                        {% comment %} <li>
+                            <a href="{% url 'mappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li> {% endcomment %}
+                        <li >
+                            <a href="{% url 'mapprove' %}"><i class="fa fa-calendar"></i> <span>Approved List</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'mpending' %}"><i class="fa fa-calendar"></i> <span>Pending List</span></a>
                         </li>
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
@@ -236,16 +300,16 @@
                             <ul style="display: none;">
                                 <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
                                 <li><a href="{% url 'adinbox' %}">Inbox</a></li>
-                                <li><a href="{% url 'admailview' %}">Mail View</a></li>
-                            </ul>
+                               <li><a href="{% url 'admailview' %}">Mail View</a></li>
+                            </ul> 
                         </li>
                         <li class="submenu">
                             <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
-                                <li><a href="{% url 'adblog' %}">Blog</a></li> 
-                                <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> 
-                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li> 
-                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> 
+                                <li><a href="{% url 'mblog' %}">Blog</a></li>
+                               <li><a href="{% url 'adblogdetails' %}">Blog View</a></li>
+                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li>
+                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li>
                             </ul>
                         </li> {% endcomment %}
 						{% comment %} <li>
@@ -254,14 +318,14 @@
 						<li>
 							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
 						</li> {% endcomment %}
-						<li class="submenu">
-							{% comment %} <a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a> {% endcomment %}
-							{% comment %} <ul style="display: none;">
+						{% comment %} <li class="submenu">
+							<a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
 								<li><a href="expense-reports.html"> Expense Report </a></li>
 								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul> {% endcomment %}
+							</ul>
 						</li>
-                        {% comment %} <li>
+                        <li>
                             <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
                         </li> {% endcomment %}
                         {% comment %}<li class="menu-title">UI Elements</li>
@@ -290,7 +354,7 @@
                             </ul>
                         </li> {% endcomment %}
                         <li>
-                            <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
+                            <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>
                         {% comment %} <li class="menu-title">Extras</li>
                         <li class="submenu">
@@ -338,75 +402,83 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-5 col-5">
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Crops List</b></i></u></h4>
+                        <h4 class="page-title"></h4>
                     </div>
-                    <div class="col-sm-7 col-7 text-right m-b-30">
-                        <a href="{% url 'adaddcrop' %}" class="btn btn-primary btn-rounded" style="background-color: green; color: white;"><i class="fa fa-plus"></i> Add Crop</a>
-                    </div>
+                    {% comment %} <div class="col-sm-7 col-7 text-right m-b-30">
+                        <a href="{% url 'adaddcrop' %}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Crop</a>
+                    </div> {% endcomment %}
                 </div>
 
 
                 
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <form id="search-form" method="GET" action="{% url 'search_crop' %}">
-                            <div class="input-group">
-                                <a href="{% url 'adcrop' %}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
-                                <input type="text" class="form-control" name="cropname" placeholder="Search By Crop Name">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><br><br>
-
-                <div class="row">
+                {% comment %} <div class="row">
                     {% for crop in crops %}
-
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="dropdown profile-action">
-                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="{% url 'edit_crop' crop.id %}" class="action-icon" aria-expanded="false"><i class="fa "></i> Edit</a>
-                                    <a href="{% url 'delete_crop' crop.id %}" class="delete-button">Delete </a>
-
-                                </div>  
-                            </div>
                             <div class="card-body">
-                                <h5 class="card-title"style="color:#567806"><b><i>{{ crop.Namec }}</b></i></h5>
-                                {% comment %} <p>Crop ID: {{ crop.id }}</p> {% endcomment %}
-
-                                <p class="card-text"><b><i>Details :  </i></b>{{ crop.des }}</p>
-                                {% comment %} <p class="card-text">{{ crop.available }}</p>
-                                <p class="card-text">{{ crop.not_available }}</p> {% endcomment %}
-                                <p class="card-text"><b><i>Availability :</i></b></p>
-                                <p class="card-text">Start Date :  {{ crop.start_date }}</p>
-                                <p class="card-text">End Date :  {{ crop.end_date }}</p>
-                                <p class="card-text"><b><i>Count :  </i></b>{{ crop.count }}</p>
-
-                                {% comment %} <p class="card-text"> Availability : 
-                                    {% if crop.available %}
-                                        Available
-                                    {% else %}
-                                        Not Available
-                                    {% endif %}
-                                </p> {% endcomment %}
+                                <h5 class="card-title">{{ crop.Namec }}</h5>
+                                <p class="card-text">Details :  {{ crop.des }}</p> {% endcomment %}
                                 {% comment %} <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p> {% endcomment %}
-                            </div>
+                            {% comment %} </div>
                         </div>
                     </div>
-                    
                     {% endfor %}
-                            
-                </div>
-            
-                    {% comment %} <div class="col-md-12">
+                </div> {% endcomment %}
+                
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="table-responsive">
-                            <table class="table table-striped custom-table mb-0 datatable"> {% endcomment %}
+                            <table class="table table-striped custom-table">
+                                <!-- Your table content here -->
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right"> <!-- Added text-right class here -->
+                        {% comment %} <div class="m-t-20">
+                            <button class="btn btn-primary submit-btn">Application Registration</button>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+                
+                <div class="container">
+                    <h1>Approved list</h1>
+                    <div class="details">
+                        {% if pending_details %}
+                            <table>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Crop Name</th>
+                                    <th>Farmer Name</th>
+                                    <th>Contact No</th>
+                                    <th>Ward No</th>
+                                </tr>
+                                {% for application in pending_details %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ application.cname }}</td>
+                                        <td>{{ application.farmerName }}</td>
+                                        <td>{{ application.contactNo }}</td>
+                                        <td>{{ application.wardNo }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p>No details available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+        
+
+        
+
+
+
+
+
+
+
                                 {% comment %} <thead>
                                     <tr>
                                         <th>#</th>
@@ -501,11 +573,11 @@
                                         </td>
                                     </tr>
                                 </tbody>{% endcomment %}
-                            {% comment %} </table> 
+                            </table> 
                         </div>
                     </div>
                 </div>
-            </div> {% endcomment %}
+            </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">

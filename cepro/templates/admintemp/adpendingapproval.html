@@ -549,30 +549,108 @@
 
 
 
-                <div class="container">
-                    <h1>Approved Details</h1>
-                    <div class="details">
-                        {% if approved_details %}
-                            <table>
-                                <tr>
-                                    <th>Crop Name</th>
-                                    <th>Farmer Name</th>
-                                    <th>Address</th>
-                                    <th>Contact No</th>
-                                    <th>Ward No</th>
-                                    <th>Annual Income</th>
-                                    <th>Actions</th>
-                                    <th>Status</th>  <!-- New column for status -->
-                                </tr>
-                                {% for application in approved_details %}
-                                <tr>
-                                    <td>{{ application.cname }}</td>
-                                    <td>{{ application.farmerName }}</td>
-                                    <td>{{ application.address }}</td>
-                                    <td>{{ application.contactNo }}</td>
-                                    <td>{{ application.wardNo }}</td>
-                                    <td>{{ application.AnnualIncome }}</td>
-                                    <td>
+                
+<!-- ... (next HTML code) ... -->
+
+<div class="container">
+    <h1>Approved Details</h1>
+    <div class="details">
+        {% if approved_details %}
+            <table>
+                <tr>
+                    <th>Crop Name</th>
+                    <th>Farmer Name</th>
+                    <th>Address</th>
+                    <th>Contact No</th>
+                    <th>Ward No</th>
+                    <th>Annual Income</th>
+                    <th>Actions</th>
+                </tr>
+                {% for application in approved_details %}
+                <tr>
+                    <td>{{ application.cname }}</td>
+                    <td>{{ application.farmerName }}</td>
+                    <td>{{ application.address }}</td>
+                    <td>{{ application.contactNo }}</td>
+                    <td>{{ application.wardNo }}</td>
+                    <td>{{ application.AnnualIncome }}</td>
+                    <td>
+                        {% if application.is_approved == 'pending' %}
+                        <form method="post" action="{% url 'approve_acertification' application.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-warning waiting-btn" type="submit">Approve</button>
+                            {% comment %} <span class="message" style="display: none;">Approve</span> {% endcomment %}
+                        </form>
+                            <form method="post" action="{% url 'waiting_acertification' application.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                                {% comment %} <span class="message" style="display: none;">Waiting</span> {% endcomment %}
+                            </form>
+                        {% else %}
+                            <form method="post" action="{% url 'approve_acertification' application.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-success approve-btn" type="submit" onclick="toggleButtons(this)">Approve</button>
+                                <button class="btn btn-warning waiting-btn" type="submit" style="display: none;">Waiting</button>
+                                <span class="message" style="display: none;">Approved</span>
+                            </form>
+                        {% endif %}
+                    </td>
+                    {% comment %} <td>
+                        {% if application.is_approved == 'pending' %}
+                        <span class="text-success" style="font-weight: bolder; font-size: large;"></span>
+                        {% elif application.is_approved == 'approved' %}
+                        <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
+                        {% endif %}
+
+                    </td> {% endcomment %}
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No approved details available.</p>
+        {% endif %}
+    </div>
+</div>
+
+                                   
+                                    {% comment %} <td>
+                                        {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
+                                        {% if annual_income|add:0 <= 30000 %}
+                                        {% if application.is_approved == 'pending' %}
+                                        <form method="post" action="{% url 'approve_certification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                        </form>
+                                        <form method="post" action="{% url 'reject_certification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                        </form>
+                                        {% elif application.is_approved == 'approved' %}
+                                        <form method="post" action="{% url 'reject_certification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                        </form>
+                                        {% elif application.is_approved == 'rejected' %}
+                                        <form method="post" action="{% url 'approve_certification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                        </form>
+                                        {% else %}
+                                        <p>Not working</p>
+                                        {% endif %}
+                                        {% else %}
+                                        <span class="text-danger">Income too high</span>
+                                        <form method="post" action="{% url 'reject_certification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                        </form>
+                                        {% endif %}
+                                        {% endwith %}
+                                    </td> {% endcomment %}
+
+
+
+                                    {% comment %} <td>
                                         <form method="post" action="{% url 'approve_acertification' application.id %}">
                                             {% csrf_token %}
                                             <button class="btn btn-success approve-btn" type="submit">Approve</button>
@@ -585,15 +663,9 @@
                                     <td>
                                         <span class="message" style="display: none;">Approved</span>
                                         <!-- Add a corresponding message for Pending status if needed -->
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </table>
-                        {% else %}
-                            <p>No approved details available.</p>
-                        {% endif %}
-                    </div>
-                </div>
+                                    </td> {% endcomment %}
+                               
+                                
                 
 
 
@@ -944,6 +1016,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleButtons(button) {
+            // Hide the "Approve" button and show the "Pending" button
+            button.style.display = "none";
+            const waitingButton = button.nextElementSibling;
+            waitingButton.style.display = "block";
+        }
+        </script>
     <script>
         // Function to handle button click and display message
         function showMessage(button, message) {

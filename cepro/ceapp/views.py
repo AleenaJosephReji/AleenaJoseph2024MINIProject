@@ -165,13 +165,12 @@ def apply(request):
 #     return render(request,'Atemp/aindex2.html')
 
 def adindex(request):
-    me=Member.objects.all()
-    me_count=me.count()
-    c=Crop.objects.all()
-    c_count=c.count()
+    me = Member.objects.all()
+    me_count = me.count()
     crops = Crop.objects.all()
-    context={'me':me,'me_count':me_count,'c':c,'c_count':c_count,'crops': crops,}
-    return render(request,'admintemp/adindex.html',context)
+    context = {'me': me, 'me_count': me_count, 'crops': crops}
+    return render(request, 'admintemp/adindex.html', context)
+
 # def amembers(request):
 #     return render(request,'Atemp/amembers.html')
 def alogin(request):
@@ -225,6 +224,8 @@ def adsettings(request):
 def adapprovalpending(request):
     return render(request,'admintemp/adapprovalpending.html')
 
+def application(request):
+    return render(request,'application.html')
 
 
 def mindex(request):
@@ -1086,6 +1087,18 @@ def approve_acertification(request, certification_id):
     if request.method == 'POST':
         certification.is_approved = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
+
+        # Store the approved details in a session variable
+        approved_details = {
+            'cname': certification.cname,
+            'farmerName': certification.farmerName,
+            'address': certification.address,
+            'contactNo': certification.contactNo,
+            'wardNo': certification.wardNo,
+            'AnnualIncome': certification.AnnualIncome,
+        }
+        request.session['approved_details'] = approved_details
+
     return redirect('adpendingapproval')
 
 def reject_acertification(request, certification_id):
@@ -1094,15 +1107,14 @@ def reject_acertification(request, certification_id):
         certification.is_approved = ApplyCrop.REJECTED  # Set it to 'rejected'
         certification.save()
     return redirect('adpendingapproval')
+
 def waiting_acertification(request, certification_id):
+  
     certification = get_object_or_404(ApplyCrop, id=certification_id)
-    
     if request.method == 'POST':
-        # Assuming you have a field in your model to store the status
-        certification.status = 'waiting'
+        certification.is_approved = ApplyCrop.WAITING  # Set it to 'waiting'
         certification.save()
-    
-    return redirect('adapproval')
+    return redirect('adpendingapproval')
 
 def mapprove(request):
     pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
@@ -1154,10 +1166,11 @@ def adpendingapproval(request):
 
 def adapproval(request):
    
-    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
-    # Pass the data to the template
-    context = {'pending_details': pending_details}
-    return render(request, 'admintemp/adapproval.html', context)
+    # Retrieve the approved details from the session variable
+    approved_details = request.session.get('approved_details', [])
+
+    # Pass the approved details to the template
+    return render(request, 'admintemp/adapproval.html', {'approved_details': approved_details})
     # details = ApplyCrop.objects.all()
     # return render(request, 'admintemp/adpendingapproval.html', {'details': details})
 
@@ -1182,3 +1195,21 @@ def search_crop(request):
         crops = Crop.objects.all()
     
     return render(request, 'admintemp/adcrop.html', {'crops': crops, 'cropname': cropname})
+
+
+from django.http import JsonResponse
+def mpending(request):
+    pending_details = ApplyCrop.objects.filter(is_approved='waiting')  # Adjust the filter condition as needed
+    # Pass the data to the template
+    context = {'pending_details': pending_details}
+    return render(request, 'membertemp/mpending.html', context)
+
+
+def adpendinglist(request):
+    # Retrieve the pending details from your model or database
+    pending_details = ApplyCrop.objects.filter(is_approved='waiting')
+
+    context = {
+        'pending_details': pending_details,
+    }
+    return render(request, 'admintemp/adpendinglist.html', context)

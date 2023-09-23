@@ -38,6 +38,8 @@ urlpatterns = [
 
     path('disapply',views.disapply,name='disapply'),
     path('ceditprofile',views.ceditprofile, name='ceditprofile'),
+    path('application', views.application, name='application'),
+
     # path('fnotifications',views.notifications,name='fnotifications'),
 
     # path('notifications',views.notifications,name='notifications'),
@@ -70,7 +72,9 @@ urlpatterns = [
     path('adapproval',views.adapproval,name='adapproval'),
     path('adminlogin',views.adminlogin,name='adminlogin'),
     path('adsettings',views.adsettings,name='adsettings'),
+    path('adpendinglist',views.adpendinglist,name='adpendinglist'),
     path('adpendingapproval',views.adpendingapproval,name='adpendingapproval'),
+
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
     path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),
 
@@ -90,11 +94,11 @@ urlpatterns = [
     path('approve_certification/<int:certification_id>/', views.approve_certification, name='approve_certification'),
     path('reject_certification/<int:certification_id>/', views.reject_certification, name='reject_certification'),
     # path('pending_certification/<int:certification_id>/', views.pending_certification, name='pending_certification'),
-    path('waiting_list_certification/<int:certification_id>/', views.waiting_list_certification, name='waiting_list_certification'),
+    # path('waiting_list_certification/<int:certification_id>/', views.waiting_list_certification, name='waiting_list_certification'),
     path('approve_acertification/<int:certification_id>/', views.approve_acertification, name='approve_acertification'),
     path('reject_acertification/<int:certification_id>/', views.reject_acertification, name='reject_acertification'),
-    path('waiting_certification/<int:certification_id>/', views.waiting_acertification, name='waiting_acertification'),
-    
+    path('waiting_acertification/<int:certification_id>/', views.waiting_acertification, name='waiting_acertification'),
+    path('mpending', views.mpending, name='mpending'),
     # path('membereditprofile', views.membereditprofile, name='membereditprofile'),
 
 

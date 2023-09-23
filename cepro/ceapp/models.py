@@ -122,7 +122,8 @@ class Crop(models.Model):
     des = models.TextField()
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    count = models.CharField(max_length=100,null=True, blank=True)
+    count = models.PositiveIntegerField(default=0)
+    # count = models.CharField(max_length=100,null=True, blank=True)
 
 
     # available = models.BooleanField(default=False)
