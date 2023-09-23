@@ -23,6 +23,9 @@
         {
             background-color:green;
         }
+        .green-background {
+            background-color: green; /* Set the background color to green */
+        }
         {% comment %} .sidebar{
             background-color: green;
         } {% endcomment %}
@@ -181,12 +184,7 @@
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
                         </li>
-                        <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
-                        </li>
-                        <li class>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li>
+                       
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved</span></a>
                         </li>  {% endcomment %}
@@ -196,12 +194,27 @@
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
-								<li><a href="employees.html">Employees List</a></li>
-								<li><a href="leaves.html">Leaves</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a href="attendance.html">Attendance</a></li>
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
 							</ul>
 						</li> {% endcomment %}
+
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
@@ -410,6 +423,7 @@
 							</div>
 							<div class="card-body p-0">
 								<div class="table-responsive">
+                                    
 									<table class="table mb-0">
 										<thead class="d-none">
 											<tr>
@@ -507,6 +521,26 @@
 											</tr>
 										</tbody>
 									</table>
+
+                                    <table class="table mb-0">
+                                        <thead class="d-none">
+                                            <tr>
+                                                <th>Crop Name</th>
+                                                <th>Crop Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for crop in crops %}
+                                            <tr>
+                                                <td>{{ crop.Namec }}</td>
+                                                <td>{{ crop.count }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    
+                                    
+                                    
 								</div>
 							</div>
 						</div>
@@ -597,6 +631,8 @@
                                 </ul>
                             </div> {% endcomment %}
                             <div class="card-footer text-center bg-white">
+                                
+                                
                                 <a href="{% url 'admember' %}" class="text-muted">View all Membes</a>
                             </div>
                         </div>

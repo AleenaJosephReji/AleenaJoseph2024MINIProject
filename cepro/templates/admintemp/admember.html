@@ -337,9 +337,9 @@
 
                     <div class="col-md-4 col-sm-4  col-lg-3">
                         <div class="profile-widget">
-                            {% comment %} <div class="doctor-img">
+                             <div class="doctor-img">
                                 <a class="avatar" href="#"><img alt="" src="{{ member.profile_photo.url }}"></a>
-                               </div> {% endcomment %}
+                               </div> 
                             {% comment %} <div class="doctor-img">
                                 <a class="avatar" href="profile.html"><img alt="" src="assets/img/doctor-thumb-03.jpg"></a>
                             </div> {% endcomment %}
@@ -383,6 +383,10 @@
                                 <p class="card-text"><b>Postal: </b>{{ member.postal }}</p>
                                 <p class="card-text"><b>Phone: </b>{{ member.phone }}</p>
                                 <p class="card-text"><b>Bio: </b>{{ member.bio }}</p>
+                                {% comment %} <div class="doctor-img">
+                                    <a class="avatar" href="profile.html"><img alt="" src="{{ member.profile_photo.url }}"></a>
+                                </div> {% endcomment %}
+
                             </div>
                         </div>
                     </div>

@@ -144,8 +144,8 @@
 						{% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a> {% endcomment %}
+						{% comment %} <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>  {% endcomment %}
+						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a>
 						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
@@ -154,7 +154,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> {% endcomment %}
+                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>

@@ -82,9 +82,11 @@ class CustomUser(AbstractUser):
 
 
 # Create your models here.
+
+
 class Member(models.Model): 
     
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     Name = models.CharField(max_length=100,null=True, blank=True)
     email = models.EmailField(max_length=100,null=True, blank=True)
     admin_set_password = models.CharField(max_length=128, blank=True, null=True)

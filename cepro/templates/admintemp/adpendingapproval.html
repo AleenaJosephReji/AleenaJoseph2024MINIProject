@@ -549,11 +549,66 @@
 
 
 
-
-
-
-
                 <div class="container">
+                    <h1>Approved Details</h1>
+                    <div class="details">
+                        {% if approved_details %}
+                            <table>
+                                <tr>
+                                    <th>Crop Name</th>
+                                    <th>Farmer Name</th>
+                                    <th>Address</th>
+                                    <th>Contact No</th>
+                                    <th>Ward No</th>
+                                    <th>Annual Income</th>
+                                    <th>Actions</th>
+                                    <th>Status</th>  <!-- New column for status -->
+                                </tr>
+                                {% for application in approved_details %}
+                                <tr>
+                                    <td>{{ application.cname }}</td>
+                                    <td>{{ application.farmerName }}</td>
+                                    <td>{{ application.address }}</td>
+                                    <td>{{ application.contactNo }}</td>
+                                    <td>{{ application.wardNo }}</td>
+                                    <td>{{ application.AnnualIncome }}</td>
+                                    <td>
+                                        <form method="post" action="{% url 'approve_acertification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                        </form>
+                                        <form method="post" action="{% url 'waiting_acertification' application.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-warning waiting-btn" type="submit">Pending</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <span class="message" style="display: none;">Approved</span>
+                                        <!-- Add a corresponding message for Pending status if needed -->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p>No approved details available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {% comment %} <div class="container">
                     <!-- mfregistered.html -->
                     <div class="container">
                         <h1>Pending Approval</h1>
@@ -567,6 +622,8 @@
                                         <th style="color: white;">Contact No</th>
                                         <th style="color: white;">Ward No</th>
                                         <th style="color: white;">Status</th>
+                                        <th style="color: white;">result</th>
+
                                     </tr>
                                     {% for application in pending_details %}
                                         <tr>
@@ -575,16 +632,19 @@
                                             <td>{{ application.farmerName }}</td>
                                             <td>{{ application.contactNo }}</td>
                                             <td>{{ application.wardNo }}</td>
-                                            <td>
+                                            <td> {% endcomment %}
+
+
                                                 {% comment %} {% if application.is_approved == 'pending' %} {% endcomment %}
-                                                    <form method="post" action="{% url 'approve_acertification' application.id %}">
+        
+                                                    {% comment %} <form method="post" action="{% url 'approve_acertification' application.id %}">
                                                         {% csrf_token %}
                                                         <button class="btn btn-success approve-btn" type="submit">Approve</button>
                                                     </form>
                                                    <form method="post" action="{% url 'waiting_acertification' application.id %}">
                                                         {% csrf_token %}
                                                         <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
-                                                    </form> 
+                                                    </form>  {% endcomment %}
                                                     {% comment %} {% if application.is_approved == 'approved' %}
                                                     <span class="text-success" style="font-weight: bolder;font-size: large;" >Approved</span>
                                                     <form method="post" action="{% url 'reject_acertification' application.id %}"> {% endcomment %}
@@ -596,7 +656,7 @@
                                                     {% comment %} {% else %} {% endcomment %}
                                                     {% comment %} <p>Not working</p> {% endcomment %}
                                                     {% comment %} {% endif %} {% endcomment %}
-                                            </td>
+                                            {% comment %} </td>
                                         </tr>
                                     {% endfor %}
                                 </table>
@@ -605,7 +665,7 @@
                             {% endif %}
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 
 
                 {% comment %} <div class="container">
@@ -884,7 +944,38 @@
             </div>
         </div>
     </div>
+    <script>
+        // Function to handle button click and display message
+        function showMessage(button, message) {
+            const messageSpan = button.closest("tr").querySelector(".message");
+            const messageTd = button.closest("tr").querySelector(".message-td");
+            messageSpan.style.display = "inline-block";
+            messageSpan.textContent = message; // Update the text content
+            messageTd.textContent = message; // Update the message column
+        }
+    
+        // Add event listeners to buttons
+        const approveButtons = document.querySelectorAll(".approve-btn");
+        const waitingButtons = document.querySelectorAll(".waiting-btn");
+    
+        approveButtons.forEach((button) => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                showMessage(this, "Approved");
+            });
+        });
+    
+        waitingButtons.forEach((button) => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                showMessage(this, "Pending");
+            });
+        });
+    </script>
+    
     <div class="sidebar-overlay" data-reff=""></div>
+
+    
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>

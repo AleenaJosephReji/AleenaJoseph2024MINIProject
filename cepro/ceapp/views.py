@@ -169,7 +169,8 @@ def adindex(request):
     me_count=me.count()
     c=Crop.objects.all()
     c_count=c.count()
-    context={'me':me,'me_count':me_count,'c':c,'c_count':c_count}
+    crops = Crop.objects.all()
+    context={'me':me,'me_count':me_count,'c':c,'c_count':c_count,'crops': crops,}
     return render(request,'admintemp/adindex.html',context)
 # def amembers(request):
 #     return render(request,'Atemp/amembers.html')
@@ -290,22 +291,19 @@ def adaddblog(request):
 
 from django.shortcuts import render, redirect
 from .models import Crop  # Import your Crop model
-
-
-
 def admember(request):
     members = Member.objects.all()
     return render(request, 'admintemp/admember.html', {'members': members})
 def adaddmember(request):
-    user=None
-    profile1 = MemberProfile(user=user)
+    # user=None
+    # profile1 = MemberProfile(user=user)
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
 
         # date_of_birth = request.POST.get('date_of_birth')
-        gender = request.POST.get('gender')
+        # gender = request.POST.get('gender')
         address = request.POST.get('address')
         dis = request.POST.get('dis', 'Default District')  # Set a default value for District
         taluk = request.POST.get('taluk', 'Default Taluk')   # Set a default value for Taluk
@@ -315,52 +313,24 @@ def adaddmember(request):
         pin = request.POST.get('pin')
         phone = request.POST.get('phone')
         bio = request.POST.get('bio')
+        profile_photo = request.FILES.get('profile_photo')
         
         role=CustomUser.MEMBER
+        print(role)
 
-        profile_photo = request.FILES.get('profile_photo')
-
-        member=Member()
-        user = CustomUser()
-        member.Name = name
-        member.email = email
-        member.set_password(password)
-        # member.date_of_birth = date_of_birth
-        # member.gender = gender
-        member.address = address
-        member.district = dis
-        member.taluk = taluk
-        member.Panchayat = panchayat
-        member.wardno = wardno
-        member.ward = ward
-        member.postal = pin
-        member.phone = phone
-        member.bio = bio
-
-
-        user.email=email
-        user.set_password(password)
-        user.role=role
-        if profile_photo:
-            # Save the profile photo to a specific directory
-            fs = FileSystemStorage()
-            filename = fs.save(f"profile_photos/{profile_photo.name}", profile_photo)
-            member.profile_photo = filename  # Associate profile photo if uploaded
-
-        # if profile_photo:
-        #     # Save the profile photo to a specific directory
-        #     fs = FileSystemStorage()
-        #     filename = fs.save(f"profile_photos/{profile_photo.name}", profile_photo)
-        #     member.profile_photo = filename 
-        #     # Associate profile photo if uploaded
-        #     # Save the updated member object
-        profile1.save()
-
-        member.save()
-        user.save()
-        return redirect('admember')
-
-    return render(request, 'admintemp/adaddmember.html')
+        if CustomUser.objects.filter(email=email,role=CustomUser.MEMBER).exists():
+                messages.info(request, 'Email already exists') 
+                return redirect('adaddmember')
+        else:
+                user = CustomUser.objects.create_user(email=email, password=password)
+                user.role = CustomUser.MEMBER
+                user.save()
+                mem = Member(user=user,Name=name,email=email,address=address,district=dis,taluk=taluk,Panchayat=panchayat,ward=ward,wardno=wardno,postal=pin,phone=phone,bio=bio,profile_photo=profile_photo)
+                mem.save()
+                return redirect('admember')
+    else:
+         
+        return render(request, 'admintemp/adaddmember.html')
 
 
 def loggout(request):
@@ -498,6 +468,76 @@ def ceditprofile(request):
     }
 
     return render(request, 'ceditprofile.html',context)
+
+
+# @login_required(login_url='login_page')
+def meditprofile(request):
+    
+    # user = request.user
+    # profile = PatientProfile.objects.get(user=user)
+    user = request.user
+    mem = get_object_or_404(Member, user=user)
+    
+    if request.method == "POST":
+        print ('POST')
+        # user.first_name=request.POST.get('first_name')
+        # user.last_name=request.POST.get('last_name')
+        # Process the form data and save/update the profile
+
+        mem.Name = request.POST.get('name')
+        
+        mem.email = request.POST.get('email')
+       
+        # mem.gender = request.POST.get('gender')
+        
+
+        # mem.date_of_birth = request.POST.get('dob')
+        
+
+        # mem.date_of_join = request.POST.get('doj')
+        
+
+        mem.address = request.POST.get('address')
+       
+        mem.district = request.POST.get('dis')
+
+        mem.ward = request.POST.get('ward')
+        
+
+        mem.postal = request.POST.get('pin')
+        
+
+        mem.phone = request.POST.get('phone')
+       
+
+        mem.Panchayat = request.POST.get('panchayat')
+        
+
+        mem.phone = request.POST.get('phone')
+        
+        new_profile_pic = request.FILES.get('profile_pic')
+
+        if new_profile_pic:
+            # Save the profile photo to a specific directory
+            fs = FileSystemStorage()
+            filename = fs.save(f"profile_pics/{new_profile_pic.name}", new_profile_pic)
+            mem.new_profile_pic = filename       
+        mem.save()
+        messages.success(request, 'Profile updated successfully.')
+        return redirect('meditprofile')  # Redirect to the profile page
+    context = {
+        'user': user,
+        'asha': mem
+    }
+
+    return render(request, 'asha_temp/edit_asha_pro.html',context)
+
+# @login_required(login_url='login_page')
+# def pro_ashaworker(request):
+#     asha = Ashaworker.objects.filter(user=request.user).first() 
+#     return render(request, 'asha_temp/pro_ashaworker.html', {'asha': [asha]})
+
+
 
    
 def meditprofile(request):
@@ -1027,6 +1067,19 @@ def waiting_list_certification(request, certification_id):
         certification.is_approved = ApplyCrop.WAITING  # Set it to 'waiting'
         certification.save()
     return redirect('mfregistered')
+
+
+
+# def approve_acertification(request, certification_id):
+#     certification = get_object_or_404(ApplyCrop, id=certification_id)
+#     if request.method == 'POST':
+#         certification.is_approved = ApplyCrop.APPROVED  # Set it to 'approved'
+#         certification.save()
+    
+#     # Get the pending details for adpendingapproval
+#     pending_details = ApplyCrop.objects.filter(is_approved=ApplyCrop.PENDING)
+    
+#     return render(request, 'admintemp/adapproval.html', {'pending_details': pending_details})
     
 def approve_acertification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
@@ -1063,36 +1116,48 @@ def mapprove(request):
 #     return render(request, 'membertemp/mapprove.html', {'details': pending_details})
 
 def adpendingapproval(request):
-    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
+    approved_details = ApplyCrop.objects.filter(is_approved='approved')
     user_roles = {}
-    for application in pending_details:
+    for application in approved_details:
         # Ensure the user associated with the Certification exists
         user = get_object_or_404(CustomUser, id=application.user_id)
 
         # Retrieve user roles
         user_roles[application.id] = {
-            'is_admin': user.is_superuser,
-            # 'is_member': user.role == CustomUser.MEMBER,
+            'is_member': user.role == CustomUser.MEMBER,
             'is_farmer': user.role == CustomUser.FARMER,
             # 'is_seller': user.is_staff
         }
-
-    context = {
-        'pending_details': pending_details,
-        'user_roles': user_roles,  # Include user roles in the context
-    }
+    # Pass the approved details to the template
+    context = { 'user_roles': user_roles,'approved_details': approved_details}
     return render(request, 'admintemp/adpendingapproval.html', context)
+    # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
+    # user_roles = {}
+    # for application in pending_details:
+    #     # Ensure the user associated with the Certification exists
+    #     user = get_object_or_404(CustomUser, id=application.user_id)
+
+    #     # Retrieve user roles
+    #     user_roles[application.id] = {
+    #         'is_admin': user.is_superuser,
+    #         # 'is_member': user.role == CustomUser.MEMBER,
+    #         'is_farmer': user.role == CustomUser.FARMER,
+    #         # 'is_seller': user.is_staff
+    #     }
+
+    # context = {
+    #     'pending_details': pending_details,
+    #     'user_roles': user_roles,  # Include user roles in the context
+    # }
+    # return render(request, 'admintemp/adpendingapproval.html', context)
 
 
 def adapproval(request):
+   
     pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
-
     # Pass the data to the template
     context = {'pending_details': pending_details}
-
     return render(request, 'admintemp/adapproval.html', context)
-    
-
     # details = ApplyCrop.objects.all()
     # return render(request, 'admintemp/adpendingapproval.html', {'details': details})
 

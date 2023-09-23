@@ -321,7 +321,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <form method="POST" action="" autocomplete="off" id="apply">
+                        <form method="POST" action="" autocomplete="off" id="apply" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-sm-6">
@@ -448,15 +448,12 @@
                                 <label><b>Short Biography</b></label>
                                 <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
                             </div>
-                            {% comment %} <div class="col-sm-6">
+                            <div class="col-sm-6">
                                  <div class="form-group">
                                     <label>Profile Photo</label>
                                         <input type="file" class="form-control" name="profile_photo">
                                 </div>
-                            </div> {% endcomment %}
-
-
-                                
+                            </div>
                             <div class="m-t-20 text-center">
                                 <button type="submit"class="btn btn-primary submit-btn" style="background-color: green; color: white;">Create Memeber</button>
                             </div>

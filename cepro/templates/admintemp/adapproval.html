@@ -372,20 +372,36 @@
                 </div>
             </div>
         </div>
-        <div class="page-wrapper">
-            <div class="content">
-                <div class="row">
-                    <div class="col-sm-4 col-3">
-                        {% comment %} <h4 class="page-title">Approved</h4> {% endcomment %}
-                    </div>
-                    {% comment %} <div class="col-sm-8 col-9 text-right m-b-20">
-                        <a href="add-schedule.html" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Schedule</a>
-                    </div> {% endcomment %}
-                </div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="container">
-                            <h1>Approved list</h1>
+        <div class="container">
+            <h1>Approved Certification Details</h1>
+            <div class="details">
+                <table>
+                    <tr>
+                        <th>Crop Name</th>
+                        <th>Farmer Name</th>
+                        <th>Address</th>
+                        <th>Contact No</th>
+                        <th>Ward No</th>
+                        <th>Annual Income</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>{{ application.cname }}</td>
+                        <td>{{ application.farmerName }}</td>
+                        <td>{{ application.address }}</td>
+                        <td>{{ application.contactNo }}</td>
+                        <td>{{ application.wardNo }}</td>
+                        <td>{{ application.AnnualIncome }}</td>
+                        <td>
+                            <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+
+
                             {% comment %} <div class="details">
                                 {% if pending_details %}
                                     <table>
