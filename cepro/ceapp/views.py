@@ -361,6 +361,8 @@ def edit_member(request, member_id):
         postal = request.POST.get('postal')
         phone = request.POST.get('phone')
         bio = request.POST.get('bio')
+        profile_photo = request.FILES.get('profile_photo')
+
 
         # Update the member's attributes with the new data
         member.Name = name
@@ -375,7 +377,7 @@ def edit_member(request, member_id):
         member.postal = postal
         member.phone = phone
         member.bio = bio
-
+        member.profile_photo = profile_photo
         # Save the updated member object
         member.save()
 
@@ -757,6 +759,8 @@ def adaddcrop(request):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         count = request.POST.get('count')
+        crop_photo = request.FILES.get('crop_photo')
+
 
         # available = request.POST.get('available')
         # notavail = request.POST.get('notavailable')
@@ -774,7 +778,7 @@ def adaddcrop(request):
         if existing_crop:
             messages.error(request, f'A crop with the name "{cname}" already exists.')
             return redirect('adaddcrop')
-        new_crop = Crop(Namec=cname, des=cdescription, start_date = start_date ,end_date = end_date, count=count ,current=True)
+        new_crop = Crop(Namec=cname, des=cdescription, start_date = start_date ,end_date = end_date, count=count, crop_photo=crop_photo ,current=True)
         new_crop.save()
 
         # Set current to False for all other crops
@@ -857,6 +861,8 @@ def edit_crop(request, crop_id):
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         count = request.POST.get('count')
+        crop_photo = request.FILES.get('crop_photo')
+
         # Check the value of 'availability' to determine the selected option
         # availability = request.POST.get('availability')
         # if availability == '1':
@@ -872,6 +878,7 @@ def edit_crop(request, crop_id):
         crop.start_date = start_date
         crop.end_date = end_date
         crop.count = count
+        crop.crop_photo = crop_photo
         # Save the updated member object
         crop.save()
 
@@ -1064,10 +1071,14 @@ def reject_certification(request, certification_id):
 
 def waiting_list_certification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
+    
     if request.method == 'POST':
-        certification.is_approved = ApplyCrop.WAITING  # Set it to 'waiting'
-        certification.save()
-    return redirect('mfregistered')
+        if certification.is_approved == ApplyCrop.PENDING and certification.AnnualIncome > 30000:
+            certification.is_approved = ApplyCrop.WAITING
+            certification.save()
+    
+    return redirect('mfregistered')  # Replace 'mfregistered' with the appropriate URL name
+
 
 
 

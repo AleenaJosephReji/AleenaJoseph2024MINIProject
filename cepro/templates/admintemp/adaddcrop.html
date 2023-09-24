@@ -366,7 +366,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <form method="POST" action="" autocomplete="off">
+                        <form method="POST" action="" autocomplete="off"  enctype="multipart/form-data">
                             {% csrf_token %}
         
                             <div class="form-group">
@@ -394,7 +394,12 @@
                                 <label><b>Count</b></label>                                
                                 <input class="form-control" type="text" name="count">
                             </div>
-                           
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                   <label>Crop Photo</label>
+                                       <input type="file" class="form-control" name="crop_photo">
+                               </div>
+                           </div>
 
                             {% comment %} <div class="form-group">
                                 <label>Availability</label>

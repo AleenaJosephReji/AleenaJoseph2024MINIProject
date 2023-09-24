@@ -124,6 +124,7 @@ class Crop(models.Model):
     end_date = models.DateField(null=True, blank=True)
     count = models.PositiveIntegerField(default=0)
     # count = models.CharField(max_length=100,null=True, blank=True)
+    crop_photo = models.ImageField(upload_to='crop_photos/', blank=True, null=True)
 
 
     # available = models.BooleanField(default=False)

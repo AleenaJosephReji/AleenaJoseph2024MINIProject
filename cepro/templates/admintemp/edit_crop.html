@@ -56,8 +56,10 @@
 <body>
     
     <h1>Edit Crop</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+         
+
         <label for="cname">Name:</label>
         <input type="text" id="cname" name="cname" value="{{ crop.Namec }}"><br>
         <label for="details">Details:</label>
@@ -82,7 +84,13 @@
             <label>Count</label>                                
             <input class="form-control" type="text" name="count" value="{{crop.count}}">
         </div>
-
+        <div class="col-sm-6">
+            <div class="form-group">
+               <label>Profile Photo</label>
+                   <input type="file" class="form-control" name="crop_photo" value="{{ crop.crop_photo }}" >
+           </div>
+       </div>
+        <br>
 
         
             {% comment %} <label>Availability</label> {% endcomment %}

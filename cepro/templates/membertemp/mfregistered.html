@@ -493,7 +493,7 @@
                                 <th>Approve</th>
                             </tr>
                             {% for application in pending_details %}
-                            <tr data-application-id="{{ application.id }}">
+                            <tr>
                                 <td>{{ application.cname }}</td>
                                 <td>{{ application.farmerName }}</td>
                                 <td>{{ application.address }}</td>
@@ -501,24 +501,16 @@
                                 <td>{{ application.wardNo }}</td>
                                 <td>{{ application.AnnualIncome }}</td>
                                 <td>
-                                    
                                     {% if application.is_approved == 'pending' %}
-                                    <span class="text-success" style="font-weight: bolder; font-size: large;"></span>
+                                    <span class="text-success" style="font-weight: bolder; font-size: large;">Pending</span>
                                     {% elif application.is_approved == 'approved' %}
                                     <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
                                     {% elif application.is_approved == 'rejected' %}
                                     <span class="text-danger" style="font-weight: bolder; font-size: large;">Rejected</span>
-                                    {% comment %} {% elif application.is_approved == 'pending' %}
-                                    <span class="text-danger" style="font-weight: bolder; font-size: large;">pending</span>{% endcomment%}
-                                    {% elif application.is_approved == 'waiting' %}
-                                    <span class="text-danger" style="font-weight: bolder; font-size: large; color: yellow;">Pending</span>
-                                    {% else %}  
+                                    {% else %}
                                     <span class="text-danger" style="font-weight: bolder; font-size: large;"></span>
                                     {% endif %}
-                                    
                                 </td>
-    
-                                <!-- ... (previous HTML code) ... -->
                                 <td>
                                     {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
                                     {% if annual_income|add:0 <= 30000 %}
@@ -531,10 +523,6 @@
                                         {% csrf_token %}
                                         <button class="btn btn-danger reject-btn" type="submit">Reject</button>
                                     </form>
-                                    {% comment %} <form method="post" action="{% url 'pending_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-warning pending-btn" type="submit">Pending</button>
-                                    </form> {% endcomment %}
                                     {% elif application.is_approved == 'approved' %}
                                     <form method="post" action="{% url 'reject_certification' application.id %}">
                                         {% csrf_token %}
@@ -550,55 +538,13 @@
                                     {% endif %}
                                     {% else %}
                                     <span class="text-danger">Income too high</span>
-                                    {% if application.is_approved == 'waiting' %}
-                                    <form method="post" action="{% url 'waiting_list_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-warning waiting-btn" type="submit">Pending</button>
-                                    </form>
-                                    {% endif %}
-                                    {% comment %} {% elif application.is_approved == 'pending' %}
                                     <form method="post" action="{% url 'reject_certification' application.id %}">
                                         {% csrf_token %}
                                         <button class="btn btn-danger reject-btn" type="submit">Reject</button>
-                                    </form> {% endcomment %}
+                                    </form>
                                     {% endif %}
                                     {% endwith %}
                                 </td>
-                               
-                                {% comment %} <td>
-                                    {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
-                                    {% if annual_income|add:0 <= 30000 %}
-                                    {% if application.is_approved == 'pending' %}
-                                    <form method="post" action="{% url 'approve_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
-                                    </form>
-                                    <form method="post" action="{% url 'reject_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-danger reject-btn" type="submit">Reject</button>
-                                    </form>
-                                    {% elif application.is_approved == 'approved' %}
-                                    <form method="post" action="{% url 'reject_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-danger reject-btn" type="submit">Reject</button>
-                                    </form>
-                                    {% elif application.is_approved == 'rejected' %}
-                                    <form method="post" action="{% url 'approve_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
-                                    </form>
-                                    {% else %}
-                                    <p>Not working</p>
-                                    {% endif %}
-                                    {% else %}
-                                    <span class="text-danger">Income too high</span>
-                                    <form method="post" action="{% url 'reject_certification' application.id %}">
-                                        {% csrf_token %}
-                                        <button class="btn btn-danger reject-btn" type="submit">Reject</button>
-                                    </form>
-                                    {% endif %}
-                                    {% endwith %}
-                                </td> {% endcomment %}
                             </tr>
                             {% endfor %}
                         </table>

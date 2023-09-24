@@ -308,7 +308,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <form method="POST" action="" autocomplete="off">
+                        <form method="POST" action="" autocomplete="off" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-sm-6">
@@ -329,14 +329,14 @@
                                         <input class="form-control" id="dob" name="dob" value="{{ member.date_of_birth }}">
                                     </div>
                                 </div> {% endcomment %}
-                                <div class="col-sm-6">
+                                {% comment %} <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Date of Birth</label>
                                         <div class="cal-icon">
                                             <input type="text" class="form-control" id="dob" name="dob" value="{{ member.date_of_birth }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                                 {% comment %} <div class="col-sm-6">
 									<div class="form-group gender-select">
 										<label class="gen-label">Gender:</label>
@@ -407,11 +407,16 @@
                                 <textarea class="form-control"id="bio" name="bio">{{ member.bio }}</textarea>
                             </div>
 
-
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                   <label>Profile Photo</label>
+                                       <input type="file" class="form-control" name="profile_photo" value="{{ member.profile_photo }}" >
+                               </div>
+                           </div>
 
                                 
                             <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Create Memeber</button>
+                                <button class="btn btn-primary submit-btn">Edit Memeber</button>
                             </div>
                         </form>
                     </div>
