@@ -167,8 +167,10 @@ def apply(request):
 def adindex(request):
     me = Member.objects.all()
     me_count = me.count()
+    c=Crop.objects.all()
+    c_count=c.count()
     crops = Crop.objects.all()
-    context = {'me': me, 'me_count': me_count, 'crops': crops}
+    context = {'me': me, 'me_count': me_count,'c':c, 'c_count':c_count,'crops': crops}
     return render(request, 'admintemp/adindex.html', context)
 
 # def amembers(request):
@@ -310,7 +312,7 @@ def adaddmember(request):
         taluk = request.POST.get('taluk', 'Default Taluk')   # Set a default value for Taluk
         panchayat = request.POST.get('panchayat', 'Default Panchayat')  # Set a default value for Panchayat
         wardno = request.POST.get('wardno')
-        ward = request.POST.get('ward')
+        wardname = request.POST.get('wardname')
         pin = request.POST.get('pin')
         phone = request.POST.get('phone')
         bio = request.POST.get('bio')
@@ -326,7 +328,7 @@ def adaddmember(request):
                 user = CustomUser.objects.create_user(email=email, password=password)
                 user.role = CustomUser.MEMBER
                 user.save()
-                mem = Member(user=user,Name=name,email=email,address=address,district=dis,taluk=taluk,Panchayat=panchayat,ward=ward,wardno=wardno,postal=pin,phone=phone,bio=bio,profile_photo=profile_photo)
+                mem = Member(user=user,Name=name,email=email,address=address,district=dis,taluk=taluk,Panchayat=panchayat,wardname=wardname,wardno=wardno,postal=pin,phone=phone,bio=bio,profile_photo=profile_photo)
                 mem.save()
                 return redirect('admember')
     else:
@@ -1035,8 +1037,18 @@ def apply(request,crop_id):
 from django.shortcuts import render
 from .models import ApplyCrop  # Import your model
 
+from django.shortcuts import render, get_object_or_404
+from .models import ApplyCrop
+from .models import CustomUser  # Replace 'yourapp' with the actual app name
+from django.contrib.auth.decorators import login_required  # Import login_required decorator
+
+@login_required  # Decorate the view with login_required to ensure the user is logged in
 def mfregistered(request):
-    pending_details = ApplyCrop.objects.all()
+    current_user = request.user  # Get the current logged-in user
+
+    # Filter ApplyCrop objects by the ward number of the current user
+    pending_details = ApplyCrop.objects.filter(wardNo=current_user.wardno)
+
     user_roles = {}
     for application in pending_details:
         # Ensure the user associated with the Certification exists
@@ -1055,6 +1067,7 @@ def mfregistered(request):
     }
     return render(request, 'membertemp/mfregistered.html', context)
 
+
 def approve_certification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
     if request.method == 'POST':
@@ -1069,15 +1082,23 @@ def reject_certification(request, certification_id):
         certification.save()
     return redirect('mfregistered')
 
-def waiting_list_certification(request, certification_id):
-    certification = get_object_or_404(ApplyCrop, id=certification_id)
-    
+def set_status_waiting(request, application_id):
+    # Handle the logic to set the status to 'waiting'
+    certification = get_object_or_404(ApplyCrop, id=application_id)
     if request.method == 'POST':
-        if certification.is_approved == ApplyCrop.PENDING and certification.AnnualIncome > 30000:
-            certification.is_approved = ApplyCrop.WAITING
-            certification.save()
+        certification.is_approved = ApplyCrop.WAITING  # Set it to 'approved'
+        certification.save()
+    return redirect('mfregistered')
+
+# def waiting_list_certification(request, certification_id):
+#     certification = get_object_or_404(ApplyCrop, id=certification_id)
     
-    return redirect('mfregistered')  # Replace 'mfregistered' with the appropriate URL name
+#     if request.method == 'POST':
+#         if certification.is_approved == ApplyCrop.PENDING and certification.AnnualIncome > 30000:
+#             certification.is_approved = ApplyCrop.WAITING
+#             certification.save()
+    
+#     return redirect('mfregistered')  # Replace 'mfregistered' with the appropriate URL name
 
 
 
@@ -1092,25 +1113,34 @@ def waiting_list_certification(request, certification_id):
 #     pending_details = ApplyCrop.objects.filter(is_approved=ApplyCrop.PENDING)
     
 #     return render(request, 'admintemp/adapproval.html', {'pending_details': pending_details})
-    
+
+
 def approve_acertification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
     if request.method == 'POST':
         certification.is_approved = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
+    return redirect('adapproval')
 
-        # Store the approved details in a session variable
-        approved_details = {
-            'cname': certification.cname,
-            'farmerName': certification.farmerName,
-            'address': certification.address,
-            'contactNo': certification.contactNo,
-            'wardNo': certification.wardNo,
-            'AnnualIncome': certification.AnnualIncome,
-        }
-        request.session['approved_details'] = approved_details
 
-    return redirect('adpendingapproval')
+# def approve_acertification(request, certification_id):
+#     certification = get_object_or_404(ApplyCrop, id=certification_id)
+#     if request.method == 'POST':
+#         certification.is_approved = ApplyCrop.APPROVED  # Set it to 'approved'
+#         certification.save()
+
+#         # Store the approved details in a session variable
+#         approved_details = {
+#             'cname': certification.cname,
+#             'farmerName': certification.farmerName,
+#             'address': certification.address,
+#             'contactNo': certification.contactNo,
+#             'wardNo': certification.wardNo,
+#             'AnnualIncome': certification.AnnualIncome,
+#         }
+#         request.session['approved_details'] = approved_details
+
+#     return redirect('adpendingapproval')
 
 def reject_acertification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
@@ -1176,12 +1206,15 @@ def adpendingapproval(request):
 
 
 def adapproval(request):
-   
+    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
+    # Pass the data to the template
+    context = {'pending_details': pending_details}
+    return render(request, 'admintemp/adapproval.html', context)
     # Retrieve the approved details from the session variable
-    approved_details = request.session.get('approved_details', [])
+    # approved_details = request.session.get('approved_details', [])
 
-    # Pass the approved details to the template
-    return render(request, 'admintemp/adapproval.html', {'approved_details': approved_details})
+    # # Pass the approved details to the template
+    # return render(request, 'admintemp/adapproval.html', {'approved_details': approved_details})
     # details = ApplyCrop.objects.all()
     # return render(request, 'admintemp/adpendingapproval.html', {'details': details})
 

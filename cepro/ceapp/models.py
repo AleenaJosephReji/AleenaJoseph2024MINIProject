@@ -103,7 +103,7 @@ class Member(models.Model):
     district= models.CharField(max_length=100,null=True, blank=True)
     taluk = models.CharField(max_length=255, null=True, blank=True)
     Panchayat = models.CharField(max_length=100,null=True, blank=True)
-    ward = models.CharField(max_length=100,null=True, blank=True)
+    wardname = models.CharField(max_length=100,null=True, blank=True)
     wardno = models.IntegerField(max_length=100,null=True, blank=True)
     postal = models.IntegerField()
     phone = models.IntegerField()

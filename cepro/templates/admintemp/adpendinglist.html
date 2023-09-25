@@ -23,8 +23,15 @@
         {
             background-color:green;
         }
+        .sidebar
+        {
+            background-color:green;
+        }
+        .sidebar-menu li a {
+            color:white;
+        }
         .sidebar-menu li a:hover {
-            color: green;
+            color: white;
         }
         .sidebar-menu li.active a {
             color: green;
@@ -61,10 +68,13 @@
         th, td {
             padding: 10px;
             text-align: left;
+            
         }
 
         th {
             background-color: green;
+            color: white;
+
         }
 
         .no-details {
@@ -245,15 +255,29 @@
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
                         </li>
-                        <li class"active">
+                        {% comment %} <li class"active">
                             <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
-                        </li>
+                        </li> {% endcomment %}
                         {% comment %} <li>
                             <a href="{% url 'adapprovalpending' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
                         </li> {% endcomment %}
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li> 
+                        </li>  {% endcomment %}
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
+                                <li class='active'>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
+                                </li>
+                            </ul>
+                        </li>   
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span>Approved</span></a>
                         </li> {% endcomment %}
@@ -554,8 +578,8 @@
 
 <!-- adpendinglist.html -->
 <div class="container">
-    <h1>Approved Pending List</h1>
     <div class="details">
+        <h1>Pending List</h1>
         {% if pending_details %}
             <table>
                 <tr>

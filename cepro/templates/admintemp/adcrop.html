@@ -26,13 +26,29 @@
         {
             background-color:green;
         }
+        .green-background {
+            background-color: green; /* Set the background color to green */
+        }
+        {% comment %} .sidebar{
+            background-color: green;
+        } {% endcomment %}
+        .sidebar
+        {
+            background-color:green;
+        }
+        .sidebar-menu li a {
+            color:white;
+        }
         .sidebar-menu li a:hover {
-            color: green;
+            color: white;
         }
         .sidebar-menu li.active a {
             color: green;
             background-color: #f3f3f3;
         }
+        {% comment %} .card-body {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+        } {% endcomment %}
     </style> 
 </head>
 
@@ -181,19 +197,19 @@
                         </li>  {% endcomment %}
 
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
-                            <a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+                            <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
                                 <li>
-                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
                                 </li>
                                 <li>
                                     <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Pending List</span></a>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>    
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
@@ -365,13 +381,12 @@
 
                 <div class="row">
                     {% for crop in crops %}
-
                     <div class="col-md-4">
+                         <div class="doctor-img">
+                                    <a class="avatar" href="#"><img alt="" src="{{ crop.crop_photo.url }}"></a>
+                                   </div> 
                         <div class="card">
-                            <div class="doctor-img">
-                                <a class="avatar" href="#"><img alt="" src="{{ crop.crop_photo.url }}"></a>
-                               </div> 
-
+                            
                             <div class="dropdown profile-action">
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -388,6 +403,7 @@
                                 </div>   {% endcomment %}
                             </div>
                             <div class="card-body">
+                               
                                 <h5 class="card-title"style="color:#567806"><b><i>{{ crop.Namec }}</b></i></h5>
                                 {% comment %} <p>Crop ID: {{ crop.id }}</p> {% endcomment %}
 

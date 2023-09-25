@@ -469,6 +469,8 @@
                                 <option value="approved">Approved</option>
                                 <option value="rejected">Rejected</option>
                                 <option value="pending">Pending</option>
+                                <option value="waiting">Waiting</option>
+
                             </select>
                             <br><br>
                             <!-- Search form -->
@@ -502,11 +504,13 @@
                                 <td>{{ application.AnnualIncome }}</td>
                                 <td>
                                     {% if application.is_approved == 'pending' %}
-                                    <span class="text-success" style="font-weight: bolder; font-size: large;">Pending</span>
+                                    <span class="text-success" style="font-weight: bolder; font-size: large;"></span>
                                     {% elif application.is_approved == 'approved' %}
                                     <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
                                     {% elif application.is_approved == 'rejected' %}
                                     <span class="text-danger" style="font-weight: bolder; font-size: large;">Rejected</span>
+                                    {% elif application.is_approved == 'waiting' %}
+                                    <span class="text-waiting" style="font-weight: bolder; font-size: large; color:#ccb023;">Waiting</span>
                                     {% else %}
                                     <span class="text-danger" style="font-weight: bolder; font-size: large;"></span>
                                     {% endif %}
@@ -538,10 +542,33 @@
                                     {% endif %}
                                     {% else %}
                                     <span class="text-danger">Income too high</span>
-                                    <form method="post" action="{% url 'reject_certification' application.id %}">
+                                    {% if application.is_approved == 'pending' %}
+                                    {% comment %} {% if application.is_approved == 'approved' %} {% endcomment %}
+                                    <form method="post" action="{% url 'approve_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                    </form>
+                                    {% comment %} {% elif application.is_approved == 'waiting' %} {% endcomment %}
+                                    <form method="post" action="{% url 'set_status_waiting' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                                    </form>
+                                    {% elif application.is_approved == 'approved' %}
+                                    <form method="post" action="{% url 'set_status_waiting' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                                    </form>
+                                    {% elif application.is_approved == 'waiting' %}
+                                    <form method="post" action="{% url 'approve_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                    </form>
+                                    {% comment %} <form method="post" action="{% url 'reject_certification' application.id %}">
                                         {% csrf_token %}
                                         <button class="btn btn-danger reject-btn" type="submit">Reject</button>
-                                    </form>
+                                    </form> {% endcomment %}
+                                    {% comment %} {% endif %} {% endcomment %}
+                                    {% endif %}
                                     {% endif %}
                                     {% endwith %}
                                 </td>
