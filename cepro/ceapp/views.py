@@ -1037,18 +1037,8 @@ def apply(request,crop_id):
 from django.shortcuts import render
 from .models import ApplyCrop  # Import your model
 
-from django.shortcuts import render, get_object_or_404
-from .models import ApplyCrop
-from .models import CustomUser  # Replace 'yourapp' with the actual app name
-from django.contrib.auth.decorators import login_required  # Import login_required decorator
-
-@login_required  # Decorate the view with login_required to ensure the user is logged in
 def mfregistered(request):
-    current_user = request.user  # Get the current logged-in user
-
-    # Filter ApplyCrop objects by the ward number of the current user
-    pending_details = ApplyCrop.objects.filter(wardNo=current_user.wardno)
-
+    pending_details = ApplyCrop.objects.all()
     user_roles = {}
     for application in pending_details:
         # Ensure the user associated with the Certification exists
@@ -1066,7 +1056,6 @@ def mfregistered(request):
         'user_roles': user_roles,  # Include user roles in the context
     }
     return render(request, 'membertemp/mfregistered.html', context)
-
 
 def approve_certification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
