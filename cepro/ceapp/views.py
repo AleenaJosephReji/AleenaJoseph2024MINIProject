@@ -1142,12 +1142,10 @@ def reject_acertification(request, certification_id):
 def wait_certification(request, application_id):
     # Handle the logic to set the status to 'waiting'
     certification = get_object_or_404(ApplyCrop, id=application_id)
-    print("c:")
     if request.method == 'POST':
-        print()
-        certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'approved'
+        certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
-    return redirect('adpendingapproval')
+    return redirect('adapproval')
 
 def mapprove(request):
     pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
@@ -1161,9 +1159,8 @@ def mapprove(request):
 #     return render(request, 'membertemp/mapprove.html', {'details': pending_details})
 
 def adpendingapproval(request):
-    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
-    # Pass the data to the template
-    context = {'pending_details': pending_details}
+    approved_details = ApplyCrop.objects.filter(is_approved='approved')
+    context = {'approved_details': approved_details}
     return render(request, 'admintemp/adpendingapproval.html', context)
 
 
@@ -1207,8 +1204,8 @@ def adpendingapproval(request):
 
 
 def adapproval(request):
-    pending_details = ApplyCrop.objects.filter(is_approvedd='approved')
-    return render(request, 'admintemp/adapproval.html', {'approved_applications': pending_details})
+    approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
+    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details})
     # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
     # # Pass the data to the template
     # context = {'pending_details': pending_details}
@@ -1255,7 +1252,27 @@ def mpending(request):
 def adpendinglist(request):
     # Retrieve the pending details from your model or database
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
+
+    if request.method == 'POST':
+        # Handle the approve request
+        certification_id = request.POST.get('certification_id')
+        certification = get_object_or_404(ApplyCrop, id=certification_id)
+        certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
+        certification.save()
+
+        # Now, update the pending details queryset to exclude the approved item
+        pending_details = pending_details.exclude(id=certification_id)
+
     context = {
         'pending_details': pending_details,
     }
     return render(request, 'admintemp/adpendinglist.html', context)
+
+
+# def adpendinglist(request):
+#     # Retrieve the pending details from your model or database
+#     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
+#     context = {
+#         'pending_details': pending_details,
+#     }
+#     return render(request, 'admintemp/adpendinglist.html', context)
