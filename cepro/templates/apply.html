@@ -139,8 +139,7 @@
             {% endif %}
         {% else %}
         <h1>Apply for Crop</h1>
-        <a href="{% url 'crop' %}" class="back-button">Back to Crop Details</a>
-        <form method="POST" action="" autocomplete="off" id="apply">
+        <form method="POST" action="" autocomplete="off" id="apply"  enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="cropName">Crop Name</label>
@@ -159,14 +158,16 @@
             <div class="col-md-6">
                 <label>Ward</label>
                 <div class="form-group form-focus">
-                    <input type="text" id= "ward"class="form-control floating" value="{{ farmer_ward }}" name="ward" >
+                    <input type="text" id="wardno" name="wardno" placeholder="Enter Ward Number" value="{{ farmer_ward }}" required readonly>
+                    {% comment %} <input type="text" id= "ward"class="form-control floating" value="{{ farmer_ward }}" name="ward" required readonly> {% endcomment %}
                 </div>
             </div>
             
             <div class="col-md-6">
                 <label>Phone Number</label>
                 <div class="form-group form-focus">
-                    <input type="text" id="phone_number" class="form-control floating" value="{{ farmer_phone_number }}" name="phone_number" >
+                    <input type="text" id="phone_number" name="phone_number" placeholder="Enter Phone Number" value="{{ farmer_phone_number }}" required readonly>
+                    {% comment %} <input type="text" id="phone_number" class="form-control floating" value="{{ farmer_phone_number }}" name="phone_number" required readonly> {% endcomment %}
                 </div>
             </div>
             
@@ -182,15 +183,16 @@
             </div> {% endcomment %}
             <div class="form-group">
                 <label for="wardNo">Annual Income</label>
-                <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Ward No" value="{{ farmer_annual_income }}" required readonly>
+                <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Annual Income" value="{{ farmer_annual_income }}" required readonly>
                 <small id="annualIncomeError" class="form-text text-danger"></small>
             </div>
          
 
-            {% comment %} <div class="form-group">
+            <div class="form-group">
                 <label for="file_upload">Upload File</label>
-                <input type="file" name="file_upload" id="file_upload">
-            </div> {% endcomment %}
+                <input type="file" name="file_upload" id="file_upload" value="{{ farmer_file_upload }}">
+            </div>
+
             <button type="submit" class="apply-button">Apply</button>
         </form>
         {% endif %}

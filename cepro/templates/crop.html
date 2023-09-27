@@ -131,6 +131,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Sl No</th>
                     <th>Crop Name</th>
                     <th>Description</th>
                     <th>Start Date</th>
@@ -139,17 +140,39 @@
                 </tr>
             </thead>
             <tbody>
+                
                 {% for crop in crops %}
                 <tr>
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ crop.Namec }}</td>
                     <td>{{ crop.des }}</td>
-                    <td>{{ crop.start_date }}</td>
-                    <td>{{ crop.end_date }}</td>
+                    <td>
+                        {% if crop.start_date <= today and crop.end_date >= today %}
+                            {{ crop.start_date }}
+                        {% else %}
+                            <span class="text-danger">{{ crop.start_date }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if crop.start_date <= today and crop.end_date >= today %}
+                            {{ crop.end_date }}
+                        {% else %}
+                            <span class="text-danger">{{ crop.end_date }}</span>
+                        {% endif %}
+                    </td>
+                    {% comment %} <td>
+                        {% if crop.start_date <= today and crop.end_date >= today %}
+                            <a href="{% url 'apply' crop.id %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>
+                        {% else %}
+                            <label class="text-danger">Not Available</label>
+                        {% endif %}
+                    </td> {% endcomment %}
                     <td>
                         {% if crop.start_date <= today and crop.end_date >= today %}
                             <a href="{% url 'apply' crop.id %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>                       
                         {% else %}
-                            <a href="{% url 'applyerror' %}?crops={{ crop.Namec }}" class="apply-button" style="background-color: red;">Apply</a>
+                           <label class="text-danger">Not Available</label>
+                            <a href="#" class="apply-button" style="background-color: red;">Apply</a>
                         {% endif %}
                     </td>
                 </tr>

@@ -590,6 +590,7 @@
                     <th>Ward No</th>
                     <th>Actions</th>
                 </tr>
+                
                 {% for application in pending_details %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
@@ -598,10 +599,11 @@
                         <td>{{ application.contactNo }}</td>
                         <td>{{ application.wardNo }}</td>
                         <td>
-                            <!-- Add the Approve button with a form -->
                             <form method="post" action="{% url 'approve_acertification' application.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                {% comment %} <input type="hidden" name="next" value="{% url 'adapproval' application.id %}"> {% endcomment %}
+                            
                             </form>
                         </td>
                     </tr>

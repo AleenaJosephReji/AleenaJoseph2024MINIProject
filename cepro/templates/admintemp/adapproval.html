@@ -393,8 +393,9 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+    <div class="container">
             <h1>Approved Certification Details</h1>
+            {% if approved_applications %}
             <div class="details">
                 <table>
                     <tr>
@@ -406,6 +407,7 @@
                         <th>Annual Income</th>
                         <th>Status</th>
                     </tr>
+                    {% for application in approved_applications %}
                     <tr>
                         <td>{{ application.cname }}</td>
                         <td>{{ application.farmerName }}</td>
@@ -417,6 +419,8 @@
                             <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
                         </td>
                     </tr>
+                    {% endfor %}
+                    {% endif %}
                 </table>
             </div>
         </div>

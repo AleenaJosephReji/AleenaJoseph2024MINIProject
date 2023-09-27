@@ -535,7 +535,7 @@ def meditprofile(request):
         'asha': mem
     }
 
-    return render(request, 'asha_temp/edit_asha_pro.html',context)
+    return render(request, 'membertemp/meditprofle.html',context)
 
 # @login_required(login_url='login_page')
 # def pro_ashaworker(request):
@@ -938,9 +938,9 @@ def apply(request,crop_id):
         farmerName = request.POST.get('farmerName')
         address = request.POST.get('address')
         phone_number = request.POST.get('phone_number')
-        ward  = request.POST.get('ward')
+        wardNo  = request.POST.get('wardno')
         annualIncome  = request.POST.get('annualIncome')
-        # file_upload = request.FILES.get('file_upload')
+        file_upload = request.FILES.get('file_upload')
         
         crop=Crop.objects.filter(id=crop_id)
         obj = ApplyCrop()
@@ -949,10 +949,10 @@ def apply(request,crop_id):
         obj.farmerName = farmerName
         obj.address = address
         obj.contactNo= phone_number
-        obj.wardNo = ward
+        obj.wardNo = wardNo
         obj.crop_id=crop[0]
         obj.AnnualIncome = annualIncome
-        # obj .file_upload = file_upload
+        obj .file_upload = file_upload
         obj.save()
 
         
@@ -964,10 +964,11 @@ def apply(request,crop_id):
         'farmer_address': farmer_profile.address,
         'farmer_phone_number': farmer_profile.phone_number,
         # 'farmer_phone_number': farmer_profile.contactNo,
-        'farmer_ward': farmer_profile.ward,
+        'farmer_ward': farmer_profile.ward, 
 
         'farmer_annual_income': farmer_profile.annual_income,
-        # 'farmer_file_upload' : farmer_profile.file_upload
+        # 'farmer_file_upload' : farmer.
+        'farmer_file_upload' : farmer_profile.file_upload
      
     })
     
@@ -1107,7 +1108,7 @@ def set_status_waiting(request, application_id):
 def approve_acertification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
     if request.method == 'POST':
-        certification.is_approved = ApplyCrop.APPROVED  # Set it to 'approved'
+        certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
     return redirect('adapproval')
 
@@ -1134,15 +1135,17 @@ def approve_acertification(request, certification_id):
 def reject_acertification(request, certification_id):
     certification = get_object_or_404(ApplyCrop, id=certification_id)
     if request.method == 'POST':
-        certification.is_approved = ApplyCrop.REJECTED  # Set it to 'rejected'
+        certification.is_approvedd = ApplyCrop.REJECTED  # Set it to 'rejected'
         certification.save()
     return redirect('adpendingapproval')
 
-def waiting_acertification(request, certification_id):
-  
-    certification = get_object_or_404(ApplyCrop, id=certification_id)
+def wait_certification(request, application_id):
+    # Handle the logic to set the status to 'waiting'
+    certification = get_object_or_404(ApplyCrop, id=application_id)
+    print("c:")
     if request.method == 'POST':
-        certification.is_approved = ApplyCrop.WAITING  # Set it to 'waiting'
+        print()
+        certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'approved'
         certification.save()
     return redirect('adpendingapproval')
 
@@ -1158,21 +1161,30 @@ def mapprove(request):
 #     return render(request, 'membertemp/mapprove.html', {'details': pending_details})
 
 def adpendingapproval(request):
-    approved_details = ApplyCrop.objects.filter(is_approved='approved')
-    user_roles = {}
-    for application in approved_details:
-        # Ensure the user associated with the Certification exists
-        user = get_object_or_404(CustomUser, id=application.user_id)
-
-        # Retrieve user roles
-        user_roles[application.id] = {
-            'is_member': user.role == CustomUser.MEMBER,
-            'is_farmer': user.role == CustomUser.FARMER,
-            # 'is_seller': user.is_staff
-        }
-    # Pass the approved details to the template
-    context = { 'user_roles': user_roles,'approved_details': approved_details}
+    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
+    # Pass the data to the template
+    context = {'pending_details': pending_details}
     return render(request, 'admintemp/adpendingapproval.html', context)
+
+
+
+
+
+    # approved_details = ApplyCrop.objects.filter(is_approved='approved')
+    # user_roles = {}
+    # for application in approved_details:
+    #     # Ensure the user associated with the Certification exists
+    #     user = get_object_or_404(CustomUser, id=application.user_id)
+
+    #     # Retrieve user roles
+    #     user_roles[application.id] = {
+    #         'is_member': user.role == CustomUser.MEMBER,
+    #         'is_farmer': user.role == CustomUser.FARMER,
+    #         # 'is_seller': user.is_staff
+    #     }
+    # # Pass the approved details to the template
+    # context = { 'user_roles': user_roles,'approved_details': approved_details}
+    # return render(request, 'admintemp/adpendingapproval.html', context)
     # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
     # user_roles = {}
     # for application in pending_details:
@@ -1195,10 +1207,12 @@ def adpendingapproval(request):
 
 
 def adapproval(request):
-    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
-    # Pass the data to the template
-    context = {'pending_details': pending_details}
-    return render(request, 'admintemp/adapproval.html', context)
+    pending_details = ApplyCrop.objects.filter(is_approvedd='approved')
+    return render(request, 'admintemp/adapproval.html', {'approved_applications': pending_details})
+    # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
+    # # Pass the data to the template
+    # context = {'pending_details': pending_details}
+    # return render(request, 'admintemp/adapproval.html', context)
     # Retrieve the approved details from the session variable
     # approved_details = request.session.get('approved_details', [])
 
@@ -1241,7 +1255,6 @@ def mpending(request):
 def adpendinglist(request):
     # Retrieve the pending details from your model or database
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
-
     context = {
         'pending_details': pending_details,
     }

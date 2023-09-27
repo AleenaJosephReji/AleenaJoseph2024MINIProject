@@ -400,7 +400,7 @@
                                     </div>
                                 </form>
                                 
-                                
+                      
                             </div>
                         </div><br><br>
                         
@@ -408,7 +408,7 @@
                             {% for crop in crops %}
         
                             <div class="col-md-4">
-                                <div class="card">
+                                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);">
                                     <div class="dropdown profile-action">
                                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right">
@@ -420,16 +420,17 @@
                                         <a class="avatar" href="#"><img alt="" src="{{ crop.crop_photo.url }}"></a>
                                        </div>
                                     <div class="card-body">
+                                        <p>
                                         <h5 class="card-title">{{ crop.Namec }}</h5>
-                                        <p>Crop ID: {{ crop.id }}</p>
+                                        {% comment %} <p>Crop ID: {{ crop.id }}</p> {% endcomment %}
         
-                                        <p class="card-text">Details :  {{ crop.des }}</p>
+                                        <p class="card-text"><b>Details :</b>  {{ crop.des }}</p>
                                         {% comment %} <p class="card-text">{{ crop.available }}</p>
                                         <p class="card-text">{{ crop.not_available }}</p> {% endcomment %}
-                                        <p class="card-text">Availability :</p>
-                                        <p class="card-text">Start Date :  {{ crop.start_date }}</p>
-                                        <p class="card-text">End Date :  {{ crop.end_date }}</p>
-                                        <p class="card-text">Count :  {{ crop.count }}</p>
+                                        <p class="card-text"><b>Availability :</b></p>
+                                        <p class="card-text" style= "padding-left:20px;"><b>Start Date : </b> {{ crop.start_date }}</p>
+                                        <p class="card-text"  style= "padding-left:20px;"><b>End Date :  </b>{{ crop.end_date }}</p>
+                                        <p class="card-text"><b>Count : </b> {{ crop.count }}</p>
         
                                         {% comment %} <p class="card-text"> Availability : 
                                             {% if crop.available %}

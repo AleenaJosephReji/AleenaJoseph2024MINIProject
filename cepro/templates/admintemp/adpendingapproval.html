@@ -72,6 +72,7 @@
 
         th {
             background-color: green;
+            color:white;
         }
 
         .no-details {
@@ -577,8 +578,9 @@
 <div class="container">
    
     <div class="details">
+        <br>
         <h1>Approved Details</h1>
-        {% if approved_details %}
+        {% if pending_details %}
         
             <table>
                 
@@ -593,8 +595,9 @@
                     <th>Actions</th>
                     <th>Status</th>
                 </tr>
-                {% for application in approved_details %}
+                {% for application in pending_details %}
                 <tr>
+                    
                     <td>{{ application.cname }}</td>
                     <td>{{ application.farmerName }}</td>
                     <td>{{ application.address }}</td>
@@ -602,30 +605,47 @@
                     <td>{{ application.wardNo }}</td>
                     <td>{{ application.AnnualIncome }}</td>
                     <td>
-                        {% if application.is_approved == 'approved' %}
-                            <form method="post" action="{% url 'approve_acertification' application.id %}">
+                        {% if  application.is_waiting == 'waiting' %}
+                    <span class="text-success" style="font-weight: bolder; font-size: large;">Waiting</span>
+                    {% else %}
+                    <span class="text-success" style="font-weight: bolder; font-size: large;">Not Waiting</span>
+                    {% comment %} {% elif application.is_approved == 'waiting' %}
+                    <span class="text-waiting" style="font-weight: bolder; font-size: large; color:#ccb023;">Waiting</span> {% endcomment %}
+                    {% endif %}
+
+                        {% comment %} {% if application.is_approved == 'approved' %} {% endcomment %}
+                            {% comment %} <form method="post" action="{% url 'approve_acertification' application.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-success approve-btn" type="submit">Approve</button>
-                                </form>
-                            <form method="post" action="{% url 'waiting_acertification' application.id %}">
+                                </form> {% endcomment %}
+
+                               
+                            {% comment %} <form method="post" action="{% url 'waiting_acertification' application.id %}">
                                 {% csrf_token %}
                                  <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
-                                </form>
+                                </form> {% endcomment %}
+                                
                                 {% comment %} {% elif application.is_approved == 'rejected' %}
                                 <form method="post" action="{% url 'approve_certification' application.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-success approve-btn" type="submit">Approve</button>
                                 </form> {% endcomment %}
+                            {% comment %} {% elif application.is_approved == 'waiting' %}
+                            <p>Waiting</p>
                             {% else %}
-                            <p>Not working</p>
-                            {% endif %}
+                            <p>Rejected</p>
+                            {% endif %} {% endcomment %}
                     </td>
                     <td>
-                    {% if  certification.is_approved == 'approved' %}
-                    <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
-                    {% elif application.is_approved == 'waiting' %}
-                    <span class="text-success" style="font-weight: bolder; font-size: large;">Waiting</span>
+                    {% if  application.is_waiting == 'waiting' %}
+                    
+                    <form method="post" action="{% url 'wait_certification' application.id %}">
+                        {% comment %} {{ application.is_waiting }} {% endcomment %}
+                        {% csrf_token %}
+                        <button class="btn btn-warning waiting-btn" type="submit">Approve</button>
+                    </form>
                     {% endif %}
+
                     </td>
                     {% comment %} <td>
                         {% if application.is_approved == 'pending' %}
@@ -643,6 +663,7 @@
         {% endif %}
     </div>
 </div>
+
 
                                    
                                     {% comment %} <td>

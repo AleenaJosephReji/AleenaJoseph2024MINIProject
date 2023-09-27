@@ -163,6 +163,14 @@ class ApplyCrop(models.Model):
     (PENDING, 'Pending'),
     (WAITING, 'waiting'),
     ]
+
+    WAITING = 'waiting'
+    NOTWAITING = 'notwaiting'
+    
+    WAITING_CHOICES = [
+    (WAITING,'waiting'),
+    (NOTWAITING,'notwaiting'),
+    ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True,default=1)
     cname = models.CharField(max_length=100,null=True, blank=True)
     farmerName = models.CharField(max_length=100,null=True, blank=True)
@@ -171,11 +179,21 @@ class ApplyCrop(models.Model):
     wardNo = models .CharField(max_length=100,null=True,blank=True)
     AnnualIncome = models .IntegerField(null=True,blank=True)
     crop_id=models.ForeignKey(Crop, on_delete=models.CASCADE, null=True,default=1)
-    # file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
+    file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
     is_approved = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
         default=PENDING,
+    )
+    is_approvedd = models.CharField(
+        max_length=10,
+        choices=APPROVAL_CHOICES,
+        default=PENDING,
+    )
+    is_waiting = models.CharField(
+        max_length=10,
+        choices=WAITING_CHOICES,
+        default=WAITING,
     )
 
     # approved = models.BooleanField(default=False)
@@ -204,7 +222,8 @@ class FarmerProfile(models.Model):
     phone_number = models.IntegerField(max_length=12,null=True,blank=True)
     ward = models.CharField(max_length=100)
     pin_code = models.IntegerField(max_length=6,null=True,blank=True)
-   
+    file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
+
     
     # current_diagnosis = models.CharField(max_length=100, null=True,blank=True)
     # past_med_condition = models.CharField(max_length=100, null=True,blank=True)

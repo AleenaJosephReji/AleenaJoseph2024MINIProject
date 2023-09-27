@@ -492,7 +492,9 @@
                                 <th>Ward No</th>
                                 <th>Annual Income</th>
                                 <th>Status</th>
+                                {% comment %} <th>Waiting Status</th> {% endcomment %}
                                 <th>Approve</th>
+                                <th>File</th>
                             </tr>
                             {% for application in pending_details %}
                             <tr>
@@ -515,6 +517,13 @@
                                     <span class="text-danger" style="font-weight: bolder; font-size: large;"></span>
                                     {% endif %}
                                 </td>
+                                {% comment %} <td>
+                                    {% if application.is_waiting == 'waiting' %}
+                                    <span class="text-success" style="font-weight: bolder; font-size: large;">waiting</span>
+                                    {% else %}
+                                    <span class="text-danger" style="font-weight: bolder; font-size: large;">not waiting</span>
+                                    {% endif %}
+                                </td> {% endcomment %}
                                 <td>
                                     {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
                                     {% if annual_income|add:0 <= 30000 %}
@@ -571,6 +580,13 @@
                                     {% endif %}
                                     {% endif %}
                                     {% endwith %}
+                                </td>
+                                <td>
+                                    {% if application.file_upload %}
+                                    <a href="{{ application.file_upload.url }}" target="_blank">Download File</a>
+                                    {% else %}
+                                    No File
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
