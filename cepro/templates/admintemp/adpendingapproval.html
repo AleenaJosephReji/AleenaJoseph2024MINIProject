@@ -23,15 +23,6 @@
         {
             background-color:green;
         }
-       
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
         .sidebar
         {
             background-color:green;
@@ -46,6 +37,15 @@
             color: green;
             background-color: #f3f3f3;
         }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
         h1 {
             text-align: center;
             color: #333;
@@ -68,11 +68,13 @@
         th, td {
             padding: 10px;
             text-align: left;
+            
         }
 
         th {
             background-color: green;
-            color:white;
+            color: white;
+
         }
 
         .no-details {
@@ -262,21 +264,20 @@
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                         </li>  {% endcomment %}
-
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
-                                <li class='active'>
+                                <li>
                                     <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
                                 </li>
                                 <li>
                                     <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                                 </li>
-                                <li>
+                                <li class='active'>
                                     <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
-                        </li>     
+                        </li>   
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span>Approved</span></a>
                         </li> {% endcomment %}
@@ -572,8 +573,7 @@
 
 
 
-                
-<!-- ... (next HTML code) ... -->
+<!-- adpendingapproval.html -->
 <div class="container">
     <div class="details">
         <br>
@@ -599,15 +599,32 @@
                     <td>{{ application.wardNo }}</td>
                     <td>{{ application.AnnualIncome }}</td>
                     <td>
-                        {% if application.is_approvedd == 'approved' %}
-                            <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
-                            <button class="btn btn-warning waiting-btn" type="submit">Approve</button>
-                        {% else %}
+                        {% if application.is_approvedd == 'pending' %}
+                            <form method="post" action="{% url 'approve_acertification' application.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="certification_id" value="{{ application.id }}">
+                                <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                            </form>
                             <form method="post" action="{% url 'wait_certification' application.id %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="certification_id" value="{{ application.id }}">
                                 <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
                             </form>
+                            {% comment %} <span class="text-success" style="font-weight: bolder; font-size: large;">Approved By Member</span> {% endcomment %}
+                        {% elif  application.is_approvedd == 'approved' %}
+                            <form method="post" action="{% url 'wait_certification' application.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="certification_id" value="{{ application.id }}">
+                                <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                            </form>
+                            {% elif  application.is_approvedd == 'waiting' %}
+                            <form method="post" action="{% url 'approve_acertification' application.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="certification_id" value="{{ application.id }}">
+                                <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                            </form>
+                            {% else %}
+                            <p>Not working</p>
                         {% endif %}
                     </td>
                     
@@ -619,7 +636,6 @@
         {% endif %}
     </div>
 </div>
-
 
 
                                    
@@ -1026,44 +1042,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function toggleButtons(button) {
-            // Hide the "Approve" button and show the "Pending" button
-            button.style.display = "none";
-            const waitingButton = button.nextElementSibling;
-            waitingButton.style.display = "block";
-        }
-        </script>
-    <script>
-        // Function to handle button click and display message
-        function showMessage(button, message) {
-            const messageSpan = button.closest("tr").querySelector(".message");
-            const messageTd = button.closest("tr").querySelector(".message-td");
-            messageSpan.style.display = "inline-block";
-            messageSpan.textContent = message; // Update the text content
-            messageTd.textContent = message; // Update the message column
-        }
-    
-        // Add event listeners to buttons
-        const approveButtons = document.querySelectorAll(".approve-btn");
-        const waitingButtons = document.querySelectorAll(".waiting-btn");
-    
-        approveButtons.forEach((button) => {
-            button.addEventListener("click", function (e) {
-                e.preventDefault();
-                showMessage(this, "Approved");
-            });
-        });
-    
-        waitingButtons.forEach((button) => {
-            button.addEventListener("click", function (e) {
-                e.preventDefault();
-                showMessage(this, "Pending");
-            });
-        });
-    </script>
-    
     <div class="sidebar-overlay" data-reff=""></div>
 
     

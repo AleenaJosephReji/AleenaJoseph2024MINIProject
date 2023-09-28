@@ -573,57 +573,50 @@
 
 
 
-<div class="container">
-    <div class="details">
-        <br>
-        <h1>Waiting List</h1>
-        {% if pending_details %}
-            <table>
-                <tr>
-                    <th>No</th>
-                    <th>Crop Name</th>
-                    <th>Farmer Name</th>
-                    <th>Contact No</th>
-                    <th>Ward No</th>
-                    <th>Actions</th>
-                    {% comment %} <th>status</th> {% endcomment %}
-                </tr>
+                <div class="container">
+                    <div class="details">
+                        <br>
+                        <h1>Waiting List</h1>
                 
-                {% for application in pending_details %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ application.cname }}</td>
-                        <td>{{ application.farmerName }}</td>
-                        <td>{{ application.contactNo }}</td>
-                        <td>{{ application.wardNo }}</td>
-                        <td>
-                            {% comment %} <form method="post" action="{% url 'approve_acertification' application.id %}">
-                                {% csrf_token %}
-                                <button class="btn btn-success approve-btn" type="submit">Approve</button> {% endcomment %}
-                                {% comment %} <input type="hidden" name="next" value="{% url 'adapproval' application.id %}"> {% endcomment %}
-                            {% comment %}                             
-                            </form> {% endcomment %}
-
-
-                            {% if application.is_approvedd == 'approved' %}
-                            <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
-                            {% else %}
-                            <form method="post" action="{% url 'approve_acertification' application.id %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="certification_id" value="{{ application.id }}">
-                                <button class="btn btn-success approve-btn" type="submit">Approve</button>
-                            </form>
+                        {% if details %}
+                            <table>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Crop Name</th>
+                                    <th>Farmer Name</th>
+                                    <th>Contact No</th>
+                                    <th>Ward No</th>
+                                    <th>Actions</th>
+                                    {% comment %} <th>Status</th> {% endcomment %}
+                                </tr>
+                
+                                {% for application in details %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ application.cname }}</td>
+                                        <td>{{ application.farmerName }}</td>
+                                        <td>{{ application.contactNo }}</td>
+                                        <td>{{ application.wardNo }}</td>
+                                        <td>
+                                            {% if application.is_approvedd == 'approved' %}
+                                                <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
+                                            {% else %}
+                                                <form method="post" action="{% url 'approve_acertification' application.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="certification_id" value="{{ application.id }}">
+                                                    <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                                </form>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <p>No details available.</p>
                         {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            <p>No details available.</p>
-        {% endif %}
-    </div>
-</div>
-
+                    </div>
+                </div>
+                
                                    
                                     {% comment %} <td>
                                         {% with annual_income=application.AnnualIncome|default_if_none:"0" %}

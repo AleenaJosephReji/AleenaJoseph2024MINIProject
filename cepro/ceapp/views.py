@@ -1143,9 +1143,9 @@ def wait_certification(request, application_id):
     # Handle the logic to set the status to 'waiting'
     certification = get_object_or_404(ApplyCrop, id=application_id)
     if request.method == 'POST':
-        certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
+        certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'approved'
         certification.save()
-    return redirect('adapproval')
+    return redirect('adpendinglist')
 
 def mapprove(request):
     pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
@@ -1249,9 +1249,43 @@ def mpending(request):
     return render(request, 'membertemp/mpending.html', context)
 
 
+# def adpendinglist(request):
+#     # Retrieve the pending details from your model or database
+#     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
+#     application_waiting = ApplyCrop.objects.filter(is_approvedd='waiting')
+
+#     if request.method == 'POST':
+#         # Handle the approve request
+#         certification_id = request.POST.get('certification_id')
+#         certification = get_object_or_404(ApplyCrop, id=certification_id)
+#         certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
+#         certification.save()
+
+#         # Now, update the pending details queryset to exclude the approved item
+#         pending_details = pending_details.exclude(id=certification_id)
+#         application_waiting = application_waiting.exclude(id=certification_id)
+
+#     context = {
+#         'pending_details': pending_details,'application_waiting' : application_waiting,
+#     }
+#     return render(request, 'admintemp/adpendinglist.html', context)
+
+
+
+
+
+
 def adpendinglist(request):
     # Retrieve the pending details from your model or database
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
+
+    # Retrieve the waiting application if needed
+    application_waiting = ApplyCrop.objects.filter(is_approvedd='waiting').first()
+
+    # Merge both sets of details into a single list
+    details = list(pending_details)
+    if application_waiting:
+        details.append(application_waiting)
 
     if request.method == 'POST':
         # Handle the approve request
@@ -1260,14 +1294,13 @@ def adpendinglist(request):
         certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
 
-        # Now, update the pending details queryset to exclude the approved item
-        pending_details = pending_details.exclude(id=certification_id)
+        # Now, update the details list to exclude the approved item
+        details = [item for item in details if item.id != int(certification_id)]
 
     context = {
-        'pending_details': pending_details,
+        'details': details,
     }
     return render(request, 'admintemp/adpendinglist.html', context)
-
 
 # def adpendinglist(request):
 #     # Retrieve the pending details from your model or database
