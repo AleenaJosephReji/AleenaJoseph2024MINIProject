@@ -406,6 +406,12 @@ def delete_member(request, member_id):
 
 # def cprofile(request):
 #     return render(request, 'cprofile.html')
+
+def fmyprofile(request):
+    profile = FarmerProfile.objects.get(user=request.user)
+    context = {'profile': profile}
+    return render(request, 'fmyprofile.html', context)
+
 def ceditprofile(request):
     
     user = request.user
@@ -460,6 +466,8 @@ def ceditprofile(request):
         print("phone :",profile.phone_number)
 
         # profile.phone_number = request.POST.get('phone_number')
+        profile.fprofile_photo = request.FILES.get('fprofile_photo')
+        print("phone :",profile.fprofile_photo)
 
         profile.save()
         
@@ -1110,7 +1118,7 @@ def approve_acertification(request, certification_id):
     if request.method == 'POST':
         certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
-    return redirect('adapproval')
+    return redirect('adpendingapproval')
 
 
 # def approve_acertification(request, certification_id):
@@ -1145,7 +1153,7 @@ def wait_certification(request, application_id):
     if request.method == 'POST':
         certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'approved'
         certification.save()
-    return redirect('adpendinglist')
+    return redirect('adpendingapproval')
 
 def mapprove(request):
     pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
@@ -1159,11 +1167,23 @@ def mapprove(request):
 #     return render(request, 'membertemp/mapprove.html', {'details': pending_details})
 
 def adpendingapproval(request):
+    # Retrieve the approved details from your model or database
     approved_details = ApplyCrop.objects.filter(is_approved='approved')
-    context = {'approved_details': approved_details}
+
+    if request.method == 'POST':
+        # Handle the approve request
+        certification_id = request.POST.get('certification_id')
+        certification = get_object_or_404(ApplyCrop, id=certification_id)
+        certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'waiting' or the appropriate status
+        certification.save()
+
+        # Now, update the approved details queryset to exclude the approved item
+        approved_details = approved_details.exclude(id=certification_id)
+
+    context = {
+        'approved_details': approved_details,
+    }
     return render(request, 'admintemp/adpendingapproval.html', context)
-
-
 
 
 

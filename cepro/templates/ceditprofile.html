@@ -22,51 +22,51 @@
     <![endif]-->
     <style>
         .content {
-            max-width: 900px; /* Limit the maximum width of the form */
-            margin-right:25px auto; /* Center the form horizontally */
-            padding: 0px; /* Add some padding */
+            max-width: 900px; 
+            margin-right:25px auto; 
+            padding: 0px;
+            
         }
-        /* Style for the basic information div */
+       
         .card-box {
-            background-color: #c8f7ad; /* Set the background color */
-            padding: 20px; /* Add some padding */
-            border-radius: 10px; /* Add rounded corners */
-            margin-bottom: 10px; /* Add spacing between sections */
-            padding-right:50px; /* Align form elements to the left */
+            background-color: #b4f76d; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 10px; 
+            padding-right:50px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            border: 1px solid black;
+
 
         }
         .card-box .form-group {
-            text-align: left; /* Align form elements to the left */
+            text-align: left; 
         }
-        /* Style for the Save button */
         .submit-btn {
-            background-color:#c8f7ad;; /* Set a blue background color */
-            color: green; /* Set white text color */
-            border: none; /* Remove borders */
-            padding: 10px 20px; /* Add padding */
-            border-radius: 5px; /* Add rounded corners */
+            background-color:#c8f7ad;; 
+            color: green;
+            border: none; 
+            padding: 10px 20px;
+            border-radius: 5px;
         }
 
         .navbar {
-            background-color: #34AD54; /* Set the background color of the navbar */
-            padding-top: 20px; /* Add padding to the top */
-            padding-bottom: 20px; /* Add padding to the bottom */
+            background-color: #34AD54;
+            padding-top: 20px;
+            padding-bottom: 20px; 
         }
 
-        /* Style for the navigation links */
         .navbar-nav .nav-link {
-            color: white; /* Set the text color of the links */
-            margin-left: 20px; /* Add margin to separate the links */
+            color: white; 
+            margin-left: 20px;
             
         }
 
-        /* Style for the active link */
         .navbar-nav .nav-link.active {
-            font-weight: bold; /* Apply a bold font weight to the active link */
+            font-weight: bold; 
         }
 
 
-        /* Add more custom styles as needed */
 
         .navbar-nav .nav-link[href="{% url 'homepage' %}"],
         .navbar-nav .nav-link[href="{% url 'crop' %}"] {
@@ -87,15 +87,28 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a href="{% url 'homepage' %}" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'crop' %}" class="nav-link">Notice</a>
-                </li>
-                <!-- Add more navigation links as needed -->
+            <ul class="navbar-nav">
+            <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
+            <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
+            <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
+            <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
             </ul>
+        </div>
+        <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px;" >
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>{{ user.email }}</span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
+                
+                {% if user.is_authenticated %}
+                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
+
+                <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
+                {% else %}
+                <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
@@ -103,21 +116,20 @@
 
 
     <div class="main-wrapper">
-        
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h4 class="page-title"><b><i>My Profile</b></i></h4>
+                        <h4 class="page-title"><b><i>Edit Profile</b></i></h4>
                     </div>
                   {% comment %} <div class="col-sm-20 col-11 text-right m-b-30">
                         <a href="{% url 'patient_profile' %}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Edit Profile</a>
                     </div>
                 </div> {% endcomment %}
-        <form method="post" enctype="multipart/form-data">
+                <form method="post" action="" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}  
                     <div class="card-box">
-                        <h3 class="card-title">Basic Informations</h3>
+                        <h3 class="card-title" style="color:black;"><b>Basic Informations</b></h3>
                         <div class="row">
                             <div class="col-md-12">
                                 {% comment %} <div class="profile-img-wrap">
@@ -134,19 +146,19 @@
                                 <div class="profile-basic">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label><b>First Name  </b></label>
+                                            <label style="color:black;"><b>First Name  </b></label>
                                             <div class="form-group form-focus"> 
                                                 {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name" id="first_name">
+                                                <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name" id="first_name" style="border-radius:10px;">
                                                 <small id="firstNameError" class="form-text text-danger"></small></div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label><b>Last Name</b></label>
+                                            <label style="color:black;"><b>Last Name</b></label>
                                             <div class="form-group form-focus"> 
                                                 {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
                                                 {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
-                                               <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name">
+                                               <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name" style="border-radius:10px;">
                                                <small id="lastNameError" class="form-text text-danger"></small>
                                             </div>
                                         </div>
@@ -158,16 +170,16 @@
                                             </div>
                                      </div>      {% endcomment %}
                                         <div class="col-md-6">
-                                            <label><b>Email</b></label>
+                                            <label style="color:black;"><b>Email</b></label>
                                             <div class="form-group form-focus"> 
                                                 
                                                 {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.email }}" name="email">
+                                                <input type="text" class="form-control floating" value="{{ profile.email }}" name="email"style="border-radius:10px;">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="focus-label"><b>Gender</b></label>
+                                            <label class="focus-label" style="color:black;"><b>Gender</b></label>
                                             <div class="form-group form-focus select-focus">
                                                 <select class="select form-control floating" name="gender" required>
                                                     <option value="" disabled selected>-Select Gender-</option>
@@ -185,16 +197,16 @@
                                                 {% comment %} <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
                                             </div> {% endcomment %}
                                             <div class="col-md-6">
-                                                <label><b>Annual Income</b></label>
+                                                <label style="color:black;"><b>Annual Income</b></label>
                                                 <div class="form-group form-focus">
-                                                    <input type="number" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income" id="annual_income">
+                                                    <input type="number" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income" id="annual_income" style="border-radius:10px;">
                                                     <small id="annualIncomeError" class="form-text text-danger"></small>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label><b>Amount of land</b></label>
+                                                <label style="color:black;"><b>Amount of land</b></label>
                                                 <div class="form-group form-focus">
-                                                    <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land">
+                                                    <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land" style="border-radius:10px;">
                                                     <small id="landError" class="form-text text-danger"></small>
                                                 </div>
                                             </div>
@@ -204,7 +216,7 @@
                         </div>
                     </div>
                     <div class="card-box">
-                        <h3 class="card-title">Contact Informations</h3>
+                        <h3 class="card-title" style="color:black;"><b>Contact Informations</b></h3>
                         <div class="row">
                             {% comment %} <div class="col-md-6">
                                 <label>House Number</label>
@@ -215,52 +227,58 @@
                                 </div>
                             </div> {% endcomment %}
                             <div class="col-md-6">
-                                <label><b>House Number</b></label>
+                                <label style="color:black;"><b>House Number</b></label>
                                 <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no">
+                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no" style="border-radius:10px;">
                                     <small id="houseNoError" class="form-text text-danger"></small>
 
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label><b>Address </b> </label>
+                                <label style="color:black;"><b>Address </b> </label>
                                 <div class="form-group form-focus"> 
-                                    <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address">
+                                    <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address" style="border-radius:10px;">
                                     <small id="addressError" class="form-text text-danger"></small>
                                     {% comment %} <input type="text" class="form-control floating" value=" " name="address"> {% endcomment %}
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
-                                <label><b>Panchayat</b></label>
+                                <label style="color:black;"><b>Panchayat</b></label>
                                 <div class="form-group form-focus"> 
                                      
-                                    <input type="text" class="form-control floating" value="Erumely" name="state" readonly>
+                                    <input type="text" class="form-control floating" value="Erumely" name="state" readonly style="border-radius:10px;">
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label><b>Ward</b></label>
+                                <label style="color:black;"><b>Ward</b></label>
                                 <div class="form-group form-focus">
-                                    <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward">
+                                    <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward" style="border-radius:10px;">
                                     <small id="wardError" class="form-text text-danger"></small>
 
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label><b>Pin Code  </b></label>
+                                <label style="color:black;"><b>Pin Code  </b></label>
                                 <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code">
+                                    <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code" style="border-radius:10px;">
                                     {% comment %} <input type="text" class="form-control floating" value="" name="pin_code"> {% endcomment %}
                                     <small id="pinError" class="form-text text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label><b>Phone Number</b></label>
+                                <label style="color:black;"><b>Phone Number</b></label>
                                 <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number">
+                                    <input type="number" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number" style="border-radius:10px;">
                                     <small id="phoneError" class="form-text text-danger"></small>
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                   <label style="color:black;"><b>Profile Photo</b></label>
+                                       <input type="file" class="form-control" value="{{ profile.fprofile_photo }}" name="fprofile_photo" style="border-radius:10px;">
+                               </div>
+                           </div>
                         </div>
                     </div>
                     

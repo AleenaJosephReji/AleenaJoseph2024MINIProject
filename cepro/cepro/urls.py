@@ -35,6 +35,7 @@ urlpatterns = [
     path('crop',views.crop,name='crop'),
     path('apply/<int:crop_id>/',views.apply,name='apply'),
     path('applyerror',views.applyerror,name='applyerror'),
+    path('fmyprofile',views.fmyprofile,name='fmyprofile'),
 
     path('disapply',views.disapply,name='disapply'),
     path('ceditprofile',views.ceditprofile, name='ceditprofile'),

@@ -223,7 +223,7 @@ class FarmerProfile(models.Model):
     ward = models.CharField(max_length=100)
     pin_code = models.IntegerField(max_length=6,null=True,blank=True)
     file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
-
+    fprofile_photo = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     
     # current_diagnosis = models.CharField(max_length=100, null=True,blank=True)
     # past_med_condition = models.CharField(max_length=100, null=True,blank=True)
