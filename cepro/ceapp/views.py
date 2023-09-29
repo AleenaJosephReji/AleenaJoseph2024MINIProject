@@ -968,7 +968,7 @@ def apply(request,crop_id):
 
     return render(request, 'apply.html', {
     'crop_name': crop_name,
-    'existing_certification': existing_certification,'farmer_name': farmer_profile.first_name,  # Add these fields to the context
+    'existing_certification': existing_certification,'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name, # Add these fields to the context
         'farmer_address': farmer_profile.address,
         'farmer_phone_number': farmer_profile.phone_number,
         # 'farmer_phone_number': farmer_profile.contactNo,

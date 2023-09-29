@@ -14,25 +14,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <style>
-        {% comment %} body{
-        background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145));
-        }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            table, th, td {
-                border: 1px solid black;
-            }
-            th, td {
-                padding: 10px;
-                text-align: left;
-            }
-        {% endcomment %}
-
         body {
             font-family: Arial, sans-serif;
-            background-color: #bdfa5a;
+            background-color: #b3f59d;
+            {% comment %} background-image: url('{% static "img/img2.jfif" %}'); {% endcomment %}
+            {% comment %} background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed; {% endcomment %}
             margin: 0;
             padding: 0;
         }
@@ -47,6 +35,18 @@
 
             {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
 
+        }
+        .sidebar-menu li a {
+             color:black;
+            {% comment %} color:white; {% endcomment %}
+        }
+        .sidebar-menu li a:hover {
+            color:#88a60f;
+            {% comment %} color: white; {% endcomment %}
+        }
+        .sidebar-menu li.active a {
+            color:#88a60f;
+            background-color: #f3f3f3;
         }
         h1 {
             {% comment %} background-color: #3498db; {% endcomment %}
@@ -84,6 +84,15 @@
         tr:hover {
             background-color: #e0e0e0;
         }
+        .content
+        {
+            max-width: 880px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 2.7);
+            border-radius: 5px;
+        }
     </style>
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -110,64 +119,6 @@
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">
-												<img alt="John Doe" src="assets/img/user.jpg" class="img-fluid rounded-circle">
-											</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">V</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">L</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">G</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">V</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
                             </ul>
                         </div>
                         {% comment %} <div class="topnav-dropdown-footer">
@@ -208,7 +159,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Member</li>
+                        <li class="menu-title" style="color:black; font-weight:bold;">Member</li>
                         <li>
                             <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
@@ -229,6 +180,9 @@
                         </li> {% endcomment %}
                         <li>
                             <a href="{% url 'mapprove' %}"><i class="fa fa-calendar"></i> <span>Approved List</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'mpending' %}"><i class="fa fa-calendar"></i> <span>Pending List</span></a>
                         </li>
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
@@ -371,26 +325,29 @@
             </div>
         </div>
         <div class="page-wrapper">
+            <br>
             <div class="content">
+                <h1 style="color:black; font-weight:bold;">Crops List</h1>
                 <div class="row">
                     <div class="col-sm-5 col-5">
                         <h4 class="page-title"></h4>
                     </div>
-                    <h1>Crops List</h1>
     
-                    <table>
+                    <table style="color:black;">
                         <thead>
-                            <tr>
-                                <th>Crop Name</th>
-                                <th>Description</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
+                            <tr >
+                                <th  style="color:black;"><b>No</b></th>
+                                <th  style="color:black;"><b>Crop Name</b></th>
+                                <th  style="color:black;"><b>Description</b></th>
+                                <th  style="color:black;"><b>Start Date</b></th>
+                                <th  style="color:black;"><b>End Date</b></th>
 
                             </tr>
                         </thead>
                         <tbody>
                             {% for crop in crops %}
                                 <tr>
+                                    <td>{{ forloop.counter }}</td>
                                     <td>{{ crop.Namec }}</td>
                                     <td>{{ crop.des }}</td>
                                     <td>{{ crop.start_date }}</td>
