@@ -405,7 +405,7 @@
                         <th>Contact No</th>
                         <th>Ward No</th>
                         <th>Annual Income</th>
-                        <th>Status</th>
+                        {% comment %} <th>Status</th> {% endcomment %}
                     </tr>
                     {% for application in approved_applications %}
                     <tr>
@@ -415,9 +415,9 @@
                         <td>{{ application.contactNo }}</td>
                         <td>{{ application.wardNo }}</td>
                         <td>{{ application.AnnualIncome }}</td>
-                        <td>
+                        {% comment %} <td>
                             <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
-                        </td>
+                        </td> {% endcomment %}
                     </tr>
                     {% endfor %}
                     {% endif %}

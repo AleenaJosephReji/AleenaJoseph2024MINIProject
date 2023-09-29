@@ -9,12 +9,13 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 class UserManager(BaseUserManager):
    
-    def create_user(self, email, password=None, role=None):
+    def create_user(self, name, email, password=None, role=None):
         if not email:
          raise ValueError('User must have an email address')
 
         user = self.model(
             email=self.normalize_email(email),
+            name=name,
             role=role,
               # Set the role here
     )
@@ -23,11 +24,12 @@ class UserManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self,name, email, password=None):
         
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
+            name=name,
              # Set the role here
 
         )
@@ -55,6 +57,7 @@ class CustomUser(AbstractUser):
     first_name = None
     last_name = None
     USERNAME_FIELD = 'email'
+    name=models.CharField(max_length=50)
     email = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=128)
     

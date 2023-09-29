@@ -65,7 +65,7 @@ def loginn(request):
 
 def register(request):
     if request.method == "POST":
-        # name = request.POST['name']
+        name = request.POST['name']
         email = request.POST['email']
         # email = request.POST['email']
         password = request.POST['password']
@@ -81,7 +81,7 @@ def register(request):
             #     messages.info(request, 'Email already exists') 
             #     return redirect('register')
             else:
-                user = CustomUser.objects.create_user(email=email, password=password, role=role)
+                user = CustomUser.objects.create_user(email=email, password=password,name=name, role=role)
                 profile=FarmerProfile(user = user ,email = email)
                 profile.save()
                 user.save()
