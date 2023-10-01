@@ -393,9 +393,9 @@
                 </div>
             </div>
         </div>
-    <div class="container" style="padding-left:250px; padding-top:100px;">
-            <h1>Approved </h1>
-            {% if approved_applications %}
+        <div class="container" style="padding-left: 250px; padding-top: 100px;">
+            <h1>Approved</h1>
+            {% if combined_data %}
             <div class="details">
                 <table>
                     <tr>
@@ -403,26 +403,39 @@
                         <th>Farmer Name</th>
                         <th>Address</th>
                         <th>Contact No</th>
+                        <th>Land</td>
                         <th>Ward No</th>
                         <th>Annual Income</th>
-                        {% comment %} <th>Status</th> {% endcomment %}
+                        <th>Give Crop</th>
                     </tr>
-                    {% for application in approved_applications %}
+                    {% for application, crop in combined_data %}
                     <tr>
                         <td>{{ application.cname }}</td>
                         <td>{{ application.farmerName }}</td>
                         <td>{{ application.address }}</td>
                         <td>{{ application.contactNo }}</td>
+                        <td>{{ application.land }}</td>
                         <td>{{ application.wardNo }}</td>
                         <td>{{ application.AnnualIncome }}</td>
-                        {% comment %} <td>
-                            <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
-                        </td> {% endcomment %}
+                        <td>
+                            <form method="post" action="{% url 'reduce_crop_count' crop.id %}">
+                                {% csrf_token %}
+                                {% if not crop.given %}
+                                    <button type="submit" class="btn btn-primary">Give Crop</button>
+                                {% else %}
+                                    <div class="alert alert-success">Crop given successfully!</div>
+                                {% endif %}
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
-                    {% endif %}
                 </table>
             </div>
+            {% endif %}
+        </div>
+    
+
+           
         </div>
         
 
@@ -691,6 +704,7 @@
 		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
+    
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>

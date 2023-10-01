@@ -53,18 +53,22 @@
         border: 2px solid #337ab7; 
         border-radius: 5px; 
         padding: 2px 10px;
+        box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.6);
+
     }
 
 .custom-search-btn {
     background-color: #337ab7;
-    border: none; /* Remove button border */
-    border-radius: 5px; /* Round the button corners */
-    padding: 5px 10px; /* Add some padding to the button */
-    color: #fff; /* Text color */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #fff; 
 }
 
 .custom-search-btn:hover {
-    background-color: #235a94; /* Change button background color on hover */
+    background-color: #235a94; 
+    margin-left:40px;
+
 }
 
     </style> 
@@ -90,63 +94,7 @@
                         <div class="drop-scroll">
                             <ul class="notification-list">
 
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">
-												<img alt="John Doe" src="assets/img/user.jpg" class="img-fluid rounded-circle">
-											</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">V</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">L</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">G</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">V</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
+                                
                             </ul>
                         </div>
                         {% comment %} <div class="topnav-dropdown-footer">
@@ -392,7 +340,7 @@
                             <div class="col-md-12">
                                 <form id="search-form" method="GET" action="{% url 'search_crop' %}">
                                     <div class="input-group">
-                                        <a href="{% url 'adcrop' %}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
+                                        <a href="{% url 'adcrop' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
                                         <input type="text" class="form-control custom-search-input" name="cropname" placeholder="Search By Crop Name">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
@@ -408,7 +356,7 @@
                             {% for crop in crops %}
         
                             <div class="col-md-4">
-                                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);">
+                                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4); margin-left:40px;">
                                     <div class="dropdown profile-action">
                                         <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right">

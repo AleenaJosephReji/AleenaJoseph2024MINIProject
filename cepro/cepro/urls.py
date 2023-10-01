@@ -81,7 +81,9 @@ urlpatterns = [
     path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),
 
     path('search_crop', views.search_crop, name='search_crop'),
-
+    # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
+    path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
+    path('combined_details/', views.combined_details, name='combined_details'),
 
 
     path('mindex',views.mindex,name="mindex"),

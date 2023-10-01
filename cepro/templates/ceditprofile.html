@@ -204,7 +204,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label style="color:black;"><b>Amount of land</b></label>
+                                                <label style="color:black;"><b>Amount of land  (in cent )</b></label>
                                                 <div class="form-group form-focus">
                                                     <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land" style="border-radius:10px;">
                                                     <small id="landError" class="form-text text-danger"></small>
@@ -323,22 +323,18 @@
             var lastNameError = document.getElementById("lastNameError");
             const addressError = document.getElementById('addressError')
             var annualIncomeError = document.getElementById("annualIncomeError");
-            var landError = document.getElementById("landError");
+            {% comment %} var landError = document.getElementById("landError"); {% endcomment %}
             var houseNoError = document.getElementById("houseNoError");
             var wardError = document.getElementById("wardError");
             var pinError = document.getElementById("pinError");
             var phoneError = document.getElementById("phoneError");
 
-        
+          
 
             annualIncomeInput.addEventListener("input", function () {
                 validateAnnualIncome();
             });
         
-            // Function to validate amount of land as you type
-            landInput.addEventListener("input", function () {
-                validateLand();
-            });
             wardInput.addEventListener("input", function () {
                 validateWard();
             });
@@ -384,6 +380,25 @@
                 }
             });
 
+            document.addEventListener("DOMContentLoaded", function () {
+                const landInput = document.getElementById("land");
+                const landError = document.getElementById("landError");
+        
+                landInput.addEventListener("input", function () {
+                    // Regular expression to allow only digits and commas
+                    const regex = /^[0-9,]*$/;
+                    const inputValue = landInput.value;
+        
+                    if (!regex.test(inputValue)) {
+                        landError.textContent = "Only digits and commas are allowed.";
+                        landInput.classList.add("is-invalid");
+                    } else {
+                        landError.textContent = "";
+                        landInput.classList.remove("is-invalid");
+                    }
+                });
+            });
+
             function validateAddress() {
                 const addressValue = addressInput.value.trim();
         
@@ -413,17 +428,7 @@
         
             // Function to validate amount of land
            
-            function validateLand() {
-                const landValue = landInput.value.trim();
-                const regex = /^[\d,\.]+$/; // Allows numbers, commas, and decimal points
-            
-                if (!regex.test(landValue)) {
-                    landError.textContent = "Only numbers, decimal points, and commas are allowed.";
-                } else {
-                    landError.textContent = "";
-                }
-            }
-
+           
 
             function validateWard() {
                 const ward = wardInput.value.trim();

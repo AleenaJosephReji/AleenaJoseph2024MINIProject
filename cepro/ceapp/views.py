@@ -375,7 +375,7 @@ def edit_member(request, member_id):
         member.district = district
         member.taluk = taluk
         member.Panchayat = panchayat
-        member.ward = ward
+        member.wardno = ward
         member.postal = postal
         member.phone = phone
         member.bio = bio
@@ -496,47 +496,21 @@ def meditprofile(request):
         # user.first_name=request.POST.get('first_name')
         # user.last_name=request.POST.get('last_name')
         # Process the form data and save/update the profile
-
         mem.Name = request.POST.get('name')
-        
         mem.email = request.POST.get('email')
-       
         # mem.gender = request.POST.get('gender')
-        
-
         # mem.date_of_birth = request.POST.get('dob')
-        
-
-        # mem.date_of_join = request.POST.get('doj')
-        
-
+        # mem.date_of_join = request.POST.get('doj')        
         mem.address = request.POST.get('address')
-       
         mem.district = request.POST.get('dis')
-
-        mem.ward = request.POST.get('ward')
-        
-
+        mem.wardno = request.POST.get('ward')
         mem.postal = request.POST.get('pin')
-        
-
         mem.phone = request.POST.get('phone')
-       
-
         mem.Panchayat = request.POST.get('panchayat')
-        
-
         mem.phone = request.POST.get('phone')
-        
-        new_profile_pic = request.FILES.get('profile_pic')
-
-        if new_profile_pic:
-            # Save the profile photo to a specific directory
-            fs = FileSystemStorage()
-            filename = fs.save(f"profile_pics/{new_profile_pic.name}", new_profile_pic)
-            mem.new_profile_pic = filename       
-        mem.save()
-        messages.success(request, 'Profile updated successfully.')
+        mem.amob = request.POST.get('amob')
+        profile_photo = request.FILES.get('profile_photo')
+        mem.profile_photo = profile_photo
         return redirect('meditprofile')  # Redirect to the profile page
     context = {
         'user': user,
@@ -948,6 +922,7 @@ def apply(request,crop_id):
         phone_number = request.POST.get('phone_number')
         wardNo  = request.POST.get('wardno')
         annualIncome  = request.POST.get('annualIncome')
+        land = request.POST.get('land')
         file_upload = request.FILES.get('file_upload')
         
         crop=Crop.objects.filter(id=crop_id)
@@ -959,6 +934,7 @@ def apply(request,crop_id):
         obj.contactNo= phone_number
         obj.wardNo = wardNo
         obj.crop_id=crop[0]
+        obj.land = land
         obj.AnnualIncome = annualIncome
         obj .file_upload = file_upload
         obj.save()
@@ -971,11 +947,9 @@ def apply(request,crop_id):
     'existing_certification': existing_certification,'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name, # Add these fields to the context
         'farmer_address': farmer_profile.address,
         'farmer_phone_number': farmer_profile.phone_number,
-        # 'farmer_phone_number': farmer_profile.contactNo,
         'farmer_ward': farmer_profile.ward, 
-
         'farmer_annual_income': farmer_profile.annual_income,
-        # 'farmer_file_upload' : farmer.
+        'farmer_land' : farmer_profile.land,
         'farmer_file_upload' : farmer_profile.file_upload
      
     })
@@ -1166,6 +1140,9 @@ def mapprove(request):
 #     pending_details = ApplyCrop.objects.filter(approved=False)
 #     return render(request, 'membertemp/mapprove.html', {'details': pending_details})
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import ApplyCrop, Crop
+
 def adpendingapproval(request):
     # Retrieve the approved details from your model or database
     approved_details = ApplyCrop.objects.filter(is_approved='approved')
@@ -1174,6 +1151,12 @@ def adpendingapproval(request):
         # Handle the approve request
         certification_id = request.POST.get('certification_id')
         certification = get_object_or_404(ApplyCrop, id=certification_id)
+        
+        # Reduce the count of the associated Crop by 1
+        if certification.crop:
+            certification.crop.count -= 1
+            certification.crop.save()
+        
         certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'waiting' or the appropriate status
         certification.save()
 
@@ -1225,7 +1208,9 @@ def adpendingapproval(request):
 
 def adapproval(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
-    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details})
+    crops = Crop.objects.all()
+    combined_data = zip(approved_details, crops)
+    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details ,'combined_data' : combined_data })
     # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
     # # Pass the data to the template
     # context = {'pending_details': pending_details}
@@ -1329,3 +1314,24 @@ def adpendinglist(request):
 #         'pending_details': pending_details,
 #     }
 #     return render(request, 'admintemp/adpendinglist.html', context)
+
+def reduce_crop_count(request, crop_id):
+    try:
+        crop = Crop.objects.get(id=crop_id)
+        # Reduce the crop count by 1 (or by your desired amount)
+        crop.count -= 1
+        crop.given = True  # Mark the crop as given
+        crop.save()
+    except Crop.DoesNotExist:
+        pass  # Handle the case where the crop doesn't exist
+
+    return redirect('adapproval')
+
+def combined_details(request):
+    approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
+    all_crops = Crop.objects.all()
+
+    return render(request, 'admintemp/adapproval2.html', {
+        'approved_applications': approved_details,
+        'crops': all_crops,
+    })

@@ -128,7 +128,7 @@ class Crop(models.Model):
     count = models.PositiveIntegerField(default=0)
     # count = models.CharField(max_length=100,null=True, blank=True)
     crop_photo = models.ImageField(upload_to='crop_photos/', blank=True, null=True)
-
+    given = models.BooleanField(default=False)
 
     # available = models.BooleanField(default=False)
     # not_available = models.BooleanField(default=False)
@@ -181,6 +181,7 @@ class ApplyCrop(models.Model):
     contactNo = models .CharField(max_length=100,null=True,blank=True)
     wardNo = models .CharField(max_length=100,null=True,blank=True)
     AnnualIncome = models .IntegerField(null=True,blank=True)
+    land = models .CharField(max_length=100,null=True,blank=True)
     crop_id=models.ForeignKey(Crop, on_delete=models.CASCADE, null=True,default=1)
     file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
     is_approved = models.CharField(
@@ -219,7 +220,6 @@ class FarmerProfile(models.Model):
     # house_name = models.CharField(max_length=100, null=True,blank=True)
     annual_income = models.IntegerField(max_length=100, null=True,blank=True)
     land = models.CharField(max_length=100, null=True,blank=True)
-
     house_no = models.IntegerField(max_length=100, null=True,blank=True)
     address = models.CharField(max_length=255,null=True,blank=True)
     phone_number = models.IntegerField(max_length=12,null=True,blank=True)

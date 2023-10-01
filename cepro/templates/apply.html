@@ -19,7 +19,7 @@
             margin: 0 auto;
             background-color: #fff;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
             border-radius: 5px;
         }
 
@@ -93,8 +93,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
-                <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a>
-                
+                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
+                <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
                 {% comment %} <li>
                     <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
                 </li> {% endcomment %}
@@ -109,7 +111,7 @@
             <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
                 
                 {% if user.is_authenticated %}
-                <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
+                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
 
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
@@ -150,22 +152,22 @@
         <h1>Apply for Crop</h1>
         <form method="POST" action="" autocomplete="off" id="apply"  enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="cropName">Crop Name</label>
+            <div class="col-md-6">
+                <label for="cropName" style="color:black;">Crop Name</label>
                 <input type="text" id="cname" name="cname" value="{{ crop_name }}" readonly>
             </div>
-            <div class="form-group">
-                <label for="farmerName">Farmer Name</label>
+            <div class="col-md-6">
+                <label for="farmerName" style="color:black;">Farmer Name</label>
                 <input type="text" id="farmerName" name="farmerName" placeholder="Enter Name"  value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
                 <small id="nameError" class="form-text text-danger"></small>
             </div>
-            <div class="form-group">
-                <label for="address">Address</label>
+            <div class="col-md-6">
+                <label for="address" style="color:black;">Address</label>
                 <input type="text" id="address" name="address" placeholder="Enter Address" value="{{ farmer_address }}" required readonly>
                 <small id="addressError" class="form-text text-danger"></small>
             </div>
             <div class="col-md-6">
-                <label>Ward</label>
+                <label for="wardNo" style="color:black;">Ward </label>
                 <div class="form-group form-focus">
                     <input type="text" id="wardno" name="wardno" placeholder="Enter Ward Number" value="{{ farmer_ward }}" required readonly>
                     {% comment %} <input type="text" id= "ward"class="form-control floating" value="{{ farmer_ward }}" name="ward" required readonly> {% endcomment %}
@@ -173,7 +175,7 @@
             </div>
             
             <div class="col-md-6">
-                <label>Phone Number</label>
+                <label for="phone" style="color:black;">Phone </label>
                 <div class="form-group form-focus">
                     <input type="text" id="phone_number" name="phone_number" placeholder="Enter Phone Number" value="{{ farmer_phone_number }}" required readonly>
                     {% comment %} <input type="text" id="phone_number" class="form-control floating" value="{{ farmer_phone_number }}" name="phone_number" required readonly> {% endcomment %}
@@ -190,15 +192,21 @@
                 <input type="text" id="wardNo" name="wardNo" placeholder="Enter Ward No" value="{{ farmer_ward }}" required>
                 <small id="wardNoError" class="form-text text-danger"></small>
             </div> {% endcomment %}
-            <div class="form-group">
-                <label for="wardNo">Annual Income</label>
+            <div class="col-md-6">
+                <label for="annualIncome" style="color:black;">Annual Income </label>
                 <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Annual Income" value="{{ farmer_annual_income }}" required readonly>
                 <small id="annualIncomeError" class="form-text text-danger"></small>
             </div>
-         
+            <div class="col-md-6">
+                <label for="land" style="color:black;">Amount of Land  (in cent )</label>
+                <div class="form-group form-focus">
+                    <input type="text" class="form-control floating" value="{{ farmer_land }}" name="land" id="land" style="border-radius:10px;" readonly>
+                    <small id="landError" class="form-text text-danger"></small>
+                </div>
+            </div>
 
-            <div class="form-group">
-                <label for="file_upload">Upload File</label>
+            <div class="col-md-6">
+                <label for="file_upload" style="color:black;">Upload File</label>
                 <input type="file" name="file_upload" id="file_upload" value="{{ farmer_file_upload }}">
             </div>
 
