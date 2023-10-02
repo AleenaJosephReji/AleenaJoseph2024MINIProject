@@ -233,7 +233,11 @@ def application(request):
 def mindex(request):
     fe=ApplyCrop.objects.all()
     fe_count=fe.count()
-    context={'fe':fe,'fe_count':fe_count}
+    approve = ApplyCrop.objects.filter(is_approved='approved')
+    approve_count = approve.count()
+    pendings = ApplyCrop.objects.filter(is_approved='waiting')
+    pendings_count = pendings.count()
+    context={'fe':fe,'fe_count':fe_count ,'approve':approve ,'approve_count': approve_count, 'pendings':pendings ,'pendings_count':pendings_count}
 
     return render(request,'membertemp/mindex.html',context)
 def mblog(request):
@@ -1314,18 +1318,37 @@ def adpendinglist(request):
 #         'pending_details': pending_details,
 #     }
 #     return render(request, 'admintemp/adpendinglist.html', context)
+from django.db import transaction
 
-def reduce_crop_count(request, crop_id):
-    try:
-        crop = Crop.objects.get(id=crop_id)
-        # Reduce the crop count by 1 (or by your desired amount)
-        crop.count -= 1
-        crop.given = True  # Mark the crop as given
-        crop.save()
-    except Crop.DoesNotExist:
-        pass  # Handle the case where the crop doesn't exist
+# def reduce_crop_count(request, crop_id):
+#     try:
+#         crop = Crop.objects.get(id=crop_id)
+#         # Reduce the crop count by 1 (or by your desired amount)
+#         crop.count -= 1
+#         crop.given = True  # Mark the crop as given
+#         crop.save()
+#     except Crop.DoesNotExist:
+#         pass  # Handle the case where the crop doesn't exist
 
-    return redirect('adapproval')
+#     return redirect('adapproval')
+
+def reduce_crop_count(request):
+    if request.method == 'POST':
+        crop_name = request.POST.get('crop_name')
+        
+        # Replace 'name' with the actual field name representing the crop name in your model
+        try:
+            crop = Crop.objects.get(Namec=crop_name)
+            if crop.count > 0:
+                crop.count -= 1
+                
+                crop.save()
+        
+        except Crop.DoesNotExist:
+            pass
+
+    return redirect('adapproval') 
+
 
 def combined_details(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')

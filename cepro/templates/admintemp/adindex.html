@@ -43,7 +43,20 @@
             color: green;
             background-color: #f3f3f3;
         }
-      
+        .table{
+            
+            width:100px;
+
+        }
+        card
+        {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+
+        }
+        .card member-panel
+        {
+            margin-left:40px;
+        }
     </style> 
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -392,7 +405,7 @@
                         </div>
                     </div>
                 </div> {% endcomment %}
-				<div class="row">
+				{% comment %} <div class="row"> {% endcomment %}
 					{% comment %}<div class="col-12 col-md-6 col-lg-6 col-xl-6">
 						<div class="card">
 							<div class="card-body">
@@ -421,21 +434,38 @@
 						</div>
 					</div> {% endcomment %}
 				{% comment %} </div> {% endcomment %}
-				{% comment %} <div class="row">
+				<div class="row">
 					<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 						<div class="card">
 							<div class="card-header">
-								<h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="{% url 'adappointment' %}" class="btn btn-primary float-right">View all</a>
+								<h4 class="card-title d-inline-block">Crop List</h4> <a href="{% url 'adcrop' %}" class="btn btn-primary float-right">View all</a>
 							</div>
 							<div class="card-body p-0">
 								<div class="table-responsive">
                                     
-									<table class="table mb-0">
-										<thead class="d-none">
-											<tr>
-												<th>Farmer Name</th>
-												<th>Ward</th>
-												<th>Timing</th> {% endcomment %}
+                                    <table class="table mb-0">
+                                        <thead class="d-none">
+                                            <tr>
+                                                <th>Crop Name</th>
+                                                <th>Crop Count</th>
+                                                <th> Approve</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for crop in crops %}
+                                            <tr>
+                                                <td>{{ crop.Namec }}</td>
+                                                <td>{{ crop.count }}</td>
+                                                 {% comment %} <td>
+                                                    <form method="post" action="{% url 'reduce_crop_count' crop.id %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-primary">Reduce Count</button>
+                                                    </form>
+                                                </td> {% endcomment %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table> 
 												{% comment %} <th class="text-right">Status</th>
 											</tr>
 										</thead>
@@ -524,45 +554,23 @@
 												{% comment %} <td class="text-right">
 													<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
 												</td> {% endcomment %}
-											</tr>
-										</tbody>
-									</table>
-
-                                    <table class="table mb-0">
-                                        <thead class="d-none">
-                                            <tr>
-                                                <th>Crop Name</th>
-                                                <th>Crop Count</th>
-                                                <th> Approve</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for crop in crops %}
-                                            <tr>
-                                                <td>{{ crop.Namec }}</td>
-                                                <td>{{ crop.count }}</td>
-                                                 {% comment %} <td>
-                                                    <form method="post" action="{% url 'reduce_crop_count' crop.id %}">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-primary">Reduce Count</button>
-                                                    </form>
-                                                </td> {% endcomment %}
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                                               
+											
                                     
                                     
-                                    
+                                        </div>
+                                    </div>
 								</div>
 							</div>
 						</div>
 					</div>
+                    <div class="card-footer text-center bg-white">
+                        
                     <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                         <div class="card member-panel">
 							<div class="card-header bg-white">
 								<h4 class="card-title mb-0">Members</h4>
-							</div>
+							</div> 
                             {% comment %} {% for member in members %}
                             <h4 class="doctor-name text-ellipsis"><a href="profile.html"> {{ member.Name }}</a></h4>
                             <p class="card-text">Email: {{ member.email }}</p>
@@ -643,9 +651,7 @@
                             </li>
                                 </ul>
                             </div> {% endcomment %}
-                            <div class="card-footer text-center bg-white">
-                                
-                                
+                            
                                 <a href="{% url 'admember' %}" class="text-muted">View all Membes</a>
                             </div>
                         </div>

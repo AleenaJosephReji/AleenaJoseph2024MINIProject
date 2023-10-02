@@ -54,7 +54,7 @@
                 margin: 0 auto;
                 background-color: #fff;
                 padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
                 border-radius: 5px;
             }
     
@@ -401,24 +401,24 @@
                 </div>
                 
                 <div class="container">
-                    <h1>Approved list</h1>
+                    <h1 style="color:black; font-weight:bold;">Approved list</h1>
                     <div class="details">
                         {% if pending_details %}
                             <table>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Crop Name</th>
-                                    <th>Farmer Name</th>
-                                    <th>Contact No</th>
-                                    <th>Ward No</th>
+                                    <th style="color:black;"><b>No</b></th>
+                                    <th style="color:black;"><b>Crop Name</b></th>
+                                    <th style="color:black;"><b>Farmer Name</b></th>
+                                    <th style="color:black;"><b>Contact No</b></th>
+                                    <th style="color:black;"><b>Ward No</b></th>
                                 </tr>
                                 {% for application in pending_details %}
                                     <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ application.cname }}</td>
-                                        <td>{{ application.farmerName }}</td>
-                                        <td>{{ application.contactNo }}</td>
-                                        <td>{{ application.wardNo }}</td>
+                                        <td style="color:black;">{{ forloop.counter }}</td>
+                                        <td style="color:black;">{{ application.cname }}</td>
+                                        <td style="color:black;">{{ application.farmerName }}</td>
+                                        <td style="color:black;">{{ application.contactNo }}</td>
+                                        <td style="color:black;">{{ application.wardNo }}</td>
                                     </tr>
                                 {% endfor %}
                             </table>

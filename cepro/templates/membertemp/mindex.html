@@ -303,7 +303,7 @@
                         <div class="dash-widget">
                             <span class="dash-widget-bg3"><i class="fa fa-user-o" aria-hidden="true"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3>452</h3>
+                                <h3>{{approve_count}}</h3>
                                 <span class="widget-title3">Approved <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
@@ -313,12 +313,12 @@
                         <div class="dash-widget">
                             <span class="dash-widget-bg4"><i class="fa fa-user-o" aria-hidden="true"></i></span>
                             <div class="dash-widget-info text-right">
-                                <h3>215</h3>
-                                <span class="widget-title4">Collected<i class="fa fa-check" aria-hidden="true"></i></span>
+                                <h3>{{pendings_count}}</h3>
+                                <span class="widget-title4">Pending<i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                    {% comment %} <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">
 							<span class="dash-widget-bg1"><i class="fa fa-user-o" aria-hidden="true"></i></span>
 							<div class="dash-widget-info text-right">
@@ -326,7 +326,7 @@
 								<span class="widget-title1">pending <i class="fa fa-check" aria-hidden="true"></i></span>
 							</div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
 				{% comment %} <div class="row">
 					<div class="col-12 col-md-6 col-lg-6 col-xl-6">

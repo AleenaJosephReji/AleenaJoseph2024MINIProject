@@ -403,7 +403,7 @@
                         <th>Farmer Name</th>
                         <th>Address</th>
                         <th>Contact No</th>
-                        <th>Land</td>
+                        <th>Land</th>
                         <th>Ward No</th>
                         <th>Annual Income</th>
                         <th>Give Crop</th>
@@ -418,13 +418,10 @@
                         <td>{{ application.wardNo }}</td>
                         <td>{{ application.AnnualIncome }}</td>
                         <td>
-                            <form method="post" action="{% url 'reduce_crop_count' crop.id %}">
+                            <form method="post" action="{% url 'reduce_crop_count' %}">
                                 {% csrf_token %}
-                                {% if not crop.given %}
-                                    <button type="submit" class="btn btn-primary">Give Crop</button>
-                                {% else %}
-                                    <div class="alert alert-success">Crop given successfully!</div>
-                                {% endif %}
+                                <input type="hidden" name="crop_name" value="{{ application.cname }}">
+                                <button type="submit">Give Crop</button>
                             </form>
                         </td>
                     </tr>
@@ -433,8 +430,7 @@
             </div>
             {% endif %}
         </div>
-    
-
+        
            
         </div>
         
