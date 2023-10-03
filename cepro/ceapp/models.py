@@ -112,6 +112,7 @@ class Member(models.Model):
     phone = models.IntegerField()
     bio=models.TextField()
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.email
 # class Crop(models.Model):

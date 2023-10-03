@@ -299,7 +299,8 @@ def adaddblog(request):
 from django.shortcuts import render, redirect
 from .models import Crop  # Import your Crop model
 def admember(request):
-    members = Member.objects.all()
+    members = Member.objects.filter(is_active=True)
+    
     return render(request, 'admintemp/admember.html', {'members': members})
 def adaddmember(request):
     # user=None
@@ -329,7 +330,7 @@ def adaddmember(request):
                 messages.info(request, 'Email already exists') 
                 return redirect('adaddmember')
         else:
-                user = CustomUser.objects.create_user(email=email, password=password)
+                user = CustomUser.objects.create_user(email=email, password=password ,name=name)
                 user.role = CustomUser.MEMBER
                 user.save()
                 mem = Member(user=user,Name=name,email=email,address=address,district=dis,taluk=taluk,Panchayat=panchayat,wardname=wardname,wardno=wardno,postal=pin,phone=phone,bio=bio,profile_photo=profile_photo)
@@ -401,12 +402,16 @@ def delete_member(request, member_id):
 
     if request.method == 'POST':
         # Delete the member object
-        member.delete()
-        
+        member.is_active = False
+        member.save()
+        request.session['delete mem'] = True
         # Redirect to a page after deleting the member (e.g., member list)
         return redirect('admember')
 
     return render(request, 'admintemp/delete_member.html', {'member': member})
+
+
+
 
 # def cprofile(request):
 #     return render(request, 'cprofile.html')
@@ -1025,7 +1030,10 @@ from django.shortcuts import render
 from .models import ApplyCrop  # Import your model
 
 def mfregistered(request):
-    pending_details = ApplyCrop.objects.all()
+    user = request.user
+    profile = Member.objects.get(user=user)
+    print(profile.wardno)
+    pending_details = ApplyCrop.objects.filter(wardNo=profile.wardno)
     user_roles = {}
     for application in pending_details:
         # Ensure the user associated with the Certification exists
