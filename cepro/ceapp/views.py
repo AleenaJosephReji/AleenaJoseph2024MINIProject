@@ -1340,22 +1340,47 @@ from django.db import transaction
 
 #     return redirect('adapproval')
 
+from django.shortcuts import render, redirect
+from .models import Crop, ApplyCrop
+
 def reduce_crop_count(request):
     if request.method == 'POST':
         crop_name = request.POST.get('crop_name')
-        
-        # Replace 'name' with the actual field name representing the crop name in your model
+
         try:
-            crop = Crop.objects.get(Namec=crop_name)
-            if crop.count > 0:
-                crop.count -= 1
-                
-                crop.save()
-        
-        except Crop.DoesNotExist:
+            # Use filter instead of get to retrieve a queryset
+            queryset = ApplyCrop.objects.filter(cname=crop_name)
+            land_value = None
+
+            if queryset.exists():
+                # If there are multiple matching objects, choose one (you can specify the logic)
+                # For example, you can choose the first one in the queryset
+                land_value_str = queryset.first().land
+
+                # Convert land_value to an integer
+                land_value = int(land_value_str)
+
+            reduction_amount = 0
+
+            if land_value is not None:
+                if land_value <= 50:
+                    reduction_amount = 20
+                elif 50 < land_value <= 100:
+                    reduction_amount = 40
+                elif 100 < land_value <= 150:
+                    reduction_amount = 60
+
+            if reduction_amount > 0:
+                crop = Crop.objects.get(Namec=crop_name)
+                if crop.count >= reduction_amount:
+                    crop.count -= reduction_amount
+                    crop.save()
+
+        except (Crop.DoesNotExist, ApplyCrop.DoesNotExist, ValueError):
             pass
 
-    return redirect('adapproval') 
+    return redirect('adapproval')
+
 
 
 def combined_details(request):
