@@ -74,6 +74,43 @@
         {
             color:black;
         }
+        /* Styling for the profile form */
+.profile-form {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Styling for form headings */
+.form-heading {
+    font-size: 20px;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Styling for required field labels */
+.form-group label span.text-danger {
+    color: red;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
     </style>
 </head>
 
@@ -166,148 +203,125 @@
                         <h4 class="page-title"><b><i>Edit Profile</i></b></h4>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <form method="POST" action="" autocomplete="off">
-                        <div class="basic">
-                            {% comment %} <div class="doctor-img">
-                                <a class="avatar" href="#"><img alt="" src="{{ member.profile_photo.url }}"></a>
-                            </div> {% endcomment %}
-                            <label style="color:black;font-weight:bold;"> Basic Information </label>
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Name <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ member.Name }}" style="border-radius:10px;" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="email">Email <span class="text-danger"></span></label>
-                                        <input type="email" class="form-control" id="email" name="email" value="{{ member.email }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="address">Address</label>
-                                        <textarea class="form-control" id="address" name="address">{{ member.address }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="dob">Date of Birth</label>
-                                        <input type="date" class="form-control" id="dob" name="dob" value="{{ member.date_of_birth }}">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="district">District</label>
-                                        <input type="text" class="form-control" id="district" name="district" value="{{ member.district }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="taluk">Taluk</label>
-                                        <input type="text" class="form-control" id="taluk" name="taluk" value="{{ member.taluk }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="panchayat">Panchayath</label>
-                                        <input type="text" class="form-control" id="panchayat" name="panchayat" value="{{ member.Panchayat }}" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="contact">
-                                <label style="color:black;font-weight:bold;" > Contact Information </label>
-                                <div class="row">
-                                
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="ward">Ward</label>
-                                        <input type="text" class="form-control" id="ward" name="ward" value="{{ member.wardno }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="postal">Postal Code</label>
-                                        <input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="tel" class="form-control" id="phone" name="phone" value="{{ member.phone }}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="amob">Alternate Mobile Number</label>
-                                        <input type="tel" class="form-control" id="amob" name="amob">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="aemail">Alternate Email</label>
-                                        <input type="text" class="form-control" id="aemail" name="aemail">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                                <div class="education">
-                                    <label style="color:black; font-weight:bold;"> Educational Information </label>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <form method="POST" action="" autocomplete="off">
+                                <div class="profile-form">
+                                    <!-- Basic Information -->
+                                    <h2 class="form-heading">Basic Information</h2>
+                                    {% csrf_token %}
                                     <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="degree">Highest Degree</label>
-                                            <input type="text" class="form-control" id="degree" name="degree">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="name" name="name" value="{{ member.Name }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">Email <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" id="email" name="email" value="{{ member.email }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea class="form-control" id="address" name="address">{{ member.address }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="dob">Date of Birth</label>
+                                                <input type="date" class="form-control" id="dob" name="dob" value="{{ member.dob }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="district">District</label>
+                                                <input type="text" class="form-control" id="district" name="district" value="{{ member.district }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="taluk">Taluk</label>
+                                                <input type="text" class="form-control" id="taluk" name="taluk" value="{{ member.taluk }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="panchayat">Panchayath</label>
+                                                <input type="text" class="form-control" id="panchayat" name="panchayat" value="{{ member.Panchayat }}" readonly>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="institution">Institution</label>
-                                            <input type="text" class="form-control" id="institution" name="institution">
+                                    <!-- Contact Information -->
+                                    <h2 class="form-heading">Contact Information</h2>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="ward">Ward</label>
+                                                <input type="text" class="form-control" id="ward" name="ward" value="{{ member.wardno }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="postal">Postal Code</label>
+                                                <input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phone">Phone</label>
+                                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ member.phone }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="amob">Alternate Mobile Number</label>
+                                                <input type="tel" class="form-control" id="amob" name="amob" value="{{ member.amob }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="aemail">Alternate Email</label>
+                                                <input type="text" class="form-control" id="aemail" name="aemail" value="{{ member.aemail }}">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                </div>
-                                {% comment %} <div class="work">
-                                    <label style="color:black; font-weight:bold;">Work Experiance </label>
+                                    <!-- Educational Information -->
+                                    <h2 class="form-heading">Educational Information</h2>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="degree">Highest Degree</label>
-                                                <input type="text" class="form-control" id="degree" name="degree">
+                                                <input type="text" class="form-control" id="degree" name="degree" value="{{ member.degree }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="institution">Institution</label>
-                                                <input type="text" class="form-control" id="institution" name="institution">
+                                                <input type="text" class="form-control" id="institution" name="institution" value="{{ member.institution }}">
                                             </div>
                                         </div>
-                                    </div> {% endcomment %}
-
-                                </div>
-                                <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="bio">Short Biography</label>
-                                        <textarea class="form-control" id="bio" name="bio">{{ member.bio }}</textarea>
+                                    </div>
+                                    <!-- Short Biography -->
+                                    <h2 class="form-heading">Short Biography</h2>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="bio">Short Biography</label>
+                                                <textarea class="form-control" id="bio" name="bio">{{ member.bio }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
+                            </form>
                         </div>
-                        </form>
-                        
                     </div>
-                </div>
-            </div>
 
                 </div>
             </div>

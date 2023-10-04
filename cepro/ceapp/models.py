@@ -100,7 +100,7 @@ class Member(models.Model):
 
 
 
-    # date_of_birth = models.CharField(max_length=100,null=True, blank=True)
+    dob = models.CharField(max_length=100,null=True, blank=True)
     # gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     address = models.TextField()
     district= models.CharField(max_length=100,null=True, blank=True)
@@ -112,6 +112,15 @@ class Member(models.Model):
     phone = models.IntegerField()
     bio=models.TextField()
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+
+
+    amob = models.IntegerField(max_length=100,null=True, blank=True)
+    aemail = models.CharField(max_length=255, null=True, blank=True)
+    degree = models.CharField(max_length=255, null=True, blank=True)
+    institution = models.CharField(max_length=255, null=True,blank=True)
+
+
+
     is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.email

@@ -129,7 +129,7 @@
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
 						<li>
-                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user" id="memind"></i> <span>Members</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
@@ -175,7 +175,7 @@
                             </ul>
                         </li>  
                         <li>
-                            <a href="#"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
+                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
                         </li>
                         
 

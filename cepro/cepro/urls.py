@@ -76,6 +76,8 @@ urlpatterns = [
     path('adsettings',views.adsettings,name='adsettings'),
     path('adpendinglist',views.adpendinglist,name='adpendinglist'),
     path('adpendingapproval',views.adpendingapproval,name='adpendingapproval'),
+    path('adreport',views.adreport,name='adreport'),
+
 
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
     path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),

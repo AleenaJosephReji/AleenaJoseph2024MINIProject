@@ -517,13 +517,21 @@ def meditprofile(request):
         mem.phone = request.POST.get('phone')
         mem.Panchayat = request.POST.get('panchayat')
         mem.phone = request.POST.get('phone')
-        mem.amob = request.POST.get('amob')
         profile_photo = request.FILES.get('profile_photo')
         mem.profile_photo = profile_photo
+        
+        mem.amob = request.POST.get('amob')
+        mem.aemail = request.POST.get('aemail')
+        mem.dob = request.POST.get('dob')
+        mem.degree = request.POST.get('degree')
+        mem.institution = request.POST.get('institution')
+
+        mem.save()
+        # mem.amob = request.POST.get()
         return redirect('meditprofile')  # Redirect to the profile page
     context = {
         'user': user,
-        'asha': mem
+        'mem': mem
     }
 
     return render(request, 'membertemp/meditprofle.html',context)
@@ -539,7 +547,6 @@ def meditprofile(request):
 def meditprofile(request):
    
     user = request.user
-
     # profile1 = FarmerProfile.objects.get(user=user)
     member, created = Member.objects.get_or_create(user=user)
     
@@ -551,48 +558,41 @@ def meditprofile(request):
 
         member.name = request.POST.get('name')
         print("name :",member.name)
-        
-        
-       
-        
         # profile1.last_name = request.POST.get('last_name')
         # print("last name :",profile1.last_name)
-        
-        # profile.birth_date = request.POST.get('birth_date')
-        # print("Date of Birth :",profile.birth_date)
-     
         member.email = request.POST.get('email')
         print("email name :",member.email)
-
-        
         member.gender = request.POST.get('gender')
         print("gender :",member.gender)
-
         # profile1.annual_income = request.POST.get('annual_income')
         # print("annual income  :",profile1.annual_income)
         # profile1.land = request.POST.get('land')
         # print("land :",profile1.land)
-
         # profile.house_name = request.POST.get('house_name')
         # print("house name :",profile.house_name)
-
         # profile1.house_no = request.POST.get('house_no')
         # print("house no :",profile1.house_no)
-
         member.address = request.POST.get('address')
         print("adsress :",member.address)
-
         member.ward = request.POST.get('ward')
         print("ward :",member.ward)
-
         member.postal = request.POST.get('postal')
         print("pin code :",member.postal)
-
         member.phone = request.POST.get('phone')
         print("phone :",member.phone)
 
-        # profile.phone_number = request.POST.get('phone_number')
 
+        member.dob = request.POST.get('dob')
+        print("Date of Birth :",member.dob)
+        member.amob = request.POST.get('amob')
+        print("amob :",member.amob)
+        member.aemail = request.POST.get('aemail')
+        print("aemail :",member.aemail)
+        member.degree = request.POST.get('degree')
+        print("degree :",member.degree)
+        member.institution = request.POST.get('institution')
+        print("institution :",member.institution)
+        # profile.phone_number = request.POST.get('phone_number')
         member.save()
         
 
@@ -605,109 +605,6 @@ def meditprofile(request):
 
     return render(request, 'membertemp/meditprofile.html',context)
 
-
-
-
-# def membereditprofile(request):
-    
-#     user = request.user
-#     profile = MemberProfile.objects.get(user=user)
-
-#     # profile = get_object_or_404(MemberProfile, user=user)
-#     # profile = MemberProfile.objects.get(user=user)
-    
-#     if request.method == "POST":
-#         print ('POST')
-#         user.name=request.POST.get('name')
-#         # user.last_name=request.POST.get('last_name')
-#         # Process the form data and save/update the profile
-
-#         profile.name = request.POST.get('name')
-#         print("first name :",profile.name)
-        
-        
-       
-        
-#         # profile.last_name = request.POST.get('last_name')
-#         # print("last name :",profile.last_name)
-        
-#         profile.age = request.POST.get('age')
-#         print("Date of Birth :",profile.age)
-     
-#         profile.email = request.POST.get('email')
-#         print("email name :",profile.email)
-
-        
-#         profile.gender = request.POST.get('gender')
-#         print("gender :",profile.gender)
-
-        # profile.annual_income = request.POST.get('annual_income')
-        # print("annual income  :",profile.annual_income)
-        # profile.land = request.POST.get('land')
-        # print("land :",profile.land)
-
-        # profile.house_name = request.POST.get('house_name')
-        # print("house name :",profile.house_name)
-
-        # profile.house_no = request.POST.get('house_no')
-        # print("house no :",profile.house_no)
-
-    #     profile.address = request.POST.get('address')
-    #     print("adsress :",profile.address)
-
-    #     profile.ward = request.POST.get('ward')
-    #     print("ward :",profile.ward)
-
-    #     profile.pin_code = request.POST.get('pin_code')
-    #     print("pin code :",profile.pin_code)
-
-    #     profile.phone_number = request.POST.get('phone_number')
-    #     print("phone :",profile.phone_number)
-
-    #     # profile.phone_number = request.POST.get('phone_number')
-
-    #     profile.save()
-        
-            
-
-    #     # messages.success(request, 'Profile updated successfully.')
-    #     return redirect('membereditprofile')  # Redirect to the profile page
-    # context = {
-    #     'user': user,
-    #     'profile': profile
-    # }
-
-    # return render(request, 'membertemp/membereditprofile.html',context)
-
-
-
-
-# def membereditprofile(request):
-#     user = request.user
-
-#     try:
-#         # Attempt to retrieve the user's MemberProfile
-#         profile = MemberProfile.objects.get(user=user)
-#     except MemberProfile.DoesNotExist:
-#         # If the profile does not exist, create a new one for the user
-#         profile = MemberProfile(user=user)
-
-#     if request.method == "POST":
-#         # Process the form data and save/update the profile
-#         profile.name = request.POST.get('name')
-#         profile.age = request.POST.get('age')
-#         # ... (other fields)
-
-#         profile.save()
-
-#         return redirect('membereditprofile')  # Redirect to the profile page
-
-#     context = {
-#         'user': user,
-#         'profile': profile
-#     }
-
-#     return render(request, 'membertemp/membereditprofile.html', context)
 # add_crop
 
 from django.shortcuts import render, redirect
@@ -1391,3 +1288,23 @@ def combined_details(request):
         'approved_applications': approved_details,
         'crops': all_crops,
     })
+from django.shortcuts import render
+from .models import ApplyCrop, Crop
+
+def adreport(request):
+    # Fetch approved details and all crops
+    approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
+    crops = Crop.objects.all()
+
+    # Create a dictionary to store data by crop name
+    data_by_crop = {}
+
+    # Group approved details by crop name
+    for application in approved_details:
+        crop_name = application.cname
+        if crop_name not in data_by_crop:
+            data_by_crop[crop_name] = []
+
+        data_by_crop[crop_name].append(application)
+
+    return render(request, 'admintemp/adreport.html', {'data_by_crop': data_by_crop, 'crops': crops})

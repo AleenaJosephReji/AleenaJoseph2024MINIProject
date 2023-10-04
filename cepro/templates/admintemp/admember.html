@@ -352,10 +352,10 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-4 col-3">
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Members List</b></i></u></h4>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="memberlist"><b><i><u>Members List</b></i></u></h4>
                     </div>
                     <div class="col-sm-8 col-9 text-right m-b-20">
-                        <a href="{% url 'adaddmember' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="fa fa-plus"></i> Add Member</a>
+                        <a href="{% url 'adaddmember' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="fa fa-plus" id="addmem"></i> Add Member</a>
                     </div>
                     
                 </div>
@@ -366,9 +366,9 @@
 
                     <div class="col-md-4 col-sm-4  col-lg-3">
                         <div class="profile-widget">
-                             <div class="doctor-img">
+                             {% comment %} <div class="doctor-img">
                                 <a class="avatar" href="#"><img alt="" src="{{ member.profile_photo.url }}"></a>
-                               </div> 
+                               </div>  {% endcomment %}
                             {% comment %} <div class="doctor-img">
                                 <a class="avatar" href="profile.html"><img alt="" src="assets/img/doctor-thumb-03.jpg"></a>
                             </div> {% endcomment %}
