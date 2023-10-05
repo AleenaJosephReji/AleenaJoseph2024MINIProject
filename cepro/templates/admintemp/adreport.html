@@ -51,30 +51,33 @@
         .details {
             display: inline-block;
             vertical-align: top;
-            width: 45%; /* Adjust the width as needed */
+            width: 80%;
             margin: 10px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            margin-left:60px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-left:100px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
         }
 
         table {
-            margin-left:80px;
-            width: 80%;
+            margin-left:40px;
+            width: 20%;
             border-collapse: collapse;
             margin-top: 10px;
         }
 
         th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            padding: 20px;
+            {% comment %} text-align: left; {% endcomment %}
+            border: 1px solid black;
+            color:black;
+
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: green;
+            color:white;
         }
 
         .no-details {
@@ -165,34 +168,18 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
-                        </li> {% endcomment %}
+                       
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span>Approved</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
-                        </li>
-                        <li class"active">
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li>  {% endcomment %}
-                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                       
+                        <li class="submenu green-background"> 
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
                                 <li>
                                     <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
                                 </li>
-                                <li class='active'>
+                                <li>
                                     <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                                 </li>
                                 <li>
@@ -200,206 +187,71 @@
                                 </li>
                             </ul>
                         </li>   
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="employees.html">Employees List</a></li>
-								<li><a href="leaves.html">Leaves</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a href="attendance.html">Attendance</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="invoices.html">Invoices</a></li>
-								<li><a href="payments.html">Payments</a></li>
-								<li><a href="expenses.html">Expenses</a></li>
-								<li><a href="taxes.html">Taxes</a></li>
-								<li><a href="provident-fund.html">Provident Fund</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
-								<li><a href="salary-view.html"> Payslip </a></li>
-							</ul>
-						</li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
+						
+                        <li class="active">
+                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
                         </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="voice-call.html">Voice Call</a></li>
-                                <li><a href="video-call.html">Video Call</a></li>
-                                <li><a href="incoming-call.html">Incoming Call</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
-                                <li><a href="{% url 'adinbox' %}">Inbox</a></li> 
-                                <li><a href="{% url 'admailview' %}">Mail View</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adblog' %}">Blog</a></li> 
-                                <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> 
-                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li> 
-                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> 
-                            </ul>
-                        </li> {% endcomment %}
-						{% comment %} <li>
-							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li>
-						<li>
-							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
-						</li> {% endcomment %}
-						<li class="submenu">
-							{% comment %} <a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a> {% endcomment %}
-							{% comment %} <ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul> {% endcomment %}
-						</li> 
-                        {% comment %} <li>
-                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="menu-title">UI Elements</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="uikit.html">UI Kit</a></li>
-                                <li><a href="typography.html">Typography</a></li>
-                                <li><a href="tabs.html">Tabs</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
-                                <li><a href="form-input-groups.html">Input Groups</a></li>
-                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
-                                <li><a href="form-vertical.html">Vertical Form</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="tables-basic.html">Basic Tables</a></li>
-                                <li><a href="tables-datatables.html">Data Table</a></li>
-                            </ul>
-                        </li> {% endcomment %}
+						
+						{% comment %} <li class="submenu">
+							
+						</li>  {% endcomment %}
+                        
+                       
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>
-                        {% comment %} <li class="menu-title">Extras</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="login.html"> Login </a></li>
-                                <li><a href="register.html"> Register </a></li>
-                                <li><a href="forgot-password.html"> Forgot Password </a></li>
-                                <li><a href="change-password2.html"> Change Password </a></li>
-                                <li><a href="lock-screen.html"> Lock Screen </a></li>
-                                <li><a href="profile.html"> Profile </a></li>
-                                <li><a href="gallery.html"> Gallery </a></li>
-                                <li><a href="error-404.html">404 Error </a></li>
-                                <li><a href="error-500.html">500 Error </a></li>
-                                <li><a href="blank-page.html"> Blank Page </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul style="display: none;">
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"><span>Level 1</span></a>
-                                </li>
-                            </ul>
-                        </li> {% endcomment %}
+                      
                     </ul>
                 </div>
             </div>
         </div>
         <div class="container">
-            <h1>Approved</h1>
-            
+            <br><br><br>
+            <br>
+            <h1 style="color:black;">Report</h1>
+        
             {% for crop_name, approved_list in data_by_crop.items %}
             <div class="details">
-                <h2 style="margin-left:60px;">{{ crop_name }}</h2>
+                <h2 style="margin-left:60px; color:black; font-weight:bold;">{{ crop_name }}</h2>
                 <table>
                     <tr>
+                        <th>No</th>
                         <th>Farmer Name</th>
                         <th>Address</th>
                         <th>Contact No</th>
                         <th>Ward No</th>
-                        {% comment %} <th>Annual Income</th> {% endcomment %}
+                        <th>Annual Income</th>
+                        <th>Land</th>
+                        <th>Crop Count</th>
+                        <th>Date</th>
                         <!-- Add more headers as needed -->
                     </tr>
                     {% for application in approved_list %}
                     <tr>
+                        <td>{{ forloop.counter }}</td>
                         <td>{{ application.farmerName }}</td>
                         <td>{{ application.address }}</td>
                         <td>{{ application.contactNo }}</td>
                         <td>{{ application.wardNo }}</td>
-                        {% comment %} <td>{{ application.AnnualIncome }}</td> {% endcomment %}
+                        <td>{{ application.AnnualIncome }}</td>
+                        <td>{{ application.land }}</td>
+                        <td>
+                            {% if application.land < 50 %}
+                                20
+                            {% elif application.land >= 50 and application.land < 100 %}
+                                40
+                            {% else %}
+                                60
+                            {% endif %}
+                        </td>
+                        <td></td>
                         <!-- Add more data columns as needed -->
                     </tr>
                     {% endfor %}
                 </table>
             </div>
             {% endfor %}
-            
         </div>
-
-
-                            {% comment %} <div class="details">
-                                {% if pending_details %}
-                                    <table>
-                                        <tr>
-                                            <th style="color: white;">No</th>
-                                            <th style="color: white;">Crop Name</th>
-                                            <th style="color: white;">Farmer Name</th>
-                                            <th style="color: white;">Contact No</th>
-                                           
-                                        </tr>
-                                        {% for application in pending_details %}
-                                            <tr>
-                                                <td>{{ forloop.counter }}</td>
-                                                <td>{{ application.cname }}</td>
-                                                <td>{{ application.farmerName }}</td>
-                                                <td>{{ application.contactNo }}</td>
-
-                                            </tr>
-                                                {% endfor %}
-                                            </table>
-                                        {% else %}
-                                            <p>No details available.</p>
-                                        {% endif %}
-                                    </div>
-                                </div> {% endcomment %}
-										{% comment %} <th>Status</th>
-										<th class="text-right">Action</th> {% endcomment %}
 									</tr>
 								</thead>
 								{% comment %} <tbody>
@@ -432,201 +284,6 @@
                     </div>
                     <div class="drop-scroll msg-list-scroll" id="msg_list">
                         <ul class="list-box">
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
                         </ul>
                     </div>
                     {% comment %} <div class="topnav-dropdown-footer">

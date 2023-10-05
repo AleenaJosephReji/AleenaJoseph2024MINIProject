@@ -131,6 +131,14 @@ class Member(models.Model):
 #     not_available = models.BooleanField(default=False)
 
 class Crop(models.Model):
+    APPROVED = 'approved'
+    PENDING = 'pending'
+    
+    APPROVAL_CHOICES = [
+    (APPROVED, 'Approved'),
+    (PENDING, 'Pending'),
+    ]
+   
     Namec = models.CharField(max_length=100)
     des = models.TextField()
     start_date = models.DateField(null=True, blank=True)
@@ -138,12 +146,17 @@ class Crop(models.Model):
     count = models.PositiveIntegerField(default=0)
     # count = models.CharField(max_length=100,null=True, blank=True)
     crop_photo = models.ImageField(upload_to='crop_photos/', blank=True, null=True)
-    given = models.BooleanField(default=False)
+    is_approved = models.CharField(
+        max_length=10,
+        choices=APPROVAL_CHOICES,
+        default=PENDING,
+    )
 
     # available = models.BooleanField(default=False)
     # not_available = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     current = models.BooleanField(default=False)
+   
 
 
 

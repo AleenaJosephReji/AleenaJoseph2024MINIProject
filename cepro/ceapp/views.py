@@ -231,11 +231,14 @@ def application(request):
 
 
 def mindex(request):
-    fe=ApplyCrop.objects.all()
+    user = request.user
+    profile = Member.objects.get(user=user)
+    print(profile.wardno)
+    fe=ApplyCrop.objects.filter(wardNo=profile.wardno)
     fe_count=fe.count()
-    approve = ApplyCrop.objects.filter(is_approved='approved')
+    approve = ApplyCrop.objects.filter(is_approved='approved', wardNo=profile.wardno)
     approve_count = approve.count()
-    pendings = ApplyCrop.objects.filter(is_approved='waiting')
+    pendings = ApplyCrop.objects.filter(is_approved='waiting', wardNo=profile.wardno)
     pendings_count = pendings.count()
     context={'fe':fe,'fe_count':fe_count ,'approve':approve ,'approve_count': approve_count, 'pendings':pendings ,'pendings_count':pendings_count}
 
@@ -1118,8 +1121,17 @@ def adpendingapproval(request):
 def adapproval(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
     crops = Crop.objects.all()
+    # existing_review = ApplyCrop.objects.filter(user=approved_details.user, crop=approved_details.crop_id).first()
+
+    # if existing_review:
+    #         # You can handle the case where the user has already reviewed this seller
+    #         # For example, you can display an error message or redirect them to a different page.
+    #         review_status = 'reviewed'
+    # else:
+    #         review_status = 'pending'
+
     combined_data = zip(approved_details, crops)
-    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details ,'combined_data' : combined_data })
+    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details ,'combined_data' : combined_data})
     # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
     # # Pass the data to the template
     # context = {'pending_details': pending_details}
@@ -1139,7 +1151,7 @@ def adapproval(request):
 #     return render(request,'membertemp/mfregistered.html',{details : details})
 
 
-
+#search
 from django.shortcuts import render
 from .models import Crop
 
@@ -1154,7 +1166,16 @@ def search_crop(request):
     
     return render(request, 'admintemp/adcrop.html', {'crops': crops, 'cropname': cropname})
 
+def search_member(request):
+    membername = request.GET.get('membername', '')
+    # crops = Crop.objects.filter(Namec__icontains=cropname)
 
+    if membername:
+        members = Member.objects.filter(Name__icontains=membername)
+    else:
+        members = Member.objects.all()
+    
+    return render(request, 'admintemp/admember.html', {'members': members, 'membername': membername})
 from django.http import JsonResponse
 def mpending(request):
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')  # Adjust the filter condition as needed
@@ -1240,10 +1261,9 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from .models import Crop, ApplyCrop
 
-def reduce_crop_count(request):
+def reduce_crop_count(request, crop_id):
     if request.method == 'POST':
         crop_name = request.POST.get('crop_name')
-
         try:
             # Use filter instead of get to retrieve a queryset
             queryset = ApplyCrop.objects.filter(cname=crop_name)
@@ -1271,6 +1291,7 @@ def reduce_crop_count(request):
                 crop = Crop.objects.get(Namec=crop_name)
                 if crop.count >= reduction_amount:
                     crop.count -= reduction_amount
+                    crop.is_approved = Crop.APPROVED
                     crop.save()
 
         except (Crop.DoesNotExist, ApplyCrop.DoesNotExist, ValueError):
@@ -1290,6 +1311,26 @@ def combined_details(request):
     })
 from django.shortcuts import render
 from .models import ApplyCrop, Crop
+
+# def adreport(request):
+#     # Fetch approved details and all crops
+#     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
+#     crops = Crop.objects.all()
+
+#     # Create a dictionary to store data by crop name
+#     data_by_crop = {}
+
+#     # Group approved details by crop name
+#     for application in approved_details:
+#         crop_name = application.cname
+#         if crop_name not in data_by_crop:
+#             data_by_crop[crop_name] = []
+
+#         data_by_crop[crop_name].append(application)
+
+#     return render(request, 'admintemp/adreport.html', {'data_by_crop': data_by_crop, 'crops': crops})
+
+
 
 def adreport(request):
     # Fetch approved details and all crops

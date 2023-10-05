@@ -19,53 +19,70 @@
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #bdfa5a;
-            margin: 0;
-            padding: 0;
-        }
-        .header
-        {
-            background-color:#88a60f;
-
-        }
-        .header .header-left 
-        {
-            background-color:#88a60f;
-
-            {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
-
-        }
+        
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #b3f59d;
+                {% comment %} background-image: url('{% static "img/img2.jfif" %}'); {% endcomment %}
+                {% comment %} background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed; {% endcomment %}
+                margin: 0;
+                padding: 0;
+            }
+            .header
+            {
+                background-color:#88a60f;
+    
+            }
+            .header .header-left 
+            {
+                background-color:#88a60f;
+    
+                {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
+    
+            }
+            .sidebar-menu li a {
+                 color:black;
+                {% comment %} color:white; {% endcomment %}
+            }
+            .sidebar-menu li a:hover {
+                color:#88a60f;
+                {% comment %} color: white; {% endcomment %}
+            }
+            .sidebar-menu li.active a {
+                color:#88a60f;
+                background-color: #f3f3f3;
+            }
         .container {
-            background-color: #fff; /* Container background color */
+            background-color: #fff;
             padding: 20px;
-            border-radius: 5px; /* Add rounded corners */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); 
         }
     
         .form-control {
-            border: 1px solid #ccc; /* Add a border to form inputs */
+            border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 3px;
         }
     
         .btn-primary {
-            background-color: #007bff; /* Button color */
-            color: #fff; /* Button text color */
+            background-color: #007bff; 
+            color: #fff;
             border: none;
             padding: 10px 20px;
             border-radius: 3px;
-            transition: background-color 0.3s; /* Add a hover effect */
+            transition: background-color 0.3s;
         }
     
         .btn-primary:hover {
-            background-color: #0056b3; /* Darker color on hover */
+            background-color: #0056b3; 
         }
         .form-control {
-            border: 4px solid #ccc; /* Add a border to form inputs */
-            border-width: 1px; /* Reduce the border width */
+            border: 4px solid #ccc; 
+            border-width: 1px;
             padding: 10px;
             margin-bottom: 10px;
             border-radius:10px;
@@ -74,43 +91,51 @@
         {
             color:black;
         }
-        /* Styling for the profile form */
-.profile-form {
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
+       
+        .profile-form {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
 
-/* Styling for form headings */
-.form-heading {
-    font-size: 20px;
-    color: #333;
-    margin-top: 20px;
-}
+        .form-heading {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
 
-/* Styling for required field labels */
-.form-group label span.text-danger {
-    color: red;
-}
+        .form-group label span.text-danger {
+            color: red;
+        }
 
-.form-control {
-    border-radius: 10px;
-}
+        .form-control {
+            border-radius: 10px;
+        }
 
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-}
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .profile-form
+        {
 
+            background-color: #b3f59d;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
+
+        }
+        .form-group{
+            color:black;
+            font-weight:bold;
+        }
     </style>
 </head>
 
@@ -209,18 +234,18 @@
                             <form method="POST" action="" autocomplete="off">
                                 <div class="profile-form">
                                     <!-- Basic Information -->
-                                    <h2 class="form-heading">Basic Information</h2>
+                                    <h2 class="form-heading" style="color:brown; font-weight:bold;">Basic Information</h2>
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="name">Name <span class="text-danger">*</span></label>
+                                                <label for="name">Name <span class="text-danger"></span></label>
                                                 <input type="text" class="form-control" id="name" name="name" value="{{ member.Name }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="email">Email <span class="text-danger">*</span></label>
+                                                <label for="email">Email <span class="text-danger"></span></label>
                                                 <input type="email" class="form-control" id="email" name="email" value="{{ member.email }}" readonly>
                                             </div>
                                         </div>
@@ -256,7 +281,7 @@
                                         </div>
                                     </div>
                                     <!-- Contact Information -->
-                                    <h2 class="form-heading">Contact Information</h2>
+                                    <h2 class="form-heading" style="color:brown;font-weight:bold">Contact Information</h2>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -290,7 +315,7 @@
                                         </div>
                                     </div>
                                     <!-- Educational Information -->
-                                    <h2 class="form-heading">Educational Information</h2>
+                                    <h2 class="form-heading" style="color:brown;font-weight:bold">Educational Information</h2>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -306,7 +331,7 @@
                                         </div>
                                     </div>
                                     <!-- Short Biography -->
-                                    <h2 class="form-heading">Short Biography</h2>
+                                    <h2 class="form-heading" style="color:brown;font-weight:bold">Short Biography</h2>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">

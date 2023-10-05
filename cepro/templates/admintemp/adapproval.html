@@ -193,7 +193,11 @@
                                     <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
-                        </li>   
+                        </li>  
+                        
+                        <li>
+                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
+                        </li>
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
@@ -348,6 +352,7 @@
                         <th>Land</th>
                         <th>Ward No</th>
                         <th>Annual Income</th>
+                        {% comment %} <th>status</th> {% endcomment %}
                         <th>Give Crop</th>
                         {% comment %} <th> Status </th> {% endcomment %}
                     </tr>
@@ -360,12 +365,24 @@
                         <td>{{ application.land }}</td>
                         <td>{{ application.wardNo }}</td>
                         <td>{{ application.AnnualIncome }}</td>
+                        
+                        {% comment %} <td>
+                            {% if crop.given == 'given' %}
+                            <span class="text-success" style="font-weight: bolder; font-size: large;">gven</span>
+                            {% endif %}
+                        </td> {% endcomment %}
                         <td>
-                            <form method="post" action="{% url 'reduce_crop_count' %}">
+                            
+                            {% if crop.is_approved == 'pending' %}
+                            <form method="post" action="{% url 'reduce_crop_count' crop.id %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="crop_name" value="{{ application.cname }}">
                                 <button type="submit">Give Crop</button>
                             </form>
+                            {% else %}
+                            <p>Approved</p>
+                            {% endif %}
+                            
                         </td>
                         {% comment %} <td>
                             {% if crop.given %}

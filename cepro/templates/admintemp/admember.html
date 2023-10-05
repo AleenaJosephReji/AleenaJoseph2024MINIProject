@@ -205,6 +205,10 @@
                                 </li>
                             </ul>
                         </li>    
+
+                        <li>
+                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
+                        </li>
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span></span></a>
                         </li> {% endcomment %}
@@ -359,7 +363,22 @@
                     </div>
                     
                 </div>
-
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="search-form" method="GET" action="{% url 'search_member' %}">
+                            <div class="input-group">
+                                <a href="{% url 'admember' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
+                                <input type="text" class="form-control custom-search-input" name="membername" placeholder="Search By Member Name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        
+              
+                    </div>
+                </div><br><br>
+                
                 <div class="row doctor-grid">
                 
                     {% for member in members %}
