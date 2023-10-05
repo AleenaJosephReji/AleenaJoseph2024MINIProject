@@ -1121,6 +1121,8 @@ def adpendingapproval(request):
 def adapproval(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
     crops = Crop.objects.all()
+    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details, 'crops': crops })
+
     # existing_review = ApplyCrop.objects.filter(user=approved_details.user, crop=approved_details.crop_id).first()
 
     # if existing_review:
@@ -1130,8 +1132,8 @@ def adapproval(request):
     # else:
     #         review_status = 'pending'
 
-    combined_data = zip(approved_details, crops)
-    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details ,'combined_data' : combined_data})
+    # combined_data = zip(approved_details, crops)
+    # return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details ,'combined_data' : combined_data})
     # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
     # # Pass the data to the template
     # context = {'pending_details': pending_details}
@@ -1261,7 +1263,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from .models import Crop, ApplyCrop
 
-def reduce_crop_count(request, crop_id):
+def reduce_crop_count(request):
     if request.method == 'POST':
         crop_name = request.POST.get('crop_name')
         try:
@@ -1349,3 +1351,27 @@ def adreport(request):
         data_by_crop[crop_name].append(application)
 
     return render(request, 'admintemp/adreport.html', {'data_by_crop': data_by_crop, 'crops': crops})
+
+
+#meeting
+from django.shortcuts import render, redirect
+from .models import Meeting
+from django.contrib import messages
+
+def admeeting(request):
+    meetings = Meeting.objects.all()  # Retrieve all meetings from the database
+    return render(request, 'admintemp/admeeting.html', {'meetings': meetings})
+def adaddmeeting(request):
+    if request.method == 'POST':
+        meeting_date = request.POST.get('meeting_date')
+        meeting_time = request.POST.get('meeting_time')
+        desmeeting = request.POST.get('desmeeting')
+        meeting = Meeting(
+            meeting_date=meeting_date,
+            meeting_time=meeting_time,
+            desmeeting=desmeeting
+        )
+        meeting.save()
+        messages.success(request, 'Meeting created successfully.')
+        return redirect('adaddmeeting')  
+    return render(request,'admintemp/adaddmeeting.html')

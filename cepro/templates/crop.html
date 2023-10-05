@@ -165,19 +165,24 @@
                     </td>
                     {% comment %} <td>
                         {% if crop.start_date <= today and crop.end_date >= today %}
-                            <a href="{% url 'apply' crop.id %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>
-                        {% else %}
-                            <label class="text-danger">Not Available</label>
-                        {% endif %}
-                    </td> {% endcomment %}
-                    <td>
-                        {% if crop.start_date <= today and crop.end_date >= today %}
                             <a href="{% url 'apply' crop.id %}?crop_name={{ crop.Namec }}" class="apply-button-green" id="apply">Apply</a>                       
                         {% else %}
                            <label class="text-danger">Not Available</label>
                             <a href="#" class="apply-button" style="background-color: red;">Apply</a>
                         {% endif %}
+                    </td> {% endcomment %}
+                    <td>
+                        {% if crop.start_date <= today and crop.end_date >= today %}
+                            <form method="get" action="{% url 'apply' crop.id %}">
+                                <input type="hidden" name="crop_name" value="{{ crop.Namec }}">
+                                <button type="submit" class="btn btn-success">Apply</button>
+                            </form>
+                        {% else %}
+                            <label class="text-danger">Not Available</label>
+                            <button type="button" class="btn btn-danger" disabled>Apply</button>
+                        {% endif %}
                     </td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>

@@ -77,6 +77,8 @@ urlpatterns = [
     path('adpendinglist',views.adpendinglist,name='adpendinglist'),
     path('adpendingapproval',views.adpendingapproval,name='adpendingapproval'),
     path('adreport',views.adreport,name='adreport'),
+    path('admeeting',views.admeeting,name='admeeting'),
+    path('adaddmeeting',views.adaddmeeting,name='adaddmeeting'),
 
 
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
@@ -89,7 +91,7 @@ urlpatterns = [
     # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
     path('combined_details/', views.combined_details, name='combined_details'),
 
-    path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
+    path('reduce_crop_count', views.reduce_crop_count, name='reduce_crop_count'),
 
     path('mindex',views.mindex,name="mindex"),
     path('mblog',views.mblog,name="mblog"),

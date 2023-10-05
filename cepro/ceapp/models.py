@@ -225,12 +225,6 @@ class ApplyCrop(models.Model):
 
     # approved = models.BooleanField(default=False)
 
-
-
-
-
-
-
 class FarmerProfile(models.Model):
     
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
@@ -265,6 +259,16 @@ class FarmerProfile(models.Model):
     
     def _str_(self):
         return self.first_name
+
+class Meeting(models.Model):
+    meeting_date = models.DateField(null=True, blank=True)
+    meeting_time = models.TimeField(null=True,blank=True)
+    desmeeting = models.TextField()
+
+
+
+
+
 
 class MemberProfile(models.Model):
     

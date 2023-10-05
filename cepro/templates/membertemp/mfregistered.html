@@ -318,6 +318,8 @@
                                 <th style="color:black;"><b>Annual Income </b></th>
                                 <th style="color:black;"><b>Status</b></th>
                                 <th style="color:black;"><b>Approve</b></th>
+                                <th style="color:black;"><b>File</b></th>
+
                             </tr>
                             {% for application in pending_details %}
                             <tr>
@@ -396,6 +398,13 @@
                                     {% endif %}
                                     {% endif %}
                                     {% endwith %}
+                                </td>
+                                <td>
+                                    {% if application.file_upload %}
+                                    <a href="{{ application.file_upload.url }}" target="_blank">Download File</a>
+                                    {% else %}
+                                    No File
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
