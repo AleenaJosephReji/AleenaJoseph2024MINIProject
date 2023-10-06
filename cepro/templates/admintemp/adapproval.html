@@ -152,7 +152,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Admin</li>
+                        <li class="menu-title" style="color:#c9edbe; font-weight:bold;">Admin</li>
                         <li>
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
@@ -197,7 +197,6 @@
         </div>
         <div class="container" style="padding-left: 250px; padding-top: 100px;">
             <h1>Approved</h1>
-            {% if approved_applications %}
             <div class="details">
                 <table>
                     <tr>
@@ -208,7 +207,9 @@
                         <th>Land</th>
                         <th>Ward No</th>
                         <th>Annual Income</th>
+                        {% comment %} <th>status</th> {% endcomment %}
                         <th>Give Crop</th>
+                        {% comment %} <th> Status </th> {% endcomment %}
                     </tr>
                     {% for application in approved_applications %}
                     <tr>
@@ -219,9 +220,16 @@
                         <td>{{ application.land }}</td>
                         <td>{{ application.wardNo }}</td>
                         <td>{{ application.AnnualIncome }}</td>
+                        
+                        {% comment %} <td>
+                            {% if crop.given == 'given' %}
+                            <span class="text-success" style="font-weight: bolder; font-size: large;">gven</span>
+                            {% endif %}
+                        </td> {% endcomment %}
                         <td>
-                            {% if crop.is_approved == 'pending' %}
-                            <form method="post" action="{% url 'reduce_crop_count' %}">
+                            
+                         {% if application.is_given == 'notgiven' %}
+                            <form method="post" action="{% url 'reduce_crop_count' application.id %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="crop_name" value="{{ application.cname }}">
                                 <button type="submit">Give Crop</button>
@@ -229,12 +237,22 @@
                             {% else %}
                             <p>Approved</p>
                             {% endif %}
+                            
                         </td>
+                        {% comment %} <td>
+                            {% if crop.given %}
+                            <span class="status-given">Given</span>
+                        {% else %}
+                            <span class="status-not-given">Not Given</span>
+                        {% endif %}
+                        </td> {% endcomment %}
                     </tr>
                     {% endfor %}
                 </table>
             </div>
-            {% endif %}
+        </div>
+        
+           
         </div>
         
 

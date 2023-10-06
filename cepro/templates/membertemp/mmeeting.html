@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Latest Meetings</title>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="content">
+            <h1>Latest Meetings</h1>
+            <h2>Meetings:</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Most Recently Added Meeting</td>
+                        <td>{{ latest_added_meeting.meeting_date }}</td>
+                        <td>{{ latest_added_meeting.meeting_time }}</td>
+                        <td>{{ latest_added_meeting.desmeeting }}</td>
+                    </tr>
+                    <tr>
+                        <td>Most Recently Edited Meeting</td>
+                        <td>{{ latest_edited_meeting.meeting_date }}</td>
+                        <td>{{ latest_edited_meeting.meeting_time }}</td>
+                        <td>{{ latest_edited_meeting.desmeeting }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

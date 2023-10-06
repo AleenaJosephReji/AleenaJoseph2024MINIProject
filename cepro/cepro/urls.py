@@ -79,6 +79,8 @@ urlpatterns = [
     path('adreport',views.adreport,name='adreport'),
     path('admeeting',views.admeeting,name='admeeting'),
     path('adaddmeeting',views.adaddmeeting,name='adaddmeeting'),
+    path('edit_meeting/<int:meeting_id>/', views.edit_meeting, name='edit_meeting'),
+    # path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
 
 
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
@@ -91,7 +93,7 @@ urlpatterns = [
     # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
     path('combined_details/', views.combined_details, name='combined_details'),
 
-    path('reduce_crop_count', views.reduce_crop_count, name='reduce_crop_count'),
+    path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
 
     path('mindex',views.mindex,name="mindex"),
     path('mblog',views.mblog,name="mblog"),
@@ -102,6 +104,9 @@ urlpatterns = [
     path('meditprofile',views.meditprofile,name='meditprofile'),
     path('mfregistered',views.mfregistered,name='mfregistered'),
     path("mapprove", views.mapprove, name="mapprove"),
+    path('mmeeting', views.mmeeting, name='mmeeting'),
+
+
     path('approve_certification/<int:certification_id>/', views.approve_certification, name='approve_certification'),
     path('reject_certification/<int:certification_id>/', views.reject_certification, name='reject_certification'),
     # path('pending_certification/<int:certification_id>/', views.pending_certification, name='pending_certification'),

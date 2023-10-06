@@ -161,7 +161,7 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title">Admin</li>
+                        <li class="menu-title" style="color:#c9edbe; font-weight:bold;">Admin</li>
                         <li>
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
@@ -236,15 +236,15 @@
                         <td>{{ application.AnnualIncome }}</td>
                         <td>{{ application.land }}</td>
                         <td>
-                            {% if application.land < 50 %}
-                                20
+                            {% if application.land > 100 %}
+                                60
                             {% elif application.land >= 50 and application.land < 100 %}
                                 40
                             {% else %}
-                                60
+                                20
                             {% endif %}
                         </td>
-                        <td></td>
+                        <td>{{ application.crop_giventime }}</td>
                         <!-- Add more data columns as needed -->
                     </tr>
                     {% endfor %}

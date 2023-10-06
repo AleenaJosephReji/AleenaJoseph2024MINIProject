@@ -131,13 +131,7 @@ class Member(models.Model):
 #     not_available = models.BooleanField(default=False)
 
 class Crop(models.Model):
-    APPROVED = 'approved'
-    PENDING = 'pending'
-    
-    APPROVAL_CHOICES = [
-    (APPROVED, 'Approved'),
-    (PENDING, 'Pending'),
-    ]
+
    
     Namec = models.CharField(max_length=100)
     des = models.TextField()
@@ -146,11 +140,8 @@ class Crop(models.Model):
     count = models.PositiveIntegerField(default=0)
     # count = models.CharField(max_length=100,null=True, blank=True)
     crop_photo = models.ImageField(upload_to='crop_photos/', blank=True, null=True)
-    is_approved = models.CharField(
-        max_length=10,
-        choices=APPROVAL_CHOICES,
-        default=PENDING,
-    )
+
+    
 
     # available = models.BooleanField(default=False)
     # not_available = models.BooleanField(default=False)
@@ -197,6 +188,14 @@ class ApplyCrop(models.Model):
     (WAITING,'waiting'),
     (NOTWAITING,'notwaiting'),
     ]
+
+    GIVEN = 'given'
+    NOTGIVEN = 'notgiven'
+    
+    IS_GIVEN = [
+    (GIVEN, 'Given'),
+    (NOTGIVEN, 'Notgiven'),
+    ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True,default=1)
     cname = models.CharField(max_length=100,null=True, blank=True)
     farmerName = models.CharField(max_length=100,null=True, blank=True)
@@ -207,6 +206,7 @@ class ApplyCrop(models.Model):
     land = models .CharField(max_length=100,null=True,blank=True)
     crop_id=models.ForeignKey(Crop, on_delete=models.CASCADE, null=True,default=1)
     file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
+    crop_giventime = models.DateTimeField(null=True,blank=True)
     is_approved = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
@@ -222,7 +222,11 @@ class ApplyCrop(models.Model):
         choices=WAITING_CHOICES,
         default=WAITING,
     )
-
+    is_given = models.CharField(
+        max_length=10,
+        choices=IS_GIVEN,
+        default=NOTGIVEN,
+    )    
     # approved = models.BooleanField(default=False)
 
 class FarmerProfile(models.Model):
@@ -264,6 +268,7 @@ class Meeting(models.Model):
     meeting_date = models.DateField(null=True, blank=True)
     meeting_time = models.TimeField(null=True,blank=True)
     desmeeting = models.TextField()
+    last_edited_at = models.DateTimeField(auto_now=True) 
 
 
 

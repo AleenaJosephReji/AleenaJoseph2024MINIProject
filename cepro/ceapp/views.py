@@ -12,7 +12,7 @@ from .models import FarmerProfile
 from .models import MemberProfile
 from django.core.files.storage import FileSystemStorage
 from datetime import date
-
+from django.utils import timezone
 
 
 # Create your views here.
@@ -1120,9 +1120,7 @@ def adpendingapproval(request):
 
 def adapproval(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
-    crops = Crop.objects.all()
-    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details, 'crops': crops })
-
+    # crops = Crop.objects.all()
     # existing_review = ApplyCrop.objects.filter(user=approved_details.user, crop=approved_details.crop_id).first()
 
     # if existing_review:
@@ -1132,6 +1130,8 @@ def adapproval(request):
     # else:
     #         review_status = 'pending'
 
+    # combined_data = zip(approved_details, crops)
+    return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details})
     # combined_data = zip(approved_details, crops)
     # return render(request, 'admintemp/adapproval.html', {'approved_applications': approved_details ,'combined_data' : combined_data})
     # pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
@@ -1263,7 +1263,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect
 from .models import Crop, ApplyCrop
 
-def reduce_crop_count(request):
+def reduce_crop_count(request, crop_id):
     if request.method == 'POST':
         crop_name = request.POST.get('crop_name')
         try:
@@ -1291,15 +1291,20 @@ def reduce_crop_count(request):
 
             if reduction_amount > 0:
                 crop = Crop.objects.get(Namec=crop_name)
+                applygive = ApplyCrop.objects.get(id=crop_id)
+
                 if crop.count >= reduction_amount:
                     crop.count -= reduction_amount
-                    crop.is_approved = Crop.APPROVED
+                    applygive.is_given = ApplyCrop.GIVEN
+                    applygive.crop_giventime = timezone.now()
                     crop.save()
+                    applygive.save()
 
         except (Crop.DoesNotExist, ApplyCrop.DoesNotExist, ValueError):
             pass
 
     return redirect('adapproval')
+
 
 
 
@@ -1372,6 +1377,62 @@ def adaddmeeting(request):
             desmeeting=desmeeting
         )
         meeting.save()
-        messages.success(request, 'Meeting created successfully.')
-        return redirect('adaddmeeting')  
+        # messages.success(request, 'Meeting created successfully.')
+        return redirect('admeeting')
+
+        # return redirect('adaddmeeting')  
     return render(request,'admintemp/adaddmeeting.html')
+
+
+
+def edit_meeting(request, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+
+    if request.method == 'POST':
+        meeting_date = request.POST.get('meeting_date')
+        meeting_time = request.POST.get('meeting_time')
+        desmeeting = request.POST.get('desmeeting')
+        meeting.meeting_date = meeting_date
+        meeting.meeting_time = meeting_time
+        meeting.desmeeting = desmeeting
+        
+        meeting.save()
+
+        return redirect('admeeting')
+
+    return render(request, 'admintemp/edit_meeting.html', {'meeting': meeting})
+# def mmeeting(request):
+#     # Retrieve the meeting by ID or return a 404 if not found
+#     meeting = get_object_or_404(Meeting)
+#     return render(request, 'membertemp/mmeeting.html', {'meeting': meeting})
+from .models import Meeting  # Import your Meeting model at the top of your views.py
+
+# views.py
+from django.shortcuts import render
+from .models import Meeting
+
+def mmeeting(request):
+    current_datetime = timezone.now()
+
+    # Retrieve the most recently added meeting that is not in the past
+    latest_added_meeting = Meeting.objects.filter(
+        meeting_date__gte=current_datetime.date(),
+        meeting_time__gte=current_datetime.time()
+    ).latest('id')
+
+    # Retrieve the most recently edited meeting that is not in the past
+    latest_edited_meeting = Meeting.objects.filter(
+        meeting_date__gte=current_datetime.date(),
+        meeting_time__gte=current_datetime.time()
+    ).latest('last_edited_at')
+
+    return render(request, 'membertemp/mmeeting.html', {
+        'latest_added_meeting': latest_added_meeting,
+        'latest_edited_meeting': latest_edited_meeting,
+    })
+
+
+
+
+
+
