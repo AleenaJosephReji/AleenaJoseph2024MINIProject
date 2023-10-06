@@ -1364,8 +1364,9 @@ from .models import Meeting
 from django.contrib import messages
 
 def admeeting(request):
-    meetings = Meeting.objects.all()  # Retrieve all meetings from the database
+    meetings = Meeting.objects.all() 
     return render(request, 'admintemp/admeeting.html', {'meetings': meetings})
+
 def adaddmeeting(request):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
@@ -1411,25 +1412,22 @@ from .models import Meeting  # Import your Meeting model at the top of your view
 from django.shortcuts import render
 from .models import Meeting
 
+from django.shortcuts import render
+from django.utils import timezone
+from .models import Meeting
+
 def mmeeting(request):
+    # Get the current date and time
     current_datetime = timezone.now()
 
-    # Retrieve the most recently added meeting that is not in the past
-    latest_added_meeting = Meeting.objects.filter(
-        meeting_date__gte=current_datetime.date(),
-        meeting_time__gte=current_datetime.time()
-    ).latest('id')
+    # Retrieve all meetings
+    meetings = Meeting.objects.all()
 
-    # Retrieve the most recently edited meeting that is not in the past
-    latest_edited_meeting = Meeting.objects.filter(
-        meeting_date__gte=current_datetime.date(),
-        meeting_time__gte=current_datetime.time()
-    ).latest('last_edited_at')
+    # Filter out meetings with dates earlier than today
+    meetings = meetings.filter(meeting_date__gte=current_datetime.date())
 
-    return render(request, 'membertemp/mmeeting.html', {
-        'latest_added_meeting': latest_added_meeting,
-        'latest_edited_meeting': latest_edited_meeting,
-    })
+    return render(request, 'membertemp/mmeeting.html', {'meetings': meetings})
+
 
 
 

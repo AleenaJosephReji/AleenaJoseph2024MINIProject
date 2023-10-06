@@ -56,6 +56,7 @@
             color: red;
             font-size:28px;
         }
+        
     </style> 
 </head>
 
@@ -230,30 +231,27 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Meeting</b></i></u></h4>
+                        <h4 class="page-title" style="font-size: 27px; color: #3c733c;"><b><i><u>Add Meeting</b></i></u></h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <form method="POST" action="" autocomplete="off" enctype="multipart/form-data">
+                        <form method="POST" action="" autocomplete="off" enctype="multipart/form-data" id="meeting-form">
                             {% csrf_token %}
-                
                             <div class="form-group">
-                                <label style="color:black;"><b>Meeting Date :</b></label>
-                                <input type="date" class="form-control datetimepicker" name="meeting_date">
+                                <label for="meeting_date" style="color: black;"><b>Meeting Date:</b></label>
+                                <input type="date" class="form-control" name="meeting_date" id="meeting_date" required>
+                                <p class="error-message" id="date_error" style="color: red;"></p>
                             </div>
-                
                             <div class="form-group">
-                                <label style="color:black;"><b>Time :</b></label>
-                                <input class="form-control" type="time" name="meeting_time" step="1">
-                                <!-- The "step" attribute is set to "1" to allow seconds input, adjust as needed. -->
+                                <label for="meeting_time" style="color: black;"><b>Time:</b></label>
+                                <input class="form-control" type="time" name="meeting_time" step="1" required id="meeting_time">
+                                <p class="error-message" id="time_error" style="color: red;"></p>
                             </div>
-                
                             <div class="form-group">
-                                <label style="color:black;"><b>Description</b></label>
-                                <textarea cols="30" rows="4" class="form-control" name="desmeeting"></textarea>
+                                <label for="desmeeting" style="color: black;"><b>Description:</b></label>
+                                <textarea class="form-control" cols="30" rows="4" name="desmeeting" id="desmeeting" required></textarea>
                             </div>
-                
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;">Create Meeting</button>
                             </div>
@@ -261,6 +259,9 @@
                     </div>
                 </div>
                 
+                </div>
+            </div>
+        </div>
 			<div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
@@ -277,26 +278,41 @@
         </div>
     </div>
 
-
     <script>
-        // JavaScript to enable/disable the "Not Available" radio button based on the user's selection
-        const availableRadio = document.getElementById("available");
-        const notAvailableRadio = document.getElementById("notavailable");
-    
-        availableRadio.addEventListener("click", function () {
-            notAvailableRadio.disabled = true;
-        });
-    
-        notAvailableRadio.addEventListener("click", function () {
-            availableRadio.disabled = true;
-        });
+            document.addEventListener('DOMContentLoaded', function () {
+                const dateInput = document.getElementById('meeting_date');
+                const timeInput = document.getElementById('meeting_time');
+                const dateError = document.getElementById('date_error');
+                const timeError = document.getElementById('time_error');
+        
+                dateInput.addEventListener('input', function () {
+                    const selectedDate = new Date(dateInput.value);
+                    const today = new Date();
+        
+                    if (selectedDate < today) {
+                        dateInput.setCustomValidity('Date must be greater than or equal to today');
+                        dateError.textContent = 'Please select a date greater than or equal to today.';
+                    } else {
+                        dateInput.setCustomValidity('');
+                        dateError.textContent = '';
+                    }
+                });
+        
+                timeInput.addEventListener('input', function () {
+                    const selectedTime = timeInput.value;
+                    const startTime = '10:00'; // 10:00 AM
+                    const endTime = '16:00';   // 4:00 PM
+        
+                    if (selectedTime < startTime || selectedTime > endTime) {
+                        timeInput.setCustomValidity('Time must be between 10:00 AM and 4:00 PM');
+                        timeError.textContent = 'Please select a time between 10:00 AM and 4:00 PM.';
+                    } else {
+                        timeInput.setCustomValidity('');
+                        timeError.textContent = '';
+                    }
+                });
+            });        
     </script>
-    {% comment %} With this code, when the user clicks one radio button, the other radio button will be disabled, ensuring that only the selected option is submitted with the form. {% endcomment %}
-
-
-
-
-
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>

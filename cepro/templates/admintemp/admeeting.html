@@ -404,7 +404,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="search-form" method="GET" action="{% url 'search_member' %}">
+                        {% comment %} <form id="search-form" method="GET" action="{% url 'search_member' %}">
                             <div class="input-group">
                                 <a href="{% url 'admember' %}" class="btn btn-secondary" style="margin-left: 40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
                                 <input type="text" class="form-control custom-search-input" name="membername" placeholder="Search By Member Name">
@@ -412,11 +412,12 @@
                                     <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
-                        </form>
+                        </form> {% endcomment %}
                         <br>
                         <table border="1">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Description</th>
@@ -426,6 +427,7 @@
                             <tbody>
                                 {% for meeting in meetings %}
                                 <tr>
+                                    <td>{{ forloop.counter }}</td>
                                     <td>{{ meeting.meeting_date }}</td>
                                     <td>{{ meeting.meeting_time }}</td>
                                     <td>{{ meeting.desmeeting }}</td>
