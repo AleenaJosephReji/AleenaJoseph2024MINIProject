@@ -7,14 +7,14 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f0f0f0;
+            background-color: #f4f4f4;
             padding: 20px;
         }
-        
+
         h1 {
             color: #007bff;
         }
-        
+
         form {
             max-width: 600px;
             margin: 0 auto;
@@ -23,17 +23,18 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        
+
         label {
             display: block;
             margin-bottom: 10px;
             font-weight: bold;
             color: #333;
         }
-        
+
         input[type="date"],
         input[type="time"],
-        textarea {
+        textarea,
+        .form-control {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -41,7 +42,7 @@
             border-radius: 5px;
             font-size: 16px;
         }
-        
+
         button[type="submit"] {
             background-color: #007bff;
             color: #fff;
@@ -52,19 +53,26 @@
             font-size: 18px;
             transition: background-color 0.3s ease;
         }
-        
+
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
-        
-        /* Add some additional styling to improve the form layout */
+
         .form-group {
             margin-bottom: 20px;
         }
-        
-        /* Center the form within the page */
+
         .col-lg-8 {
             margin: 0 auto;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: red;
+        }
+
+        .text-danger {
+            color: red;
         }
     </style>
 </head>
@@ -74,26 +82,75 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-lg-8">
+                
                 <div class="form-group">
                     <label for="meeting_date">Meeting Date:</label>
-                    <input type="date" class="form-control" name="meeting_date" required>
+                    <input type="date" class="form-control" name="meeting_date" value={{ meeting.meeting_date }} required>
+                    <p class="error-message" id="date_error"></p>
                 </div>
-        
                 <div class="form-group">
                     <label for="meeting_time">Time:</label>
-                    <input type="time" class="form-control" name="meeting_time" step="1" required>
+                    <input type="time" class="form-control" name="meeting_time" step="1" value={{ meeting.meeting_time }}required>
+                    <p class="error-message" id="time_error"></p>
                 </div>
-        
+                <div class="form-group">
+                    <label for="meeting_venue">Meeting Venue:</label>
+                    <input class="form-control" name="meeting_venue" type="text" id="meeting_venue" value={{ meeting.meeting_venue }}>
+                    <small class="form-text text-danger" id="meetingError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="meeting_mode">Meeting Mode:</label>
+                    <input class="form-control" name="meeting_mode" type="text" id="meeting_mode" value="Offline" readonly>
+                    <small class="form-text text-danger" id="meetingmodeError"></small>
+                </div>
                 <div class="form-group">
                     <label for="desmeeting">Description:</label>
-                    <textarea cols="30" rows="4" class="form-control" name="desmeeting" required></textarea>
+                    <textarea cols="30" rows="4" class="form-control" name="desmeeting"required>{{ meeting.desmeeting }}</textarea>
                 </div>
-        
+
                 <div class="m-t-20 text-center">
                     <button class="btn btn-primary submit-btn">Save</button>
                 </div>
             </div>
         </div>
     </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var $meetingDateField = $("input[name='meeting_date']");
+            var $meetingTimeField = $("input[name='meeting_time']");
+            var $dateError = $("#date_error");
+            var $timeError = $("#time_error");
+            $meetingDateField.on('input', function() {
+                validateDate();
+            });
+
+            $meetingTimeField.on('input', function() {
+                validateTime();
+            });
+            function validateDate() {
+                var currentDate = new Date();
+                var selectedDate = new Date($meetingDateField.val());
+
+                if (selectedDate < currentDate) {
+                    $dateError.text("Meeting date must be greater than today's date.");
+                } else {
+                    $dateError.text(""); // Clear error message
+                }
+            }
+            function validateTime() {
+                var selectedTime = $meetingTimeField.val();
+                var timeParts = selectedTime.split(":");
+                var hours = parseInt(timeParts[0]);
+                var minutes = parseInt(timeParts[1]);
+
+                if (hours < 10 || (hours === 10 && minutes < 0) || hours > 16 || (hours === 16 && minutes > 0)) {
+                    $timeError.text("Meeting time must be between 10:00 AM and 4:00 PM.");
+                } else {
+                    $timeError.text(""); // Clear error message
+                }
+            }
+        });
+    </script>
 </body>
 </html>

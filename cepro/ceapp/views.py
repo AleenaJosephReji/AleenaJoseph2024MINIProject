@@ -1364,31 +1364,29 @@ from .models import Meeting
 from django.contrib import messages
 
 def admeeting(request):
-    meetings = Meeting.objects.all() 
-    return render(request, 'admintemp/admeeting.html', {'meetings': meetings})
-
+    meetings = Meeting.objects.all()
+    current_date = date.today()
+    return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
 def adaddmeeting(request):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
         meeting_time = request.POST.get('meeting_time')
         desmeeting = request.POST.get('desmeeting')
+        meeting_venue = request.POST.get('meeting_venue')
+        meeting_mode = request.POST.get('meeting_mode')
         meeting = Meeting(
             meeting_date=meeting_date,
             meeting_time=meeting_time,
-            desmeeting=desmeeting
+            desmeeting=desmeeting,
+            meeting_venue = meeting_venue,
+            meeting_mode = meeting_mode
         )
         meeting.save()
-        # messages.success(request, 'Meeting created successfully.')
         return redirect('admeeting')
-
-        # return redirect('adaddmeeting')  
     return render(request,'admintemp/adaddmeeting.html')
-
-
 
 def edit_meeting(request, meeting_id):
     meeting = get_object_or_404(Meeting, id=meeting_id)
-
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
         meeting_time = request.POST.get('meeting_time')
@@ -1396,17 +1394,10 @@ def edit_meeting(request, meeting_id):
         meeting.meeting_date = meeting_date
         meeting.meeting_time = meeting_time
         meeting.desmeeting = desmeeting
-        
         meeting.save()
-
         return redirect('admeeting')
-
     return render(request, 'admintemp/edit_meeting.html', {'meeting': meeting})
-# def mmeeting(request):
-#     # Retrieve the meeting by ID or return a 404 if not found
-#     meeting = get_object_or_404(Meeting)
-#     return render(request, 'membertemp/mmeeting.html', {'meeting': meeting})
-from .models import Meeting  # Import your Meeting model at the top of your views.py
+from .models import Meeting  
 
 # views.py
 from django.shortcuts import render
@@ -1417,20 +1408,10 @@ from django.utils import timezone
 from .models import Meeting
 
 def mmeeting(request):
-    # Get the current date and time
-    current_datetime = timezone.now()
-
-    # Retrieve all meetings
+    current_date = date.today()
     meetings = Meeting.objects.all()
-
-    # Filter out meetings with dates earlier than today
-    meetings = meetings.filter(meeting_date__gte=current_datetime.date())
-
-    return render(request, 'membertemp/mmeeting.html', {'meetings': meetings})
-
-
-
-
+    meetings = meetings.filter(meeting_date__gte=current_date)  # Filter for meetings on or after today
+    return render(request, 'membertemp/mmeeting.html', {'meetings': meetings, 'current_date': current_date})
 
 
 

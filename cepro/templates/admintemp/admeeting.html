@@ -420,16 +420,20 @@
                                     <th>No</th>
                                     <th>Date</th>
                                     <th>Time</th>
+                                    <th>Venue</th>
+                                    <th>Mode</th>
                                     <th>Description</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for meeting in meetings %}
-                                <tr>
+                                <tr style="{% if meeting.meeting_date == current_date %} background-color: red; color: white; {% elif meeting.meeting_date < current_date %} background-color: #9bf2e8; color: white; {% endif %}">
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ meeting.meeting_date }}</td>
                                     <td>{{ meeting.meeting_time }}</td>
+                                    <td>{{ meeting.meeting_venue }}</td>
+                                    <td>{{ meeting.meeting_mode }}</td>
                                     <td>{{ meeting.desmeeting }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -448,6 +452,7 @@
                                     <td colspan="4">No meetings available.</td>
                                 </tr>
                                 {% endfor %}
+                                
                             </tbody>
                         </table>
                     </div>
