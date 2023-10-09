@@ -421,7 +421,7 @@
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Venue</th>
-                                    <th>Mode</th>
+                                    <th>Attendence</th>
                                     <th>Agenda</th>
                                     <th>Report</th>
                                     <th>Actions</th>
@@ -434,15 +434,36 @@
                                     <td>{{ meeting.meeting_date }}</td>
                                     <td>{{ meeting.meeting_time }}</td>
                                     <td>{{ meeting.meeting_venue }}</td>
-                                    <td>{{ meeting.meeting_mode }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="modeDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Meeting Mode
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="modeDropdown{{ forloop.counter }}">
+                                                <div class="dropdown-item">
+                                                    <input type="checkbox" id="annuCheckbox{{ forloop.counter }}" {% if meeting.meeting_mode == "Annu" %}checked{% endif %}>
+                                                    <label for="annuCheckbox{{ forloop.counter }}">Annu</label>
+                                                </div>
+                                                <div class="dropdown-item">
+                                                    <input type="checkbox" id="annaCheckbox{{ forloop.counter }}" {% if meeting.meeting_mode == "Anna" %}checked{% endif %}>
+                                                    <label for="annaCheckbox{{ forloop.counter }}">Anna</label>
+                                                </div>
+                                                <div class="dropdown-item">
+                                                    <input type="checkbox" id="aryaCheckbox{{ forloop.counter }}" {% if meeting.meeting_mode == "Arya" %}checked{% endif %}>
+                                                    <label for="aryaCheckbox{{ forloop.counter }}">Arya</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    
                                     <td>{{ meeting.desmeeting }}</td>
                                     <td>{{ meeting.report }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
                                                 ...
                                             </button>
-                                            <div class="dropdown-menu" aria-labelledby="actionsDropdown">
+                                            <div class="dropdown-menu" aria-labelledby="actionsDropdown{{ forloop.counter }}">
                                                 <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
                                                 <a class="dropdown-item" href="" style="background-color: #dc3545; color: #fff;">Delete</a>
                                             </div>
@@ -454,9 +475,9 @@
                                     <td colspan="4">No meetings available.</td>
                                 </tr>
                                 {% endfor %}
-                                
                             </tbody>
                         </table>
+
                     </div>
                 </div><br><br>
             </div>

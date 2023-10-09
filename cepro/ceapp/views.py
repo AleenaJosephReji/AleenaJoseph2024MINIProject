@@ -1377,9 +1377,21 @@ from .models import Meeting
 from django.contrib import messages
 
 def admeeting(request):
-    meetings = Meeting.objects.all()
-    current_date = date.today()
-    return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
+    if request.method == 'POST':
+        # Handle attendance marking for each meeting
+        for meeting in Meeting.objects.all():
+            attendance_key = f'attendance_{meeting.id}'
+            if attendance_key in request.POST:
+                meeting.attendance = True
+            else:
+                meeting.attendance = False
+            meeting.save()
+        return redirect('admeeting')  # Redirect back to the same page
+
+    else:
+        meetings = Meeting.objects.all()
+        current_date = date.today()
+        return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
 def adaddmeeting(request):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
