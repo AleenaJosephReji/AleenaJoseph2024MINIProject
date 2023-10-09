@@ -271,6 +271,8 @@ class Meeting(models.Model):
     last_edited_at = models.DateTimeField(auto_now=True) 
     meeting_venue = models.CharField(max_length=100,null=True,blank=True)
     meeting_mode = models.CharField(max_length=100,null=True,blank=True)
+    report = models.TextField(max_length=100,null=True,blank=True)
+
 
 
 

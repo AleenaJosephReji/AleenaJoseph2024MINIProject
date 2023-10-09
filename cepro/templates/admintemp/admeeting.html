@@ -422,7 +422,8 @@
                                     <th>Time</th>
                                     <th>Venue</th>
                                     <th>Mode</th>
-                                    <th>Description</th>
+                                    <th>Agenda</th>
+                                    <th>Report</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -435,10 +436,11 @@
                                     <td>{{ meeting.meeting_venue }}</td>
                                     <td>{{ meeting.meeting_mode }}</td>
                                     <td>{{ meeting.desmeeting }}</td>
+                                    <td>{{ meeting.report }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
-                                                Actions
+                                                ...
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="actionsDropdown">
                                                 <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>

@@ -61,7 +61,7 @@
         }
 
         table {
-            margin-left:40px;
+            margin-left:60px;
             width: 20%;
             border-collapse: collapse;
             margin-top: 10px;
@@ -187,7 +187,9 @@
                                 </li>
                             </ul>
                         </li>   
-						
+                        <li>
+                            <a href="{% url 'admeeting' %}"><i class="fa fa-wheelchair"></i> <span>Meeting</span></a>
+                        </li>
                         <li class="active">
                             <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
                         </li>
@@ -209,11 +211,13 @@
             <br><br><br>
             <br>
             <h1 style="color:black;">Report</h1>
-        
+    
+            <!-- Agricultural Report Details section -->
             {% for crop_name, approved_list in data_by_crop.items %}
             <div class="details">
                 <h2 style="margin-left:60px; color:black; font-weight:bold;">{{ crop_name }}</h2>
                 <table>
+                    <!-- Table headers for agricultural report -->
                     <tr>
                         <th>No</th>
                         <th>Farmer Name</th>
@@ -251,32 +255,45 @@
                 </table>
             </div>
             {% endfor %}
+            <!-- End Agricultural Report Details section -->
+            
+            <!-- Meeting Details section -->
+<div class="details">
+    <h2 style="margin-left: 60px; color: black; font-weight: bold;">Meeting Details</h2>
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; font-size: 14px;">
+            <!-- Table headers for meeting details -->
+            <tr>
+                <th style="width: 5%;">No</th>
+                <th style="width: 10%;">Date</th>
+                <th style="width: 10%;">Time</th>
+                <th style="width: 15%;">Venue</th>
+                <th style="width: 10%;">Mode</th>
+                <th style="width: 20%;">Description</th>
+                <th style="width: 15%;">Report</th>
+                <!-- Add more headers as needed -->
+            </tr>
+            {% for meeting in meetings %}
+            <tr style="{% if meeting.meeting_date == current_date %} background-color: red; color: white; {% endif %}">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ meeting.meeting_date }}</td>
+                <td>{{ meeting.meeting_time }}</td>
+                <td>{{ meeting.meeting_venue }}</td>
+                <td>{{ meeting.meeting_mode }}</td>
+                <td>{{ meeting.desmeeting }}</td>
+                <td>{{ meeting.report }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No meetings available.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+            <!-- End Meeting Details section -->
         </div>
-									</tr>
-								</thead>
-								{% comment %} <tbody>
-									<tr>
-										<td><img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> Henry Daniels</td>
-										<td>Cardiology</td>
-										<td>Sunday, Monday, Tuesday</td>
-										<td>10:00 AM - 7:00 PM</td>
-										<td><span class="custom-badge status-green">Active</span></td>
-										<td class="text-right">
-											<div class="dropdown dropdown-action">
-												<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-item" href="edit-schedule.html"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-													<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_schedule"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody> {% endcomment %}
-							</table>
-						</div>
-                </div>
-                </div>
-            </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">

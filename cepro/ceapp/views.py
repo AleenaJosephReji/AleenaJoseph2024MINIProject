@@ -1339,10 +1339,22 @@ from .models import ApplyCrop, Crop
 
 
 
+from django.shortcuts import render
+from .models import ApplyCrop, Crop, Meeting
+from django.shortcuts import render
+from .models import ApplyCrop, Crop, Meeting
+from datetime import date  # Import the date module
+
 def adreport(request):
-    # Fetch approved details and all crops
+    # Fetch approved agricultural report details
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
+
+    # Fetch all crops
     crops = Crop.objects.all()
+
+    # Filter meeting details to include only meetings with dates less than the current date
+    current_date = date.today()
+    meetings = Meeting.objects.filter(meeting_date__lt=current_date)
 
     # Create a dictionary to store data by crop name
     data_by_crop = {}
@@ -1355,7 +1367,8 @@ def adreport(request):
 
         data_by_crop[crop_name].append(application)
 
-    return render(request, 'admintemp/adreport.html', {'data_by_crop': data_by_crop, 'crops': crops})
+    # Pass both approved_details, crops, and filtered meetings to the template
+    return render(request, 'admintemp/adreport.html', {'data_by_crop': data_by_crop, 'crops': crops, 'meetings': meetings})
 
 
 #meeting
@@ -1391,15 +1404,16 @@ def edit_meeting(request, meeting_id):
         meeting_date = request.POST.get('meeting_date')
         meeting_time = request.POST.get('meeting_time')
         desmeeting = request.POST.get('desmeeting')
+        report = request.POST.get('report')
         meeting.meeting_date = meeting_date
         meeting.meeting_time = meeting_time
         meeting.desmeeting = desmeeting
+        meeting.report = report
         meeting.save()
         return redirect('admeeting')
     return render(request, 'admintemp/edit_meeting.html', {'meeting': meeting})
 from .models import Meeting  
 
-# views.py
 from django.shortcuts import render
 from .models import Meeting
 
