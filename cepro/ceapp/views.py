@@ -303,7 +303,6 @@ from django.shortcuts import render, redirect
 from .models import Crop  # Import your Crop model
 def admember(request):
     members = Member.objects.filter(is_active=True)
-    
     return render(request, 'admintemp/admember.html', {'members': members})
 def adaddmember(request):
     # user=None
@@ -494,7 +493,7 @@ def ceditprofile(request):
 
     return render(request, 'ceditprofile.html',context)
 
-
+from django.contrib.auth import update_session_auth_hash
 # @login_required(login_url='login_page')
 def meditprofile(request):
     
@@ -528,10 +527,24 @@ def meditprofile(request):
         mem.dob = request.POST.get('dob')
         mem.degree = request.POST.get('degree')
         mem.institution = request.POST.get('institution')
+        reset_password = request.POST.get('reset_password')
+        old_password = request.POST.get('old_password')
 
+
+        if old_password and reset_password and request.POST.get('cpass') == reset_password:
+            if user.check_password(old_password):
+                # The old password is correct, set the new password
+                user.set_password(reset_password)
+                user.save()
+                update_session_auth_hash(request, request.user)  # Update the session to prevent logging out
+            else:
+                messages.error(request, "Incorrect old password. Password not updated.")
+        else:
+            print("Please fill all three password fields correctly.")
+        
+        mem.reset_password = reset_password
         mem.save()
-        # mem.amob = request.POST.get()
-        return redirect('meditprofile')  # Redirect to the profile page
+        return redirect('meditprofile') 
     context = {
         'user': user,
         'mem': mem
@@ -596,11 +609,24 @@ def meditprofile(request):
         member.institution = request.POST.get('institution')
         print("institution :",member.institution)
         # profile.phone_number = request.POST.get('phone_number')
-        member.save()
-        
+        reset_password = request.POST.get('reset_password')
+        old_password = request.POST.get('old_password')
 
-        # messages.success(request, 'Profile updated successfully.')
-        return redirect('meditprofile')  # Redirect to the profile page
+
+        if old_password and reset_password and request.POST.get('cpass') == reset_password:
+            if user.check_password(old_password):
+                # The old password is correct, set the new password
+                user.set_password(reset_password)
+                user.save()
+                update_session_auth_hash(request, request.user)  # Update the session to prevent logging out
+            else:
+                messages.error(request, "Incorrect old password. Password not updated.")
+        else:
+            print("Please fill all three password fields correctly.")
+        
+        member.reset_password = reset_password
+        member.save()
+        return redirect('meditprofile') 
     context = {
         'user': user,
         'member': member
@@ -1377,21 +1403,8 @@ from .models import Meeting
 from django.contrib import messages
 
 def admeeting(request):
-    if request.method == 'POST':
-        # Handle attendance marking for each meeting
-        for meeting in Meeting.objects.all():
-            attendance_key = f'attendance_{meeting.id}'
-            if attendance_key in request.POST:
-                meeting.attendance = True
-            else:
-                meeting.attendance = False
-            meeting.save()
-        return redirect('admeeting')  # Redirect back to the same page
-
-    else:
-        meetings = Meeting.objects.all()
-        current_date = date.today()
-        return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
+    meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
+    return render(request, 'admintemp/admeeting.html', {'meetings': meetings})
 def adaddmeeting(request):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
@@ -1399,12 +1412,15 @@ def adaddmeeting(request):
         desmeeting = request.POST.get('desmeeting')
         meeting_venue = request.POST.get('meeting_venue')
         meeting_mode = request.POST.get('meeting_mode')
+        meeting_agenda = request.POST.get('meeting_agenda')
+
         meeting = Meeting(
             meeting_date=meeting_date,
             meeting_time=meeting_time,
             desmeeting=desmeeting,
             meeting_venue = meeting_venue,
-            meeting_mode = meeting_mode
+            meeting_mode = meeting_mode,
+            meeting_agenda = meeting_agenda
         )
         meeting.save()
         return redirect('admeeting')
@@ -1415,15 +1431,34 @@ def edit_meeting(request, meeting_id):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
         meeting_time = request.POST.get('meeting_time')
+        meeting_venue = request.POST.get('meeting_venue')
+        meeting_agenda = request.POST.get('meeting_agenda')
         desmeeting = request.POST.get('desmeeting')
         report = request.POST.get('report')
         meeting.meeting_date = meeting_date
         meeting.meeting_time = meeting_time
+        meeting.meeting_venue = meeting_venue
+        meeting.meeting_agenda = meeting_agenda
         meeting.desmeeting = desmeeting
         meeting.report = report
+       
         meeting.save()
         return redirect('admeeting')
     return render(request, 'admintemp/edit_meeting.html', {'meeting': meeting})
+
+def delete_meeting(request, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+
+    if request.method == 'POST':
+        # Delete the member object
+        meeting.is_active = False
+        meeting.save()
+        request.session['delete meet'] = True
+        # Redirect to a page after deleting the member (e.g., member list)
+        return redirect('admeeting')
+
+    return render(request, 'admintemp/delete_meeting.html', {'meeting': meeting})
+
 from .models import Meeting  
 
 from django.shortcuts import render

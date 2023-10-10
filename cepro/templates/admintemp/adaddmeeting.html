@@ -254,14 +254,14 @@
                                     <small id="meetingError" class="form-text text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label  style="color: black;"><b>Meeting Mode: <span class="text-danger"></span></b></label>
-                                    <input class="form-control" name="meeting_mode" type="text" id="meeting_mode"  value="Offline" readonly>
-                                    <small id="meetingmodeError" class="form-text text-danger"></small>
+                                    <label  style="color: black;"><b>Agenda: <span class="text-danger"></span></b></label>
+                                    <input class="form-control" name="meeting_agenda" type="text" id="meeting_agenda">
+                                    <small id="meetingagendaError" class="form-text text-danger"></small>
                                 </div>
-                            <div class="form-group">
+                            {% comment %} <div class="form-group">
                                 <label for="desmeeting" style="color: black;"><b>Description:</b></label>
                                 <textarea class="form-control" cols="30" rows="4" name="desmeeting" id="desmeeting" required></textarea>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;">Create Meeting</button>
                             </div>

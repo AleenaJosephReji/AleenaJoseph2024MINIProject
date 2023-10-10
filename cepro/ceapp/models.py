@@ -118,7 +118,7 @@ class Member(models.Model):
     aemail = models.CharField(max_length=255, null=True, blank=True)
     degree = models.CharField(max_length=255, null=True, blank=True)
     institution = models.CharField(max_length=255, null=True,blank=True)
-
+    reset_password = models.CharField(max_length=128, null=True, blank=True)  # New field for reset password
 
 
     is_active = models.BooleanField(default=True)
@@ -271,8 +271,12 @@ class Meeting(models.Model):
     last_edited_at = models.DateTimeField(auto_now=True) 
     meeting_venue = models.CharField(max_length=100,null=True,blank=True)
     meeting_mode = models.CharField(max_length=100,null=True,blank=True)
+    meeting_agenda = models.CharField(max_length=100,null=True,blank=True)
     report = models.TextField(max_length=100,null=True,blank=True)
     attendance = models.BooleanField(default=False) 
+    is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.email
 
 
 

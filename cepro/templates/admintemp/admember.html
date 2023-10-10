@@ -310,6 +310,9 @@
                             </ul>
                         </li> {% endcomment %}
                         <li>
+                            <a href="{% url 'admeeting' %}"><i class="fa fa-wheelchair"></i> <span>Meeting</span></a>
+                        </li> 
+                        <li>
                             <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>
                         {% comment %} <li class="menu-title">Extras</li>
@@ -387,9 +390,9 @@
 
                     <div class="col-md-4 col-sm-4  col-lg-3">
                         <div class="profile-widget">
-                             {% comment %} <div class="doctor-img">
+                             <div class="doctor-img">
                                 <a class="avatar" href="#"><img alt="" src="{{ member.profile_photo.url }}"></a>
-                               </div>  {% endcomment %}
+                               </div>
                             {% comment %} <div class="doctor-img">
                                 <a class="avatar" href="profile.html"><img alt="" src="assets/img/doctor-thumb-03.jpg"></a>
                             </div> {% endcomment %}
@@ -412,27 +415,27 @@
                             </div>
                             <h4 class="doctor-name text-ellipsis"><a href="profile.html"> {{ member.Name }}</a></h4>
                             {% comment %} <div class="doc-prof">Gynecologist</div> {% endcomment %}
-                            <div class="user-country">
+                            <div class="user-country" style="color:black;">
                                 <i class="fa fa-map-marker"></i> {{ member.address }}
                             </div>
                             
                             <div>
-                                <p>Member ID: {{ member.id }}</p>
+                                <p style="color:black;">Member ID: {{ member.id }}</p>
 
-                                <p class="card-text"><b>Email: </b>{{ member.email }}</p>
-                                <p class="card-text"><b>Password: </b>{{ member.password }}</p>
+                                <p class="card-text" style="color:black;"><b>Email: </b>{{ member.email }}</p>
+                                <p class="card-text" style="color:black;"><b>Password: </b>{{ member.password }}</p>
                                 {% comment %} <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p> {% endcomment %}
                                 <!-- <p class="card-text">Date of Join: {{ member.date_of_join }}</p> -->
                                 {% comment %} <p class="card-text">Gender: {{ member.get_gender_display }}</p> {% endcomment %}
                                 {% comment %} <p class="card-text">Address: {{ member.address }}</p> {% endcomment %}
-                                <p class="card-text"><b>District: </b>{{ member.district }}</p>
-                                <p class="card-text"><b>Taluk: </b>{{ member.taluk }}</p>
-                                <p class="card-text"><b>Panchayat: </b>{{ member.Panchayat }}</p>
-                                <p class="card-text"><b>Wardno: </b>{{ member.wardno }}</p>
-                                <p class="card-text"><b>Ward: </b>{{ member.wardname }}</p>
-                                <p class="card-text"><b>Postal: </b>{{ member.postal }}</p>
-                                <p class="card-text"><b>Phone: </b>{{ member.phone }}</p>
-                                <p class="card-text"><b>Bio: </b>{{ member.bio }}</p>
+                                <p class="card-text" style="color:black;"><b>District: </b>{{ member.district }}</p>
+                                <p class="card-text" style="color:black;"><b>Taluk: </b>{{ member.taluk }}</p>
+                                <p class="card-text" style="color:black;"><b>Panchayat: </b>{{ member.Panchayat }}</p>
+                                <p class="card-text" style="color:black;"><b>Wardno: </b>{{ member.wardno }}</p>
+                                <p class="card-text" style="color:black;"><b>Ward: </b>{{ member.wardname }}</p>
+                                <p class="card-text" style="color:black;"><b>Postal: </b>{{ member.postal }}</p>
+                                <p class="card-text" style="color:black;"><b>Phone: </b>{{ member.phone }}</p>
+                                <p class="card-text" style="color:black;"><b>Bio: </b>{{ member.bio }}</p>
                                 {% comment %} <div class="doctor-img">
                                     <a class="avatar" href="profile.html"><img alt="" src="{{ member.profile_photo.url }}"></a>
                                 </div> {% endcomment %}

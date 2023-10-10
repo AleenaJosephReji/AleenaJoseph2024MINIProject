@@ -80,7 +80,7 @@ urlpatterns = [
     path('admeeting',views.admeeting,name='admeeting'),
     path('adaddmeeting',views.adaddmeeting,name='adaddmeeting'),
     path('edit_meeting/<int:meeting_id>/', views.edit_meeting, name='edit_meeting'),
-    # path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
+    path('delete_meeting/<int:meeting_id>/', views.delete_meeting, name='delete_meeting'),
 
 
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
