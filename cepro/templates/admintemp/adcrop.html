@@ -375,16 +375,16 @@
                                        </div>
                                     <div class="card-body">
                                         <p>
-                                        <h5 class="card-title">{{ crop.Namec }}</h5>
+                                        <h5 class="card-title" style="color:black;">{{ crop.Namec }}</h5>
                                         {% comment %} <p>Crop ID: {{ crop.id }}</p> {% endcomment %}
         
-                                        <p class="card-text"><b>Details :</b>  {{ crop.des }}</p>
+                                        <p class="card-text" style="color:black;"><b>Details :</b>  {{ crop.des }}</p>
                                         {% comment %} <p class="card-text">{{ crop.available }}</p>
                                         <p class="card-text">{{ crop.not_available }}</p> {% endcomment %}
-                                        <p class="card-text"><b>Availability :</b></p>
-                                        <p class="card-text" style= "padding-left:20px;"><b>Start Date : </b> {{ crop.start_date }}</p>
-                                        <p class="card-text"  style= "padding-left:20px;"><b>End Date :  </b>{{ crop.end_date }}</p>
-                                        <p class="card-text"><b>Count : </b> {{ crop.count }}</p>
+                                        <p class="card-text" style="color:black;"><b>Availability :</b></p>
+                                        <p class="card-text" style= "padding-left:20px; color:black;"><b>Start Date : </b> {{ crop.start_date }}</p>
+                                        <p class="card-text"  style= "padding-left:20px; color:black;"><b>End Date :  </b>{{ crop.end_date }}</p>
+                                        <p class="card-text"style="color:black;"><b>Count : </b> {{ crop.count }}</p>
         
                                         {% comment %} <p class="card-text"> Availability : 
                                             {% if crop.available %}

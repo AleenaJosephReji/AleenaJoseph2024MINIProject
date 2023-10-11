@@ -1239,27 +1239,17 @@ def mpending(request):
 
 
 def adpendinglist(request):
-    # Retrieve the pending details from your model or database
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
-
-    # Retrieve the waiting application if needed
     application_waiting = ApplyCrop.objects.filter(is_approvedd='waiting').first()
-
-    # Merge both sets of details into a single list
     details = list(pending_details)
     if application_waiting:
         details.append(application_waiting)
-
     if request.method == 'POST':
-        # Handle the approve request
         certification_id = request.POST.get('certification_id')
         certification = get_object_or_404(ApplyCrop, id=certification_id)
         certification.is_approvedd = ApplyCrop.APPROVED  # Set it to 'approved'
         certification.save()
-
-        # Now, update the details list to exclude the approved item
         details = [item for item in details if item.id != int(certification_id)]
-
     context = {
         'details': details,
     }
@@ -1372,35 +1362,25 @@ from .models import ApplyCrop, Crop, Meeting
 from datetime import date  # Import the date module
 
 def adreport(request):
-    # Fetch approved agricultural report details
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
-
-    # Fetch all crops
     crops = Crop.objects.all()
-
-    # Filter meeting details to include only meetings with dates less than the current date
     current_date = date.today()
     meetings = Meeting.objects.filter(meeting_date__lt=current_date)
-
-    # Create a dictionary to store data by crop name
     data_by_crop = {}
-
-    # Group approved details by crop name
     for application in approved_details:
         crop_name = application.cname
         if crop_name not in data_by_crop:
             data_by_crop[crop_name] = []
-
         data_by_crop[crop_name].append(application)
-
-    # Pass both approved_details, crops, and filtered meetings to the template
     return render(request, 'admintemp/adreport.html', {'data_by_crop': data_by_crop, 'crops': crops, 'meetings': meetings})
 
 
 #meeting
 from django.shortcuts import render, redirect
 from .models import Meeting
-from django.contrib import messages
+from django.contrib import messages  
+from django.shortcuts import render
+from django.utils import timezone
 
 def admeeting(request):
     meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
@@ -1413,7 +1393,6 @@ def adaddmeeting(request):
         meeting_venue = request.POST.get('meeting_venue')
         meeting_mode = request.POST.get('meeting_mode')
         meeting_agenda = request.POST.get('meeting_agenda')
-
         meeting = Meeting(
             meeting_date=meeting_date,
             meeting_time=meeting_time,
@@ -1441,36 +1420,22 @@ def edit_meeting(request, meeting_id):
         meeting.meeting_agenda = meeting_agenda
         meeting.desmeeting = desmeeting
         meeting.report = report
-       
         meeting.save()
         return redirect('admeeting')
     return render(request, 'admintemp/edit_meeting.html', {'meeting': meeting})
 
 def delete_meeting(request, meeting_id):
     meeting = get_object_or_404(Meeting, id=meeting_id)
-
     if request.method == 'POST':
-        # Delete the member object
         meeting.is_active = False
         meeting.save()
         request.session['delete meet'] = True
-        # Redirect to a page after deleting the member (e.g., member list)
         return redirect('admeeting')
-
     return render(request, 'admintemp/delete_meeting.html', {'meeting': meeting})
-
-from .models import Meeting  
-
-from django.shortcuts import render
-from .models import Meeting
-
-from django.shortcuts import render
-from django.utils import timezone
-from .models import Meeting
 
 def mmeeting(request):
     current_date = date.today()
-    meetings = Meeting.objects.all()
+    meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
     meetings = meetings.filter(meeting_date__gte=current_date)  # Filter for meetings on or after today
     return render(request, 'membertemp/mmeeting.html', {'meetings': meetings, 'current_date': current_date})
 
