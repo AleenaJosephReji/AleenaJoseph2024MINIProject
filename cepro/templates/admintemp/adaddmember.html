@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
@@ -171,45 +172,54 @@
                         <li>
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-						<li class="active">
-                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
+						<li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
                         {% comment %} <li>
-                            <a href="{% url 'admember' %}"><i class="fa fa-wheelchair"></i> <span>Members</span></a>
+                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li> {% endcomment %}
                         {% comment %} <li>
                             <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
-                        </li>  {% endcomment %}
+                        
                         <li>
-                            <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
                         {% comment %} <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Pending Approval</span></a>
-                        </li> 
+                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                         </li>  {% endcomment %}
+
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
                                 <li>
-                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fas fa-exclamation-circle"></i>
+
+                                    </i> <span>Pending</span></a>
                                 </li>
                                 <li>
                                     <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
-                        </li>  
-                        
+                        </li>    
+                        <li class="active">
+                            <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                            </i> <span>Meeting</span></a>
+                        </li> 
                         <li>
-                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
+                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            </i> <span>Report</span></a>
                         </li>
+                        {% comment %} <li>
+                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span></span></a>
+                        </li> {% endcomment %}
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
@@ -238,8 +248,8 @@
 						</li> {% endcomment %}
                         {% comment %} <li>
                             <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
+                        </li>
+                        <li class="submenu">
                             <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="voice-call.html">Voice Call</a></li>
@@ -247,19 +257,27 @@
                                 <li><a href="incoming-call.html">Incoming Call</a></li>
                             </ul>
                         </li> {% endcomment %}
-                     
-                        <li class="submenu">
-                            {% comment %} <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a> {% endcomment %}
-                            {% comment %} <a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a> {% endcomment %}
-							{% comment %} <ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul> {% endcomment %}
+                     {% comment %} <li class="submenu">
+                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
+                                <li><a href="{% url 'adinbox' %}">Inbox</a></li>
+                                <li><a href="{% url 'admailview' %}">Mail View</a></li>
+                            </ul>
                         </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="{% url 'adblog' %}">Blog</a></li> 
+                                <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> 
+                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li> 
+                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> 
+                            </ul>
+                        </li> {% endcomment %}
 						{% comment %} <li>
 							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li>
-						<li>
+						</li> {% endcomment %}
+						{% comment %} <li>
 							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
 						</li> {% endcomment %}
 						<li class="submenu">
@@ -297,14 +315,15 @@
                                 <li><a href="tables-datatables.html">Data Table</a></li>
                             </ul>
                         </li> {% endcomment %}
+                        
                         <li>
-                            <a href="{% url 'admeeting' %}"><i class="fa fa-wheelchair"></i> <span>Meeting</span></a>
+                            <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
+
+                            </i>
+                                <span>Calendar</span></a>
                         </li>
-                        <li>
-                            <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
-                        </li>
-                        {% comment %} <li class="menu-title">Extras</li> {% endcomment %}
-                        {% comment %} <li class="submenu">
+                        {% comment %} <li class="menu-title">Extras</li>
+                        <li class="submenu">
                             <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="login.html"> Login </a></li>
