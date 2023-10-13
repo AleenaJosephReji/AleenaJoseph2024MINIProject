@@ -1378,25 +1378,86 @@ def adreport(request):
 #meeting
 from django.shortcuts import render, redirect
 from .models import Meeting
+from .models import Attendance
 from django.contrib import messages  
 from django.shortcuts import render
 from django.utils import timezone
 
+
+def adattendance(request):
+    if request.method == 'POST':
+        selected_wards = request.POST.getlist('ward')
+        # Get the meeting ID from the form (you should add this to your form)
+        meeting_id = request.POST.get('meeting_id')
+
+        # Iterate through selected wards and update attendance records
+        for ward in selected_wards:
+            # Check if an attendance record for the person and meeting already exists
+            attendance, created = Attendance.objects.get_or_create(
+                meeting_id=meeting_id,
+                person_id=ward,
+            )
+            
+            # Update the 'attended' field to True
+            attendance.attended = True
+            attendance.save()
+
+        # Redirect to the attendance page or another appropriate URL
+        return redirect('adattendance')  # Replace 'attendance-success' with the actual URL
+
+    # If the request method is not POST, render the page with all meetings.
+    meetings = Meeting.objects.all()
+    return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
+
+from django.shortcuts import render, redirect
+from .models import Meeting
+from .models import Attendee
+
 def admeeting(request):
-    meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
-    return render(request, 'admintemp/admeeting.html', {'meetings': meetings})
+    meetings = Meeting.objects.filter(is_active=True)
+    from django.utils import timezone
+    current_date = timezone.now().date()
+    return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
+def adattendence(request):
+    ward_members = Attendee.objects.all()
+    if request.method == 'POST':
+        form = Attendee(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adattendence')
+    else:
+        form = Attendee()
+    return render(request, 'admintemp/adattendence.html', {'ward_members': ward_members, 'form': form})
+# def update_attendance(request, meeting_id):
+#     if request.method == "POST":
+#         meeting = Meeting.objects.get(id=meeting_id)
+#         for attendee in meeting.attendees.all():
+#             annu_attendance = request.POST.get(f"annu_attendance_{meeting_id}_{attendee.id}")
+#             anna_attendance = request.POST.get(f"anna_attendance_{meeting_id}_{attendee.id}")
+#             arya_attendance = request.POST.get(f"arya_attendance_{meeting_id}_{attendee.id}")
+
+#             # Update the attendee's attendance status
+#             attendee.annu_attendance = annu_attendance == "on"
+#             attendee.anna_attendance = anna_attendance == "on"
+#             attendee.arya_attendance = arya_attendance == "on"
+
+#             # Save the changes to the database
+#             attendee.save()
+
+#     return redirect("admeeting")
+
 def adaddmeeting(request):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
         meeting_time = request.POST.get('meeting_time')
-        desmeeting = request.POST.get('desmeeting')
+        # desmeeting = request.POST.get('desmeeting')
         meeting_venue = request.POST.get('meeting_venue')
         meeting_mode = request.POST.get('meeting_mode')
         meeting_agenda = request.POST.get('meeting_agenda')
         meeting = Meeting(
             meeting_date=meeting_date,
             meeting_time=meeting_time,
-            desmeeting=desmeeting,
+            # desmeeting=desmeeting,
             meeting_venue = meeting_venue,
             meeting_mode = meeting_mode,
             meeting_agenda = meeting_agenda
@@ -1438,6 +1499,3 @@ def mmeeting(request):
     meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
     meetings = meetings.filter(meeting_date__gte=current_date)  # Filter for meetings on or after today
     return render(request, 'membertemp/mmeeting.html', {'meetings': meetings, 'current_date': current_date})
-
-
-

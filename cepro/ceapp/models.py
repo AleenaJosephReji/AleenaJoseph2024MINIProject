@@ -273,12 +273,34 @@ class Meeting(models.Model):
     meeting_mode = models.CharField(max_length=100,null=True,blank=True)
     meeting_agenda = models.CharField(max_length=100,null=True,blank=True)
     report = models.TextField(max_length=100,null=True,blank=True)
-    attendance = models.BooleanField(default=False) 
+    attendees = models.ManyToManyField('Attendee', related_name='meetings')
+    # attendance = models.BooleanField(default=False) 
     is_active = models.BooleanField(default=True)
+    # members_attendance = models.ManyToManyField(Member)
     def __str__(self):
-        return self.email
+        return f"Meeting on {self.meeting_date} at {self.meeting_time}"
+
+class Attendee(models.Model):
+    # name = models.CharField(max_length=100)
+    annu_attendance = models.BooleanField(default=False)
+    anna_attendance = models.BooleanField(default=False)
+    arya_attendance = models.BooleanField(default=False)
+
+    
 
 
+
+
+
+class Attendance(models.Model):
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+    ward = models.CharField(max_length=10,blank=True)
+    meeting_date = models.DateField(null=True, blank=True)
+    attended = models.BooleanField(default=False)
+    is_present = models.BooleanField(default=False)  # Add the is_present field
+
+    def __str__(self):
+        return f"{self.ward} - {self.meeting}"
 
 
 

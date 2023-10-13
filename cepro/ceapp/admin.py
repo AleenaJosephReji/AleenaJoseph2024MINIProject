@@ -8,6 +8,8 @@ from .models import CustomUser
 from .models import FarmerProfile
 from .models import Meeting
 from .models import MemberProfile
+from .models import Attendance
+from .models import Attendee
 
 # from .models import Notification
 # from .models import Notification
@@ -23,5 +25,8 @@ admin.site.register(CustomUser)
 admin.site.register(FarmerProfile)
 admin.site.register(MemberProfile)
 admin.site.register(Meeting)
+admin.site.register(Attendance)
+admin.site.register(Attendee)
+
 
 # admin.site.register(Notification)

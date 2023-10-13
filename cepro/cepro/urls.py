@@ -82,16 +82,22 @@ urlpatterns = [
     path('edit_meeting/<int:meeting_id>/', views.edit_meeting, name='edit_meeting'),
     path('delete_meeting/<int:meeting_id>/', views.delete_meeting, name='delete_meeting'),
 
-
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
     path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),
 
     path('search_crop', views.search_crop, name='search_crop'),
     path('search_member', views.search_member, name='search_member'),
-
+    # path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
     # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
     # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
     path('combined_details/', views.combined_details, name='combined_details'),
+
+    # path('update_attendance/<int:meeting_id>/', views.update_attendance, name='update_attendance'),
+
+    path('adattendance/', views.adattendance, name='adattendance'),
+    # path('store_attendance/', views.store_attendance, name='store_attendance'),
+
+
 
     path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
 

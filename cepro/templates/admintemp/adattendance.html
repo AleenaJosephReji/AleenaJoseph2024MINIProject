@@ -14,7 +14,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
@@ -86,6 +87,23 @@
         .dropdown-menu a:hover {
             background-color: #f2f2f2; /* Background color on hover */
         }
+            /* Optional CSS for better formatting */
+            .custom-dropdown {
+                display: inline-block;
+                position: relative;
+            }
+    
+            .custom-dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 150px;
+                border: 1px solid #ccc;
+            }
+    
+            .custom-checkbox {
+                display: block;
+            }
     </style> 
 </head>
 
@@ -209,7 +227,7 @@
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
 						<li>
-                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
@@ -219,7 +237,7 @@
                         </li> {% endcomment %}
                         
                         <li>
-                            <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
@@ -232,22 +250,26 @@
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
                                 <li>
-                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fas fa-exclamation-circle"></i>
+
+                                    </i> <span>Pending</span></a>
                                 </li>
                                 <li>
                                     <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
                         </li>    
-
+                        <li class="active">
+                            <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                            </i> <span>Meeting</span></a>
+                        </li> 
                         <li>
-                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
+                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            </i> <span>Report</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span></span></a>
@@ -347,11 +369,12 @@
                                 <li><a href="tables-datatables.html">Data Table</a></li>
                             </ul>
                         </li> {% endcomment %}
-                        <li class="active">
-                            <a href="{% url 'admeeting' %}"><i class="fa fa-wheelchair"></i> <span>Meeting</span></a>
-                        </li> 
+                       
                         <li>
-                            <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
+                            <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
+
+                            </i>
+                                <span>Calendar</span></a>
                         </li>
                         {% comment %} <li class="menu-title">Extras</li>
                         <li class="submenu">
@@ -417,78 +440,22 @@
                             </div>
                         </form> {% endcomment %}
                         <br>
-                        <table>
-                            <thead>
+                        <form method="post">
+                            {% csrf_token %}
+                            <table>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Venue</th>
-                                    <th>Agenda</th>
-                                    <th>Attendance</th>
-                                    {% comment %} <th id="displayAttendanceHeader">Display Attendence</th> {% endcomment %}
-                                    <th>Details Discussed</th>
-                                    <th>Report (upload pdf)</th>
-                                    <th>Actions</th>
+                                    <th>Ward Member</th>
+                                    <th>Present</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for meeting in meetings %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ meeting.meeting_date }}</td>
-                                    <td>{{ meeting.meeting_time }}</td>
-                                    <td>{{ meeting.meeting_venue }}</td>
-                                    <td>{{ meeting.meeting_agenda }}</td>
-                                    <td>
-                                        <form method="post" action="">
-                                            {% csrf_token %}
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="modeDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Attendance
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="modeDropdown{{ forloop.counter }}">
-                                                    <div class="dropdown-item">
-                                                        <input type="checkbox" id="annuCheckbox{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="attendance" name="annu_attendance_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" {% if attendee.annu_attendance %}checked{% endif %}>
-                                                        <label for="annuCheckbox{{ forloop.parentloop.counter }}_{{ forloop.counter }}">Annu</label>
-                                                    </div>
-                                                    <div class="dropdown-item">
-                                                        <input type="checkbox" id="annaCheckbox{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="attendance" name="anna_attendance_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" {% if attendee.anna_attendance %}checked{% endif %}>
-                                                        <label for="annaCheckbox{{ forloop.parentloop.counter }}_{{ forloop.counter }}">Anna</label>
-                                                    </div>
-                                                    <div class="dropdown-item">
-                                                        <input type="checkbox" id="aryaCheckbox{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="attendance" name="arya_attendance_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" {% if attendee.arya_attendance %}checked{% endif %}>
-                                                        <label for="aryaCheckbox{{ forloop.parentloop.counter }}_{{ forloop.counter }}">Arya</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button type="submit">Update Attendance</button>
-                                        </form>
-                                    </td>
-                                    
-                                    
-                                    <td>{{ meeting.desmeeting }}</td>
-                                    <td>{{ meeting.report }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
-                                                ...
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="actionsDropdown{{ forloop.counter }}">
-                                                <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
-                                                <a class "dropdown-item" href="{% url 'delete_meeting' meeting.id %}" style="background-color: #dc3545; color: #fff;">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4">No meetings available.</td>
-                                </tr>
+                                {% for ward_member in ward_members %}
+                                    <tr>
+                                        <td>{{ ward_member.name }}</td>
+                                        <td></td>
+                                    </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
-
+                            </table>
+                            <input type="submit" value="Submit">
+                        </form>
                     </div>
                 </div><br><br>
             </div>
@@ -509,8 +476,15 @@
 		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
-    {% comment %}  {% endcomment %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function toggleDropdown(button) {
+            var dropdownContent = button.nextElementSibling;
+            dropdownContent.style.display = (dropdownContent.style.display === 'block') ? 'none' : 'block';
+        }
+
+
+    </script>
+    
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
