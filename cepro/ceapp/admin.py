@@ -10,6 +10,7 @@ from .models import Meeting
 from .models import MemberProfile
 from .models import Attendance
 from .models import Attendee
+from .models import WardAttendance
 
 # from .models import Notification
 # from .models import Notification
@@ -27,6 +28,7 @@ admin.site.register(MemberProfile)
 admin.site.register(Meeting)
 admin.site.register(Attendance)
 admin.site.register(Attendee)
+admin.site.register(WardAttendance)
 
 
 # admin.site.register(Notification)

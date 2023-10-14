@@ -440,50 +440,28 @@
                             </div>
                         </form> {% endcomment %}
                         <br>
-                        <table>
-                            <thead>
+                        <form method="post" action="{% url 'submit_attendance' %}">
+                            {% csrf_token %}
+                            <table border="1">
                                 <tr>
-                                    <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Venue</th>
+
+                                    <th>Name</th>
                                     <th>Attendance</th>
-                                    
-                                    <th>Actions</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for meeting in meetings %}
+                                {% for member in members %}
                                 <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ meeting.meeting_date }}</td>
-                                    <td>{{ meeting.meeting_time }}</td>
-                                    <td>{{ meeting.meeting_venue }}</td>
-                                    <td>
-                                        <div class="col-sm-8 col-9 text-right m-b-20">
-                                            <a href="{% url 'adaddattendance' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="" id="addmem"></i> Add Attendence</a>
-                                        </div>
+
+                                    <td><h4 class="doctor-name text-ellipsis"><a href="profile.html"> {{ member.Name }}</a></h4>
                                     </td>
-                                    
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
-                                                ...
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="actionsDropdown{{ forloop.counter }}">
-                                                <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
-                                                <a class "dropdown-item" href="{% url 'delete_meeting' meeting.id %}" style="background-color: #dc3545; color: #fff;">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4">No meetings available.</td>
-                                </tr>
+
+                                </tr>    
                                 {% endfor %}
-                            </tbody>
-                        </table>
+
+                                <!-- Repeat for other individuals -->
+                            </table>
+                    
+                            <input type="submit" value="Submit Attendance">
+                        </form> 
                     </div>
                 </div><br><br>
             </div>

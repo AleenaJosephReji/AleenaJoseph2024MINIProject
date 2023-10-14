@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Details</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: green;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            font-weight:bold;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .header-left 
+        {
+            {% comment %} background-color:green; {% endcomment %}
+            color:green;
+            font-size:24px;
+            font-weight:bold;
+            text-align: center;
+        }
+        h2{
+            color:brown;
+            font-size:18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-left">
+        <h1>CropElevate</h1>
+        {% comment %} <a href="" class="logo">
+            <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+        </a> {% endcomment %}
+    </div>
+    <div class="container">
+        <h2>Meeting Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th><b>No</b></th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Venue</th>
+                    <th>Agenda</th>
+                    <th>Details Discussed</th>
+                    {% comment %} <th>Report (PDF)</th> {% endcomment %}
+                    {% comment %} <th>Actions</th> {% endcomment %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for meeting in meetings %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ meeting.meeting_date }}</td>
+                    <td>{{ meeting.meeting_time }}</td>
+                    <td>{{ meeting.meeting_venue }}</td>
+                    <td>{{ meeting.meeting_agenda }}</td>
+                    <td>{{ meeting.desmeeting }}</td>
+                    {% comment %} <td>{{ meeting.report }}</td> {% endcomment %}
+                    {% comment %} <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
+                                ...
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="actionsDropdown{{ forloop.counter }}">
+                                <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
+                                <a class="dropdown-item" href="{% url 'delete_meeting' meeting.id %}" style="background-color: #dc3545; color: #fff;">Delete</a>
+                            </div>
+                        </div>
+                    </td> {% endcomment %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">No meetings available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

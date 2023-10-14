@@ -1419,15 +1419,20 @@ def admeeting(request):
     current_date = timezone.now().date()
     return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
 def adattendence(request):
-    ward_members = Attendee.objects.all()
-    if request.method == 'POST':
-        form = Attendee(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('adattendence')
-    else:
-        form = Attendee()
-    return render(request, 'admintemp/adattendence.html', {'ward_members': ward_members, 'form': form})
+    meetings = Meeting.objects.filter(is_active=True)
+    from django.utils import timezone
+    current_date = timezone.now().date()
+    return render(request, 'admintemp/adattendance.html', {'meetings': meetings, 'current_date': current_date})
+
+    # ward_members = Attendee.objects.all()
+    # if request.method == 'POST':
+    #     form = Attendee(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('adattendence')
+    # else:
+    #     form = Attendee()
+    # return render(request, 'admintemp/adattendence.html', {'ward_members': ward_members, 'form': form})
 # def update_attendance(request, meeting_id):
 #     if request.method == "POST":
 #         meeting = Meeting.objects.get(id=meeting_id)
@@ -1493,9 +1498,54 @@ def delete_meeting(request, meeting_id):
         request.session['delete meet'] = True
         return redirect('admeeting')
     return render(request, 'admintemp/delete_meeting.html', {'meeting': meeting})
+from .models import WardAttendance
+def adaddattendance(request):
+    members = Member.objects.filter(is_active=True)
+    return render(request, 'admintemp/adaddattendance.html', {'members': members})
+    # return render(request, 'admintemp/adaddattendance.html', )
+
+def submit_attendance(request):
+    if request.method == 'POST':
+        for ward in WardAttendance.objects.all():
+            ward.is_present = request.POST.get(f'ward{ward.id}_attendance', False)
+            ward.save()
+    return redirect('adaddattendance')
+
+
 
 def mmeeting(request):
     current_date = date.today()
     meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
     meetings = meetings.filter(meeting_date__gte=current_date)  # Filter for meetings on or after today
     return render(request, 'membertemp/mmeeting.html', {'meetings': meetings, 'current_date': current_date})
+
+from django.http import HttpResponse
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from io import BytesIO
+from django.shortcuts import render
+
+def generate_pdf(request):
+    template = get_template('admintemp/generate_pdfmeeting.html')  # Use the new template
+
+    context = {
+        'meetings': Meeting.objects.filter(is_active=True),
+        'current_date': timezone.now().date(),
+    }
+
+    html = template.render(context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="meeting_table.pdf"'
+
+    buffer = BytesIO()
+    pisa_status = pisa.CreatePDF(html, dest=buffer)
+
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+
+    return response

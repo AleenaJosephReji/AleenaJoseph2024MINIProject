@@ -428,7 +428,7 @@
                                     <th>Attendance</th>
                                     {% comment %} <th id="displayAttendanceHeader">Display Attendence</th> {% endcomment %}
                                     <th>Details Discussed</th>
-                                    <th>Report (upload pdf)</th>
+                                    {% comment %} <th>Report (upload pdf)</th> {% endcomment %}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -468,7 +468,7 @@
                                     
                                     
                                     <td>{{ meeting.desmeeting }}</td>
-                                    <td>{{ meeting.report }}</td>
+                                    {% comment %} <td>{{ meeting.report }}</td> {% endcomment %}
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
@@ -488,6 +488,8 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                        <a href="{% url 'generate_pdf' %}" class="btn btn-primary">Generate PDF</a>
+
 
                     </div>
                 </div><br><br>

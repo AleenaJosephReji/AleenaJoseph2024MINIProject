@@ -84,10 +84,11 @@ urlpatterns = [
 
     path('delete_crop/<int:crop_id>/', views.delete_crop, name='delete_crop'),
     path('edit_crop/<int:crop_id>/', views.edit_crop, name='edit_crop'),
-
+    path('adaddattendance', views.adaddattendance, name='adaddattendance'),
+    path('submit_attendance/', views.submit_attendance, name='submit_attendance'),
     path('search_crop', views.search_crop, name='search_crop'),
     path('search_member', views.search_member, name='search_member'),
-    # path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
+    path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
     # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
     # path('reduce_crop_count/<int:crop_id>/', views.reduce_crop_count, name='reduce_crop_count'),
     path('combined_details/', views.combined_details, name='combined_details'),

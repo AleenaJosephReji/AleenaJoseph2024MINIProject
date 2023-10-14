@@ -287,6 +287,10 @@ class Attendee(models.Model):
     arya_attendance = models.BooleanField(default=False)
 
     
+class WardAttendance(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    # ward_name = models.CharField(max_length=50)
+    is_present = models.BooleanField(default=False)
 
 
 
