@@ -105,7 +105,7 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="adprofile.html">My Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="#">Edit Profile</a> {% endcomment %}
+						<a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
 						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
@@ -272,7 +272,9 @@
                                 <li><a href="tables-datatables.html">Data Table</a></li>
                             </ul>
                         </li> {% endcomment %}
-                        
+                        <li>
+                            <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
 

@@ -70,36 +70,56 @@
             <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
         </a> {% endcomment %}
     </div>
-    <div class="container">
-        <h2>Meeting Details</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th><b>No</b></th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Venue</th>
-                    <th>Agenda</th>
-                    <th>Details Discussed</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for meeting in meetings %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ meeting.meeting_date }}</td>
-                    <td>{{ meeting.meeting_time }}</td>
-                    <td>{{ meeting.meeting_venue }}</td>
-                    <td>{{ meeting.meeting_agenda }}</td>
-                    <td>{{ meeting.desmeeting }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6">No meetings available.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="container">
+        <br><br><br>
+        <br>
+        <h1 style="color:black;">Report</h1>
+        
+        <!-- Button to generate the PDF report -->
+        {% comment %} <a href="{% url 'generate_pdfreport' %}" class="btn">Generate PDF Report</a> {% endcomment %}
+        
+        <!-- Agricultural Report Details section -->
+        <!-- Agricultural Report Details section -->
+{% for application in applications %}
+<div class="details">
+    <h2 style="margin-left:60px; color:black; font-weight:bold;">{{ application.cname }}</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Farmer Name</th>
+            <th>Address</th>
+            <th>Contact No</th>
+            <th>Ward No</th>
+            <th>Annual Income</th>
+            <th>Land</th>
+            <th>Crop Count</th>
+            <th>Date</th>
+        </tr>
+        {% comment %} {% for application in applications %} {% endcomment %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ application.farmerName }}</td>
+    <td>{{ application.address }}</td>
+    <td>{{ application.contactNo }}</td>
+    <td>{{ application.wardNo }}</td>
+    <td>{{ application.AnnualIncome }}</td>
+    <td>{{ application.land }}</td>
+    <td>
+        {% if application.land > 100 %}
+            60
+        {% elif application.land >= 50 and application.land < 100 %}
+            40
+        {% else %}
+            20
+        {% endif %}
+    </td>
+    <td>{{ application.crop_giventime }}</td>
+</tr>
+    </table>
+</div>
+{% comment %} {% endfor %} {% endcomment %}
+{% endfor %}
+
     </div>
 </body>
 </html>

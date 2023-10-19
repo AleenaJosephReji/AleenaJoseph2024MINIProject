@@ -10,6 +10,7 @@ from .models import ApplyCrop
 from .models import CustomUser
 from .models import FarmerProfile
 from .models import MemberProfile
+from .models import *
 from django.core.files.storage import FileSystemStorage
 from datetime import date
 from django.utils import timezone
@@ -492,6 +493,70 @@ def ceditprofile(request):
     }
 
     return render(request, 'ceditprofile.html',context)
+
+
+
+# def adeditprofile(request):
+    
+#     user = request.user
+#     adprofile = FarmerProfile.objects.get(user=user)
+    
+#     if request.method == "POST":
+#         print ('POST')
+#         # user.first_name=request.POST.get('first_name')
+#         # user.last_name=request.POST.get('last_name')
+#         # Process the form data and save/update the profile
+
+#         adprofile.first_name = request.POST.get('first_name')
+#         print("first name :",adprofile.first_name)
+#         adprofile.last_name = request.POST.get('last_name')
+#         print("last name :",adprofile.last_name)
+        
+#         # profile.birth_date = request.POST.get('birth_date')
+#         # print("Date of Birth :",profile.birth_date)
+     
+#         adprofile.email = request.POST.get('email')
+#         print("email name :",adprofile.email)
+
+        
+#         adprofile.gender = request.POST.get('gender')
+#         print("gender :",adprofile.gender)
+
+#         # profile.house_name = request.POST.get('house_name')
+#         # print("house name :",profile.house_name)
+
+#         adprofile.house_no = request.POST.get('house_no')
+#         print("house no :",adprofile.house_no)
+
+#         adprofile.address = request.POST.get('address')
+#         print("adsress :",adprofile.address)
+
+#         adprofile.ward = request.POST.get('ward')
+#         print("ward :",adprofile.ward)
+
+#         adprofile.pin_code = request.POST.get('pin_code')
+#         print("pin code :",adprofile.pin_code)
+
+#         adprofile.phone_number = request.POST.get('phone_number')
+#         print("phone :",adprofile.phone_number)
+
+#         # profile.phone_number = request.POST.get('phone_number')
+#         profile.fprofile_photo = request.FILES.get('fprofile_photo')
+#         print("phone :",profile.fprofile_photo)
+
+#         profile.save()
+        
+            
+
+#         # messages.success(request, 'Profile updated successfully.')
+#         return redirect('adeditprofile')  # Redirect to the profile page
+#     context = {
+#         'user': user,
+#         'profile': profile
+#     }
+
+#     return render(request, 'ceditprofile.html',context)
+
 
 from django.contrib.auth import update_session_auth_hash
 # @login_required(login_url='login_page')
@@ -1383,17 +1448,30 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.utils import timezone
 
+def approve_attcertification(request, certification_id):
+    certification = get_object_or_404(WardAttendance, id=certification_id)
+    if request.method == 'POST':
+        certification.is_present = WardAttendance.PRESENT  # Set it to 'approved'
+        certification.save()
+    return redirect('adaddattendance')
+
+def reject_attcertification(request, certification_id):
+    certification = get_object_or_404(WardAttendance, id=certification_id)
+    if request.method == 'POST':
+        certification.is_present = WardAttendance.ABSENT  # Set it to 'rejected'
+        certification.save()
+    return redirect('adaddattendance')
+
 
 def adattendance(request):
     if request.method == 'POST':
         selected_wards = request.POST.getlist('ward')
-        # Get the meeting ID from the form (you should add this to your form)
         meeting_id = request.POST.get('meeting_id')
 
         # Iterate through selected wards and update attendance records
         for ward in selected_wards:
             # Check if an attendance record for the person and meeting already exists
-            attendance, created = Attendance.objects.get_or_create(
+            attendance, created = WardAttendance.objects.get_or_create(
                 meeting_id=meeting_id,
                 person_id=ward,
             )
@@ -1409,20 +1487,56 @@ def adattendance(request):
     meetings = Meeting.objects.all()
     return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
 
+
+def adaddattendance(request):
+    members = Member.objects.filter(is_active=True)
+    attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
+    return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records})
+
+
+def submit_attendance(request):
+    if request.method == 'POST':
+        for ward_attendance in WardAttendance.objects.all():
+            attendance_value = request.POST.get(f'attendance_{ward_attendance.user.id}', 'off')
+            ward_attendance.is_present = attendance_value == 'on'
+            ward_attendance.save()
+        messages.success(request, "Attendance marked")
+    return redirect('adaddattendance')
+
+
+def display_attendance(request):
+    # Fetch all members
+    members = CustomUser.objects.filter(role=CustomUser.MEMBER)
+
+    # Create a dictionary to store attendance information for each member
+    attendance_info = {}
+
+    for member in members:
+        # Check if there is a WardAttendance record for the member
+        ward_attendance = WardAttendance.objects.filter(user=member).all()
+        
+        if ward_attendance:
+            attendance_info[member.name] = ward_attendance.is_present
+        else:
+            attendance_info[member.name] = False
+
+    return render(request, 'admintemp/attendance_display.html', {'members': members, 'attendance_info': attendance_info})
+
+# def adattendence(request):
+#     meetings = Meeting.objects.filter(is_active=True)
+#     from django.utils import timezone
+#     current_date = timezone.now().date()
+#     return render(request, 'admintemp/adattendance.html', {'meetings': meetings, 'current_date': current_date})
+
 from django.shortcuts import render, redirect
 from .models import Meeting
-from .models import Attendee
+# from .models import Attendee
 
 def admeeting(request):
     meetings = Meeting.objects.filter(is_active=True)
     from django.utils import timezone
     current_date = timezone.now().date()
     return render(request, 'admintemp/admeeting.html', {'meetings': meetings, 'current_date': current_date})
-def adattendence(request):
-    meetings = Meeting.objects.filter(is_active=True)
-    from django.utils import timezone
-    current_date = timezone.now().date()
-    return render(request, 'admintemp/adattendance.html', {'meetings': meetings, 'current_date': current_date})
 
     # ward_members = Attendee.objects.all()
     # if request.method == 'POST':
@@ -1498,19 +1612,6 @@ def delete_meeting(request, meeting_id):
         request.session['delete meet'] = True
         return redirect('admeeting')
     return render(request, 'admintemp/delete_meeting.html', {'meeting': meeting})
-from .models import WardAttendance
-def adaddattendance(request):
-    members = Member.objects.filter(is_active=True)
-    return render(request, 'admintemp/adaddattendance.html', {'members': members})
-    # return render(request, 'admintemp/adaddattendance.html', )
-
-def submit_attendance(request):
-    if request.method == 'POST':
-        for ward in WardAttendance.objects.all():
-            ward.is_present = request.POST.get(f'ward{ward.id}_attendance', False)
-            ward.save()
-    return redirect('adaddattendance')
-
 
 
 def mmeeting(request):
@@ -1549,3 +1650,41 @@ def generate_pdf(request):
     response.write(pdf)
 
     return response
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
+def generate_pdfreport(request):
+    template = get_template('admintemp/generate_pdfreport.html')  # Use the new template
+
+    context = {
+        'applications': ApplyCrop.objects.filter(is_approvedd='approved'),
+        'crops': Crop.objects.all(),
+        'current_date': timezone.now().date(),
+    }
+
+    html = template.render(context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="meeting_table.pdf"'
+
+    buffer = BytesIO()
+    pisa_status = pisa.CreatePDF(html, dest=buffer)
+
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+
+    return response
+

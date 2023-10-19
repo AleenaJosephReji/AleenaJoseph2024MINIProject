@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
     <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
@@ -72,52 +72,8 @@
                         <div class="drop-scroll">
                             <ul class="notification-list">
 
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">
-												<img alt="John Doe" src="assets/img/user.jpg" class="img-fluid rounded-circle">
-											</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">V</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">L</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li>
-                                {% comment %} <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media">
-											<span class="avatar">G</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-											</div>
-                                        </div>
-                                    </a>
-                                </li> {% endcomment %}
+                               
+                                
                                 <li class="notification-message">
                                     <a href="activities.html">
                                         <div class="media">
@@ -174,24 +130,11 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                        <li>
-                            <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li>
-                        {% comment %} <li>
-                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
-                        </li> {% endcomment %}
+                        
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span>Approved</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved</span></a>
-                        </li>  {% endcomment %}
+                        
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -212,66 +155,7 @@
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
                         </li>
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="employees.html">Employees List</a></li>
-								<li><a href="leaves.html">Leaves</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a href="attendance.html">Attendance</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="invoices.html">Invoices</a></li>
-								<li><a href="payments.html">Payments</a></li>
-								<li><a href="expenses.html">Expenses</a></li>
-								<li><a href="taxes.html">Taxes</a></li>
-								<li><a href="provident-fund.html">Provident Fund</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
-								<li><a href="salary-view.html"> Payslip </a></li>
-							</ul>
-						</li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="voice-call.html">Voice Call</a></li>
-                                <li><a href="video-call.html">Video Call</a></li>
-                                <li><a href="incoming-call.html">Incoming Call</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
-                                <li><a href="{% url 'adinbox' %}">Inbox</a></li>
-                                {% comment %} <li><a href="{% url 'admailview' %}">Mail View</a></li> {% endcomment %}
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="active"><a href="{% url 'adblog' %}">Blog</a></li>
-                                {% comment %} <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> {% endcomment %}
-                                <li class="active"><a href="{% url 'adaddblog' %}">Add Blog</a></li>
-                                {% comment %} <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> {% endcomment %}
-                            </ul>
-                        </li>
-						{% comment %} <li>
-							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li>
-						<li>
-							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
-						</li> {% endcomment %}
+						
 						<li class="submenu">
 							<a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
 							{% comment %} <ul style="display: none;">
@@ -279,472 +163,146 @@
 								<li><a href="invoice-reports.html"> Invoice Report </a></li>
 							</ul> {% endcomment %}
 						</li>
-                        {% comment %} <li>
-                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="menu-title">UI Elements</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="uikit.html">UI Kit</a></li>
-                                <li><a href="typography.html">Typography</a></li>
-                                <li><a href="tabs.html">Tabs</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
-                                <li><a href="form-input-groups.html">Input Groups</a></li>
-                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
-                                <li><a href="form-vertical.html">Vertical Form</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="tables-basic.html">Basic Tables</a></li>
-                                <li><a href="tables-datatables.html">Data Table</a></li>
-                            </ul>
-                        </li> {% endcomment %}
+                        
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>
-                        {% comment %} <li class="menu-title">Extras</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="login.html"> Login </a></li>
-                                <li><a href="register.html"> Register </a></li>
-                                <li><a href="forgot-password.html"> Forgot Password </a></li>
-                                <li><a href="change-password2.html"> Change Password </a></li>
-                                <li><a href="lock-screen.html"> Lock Screen </a></li>
-                                <li><a class="active" href="profile.html"> Profile </a></li>
-                                <li><a href="gallery.html"> Gallery </a></li>
-                                <li><a href="error-404.html">404 Error </a></li>
-                                <li><a href="error-500.html">500 Error </a></li>
-                                <li><a href="blank-page.html"> Blank Page </a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul style="display: none;">
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"><span>Level 1</span></a>
-                                </li>
-                            </ul>
-                        </li> {% endcomment %}
+                       
+                       
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="page-wrapper">
-            <div class="content">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="page-title">Edit Profile</h4>
-                    </div>
-                </div>
-                <form>
-                    <div class="card-box">
-                        <h3 class="card-title">Basic Informations</h3>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="profile-img-wrap">
-                                    <img class="inline-block" src="assets/img/user.jpg" alt="">
-                                    {% comment %} <div class="fileupload btn">
-                                        <span class="btn-text">edit</span>
-                                        <input class="upload" type="file">
-                                    </div> {% endcomment %}
-                                </div>
-                                <div class="profile-basic">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <label class="focus-label">First Name</label>
-                                                <input type="text" class="form-control floating" value="John" name="firstname">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <label class="focus-label">Last Name</label>
-                                                <input type="text" class="form-control floating" value="Jose" name="lastname">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus">
-                                                <label class="focus-label">Birth Date</label>
-                                                <div class="cal-icon">
-                                                    <input class="form-control floating datetimepicker" type="text" value="05/06/1985" name="dob">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group form-focus select-focus">
-                                                <label class="focus-label">Gendar</label>
-                                                <select class="select form-control floating" name="gender">
-                                                    <option value="male selected">Male</option>
-                                                    <option value="female">Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Contact Informations</h3>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Address</label>
-                                    <input type="text" class="form-control floating" value="ABC Villa" name="address">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Country</label>
-                                    <input type="text" class="form-control floating" value="India" name="country">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">State</label>
-                                    <input type="text" class="form-control floating" value="Kerala" name="state">
-                                </div>
-                            </div>
-                          
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Pin Code</label>
-                                    <input type="text" class="form-control floating" value="686509" name= "pin">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Phone Number</label>
-                                    <input type="text" class="form-control floating" value="9874653210" name="phone">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-box">
-                        <h3 class="card-title">Education Informations</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Institution</label>
-                                    <input type="text" class="form-control floating" value="xyz school" name="institution">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Subject</label>
-                                    <input type="text" class="form-control floating" value="+2" name="subject">
-                                </div>
-                            </div>
-                            {% comment %} <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Starting Date</label>
-									<div class="cal-icon">
-										<input type="text" class="form-control floating datetimepicker" value="01/06/2002">
-									</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Complete Date</label>
-									<div class="cal-icon">
-										<input type="text" class="form-control floating datetimepicker" value="31/05/2006">
-									</div>
-                                </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <form method="POST" action="" autocomplete="off">
+                        <div class="profile-form">
+                            <!-- Basic Information -->
+                            <h2 class="form-heading" style="color:brown; font-weight:bold;">Basic Information</h2>
+                            {% csrf_token %}
+                            {% comment %} <div>
+                                <label for="address" id="carde" class="form-label text animated zoomIn">Reset Password:</label>
+                                <hr class=" text animated zoomIn" id="signintext2">
+                                <input type="Password" class="form-control text animated zoomIn"  id="cardelement" name="old_password" placeholder="current password">
+                                <input type="Password" class="form-control text animated zoomIn"  id="cardelement" name="reset_password" style="margin-top:20px;" placeholder="new password">
+                                <input type="Password" class="form-control text animated zoomIn"  id="cardelement" name="cpass" style="margin-top:20px;" placeholder="confirm new password">
+                                <span id="pspan" class="text-danger" style="margin-left:50%;"></span>
                             </div> {% endcomment %}
-                            {% comment %} <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Degree</label>
-                                    <input type="text" class="form-control floating" value="BE Computer Science">
+                            {% if messages %}
+                            {% for message in messages %}
+                                <p class="text-danger" >{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Name <span class="text-danger"></span></label>
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ member.Name }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email <span class="text-danger"></span></label>
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ member.email }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <textarea class="form-control" id="address" name="address">{{ member.address }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="dob">Date of Birth</label>
+                                        <input type="date" class="form-control" id="dob" name="dob" value="{{ member.dob }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="district">District</label>
+                                        <input type="text" class="form-control" id="district" name="district" value="{{ member.district }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="taluk">Taluk</label>
+                                        <input type="text" class="form-control" id="taluk" name="taluk" value="{{ member.taluk }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="panchayat">Panchayath</label>
+                                        <input type="text" class="form-control" id="panchayat" name="panchayat" value="{{ member.Panchayat }}" readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Grade</label>
-                                    <input type="text" class="form-control floating" value="Grade A">
+                            <!-- Contact Information -->
+                            <h2 class="form-heading" style="color:brown;font-weight:bold">Contact Information</h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ward">Ward</label>
+                                        <input type="text" class="form-control" id="ward" name="ward" value="{{ member.wardno }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="postal">Postal Code</label>
+                                        <input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone" value="{{ member.phone }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="amob">Alternate Mobile Number</label>
+                                        <input type="tel" class="form-control" id="amob" name="amob" value="{{ member.amob }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="aemail">Alternate Email</label>
+                                        <input type="text" class="form-control" id="aemail" name="aemail" value="{{ member.aemail }}">
+                                    </div>
                                 </div>
                             </div>
-                        </div> {% endcomment %}
-                        {% comment %} <div class="add-more">
-                            <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Institute</a>
-                        </div> {% endcomment %}
-                    </div>
-                    {% comment %} <div class="card-box">
-                        <h3 class="card-title">Experience Informations</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Company Name</label>
-                                    <input type="text" class="form-control floating" value="Digital Devlopment Inc">
+                            <!-- Educational Information -->
+                            <h2 class="form-heading" style="color:brown;font-weight:bold">Educational Information</h2>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="degree">Highest Degree</label>
+                                        <input type="text" class="form-control" id="degree" name="degree" value="{{ member.degree }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="institution">Institution</label>
+                                        <input type="text" class="form-control" id="institution" name="institution" value="{{ member.institution }}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Location</label>
-                                    <input type="text" class="form-control floating" value="United States">
+                            <!-- Short Biography -->
+                            <h2 class="form-heading" style="color:brown;font-weight:bold">Short Biography</h2>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="bio">Short Biography</label>
+                                        <textarea class="form-control" id="bio" name="bio">{{ member.bio }}</textarea>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Job Position</label>
-                                    <input type="text" class="form-control floating" value="Web Developer">
-                                </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Period From</label>
-									<div class="cal-icon">
-										<input type="text" class="form-control floating datetimepicker" value="01/07/2007">
-									</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group form-focus">
-                                    <label class="focus-label">Period To</label>
-									<div class="cal-icon">
-										<input type="text" class="form-control floating datetimepicker" value="08/06/2018">
-									</div>
-                                </div>
-                            </div>
-                        </div> {% endcomment %}
-                        {% comment %} <div class="add-more">
-                            <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i> Add More Experience</a>
-                        </div> {% endcomment %}
-                    </div>
-                    <div class="text-center m-t-20">
-                        <button class="btn btn-primary submit-btn" type="button">Save</button>
-                    </div>
-                </form>
-            </div>
-            <div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                        </ul>
-                    </div>
-                    {% comment %} <div class="topnav-dropdown-footer">
-                        <a href="chat.html">See all messages</a>
-                    </div> {% endcomment %}
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

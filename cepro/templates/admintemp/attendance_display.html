@@ -1,0 +1,25 @@
+<h2>Attendance</h2><h2>Attendance</h2>
+<table border="1">
+    <thead>
+        <tr>
+            {% comment %} <th>Date</th> {% endcomment %}
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for member in members %}
+            <tr>
+                {% comment %} <td>{{ member.attendance.meeting_date }}</td> {% endcomment %}
+                <td>{{ member.email }}</td>
+                <td>
+                    {% if member.attendance.attended %}
+                        Present
+                    {% else %}
+                        Absent
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

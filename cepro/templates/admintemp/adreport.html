@@ -309,7 +309,9 @@
                                 <li><a href="tables-datatables.html">Data Table</a></li>
                             </ul>
                         </li> {% endcomment %}
-                        
+                        <li>
+                            <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
 
@@ -362,8 +364,12 @@
             <br><br><br>
             <br>
             <h1 style="color:black;">Report</h1>
-    
+           
             <!-- Agricultural Report Details section -->
+            <form action="{% url 'generate_pdfreport' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="generate-pdf-button" style="margin-left:100px; width: 200px; height: 50px;">Generate PDF</button>
+            </form>
             {% for crop_name, approved_list in data_by_crop.items %}
             <div class="details">
                 <h2 style="margin-left:60px; color:black; font-weight:bold;">{{ crop_name }}</h2>
@@ -406,6 +412,7 @@
                 </table>
             </div>
             {% endfor %}
+            
             <!-- End Agricultural Report Details section -->
             
             <!-- Meeting Details section -->
