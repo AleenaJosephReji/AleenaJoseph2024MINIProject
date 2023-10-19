@@ -312,7 +312,7 @@ class WardAttendance(models.Model):
     )
 
 
-class MemberProfile(models.Model):
+class SecretaryProfile(models.Model):
     
     # user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True )

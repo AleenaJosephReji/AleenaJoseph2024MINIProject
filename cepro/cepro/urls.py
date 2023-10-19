@@ -98,7 +98,9 @@ urlpatterns = [
     path('adattendance/', views.adattendance, name='adattendance'),
     path('submit_attendance/', views.submit_attendance, name='submit_attendance'),
     path('display_attendance/', views.display_attendance, name='display_attendance'),
-
+    path('approve_attcertification/<int:attendance_id>/', views.approve_attcertification, name='approve_attcertification'),
+    path('reject_attcertification/<int:attendance_id>/', views.reject_attcertification, name='reject_attcertification'),
+    path('mark_attendance/', views.mark_attendance, name='mark_attendance'),
     # path('store_attendance/', views.store_attendance, name='store_attendance'),
 
 
@@ -117,6 +119,9 @@ urlpatterns = [
     path('mmeeting', views.mmeeting, name='mmeeting'),
 
 
+
+
+
     path('approve_certification/<int:certification_id>/', views.approve_certification, name='approve_certification'),
     path('reject_certification/<int:certification_id>/', views.reject_certification, name='reject_certification'),
     # path('pending_certification/<int:certification_id>/', views.pending_certification, name='pending_certification'),
@@ -124,9 +129,7 @@ urlpatterns = [
     path('approve_acertification/<int:certification_id>/', views.approve_acertification, name='approve_acertification'),
     # path('reject_acertification/<int:certification_id>/', views.reject_acertification, name='reject_acertification'),
     path('set_status_waiting/<int:application_id>/', views.set_status_waiting, name='set_status_waiting'),
-    path('approve_attcertification/<int:certification_id>/', views.approve_attcertification, name='approve_attcertification'),
-    path('approve_attcertification/<int:certification_id>/', views.approve_attcertification, name='approve_attcertification'),
-
+   
     # path('waiting_acertification/<int:certification_id>/', views.waiting_acertification, name='waiting_acertification'),
     path('mpending', views.mpending, name='mpending'),
     # path('membereditprofile', views.membereditprofile, name='membereditprofile'),

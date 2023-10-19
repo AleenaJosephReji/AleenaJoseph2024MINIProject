@@ -9,7 +9,7 @@ from .models import Blog
 from .models import ApplyCrop
 from .models import CustomUser
 from .models import FarmerProfile
-from .models import MemberProfile
+from .models import SecretaryProfile
 from .models import *
 from django.core.files.storage import FileSystemStorage
 from datetime import date
@@ -1448,18 +1448,16 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.utils import timezone
 
-def approve_attcertification(request, certification_id):
-    certification = get_object_or_404(WardAttendance, id=certification_id)
-    if request.method == 'POST':
-        certification.is_present = WardAttendance.PRESENT  # Set it to 'approved'
-        certification.save()
+def approve_attcertification(request, attendance_id):
+    attendance = WardAttendance.objects.get(id=attendance_id)
+    attendance.is_present = WardAttendance.PRESENT
+    attendance.save()
     return redirect('adaddattendance')
 
-def reject_attcertification(request, certification_id):
-    certification = get_object_or_404(WardAttendance, id=certification_id)
-    if request.method == 'POST':
-        certification.is_present = WardAttendance.ABSENT  # Set it to 'rejected'
-        certification.save()
+def reject_attcertification(request, attendance_id):
+    attendance = WardAttendance.objects.get(id=attendance_id)
+    attendance.is_present = WardAttendance.ABSENT
+    attendance.save()
     return redirect('adaddattendance')
 
 
@@ -1488,10 +1486,24 @@ def adattendance(request):
     return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
 
 
+# def adaddattendance(request):
+#     members = Member.objects.filter(is_active=True)
+#     attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
+#     return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records})
+
+
 def adaddattendance(request):
     members = Member.objects.filter(is_active=True)
-    attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
-    return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records})
+    attendance_records = WardAttendance.objects.all()  
+    for application in attendance_records:
+        # Ensure the user associated with the Certification exists
+        user = get_object_or_404(CustomUser, id=application.user_id)
+    context = {
+        'pending_details': attendance_records,
+            # Include user roles in the context
+    }
+# Retrieve attendance records
+    return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records,'context' : context})
 
 
 def submit_attendance(request):
@@ -1501,6 +1513,17 @@ def submit_attendance(request):
             ward_attendance.is_present = attendance_value == 'on'
             ward_attendance.save()
         messages.success(request, "Attendance marked")
+    return redirect('adaddattendance')
+from django.shortcuts import redirect
+
+def mark_attendance(request):
+    if request.method == 'POST':
+        member_id = request.POST.get('member_id')
+        attendance_status = request.POST.get('attendance_status')
+        
+        print(f"Member ID: {member_id}, Attendance Status: {attendance_status}")
+
+        # ... (update the model)
     return redirect('adaddattendance')
 
 

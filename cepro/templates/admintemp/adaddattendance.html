@@ -241,24 +241,22 @@
                     </h4>
                 </td>
                 <td>
-                    {% if application.is_present == 'pending' %}
-                        <form method="post" action="{% url 'approve_attcertification' application.id %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="certification_id" value="{{ application.id }}">
-                            <button class="btn btn-success approve-btn" type="submit">PRESENT</button>
-                        </form>
-                        <form method="post" action="{% url 'reject_attcertification' application.id %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="certification_id" value="{{ application.id }}">
-                            <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
-                        </form>
-                    {% else %}
-                        <p>Not working</p>
-                    {% endif %}
+                    <form method="post" action="{% url 'adaddattendance' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="member_id" value="{{ member.id }}">
+                        <select name="attendance_status">
+                            <option value="pending" {% if member.wardattendance.is_present == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="absent" {% if member.wardattendance.is_present == 'absent' %}selected{% endif %}>Absent</option>
+                            <option value="present" {% if member.wardattendance.is_present == 'present' %}selected{% endif %}>Present</option>
+                        </select>
+                        <button class="btn btn-primary" type="submit"><form method="post" action="{% url 'mark_attendance' %}">
+                            Mark Attendance</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
         </table>
+        
         
      
     </div>

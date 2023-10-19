@@ -198,34 +198,34 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Name <span class="text-danger"></span></label>
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ member.Name }}" readonly>
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ adprofile.Name }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="email">Email <span class="text-danger"></span></label>
-                                        <input type="email" class="form-control" id="email" name="email" value="{{ member.email }}" readonly>
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ adprofile.email }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <textarea class="form-control" id="address" name="address">{{ member.address }}</textarea>
+                                        <textarea class="form-control" id="address" name="address">{{ adprofile.address }}</textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {% comment %} <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="dob">Date of Birth</label>
                                         <input type="date" class="form-control" id="dob" name="dob" value="{{ member.dob }}">
                                     </div>
-                                </div>
-                                <div class="col-md-6">
+                                </div> {% endcomment %}
+                                {% comment %} <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="district">District</label>
                                         <input type="text" class="form-control" id="district" name="district" value="{{ member.district }}" readonly>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
+                                </div> {% endcomment %}
+                                {% comment %} <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="taluk">Taluk</label>
                                         <input type="text" class="form-control" id="taluk" name="taluk" value="{{ member.taluk }}" readonly>
@@ -237,29 +237,29 @@
                                         <input type="text" class="form-control" id="panchayat" name="panchayat" value="{{ member.Panchayat }}" readonly>
                                     </div>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <!-- Contact Information -->
                             <h2 class="form-heading" style="color:brown;font-weight:bold">Contact Information</h2>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="ward">Ward</label>
-                                        <input type="text" class="form-control" id="ward" name="ward" value="{{ member.wardno }}" readonly>
+                                        <input type="text" class="form-control" id="ward" name="ward" value="{{ adprofile.wardno }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="postal">Postal Code</label>
-                                        <input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}" readonly>
+                                        <input type="text" class="form-control" id="pin_code" name="pin_code" value="{{ adprofile.pin_code }}" >
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="phone">Phone</label>
-                                        <input type="tel" class="form-control" id="phone" name="phone" value="{{ member.phone }}" readonly>
+                                        <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ adprofile.phone_number }}" >
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {% comment %} <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="amob">Alternate Mobile Number</label>
                                         <input type="tel" class="form-control" id="amob" name="amob" value="{{ member.amob }}">
@@ -271,9 +271,9 @@
                                         <input type="text" class="form-control" id="aemail" name="aemail" value="{{ member.aemail }}">
                                     </div>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <!-- Educational Information -->
-                            <h2 class="form-heading" style="color:brown;font-weight:bold">Educational Information</h2>
+                            {% comment %} <h2 class="form-heading" style="color:brown;font-weight:bold">Educational Information</h2>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -297,11 +297,11 @@
                                         <textarea class="form-control" id="bio" name="bio">{{ member.bio }}</textarea>
                                     </div>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                        </div>
+                        </div> 
                     </form>
                 </div>
             </div>
