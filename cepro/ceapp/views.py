@@ -1269,6 +1269,8 @@ def search_member(request):
         members = Member.objects.all()
     
     return render(request, 'admintemp/admember.html', {'members': members, 'membername': membername})
+
+
 from django.http import JsonResponse
 def mpending(request):
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')  # Adjust the filter condition as needed
@@ -1486,24 +1488,24 @@ def adattendance(request):
     return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
 
 
-# def adaddattendance(request):
-#     members = Member.objects.filter(is_active=True)
-#     attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
-#     return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records})
-
-
 def adaddattendance(request):
     members = Member.objects.filter(is_active=True)
-    attendance_records = WardAttendance.objects.all()  
-    for application in attendance_records:
-        # Ensure the user associated with the Certification exists
-        user = get_object_or_404(CustomUser, id=application.user_id)
-    context = {
-        'pending_details': attendance_records,
-            # Include user roles in the context
-    }
-# Retrieve attendance records
-    return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records,'context' : context})
+    attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
+    return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records})
+
+
+# def adaddattendance(request):
+#     members = Member.objects.filter(is_active=True)
+#     attendance_records = WardAttendance.objects.all()  
+#     for application in attendance_records:
+#         # Ensure the user associated with the Certification exists
+#         user = get_object_or_404(CustomUser, id=application.user_id)
+#     context = {
+#         'pending_details': attendance_records,
+#             # Include user roles in the context
+#     }
+# # Retrieve attendance records
+#     return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records,'context' : context})
 
 
 def submit_attendance(request):
@@ -1711,3 +1713,34 @@ def generate_pdfreport(request):
 
     return response
 
+#graph
+
+# views.py
+# from django.shortcuts import render
+# import matplotlib.pyplot as plt
+# from io import BytesIO
+# import base64
+
+# from .models import Crop
+
+# def crop_graph(request):
+#     crops = Crop.objects.all()
+#     crop_names = [crop.Namec for crop in crops]
+#     crop_counts = [crop.count for crop in crops]
+
+#     plt.figure(figsize=(10, 6))
+#     plt.bar(crop_names, crop_counts)
+#     plt.xlabel('Crop Name')
+#     plt.ylabel('Crop Count')
+#     plt.title('Crop Count Distribution')
+
+#     buffer = BytesIO()
+#     plt.savefig(buffer, format='png')
+#     plt.close()
+#     buffer.seek(0)
+
+#     image_png = buffer.getvalue()
+#     buffer.close()
+#     graph = base64.b64encode(image_png).decode()
+
+#     return render(request, 'admintemp/adindex.html', {'graph': graph})
