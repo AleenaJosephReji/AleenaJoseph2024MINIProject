@@ -171,7 +171,9 @@ def adindex(request):
     c=Crop.objects.all()
     c_count=c.count()
     crops = Crop.objects.all()
-    context = {'me': me, 'me_count': me_count,'c':c, 'c_count':c_count,'crops': crops}
+    approval = ApplyCrop.objects.all()
+    approval_count = approval.count()
+    context = {'me': me, 'me_count': me_count,'c':c, 'c_count':c_count,'crops': crops ,'approval':approval,'approval_count':approval_count}
     return render(request, 'admintemp/adindex.html', context)
 
 # def amembers(request):
@@ -229,7 +231,6 @@ def adapprovalpending(request):
 
 def application(request):
     return render(request,'application.html')
-
 
 def mindex(request):
     user = request.user
@@ -1451,9 +1452,18 @@ from django.shortcuts import render
 from django.utils import timezone
 
 def approve_attcertification(request, attendance_id):
-    attendance = WardAttendance.objects.get(id=attendance_id)
-    attendance.is_present = WardAttendance.PRESENT
-    attendance.save()
+    if request.method == "POST":
+        member_id = request.POST.get('member_id')
+        attendance = WardAttendance.objects.get(member_id=member_id)
+        if(attendance):
+            attendance.is_present = WardAttendance.PRESENT
+            attendance.save()
+        else:
+            attendance = WardAttendance(member_id=member_id,is_present=WardAttendance.PRESENT)
+            attendance = WardAttendance.objects.get(id=attendance_id)
+            attendance.save()
+    # attendance.is_present = WardAttendance.PRESENT
+    # attendance.save()
     return redirect('adaddattendance')
 
 def reject_attcertification(request, attendance_id):
@@ -1491,7 +1501,27 @@ def adattendance(request):
 def adaddattendance(request):
     members = Member.objects.filter(is_active=True)
     attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
-    return render(request, 'admintemp/adaddattendance.html', {'members': members, 'attendance_records': attendance_records})
+    member_data = {}
+
+    for member in members:
+        attendance_record = attendance_records.filter(member=member).first()
+        
+        if attendance_record:
+            # If the member is in attendance records, set the value to is_present
+            member_data[member.id] = {
+            'is_present': attendance_record.is_present,  # Replace with the actual field name
+            'Name': member.Name,  # Replace with actual field names
+            # Add other fields as needed
+            }  # Replace with the actual field name
+        else:
+            # Member is not in attendance records, set the value to 'pending'
+            member_data[member.id] = {
+            'is_present': 'pending',  # Replace with the actual field name
+            'Name': member.Name,  # Replace with actual field names
+            # Add other fields as needed
+            }
+    print(member_data.items())
+    return render(request, 'admintemp/adaddattendance.html', {'members': member_data, 'attendance_records': attendance_records})
 
 
 # def adaddattendance(request):
@@ -1524,7 +1554,8 @@ def mark_attendance(request):
         attendance_status = request.POST.get('attendance_status')
         
         print(f"Member ID: {member_id}, Attendance Status: {attendance_status}")
-
+        obj,created = WardAttendance.objects.update_or_create(member_id=member_id,is_present=attendance_status)
+        print(obj)
         # ... (update the model)
     return redirect('adaddattendance')
 
@@ -1744,3 +1775,22 @@ def generate_pdfreport(request):
 #     graph = base64.b64encode(image_png).decode()
 
 #     return render(request, 'admintemp/adindex.html', {'graph': graph})
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'registration/password_reset.html'
+    email_template_name = 'registration/password_reset_email.html'
+    subject_template_name = 'registration/password_reset_subject'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('loginn')
+
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'registration/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('loginn')

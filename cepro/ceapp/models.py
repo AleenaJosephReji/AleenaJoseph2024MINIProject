@@ -304,7 +304,7 @@ class WardAttendance(models.Model):
     # ward_name = models.CharField(max_length=50)
     # is_present = models.BooleanField(default=False)
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE,null=True)
-
+                        
     is_present = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,

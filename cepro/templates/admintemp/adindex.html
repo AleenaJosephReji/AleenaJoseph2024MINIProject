@@ -53,6 +53,7 @@
         {
             width:70% ;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            
 
         }
         .card member-panel
@@ -63,8 +64,8 @@
         {
             width:75% ;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-            margin-left:700px;
-            margin-top:-300px;
+            margin-left:900px;
+            margin-top:-470px;
         }
         
     </style> 
@@ -208,39 +209,53 @@
                                 <span class="widget-title2">Crops <i class="fa fa-check" aria-hidden="true"></i></span>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                        <div class="dash-widget">
+							<span class="dash-widget-bg1"><i class="fa fa-user-o" aria-hidden="true"></i></span>
+							<div class="dash-widget-info text-right">
+								<h3>{{approval_count}}</h3>
+								<span class="widget-title1">Members <i class="fa fa-check" aria-hidden="true"></i></span>
+							</div>
+                        </div>
                     </div></div>
+                    
 					</div>
-                   <div class="col-12 col-md-6 col-lg-8 col-xl-8">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title d-inline-block">Crop List</h4>
-            <a href="{% url 'adcrop' %}" class="btn btn-primary float-right">View all</a>
-        </div>
-        <div class="table-responsive ml-auto"> <!-- Added ml-auto class -->
-            <table class="table table-bordered table-striped"> <!-- Added table styles -->
-                <thead>
-                    <tr>
-                        <th>Crop Name</th>
-                        <th>Crop Count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for crop in crops %}
-                    <tr>
-                        <td>{{ crop.Namec }}</td>
-                        <td>{{ crop.count }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title d-inline-block" style="font-weight:bold;">Crop List</h4>
+                                <a href="{% url 'adcrop' %}" class="btn btn-secondary float-right mr-2">View All</a>
+                                <!-- Add your button here -->
+                            </div>
+                            <div class="table-responsive ml-auto"> <!-- Added ml-auto class -->
+                                <table class="table table-bordered table-striped"> <!-- Added table styles -->
+                                    <thead>
+                                        <tr>
+                                            <th>Crop Name</th>
+                                            <th>Crop Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for crop in crops %}
+                                        <tr>
+                                            <td>{{ crop.Namec }}</td>
+                                            <td>{{ crop.count }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
     </div>
 </div>
 <div class="col-12 col-md-6 col-lg-6 col-xl-6"> <!-- Create a column for the second card -->
     <div class="card2">
-        <div class="card2-header">
-            <h4 class="card-title d-inline-block">Crop List</h4>
-            <a href="{% url 'adcrop' %}" class="btn btn-primary float-right">View all</a>
+        <div class="card2-header"><br>
+            <h4 class="card-title d-inline-block" style="margin-left:15px; font-size:22px;">Member List</h4>
+            <a href="{% url 'admember' %}" class="btn btn-secondary float-right mr-2" style="margin-right:70px;">View all</a>
         </div>
         <div class="table-responsive ml-auto">
             <table class="table table-bordered table-striped">

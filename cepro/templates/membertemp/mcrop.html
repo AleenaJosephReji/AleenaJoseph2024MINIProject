@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -169,20 +171,21 @@
                         {% comment %} <li>
                             <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li> {% endcomment %}
-                        <li>
-                            <a href="{% url 'mfregistered' %}"><i class="fa fa-calendar-check-o"></i> <span>Registered Farmers</span></a>
-                        </li>
+                       
+                       <li>
+                            <a href="{% url 'mfregistered' %}"><i class="fas fa-user fa-2x"></i><span>Registered Farmers</span></a>
+                        </li> 
                         <li class="active">
-                            <a href="{% url 'mcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
+                            <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'mappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li> {% endcomment %}
                         <li>
-                            <a href="{% url 'mapprove' %}"><i class="fa fa-calendar"></i> <span>Approved List</span></a>
+                            <a href="{% url 'mapprove' %}"><i class="fas fa-check-circle"></i>  <span>Approved List</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'mpending' %}"><i class="fa fa-calendar"></i> <span>Pending List</span></a>
+                            <a href="{% url 'mpending' %}"><i class="fas fa-hourglass-half"></i> <span>Pending List</span></a>
                         </li>
 						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
@@ -192,8 +195,8 @@
 								<li><a href="holidays.html">Holidays</a></li>
 								<li><a href="attendance.html">Attendance</a></li>
 							</ul>
-						</li>
-						<li class="submenu">
+						</li> {% endcomment %}
+						{% comment %} <li class="submenu">
 							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
 								<li><a href="invoices.html">Invoices</a></li>
@@ -202,8 +205,8 @@
 								<li><a href="taxes.html">Taxes</a></li>
 								<li><a href="provident-fund.html">Provident Fund</a></li>
 							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
+						</li>
+						<li class="submenu">
 							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;">
 								<li><a href="salary.html"> Employee Salary </a></li>
@@ -212,8 +215,8 @@
 						</li>
                         <li>
                             <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
-                        </li>
-                        <li class="submenu">
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
                             <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="voice-call.html">Voice Call</a></li>
@@ -221,7 +224,7 @@
                                 <li><a href="incoming-call.html">Incoming Call</a></li>
                             </ul>
                         </li> {% endcomment %}
-                         {% comment %} <li class="submenu">
+                        {% comment %} <li class="submenu">
                             <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
@@ -240,8 +243,8 @@
                         </li> {% endcomment %}
 						{% comment %} <li>
 							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li>
-						<li>
+						</li> {% endcomment %}
+						{% comment %} <li>
 							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
 						</li> {% endcomment %}
 						{% comment %} <li class="submenu">
@@ -250,11 +253,11 @@
 								<li><a href="expense-reports.html"> Expense Report </a></li>
 								<li><a href="invoice-reports.html"> Invoice Report </a></li>
 							</ul>
-						</li>
-                        <li>
+						</li> {% endcomment %}
+                        {% comment %} <li>
                             <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
                         </li> {% endcomment %}
-                        {% comment %}<li class="menu-title">UI Elements</li>
+                        {% comment %} <li class="menu-title">UI Elements</li>
                         <li class="submenu">
                             <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
@@ -262,8 +265,8 @@
                                 <li><a href="typography.html">Typography</a></li>
                                 <li><a href="tabs.html">Tabs</a></li>
                             </ul>
-                        </li>
-                        <li class="submenu">
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
                             <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
@@ -280,11 +283,11 @@
                             </ul>
                         </li> {% endcomment %}
                         <li>
-                            <a href="{% url 'mmeeting' %}"><i class="fa fa-user-md"></i> <span>Meetings</span></a>
-                        </li>
+                            <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
+                        </li> 
                         <li>
                             <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
-                        </li>
+                        </li>   
                         {% comment %} <li class="menu-title">Extras</li>
                         <li class="submenu">
                             <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
@@ -300,8 +303,8 @@
                                 <li><a href="error-500.html">500 Error </a></li>
                                 <li><a href="blank-page.html"> Blank Page </a></li>
                             </ul>
-                        </li>
-                        <li class="submenu">
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
                             <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li class="submenu">

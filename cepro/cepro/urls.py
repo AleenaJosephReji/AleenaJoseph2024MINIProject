@@ -20,6 +20,8 @@ from ceapp import views
 from ceapp.views import index,loginn,loggout,register,about,service,product,contact,adindex,admember,adaddmember,adappointment,adcrop,adinbox,admailview,adcompose,adaddappointment,adaddcrop,adblog,adaddblog,adeditblog,adblogdetails,adcalendar,adeditprofile,adapproval,mindex,mblog,mcalendar,mcrop,mappointment,mlogin
 from django.conf import settings
 from django.conf.urls.static import static
+from ceapp.views import ResetPasswordView, ChangePasswordView
+from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("allauth.urls")),
@@ -138,6 +140,18 @@ urlpatterns = [
     path('loggout',loggout,name='loggout'),
     path('edit_member/<int:member_id>/', views.edit_member, name='edit_member'),
     path('delete_member/<int:member_id>/', views.delete_member, name='delete_member'),
+
+    path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
+
+    path('password-reset-confirm/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),
+         name='password_reset_confirm'),
+
+    path('password-reset-complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
+         name='password_reset_complete'),
+
+    path('password-change/', ChangePasswordView.as_view(), name='password_change'),
 
 ]
 
