@@ -149,9 +149,30 @@
                                 </li>
                             </ul>
                         </li>    
-                        <li>
-                            <a href="{% url 'admeeting' %}"><i class="fa fa-wheelchair"></i> <span>Meeting</span></a>
-                        </li>
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                                </li>
+                            </ul>
+                        </li>    
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                                </li>
+                            </ul>
+                        </li>    
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
                         </li>

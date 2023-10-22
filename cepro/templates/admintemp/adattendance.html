@@ -263,10 +263,18 @@
                                 </li>
                             </ul>
                         </li>    
-                        <li>
-                            <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
-                            </i> <span>Meeting</span></a>
-                        </li> 
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li class="active">
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                                </li>
+                            </ul>
+                        </li>    
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
@@ -369,9 +377,7 @@
                                 <li><a href="tables-datatables.html">Data Table</a></li>
                             </ul>
                         </li> {% endcomment %}
-                        <li class="active">
-                            <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
-                        </li>
+                        
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
 
