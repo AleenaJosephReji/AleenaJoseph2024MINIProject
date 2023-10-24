@@ -378,7 +378,7 @@
                                     <th>Time</th>
                                     <th>Venue</th>
                                     <th>Agenda</th>
-                                    <th>Attendance</th>
+                                    {% comment %} <th>Attendance</th> {% endcomment %}
                                     {% comment %} <th id="displayAttendanceHeader">Display Attendence</th> {% endcomment %}
                                     <th>Details Discussed</th>
                                     {% comment %} <th>Report (upload pdf)</th> {% endcomment %}
@@ -387,14 +387,15 @@
                             </thead>
                             <tbody>
                                 {% for meeting in meetings %}
-                                <tr>
+                                <tr style="background-color: {% if meeting.meeting_date < current_date %}#c5eb94{% elif meeting.meeting_date == current_date %}#eda0f2{% else %}white{% endif %}">
+                                    <!-- Display meeting details here -->
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ meeting.meeting_date }}</td>
                                     <td>{{ meeting.meeting_time }}</td>
                                     <td>{{ meeting.meeting_venue }}</td>
                                     <td>{{ meeting.meeting_agenda }}</td>
-                                    <td>
-                                        <form method="post" action="">
+                                    {% comment %} <td> {% endcomment %}
+                                        {% comment %} <form method="post" action="">
                                             {% csrf_token %}
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="modeDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -416,8 +417,8 @@
                                                 </div>
                                             </div>
                                             <button type="submit">Update Attendance</button>
-                                        </form>
-                                    </td>
+                                        </form> {% endcomment %}
+                                    {% comment %} </td> {% endcomment %}
                                     
                                     
                                     <td>{{ meeting.desmeeting }}</td>
@@ -441,9 +442,7 @@
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <a href="{% url 'generate_pdf' %}" class="btn btn-primary">Generate PDF</a>
-
-
+                        <a href="{% url 'generate_pdf' %}" class="btn btn-primary" style="background-color:green">Generate PDF</a>
                     </div>
                 </div><br><br>
             </div>

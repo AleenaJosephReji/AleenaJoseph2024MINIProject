@@ -131,16 +131,7 @@
             $meetingTimeField.on('input', function() {
                 validateTime();
             });
-            function validateDate() {
-                var currentDate = new Date();
-                var selectedDate = new Date($meetingDateField.val());
-
-                if (selectedDate < currentDate) {
-                    $dateError.text("Meeting date must be greater than today's date.");
-                } else {
-                    $dateError.text(""); // Clear error message
-                }
-            }
+           
             function validateTime() {
                 var selectedTime = $meetingTimeField.val();
                 var timeParts = selectedTime.split(":");

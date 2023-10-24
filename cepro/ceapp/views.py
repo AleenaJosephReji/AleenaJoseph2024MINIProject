@@ -775,9 +775,6 @@ def adaddcrop(request):
     return render(request, 'admintemp/adaddcrop.html')
 
 
-
-
-
 # def adaddcrop(request):
 #     if request.method == 'POST':
 #         cname = request.POST.get('cname')
@@ -836,7 +833,6 @@ def delete_crop(request, crop_id):
         return redirect('adcrop')
 
     return render(request, 'admintemp/delete_crop.html', {'crop': crop})
-
 def edit_crop(request, crop_id):
     crop = get_object_or_404(Crop, id=crop_id)
 

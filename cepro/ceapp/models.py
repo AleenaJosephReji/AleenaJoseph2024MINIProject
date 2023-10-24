@@ -141,7 +141,7 @@ class Crop(models.Model):
     # count = models.CharField(max_length=100,null=True, blank=True)
     crop_photo = models.ImageField(upload_to='crop_photos/', blank=True, null=True)
 
-    
+    is_active = models.BooleanField(default=True)
 
     # available = models.BooleanField(default=False)
     # not_available = models.BooleanField(default=False)

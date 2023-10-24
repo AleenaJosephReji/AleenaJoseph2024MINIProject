@@ -374,7 +374,7 @@
             <!-- Agricultural Report Details section -->
             <form action="{% url 'generate_pdfreport' %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="generate-pdf-button" style="margin-left:100px; width: 200px; height: 50px;">Generate PDF</button>
+                <button type="submit" class="generate-pdf-button" style="margin-left:100px; width: 200px; height: 50px; background-color:green;">Generate PDF</button>
             </form>
             {% for crop_name, approved_list in data_by_crop.items %}
             <div class="details">
