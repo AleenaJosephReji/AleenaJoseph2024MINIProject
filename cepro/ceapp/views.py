@@ -1130,7 +1130,9 @@ def wait_certification(request, application_id):
     return redirect('adpendingapproval')
 
 def mapprove(request):
-    pending_details = ApplyCrop.objects.filter(is_approved='approved')  # Adjust the filter condition as needed
+    user = request.user
+    profile = Member.objects.get(user=user)
+    pending_details = ApplyCrop.objects.filter(is_approved='approved',wardNo=profile.wardno)  # Adjust the filter condition as needed
     # Pass the data to the template
     context = {'pending_details': pending_details}
     return render(request, 'membertemp/mapprove.html', context)
@@ -1270,7 +1272,9 @@ def search_member(request):
 
 from django.http import JsonResponse
 def mpending(request):
-    pending_details = ApplyCrop.objects.filter(is_approved='waiting')  # Adjust the filter condition as needed
+    user = request.user
+    profile = Member.objects.get(user=user)
+    pending_details = ApplyCrop.objects.filter(is_approved='waiting',wardNo=profile.wardno)  # Adjust the filter condition as needed
     # Pass the data to the template
     context = {'pending_details': pending_details}
     return render(request, 'membertemp/mpending.html', context)

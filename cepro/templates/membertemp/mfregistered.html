@@ -177,14 +177,14 @@
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img">
-                            <span>{{ user.email }}</span>
+                            <span>{{ user.name }}</span>                           
                             <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
                         {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="">Edit Profile</a>
+                        <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
 					</div>
@@ -194,7 +194,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="">Edit Profile</a>
+                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
                 </div>
