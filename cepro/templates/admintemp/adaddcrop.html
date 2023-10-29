@@ -72,20 +72,14 @@
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
                 <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-
-                               
                             </ul>
                         </div>
-                        {% comment %} <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
-                        </div> {% endcomment %}
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
@@ -98,9 +92,6 @@
                         <span></span>
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="#">Edit Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
                 </li>
@@ -108,9 +99,6 @@
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="#">Edit Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
             </div>
@@ -126,23 +114,9 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li> {% endcomment %}
-                        
                         <li class="active">
                             <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li>  {% endcomment %}
-
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -176,155 +150,15 @@
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span></span></a>
-                        </li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="employees.html">Employees List</a></li>
-								<li><a href="leaves.html">Leaves</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a href="attendance.html">Attendance</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="invoices.html">Invoices</a></li>
-								<li><a href="payments.html">Payments</a></li>
-								<li><a href="expenses.html">Expenses</a></li>
-								<li><a href="taxes.html">Taxes</a></li>
-								<li><a href="provident-fund.html">Provident Fund</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
-								<li><a href="salary-view.html"> Payslip </a></li>
-							</ul>
-						</li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="voice-call.html">Voice Call</a></li>
-                                <li><a href="video-call.html">Video Call</a></li>
-                                <li><a href="incoming-call.html">Incoming Call</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                     {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
-                                <li><a href="{% url 'adinbox' %}">Inbox</a></li>
-                                <li><a href="{% url 'admailview' %}">Mail View</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adblog' %}">Blog</a></li> 
-                                <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> 
-                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li> 
-                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> 
-                            </ul>
-                        </li> {% endcomment %}
-						{% comment %} <li>
-							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li> {% endcomment %}
-						{% comment %} <li>
-							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
-						</li> {% endcomment %}
-						<li class="submenu">
-							{% comment %} <a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a> {% endcomment %}
-							{% comment %} <ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul> {% endcomment %}
-						</li>
-                        {% comment %} <li>
-                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="menu-title">UI Elements</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="uikit.html">UI Kit</a></li>
-                                <li><a href="typography.html">Typography</a></li>
-                                <li><a href="tabs.html">Tabs</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
-                                <li><a href="form-input-groups.html">Input Groups</a></li>
-                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
-                                <li><a href="form-vertical.html">Vertical Form</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="tables-basic.html">Basic Tables</a></li>
-                                <li><a href="tables-datatables.html">Data Table</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
-
                             </i>
                                 <span>Calendar</span></a>
                         </li>
-                        {% comment %} <li class="menu-title">Extras</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="login.html"> Login </a></li>
-                                <li><a href="register.html"> Register </a></li>
-                                <li><a href="forgot-password.html"> Forgot Password </a></li>
-                                <li><a href="change-password2.html"> Change Password </a></li>
-                                <li><a href="lock-screen.html"> Lock Screen </a></li>
-                                <li><a href="profile.html"> Profile </a></li>
-                                <li><a href="gallery.html"> Gallery </a></li>
-                                <li><a href="error-404.html">404 Error </a></li>
-                                <li><a href="error-500.html">500 Error </a></li>
-                                <li><a href="blank-page.html"> Blank Page </a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul style="display: none;">
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"><span>Level 1</span></a>
-                                </li>
-                            </ul>
-                        </li> {% endcomment %}
                     </ul>
                 </div>
             </div>
         </div>
-
-       
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
@@ -375,32 +209,7 @@
                                        <input type="file" class="form-control" name="crop_photo">
                                </div>
                            </div>
-
-                            {% comment %} <div class="form-group">
-                                <label>Availability</label>
-                                <div>
-                                    <input type="radio" id="available" name="available" value="Available">
-                                    <label for="available">Available</label>
-                                </div>
-                                <div>
-                                    <input type="radio" id="notavailable" name="notavailable" value="Not Available">
-                                    <label for="notavailable">Not Available</label>
-                                </div> {% endcomment %}
-
-
-                                {% comment %} <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cavailability" id="available" value="Available">
-                                    <label class="form-check-label" for="available">Available</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="cavailability" id="notavailable" value="Not Available">
-                                    <label class="form-check-label" for="notavailable">Not Available</label>
-                                </div> {% endcomment %}
-
-                                {% comment %} <input type="checkbox" name="available"> Available
-                                <input type="checkbox" name="notavailable"> Not Available {% endcomment %}
                             </div>
-        
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createcrop">Create Crop</button>
                             </div>
@@ -409,239 +218,27 @@
                 </div>
             </div>
         </div>
-        
 			<div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
                         <span>Messages</span>
                     </div>
-                    {% comment %} <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Richard Miles </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item new-message">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">John Doe</span>
-                                            <span class="message-time">1 Aug</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Tarah Shropshire </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Mike Litorus</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Catherine Manseau </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">D</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Domenic Houston </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">B</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Buster Wigton </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">R</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Rolland Webber </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">C</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author"> Claire Mapes </span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">M</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Melita Faucher</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">J</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Jeffery Lalor</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">L</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Loren Gatlin</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
-                            {% comment %} <li>
-                                <a href="chat.html">
-                                    <div class="list-item">
-                                        <div class="list-left">
-                                            <span class="avatar">T</span>
-                                        </div>
-                                        <div class="list-body">
-                                            <span class="message-author">Tarah Shropshire</span>
-                                            <span class="message-time">12:28 AM</span>
-                                            <div class="clearfix"></div>
-                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li> {% endcomment %}
                         </ul>
                     </div>
-                    {% comment %} <div class="topnav-dropdown-footer">
-                        <a href="chat.html">See all messages</a>
-                    </div> {% endcomment %}
                 </div>
             </div>
         </div>
     </div>
-
-
     <script>
-        // JavaScript to enable/disable the "Not Available" radio button based on the user's selection
         const availableRadio = document.getElementById("available");
         const notAvailableRadio = document.getElementById("notavailable");
-    
         availableRadio.addEventListener("click", function () {
             notAvailableRadio.disabled = true;
         });
-    
         notAvailableRadio.addEventListener("click", function () {
             availableRadio.disabled = true;
         });
     </script>
-    {% comment %} With this code, when the user clicks one radio button, the other radio button will be disabled, ensuring that only the selected option is submitted with the form. {% endcomment %}
-
-
-
-
-
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
@@ -650,7 +247,4 @@
     <script src="{% static 'assets/js/select2.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-
-
-<!-- add-department24:07-->
 </html>

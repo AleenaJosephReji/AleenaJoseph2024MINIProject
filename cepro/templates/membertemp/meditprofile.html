@@ -175,7 +175,7 @@
                         {% comment %} <span class="user-img"><img class="rounded-circle" src="{{ member.profile_photo.url }}" width="40" alt="Admin"> {% endcomment %}
 							<span class="status online"></span></span>
                             <span>{{ user.name }}</span>                           
-                             <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+                             <img class="rounded-circle" src="{% static 'img/img2.jpg' %}"width="35" height="35">
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
@@ -383,6 +383,7 @@
                                     <!-- Basic Information -->
                                     <h2 class="form-heading" style="color:brown; font-weight:bold;">Basic Information</h2>
                                     {% csrf_token %}
+                                    
                                     <div>
                                         <label for="address" id="carde" class="form-label text animated zoomIn">Reset Password:</label>
                                         <hr class=" text animated zoomIn" id="signintext2">
@@ -500,6 +501,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                  
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary">Save</button>
                                     </div>

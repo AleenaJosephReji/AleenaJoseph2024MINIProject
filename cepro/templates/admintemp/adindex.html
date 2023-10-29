@@ -8,7 +8,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
     <title>CropElevate</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
@@ -64,8 +63,8 @@
         {
             width:75% ;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-            margin-left:900px;
-            margin-top:-480px;
+            margin-left:1000px;
+            margin-top:-640px;
         }
         
     </style> 
@@ -86,20 +85,16 @@
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
-                    <div class="dropdown-menu notifications">
+                <li class="nav-item dropdown d-none d-sm-block">                    <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-                               
+
                             </ul>
                         </div>
-                        {% comment %} <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
-                        </div> {% endcomment %}
+                        
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
@@ -114,9 +109,6 @@
 						{% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="adprofile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
-						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
                 </li>
@@ -124,9 +116,7 @@
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="#">Edit Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+                   
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
             </div>
@@ -217,15 +207,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-							<span class="dash-widget-bg1"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-							<div class="dash-widget-info text-right">
-								<h3>{{approval_count}}</h3>
-								<span class="widget-title1">Members <i class="fa fa-check" aria-hidden="true"></i></span>
-							</div>
-                        </div>
-                    </div></div>
                     
 					</div>
                     <div class="col-12 col-md-6 col-lg-8 col-xl-8">
@@ -287,9 +268,8 @@
     </div>
 </div>
 </div>
-
-                    </div>
-				</div>
+</div>
+		</div>
 				
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">

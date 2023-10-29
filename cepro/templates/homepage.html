@@ -418,6 +418,7 @@
 
                 {% comment %} <a href="{% url 'notification' %}" class="nav-item nav-link">Notification</a> {% endcomment %}
                 <div class="dropdown"style="float: left; margin-left:300px; margin-top:30px;" >
+                    {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a;">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span>{{ user.name }}</span>

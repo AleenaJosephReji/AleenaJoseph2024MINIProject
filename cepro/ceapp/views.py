@@ -130,7 +130,9 @@ def about(request):
 # def gallery(request):
 #     return render(request,'gallery.html')
 def homepage(request):
-    return render(request,'homepage.html')
+    user = request.user
+    profile = FarmerProfile.objects.get(user=user)
+    return render(request,'homepage.html',{'profile':profile})
 
 def applyerror(request):
     message = "This crop is unavailable."
@@ -875,13 +877,15 @@ def mcrop(request):
 
 
 def crop(request):
+    user = request.user
+    profile = FarmerProfile.objects.get(user=user)
     today = date.today()
     # Retrieve the currently added crop
     # current_crop = Crop.objects.filter(current=True).first()
     crops = Crop.objects.all() 
     # for crop in crops:
     #     print(f"Today: {today}, Start Date: {crop.start_date}, End Date: {crop.end_date}")
-    return render(request, 'crop.html', {'crops': crops , 'today': today})
+    return render(request, 'crop.html', {'crops': crops , 'today': today ,'profile' : profile})
 #application for crops 
 
 
@@ -1671,9 +1675,9 @@ def delete_meeting(request, meeting_id):
 
 
 def mmeeting(request):
-    current_date = date.today()
-    meetings = Meeting.objects.filter(is_active=True)  # Retrieve all meetings from the database
-    meetings = meetings.filter(meeting_date__gte=current_date)  # Filter for meetings on or after today
+    meetings = Meeting.objects.filter(is_active=True)
+    from django.utils import timezone
+    current_date = timezone.now().date()
     return render(request, 'membertemp/mmeeting.html', {'meetings': meetings, 'current_date': current_date})
 
 from django.http import HttpResponse

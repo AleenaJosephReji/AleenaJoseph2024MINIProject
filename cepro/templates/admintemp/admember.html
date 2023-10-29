@@ -86,7 +86,7 @@
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
                 <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                    {% comment %} <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a> {% endcomment %}
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
@@ -332,7 +332,7 @@
                 </div>
             </div>
         </div>
-        <div class="page-wrapper">
+        <div class="page-wrapper" >
             <div class="content">
                 <div class="row">
                     <div class="col-sm-4 col-3">
@@ -363,9 +363,10 @@
                 
                     {% for member in members %}
 
-                    <div class="col-md-4 col-sm-4  col-lg-3">
-                        <div class="profile-widget">
+                    <div class="col-md-4 col-sm-4  col-lg-3 ">
+                        <div class="profile-widget" style="text-align:left;">
                              <div class="doctor-img">
+                                {% comment %} {{ member.profile_photo.url }} {% endcomment %}
                                 <a class="avatar" href="#"><img alt="" src="{{ member.profile_photo.url }}"></a>
                                </div>
                             {% comment %} <div class="doctor-img">
@@ -398,7 +399,7 @@
                                 <p style="color:black;">Member ID: {{ member.id }}</p>
 
                                 <p class="card-text" style="color:black;"><b>Email: </b>{{ member.email }}</p>
-                                <p class="card-text" style="color:black;"><b>Password: </b>{{ member.password }}</p>
+                                {% comment %} <p class="card-text" style="color:black;"><b>Password: </b>{{ member.password }}</p> {% endcomment %}
                                 {% comment %} <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p> {% endcomment %}
                                 <!-- <p class="card-text">Date of Join: {{ member.date_of_join }}</p> -->
                                 {% comment %} <p class="card-text">Gender: {{ member.get_gender_display }}</p> {% endcomment %}

@@ -83,36 +83,26 @@
     </style>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-success">
         <h2 style="color:#0d4859; padding-left:20px; font-weight:bold;">CropElevate</h2>
-        {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
-                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
                 <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-                {% comment %} <li>
-                    <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
-                </li> {% endcomment %}
             </ul>
         </div>
-
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px;" >
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
             </button>
             <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
-                
                 {% if user.is_authenticated %}
-                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
-
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
@@ -134,8 +124,6 @@
             {% else %}
                 <p> Not working </p> 
             {% endif %}
-
-
             {% if existing_certification.is_approvedd == 'approved' %}
             <p class="certification-message">Your Application Is Approved By The Panchayath Secretary.</p>
             {% elif existing_certification.is_approved == 'waiting' %}
@@ -143,8 +131,6 @@
             {% else %}
             <p> Please Wait </p> 
             {% endif %}
-
-
             {% if existing_certification.is_given == 'given' %}
             <p class="certification-message">You Can Collect The Crop From The Panchayath</p>
             {% elif existing_certification.is_given == 'notgiven' %}
@@ -183,20 +169,8 @@
                 <label for="phone" style="color:black;">Phone </label>
                 <div class="form-group form-focus">
                     <input type="text" id="phone_number" name="phone_number" placeholder="Enter Phone Number" value="{{ farmer_phone_number }}" required readonly>
-                    {% comment %} <input type="text" id="phone_number" class="form-control floating" value="{{ farmer_phone_number }}" name="phone_number" required readonly> {% endcomment %}
                 </div>
             </div>
-            
-            {% comment %} <div class="form-group">
-                <label for="contactNo">Contact No</label>
-                <input type="tel" id="contactNo" name="contactNo" placeholder="Enter Contact No" value="{{ farmer_contact }}" required>
-                <small id="contactNoError" class="form-text text-danger"></small>
-            </div>
-            <div class="form-group">
-                <label for="wardNo">Ward No</label>
-                <input type="text" id="wardNo" name="wardNo" placeholder="Enter Ward No" value="{{ farmer_ward }}" required>
-                <small id="wardNoError" class="form-text text-danger"></small>
-            </div> {% endcomment %}
             <div class="col-md-6">
                 <label for="annualIncome" style="color:black;">Annual Income </label>
                 <input type="text" id="annualIncome" name="annualIncome" placeholder="Enter Annual Income" value="{{ farmer_annual_income }}" required readonly>
@@ -209,34 +183,27 @@
                     <small id="landError" class="form-text text-danger"></small>
                 </div>
             </div>
-
             <div class="col-md-6">
                 <label for="file_upload" style="color:black;">Upload File</label>
                 <input type="file" name="file_upload" id="file_upload" value="{{ farmer_file_upload }}">
             </div>
-
             <button type="submit" class="apply-button">Apply</button>
         </form>
         {% endif %}
-
     </div>
-    
     <script>
         const farmerNameInput = document.getElementById('farmerName');
         const addressInput = document.getElementById('address');
         const contactNoInput = document.getElementById('contactNo');
         const wardNoInput = document.getElementById('wardNo');
         const annualIncomeInput = document.getElementById('annualIncome');
-    
         const nameError = document.getElementById('nameError');
         const addressError = document.getElementById('addressError');
         const contactNoError = document.getElementById('contactNoError');
         const wardNoError = document.getElementById('wardNoError');
         const annualIncomeError = document.getElementById('annualIncomeError');
-    
         function validateName() {
             const nameValue = farmerNameInput.value.trim();
-    
             if (!nameValue) {
                 nameError.textContent = 'Name is required.';
                 nameError.style.color = 'red';
@@ -250,7 +217,6 @@
                 return true;
             }
         }
-    
         function validateAddress() {
             const addressValue = addressInput.value.trim();
     
@@ -267,7 +233,6 @@
                 return true;
             }
         }
-    
         function validateContactNo() {
             const contactNoValue = contactNoInput.value.trim();
     
@@ -284,7 +249,6 @@
                 return true;
             }
         }
-    
         function validateWardNo() {
             const wardNoValue = wardNoInput.value.trim();
     
@@ -301,10 +265,8 @@
                 return true;
             }
         }
-    
         function validateAnnualIncome() {
             const annualIncomeValue = annualIncomeInput.value.trim();
-    
             if (!annualIncomeValue) {
                 annualIncomeError.textContent = 'Annual Income is required.';
                 annualIncomeError.style.color = 'red';
@@ -318,13 +280,11 @@
                 return true;
             }
         }
-    
         farmerNameInput.addEventListener('input', validateName);
         addressInput.addEventListener('input', validateAddress);
         contactNoInput.addEventListener('input', validateContactNo);
         wardNoInput.addEventListener('input', validateWardNo);
         annualIncomeInput.addEventListener('input', validateAnnualIncome);
-    
         document.getElementById('apply').addEventListener('submit', function(event) {
             if (!validateName() || !validateAddress() || !validateContactNo() || !validateWardNo() || !validateAnnualIncome()) {
                 event.preventDefault();
@@ -333,8 +293,6 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>    
 </body>
 </html>
