@@ -31,9 +31,6 @@
             .green-background {
                 background-color: green; /* Set the background color to green */
             }
-            {% comment %} .sidebar{
-                background-color: green;
-            } {% endcomment %}
             .sidebar
             {
                 background-color:green;
@@ -48,10 +45,8 @@
                 color: green;
                 background-color: #f3f3f3;
             }
-          
         </style>  
 </head>
-
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -71,8 +66,6 @@
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-
-                               
                             </ul>
                         </div>
                         {% comment %} <div class="topnav-dropdown-footer">
@@ -88,12 +81,8 @@
                         <span class="user-img">
                             <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
                 </li>
@@ -101,9 +90,6 @@
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
             </div>
@@ -119,23 +105,9 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li> {% endcomment %}
-                        
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li>  {% endcomment %}
-
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -166,163 +138,27 @@
                             </ul>
                         </li>    
                         <li>
+                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
+                        </li>
+                        <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span></span></a>
-                        </li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="employees.html">Employees List</a></li>
-								<li><a href="leaves.html">Leaves</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a href="attendance.html">Attendance</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="invoices.html">Invoices</a></li>
-								<li><a href="payments.html">Payments</a></li>
-								<li><a href="expenses.html">Expenses</a></li>
-								<li><a href="taxes.html">Taxes</a></li>
-								<li><a href="provident-fund.html">Provident Fund</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
-								<li><a href="salary-view.html"> Payslip </a></li>
-							</ul>
-						</li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="voice-call.html">Voice Call</a></li>
-                                <li><a href="video-call.html">Video Call</a></li>
-                                <li><a href="incoming-call.html">Incoming Call</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                     {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
-                                <li><a href="{% url 'adinbox' %}">Inbox</a></li>
-                                <li><a href="{% url 'admailview' %}">Mail View</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adblog' %}">Blog</a></li> 
-                                <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> 
-                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li> 
-                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> 
-                            </ul>
-                        </li> {% endcomment %}
-						{% comment %} <li>
-							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li> {% endcomment %}
-						{% comment %} <li>
-							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
-						</li> {% endcomment %}
-						<li class="submenu">
-							{% comment %} <a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a> {% endcomment %}
-							{% comment %} <ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul> {% endcomment %}
-						</li>
-                        {% comment %} <li>
-                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="menu-title">UI Elements</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="uikit.html">UI Kit</a></li>
-                                <li><a href="typography.html">Typography</a></li>
-                                <li><a href="tabs.html">Tabs</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
-                                <li><a href="form-input-groups.html">Input Groups</a></li>
-                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
-                                <li><a href="form-vertical.html">Vertical Form</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="tables-basic.html">Basic Tables</a></li>
-                                <li><a href="tables-datatables.html">Data Table</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
 
                             </i>
                                 <span>Calendar</span></a>
                         </li>
-                        {% comment %} <li class="menu-title">Extras</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="login.html"> Login </a></li>
-                                <li><a href="register.html"> Register </a></li>
-                                <li><a href="forgot-password.html"> Forgot Password </a></li>
-                                <li><a href="change-password2.html"> Change Password </a></li>
-                                <li><a href="lock-screen.html"> Lock Screen </a></li>
-                                <li><a href="profile.html"> Profile </a></li>
-                                <li><a href="gallery.html"> Gallery </a></li>
-                                <li><a href="error-404.html">404 Error </a></li>
-                                <li><a href="error-500.html">500 Error </a></li>
-                                <li><a href="blank-page.html"> Blank Page </a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul style="display: none;">
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"><span>Level 1</span></a>
-                                </li>
-                            </ul>
-                        </li> {% endcomment %}
                     </ul>
                 </div>
             </div>
         </div>
         <div class="page-wrapper">
             <div class="content">
-
-
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Member</b></i></u></h4>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Drivers</b></i></u></h4>
                     </div>
                 </div>
                 <div class="row">
@@ -332,92 +168,71 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><b>Name <span class="text-danger">*</span></b></label>
-                                        <input class="form-control" name="name" type="text" id="name">
+                                       <label style="color:black;"><b>Profile Photo</b></label>
+                                           <input type="file" class="form-control" name="profile_photo">
+                                   </div>
+                               </div>
+                               <div class="col-sm-6">
+                                <div class="form-group">
+                                   <label></label>
+                                       <input type="" class="form-control" name="">
+                               </div>
+                           </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label style="color:black;"><b>Name <span class="text-danger">*</span></b></label>
+                                        <input class="form-control" name="dname" type="text" id="dname">
                                         <small id="nameError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><b>Email <span class="text-danger">*</span></b></label>
-                                        <input class="form-control" id="email" name="email" type="email">
+                                        <label style="color:black;"><b>Email <span class="text-danger">*</span></b></label>
+                                        <input class="form-control" id="demail" name="demail" type="demail">
                                         <small id="emailError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
-                                
                                 <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="password"><b>Password</b></label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <div class="form-group">
+                                        <label for="password" style="color:black;"><b>Password</b></label>
+                                        <input type="password" class="form-control" id="dpassword" name="dpassword" required>
                                     <small id="passwordError" class="form-text text-danger"></small>
-                                  </div>
+                                    </div>
                                 </div>
-                                {% comment %} <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input class="form-control" id="password" name="password" type="password">
-                                    </div>
-                                </div> {% endcomment %}
-                                {% comment %} <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Date of Birth</label>
-                                        <div class="cal-icon">
-                                            <input type="text" class="form-control datetimepicker" name="date_of_birth">
-                                        </div>
-                                    </div>
-                                </div> {% endcomment %}
-                                {% comment %} <div class="col-sm-6">
-									<div class="form-group gender-select">
-										<label class="gen-label">Gender:</label>
-										<div class="form-check-inline">
-											<label class="form-check-label">
-												<input type="radio" name="gender" class="form-check-input" name="gender">Male
-											</label>
-										</div>
-										<div class="form-check-inline">
-											<label class="form-check-label">
-												<input type="radio" name="gender" class="form-check-input" name="gender">Female
-											</label>
-										</div>
-									</div>
-                                </div> {% endcomment %}
-
 								<div class="col-sm-12">
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="form-group">
-												<label><b>Address</b></label>
-												<input type="text" class="form-control " id="address" name="address">
+												<label style="color:black;"><b>Address</b></label>
+												<input type="text" class="form-control " id="daddress" name="daddress">
                                                 <small id="addressError" class="form-text text-danger"></small>
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>District</b></label>
-                                                <input class="form-control" type="text" name="dis" value="Kottayam" readonly="">
+												<label style ="color:black;"><b>District</b></label>
+                                                <input class="form-control" type="text" name="ddis" value="Kottayam" readonly="">
                                             </div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Thaluk</b></label>
-												<input class="form-control" type="text" name="taluk" value="Kanjirappally" readonly="">
-											</div>
-										</div>
-
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label><b>Panchayath</b></label>
-												<input class="form-control" type="text" name="panchayat" value="Erumely" readonly="">
+												<label style="color:black;"><b>Thaluk</b></label>
+												<input class="form-control" type="text" name="dtaluk" value="Kanjirappally" readonly="">
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Ward No</b></label>
-												<input class="form-control" type="number" name="wardno" id="wardno" required>
+												<label style="color:black;"><b>Panchayath</b></label>
+												<input class="form-control" type="text" name="dpanchayat" value="Erumely" readonly="">
 											</div>
 										</div>
-
                                         <div class="col-sm-6 col-md-6 col-lg-3">
+											<div class="form-group">
+												<label style="color:black;"><b>Ward No</b></label>
+												<input class="form-control" type="number" name="dwardno" id="dwardno" required>
+											</div>
+										</div>
+                                        {% comment %} <div class="col-sm-6 col-md-6 col-lg-3">
                                             <div class="form-group">
                                                 <label><b>Ward Name</b></label>
                                                 <select class="form-control select" name="wardname" id="wardname" required>
@@ -432,61 +247,64 @@
                                                     <option>Ward 9-Irumpoonikkarra</option>
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> {% endcomment %}
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Postal Code</b></label>
-												<input type="text" class="form-control" id="pin" name="pin">
+												<label style="color:black;"><b>Postal Code</b></label>
+												<input type="text" class="form-control" id="dpin" name="dpin">
                                                 <small id="pinError" class="form-text text-danger"></small>
                                             </div>
 										</div>
-									</div>
-								</div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><b>Phone </b></label>
-                                        <input class="form-control" type="text" id="phone"name="phone">
+                                        <label style="color:black;"><b>Phone </b></label>
+                                        <input class="form-control" type="text" id="dphone"name="dphone">
                                         <small id="contactNoError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
-                            
-							<div class="form-group">
-                                <label><b>Short Biography</b></label>
-                                <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
                             </div>
-                            <div class="col-sm-6">
-                                 <div class="form-group">
-                                    <label>Profile Photo</label>
-                                        <input type="file" class="form-control" name="profile_photo">
+                        </div>
+                                <div class ="col-sm-6">
+                                    <div class="frm-group">
+                                        <label style="color:black;"><b>Licence Number</b></label>
+                                        <input class="form-control" type="text" id="dlicense" name="dlicence">
+                                        <small id="licenceError" class="form-text text-danger"></small>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label style="color:black;"><b>Licence Date </b></label>
+                                        <input class="form-control" type="date" id="ddate"name="ddate">
+                                        <small id="ddateError" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+							<div class="form-group">
+                                <label style="color:black;"><b>Short Biography</b></label>
+                                <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
+                            </div>        
                             <div class="m-t-20 text-center">
-                                <button type="submit"class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createmem">Create Memeber</button>
+                                <button type="submit"class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createmem">Create Driver</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <script>
-                    const farmerNameInput = document.getElementById('name');
-                    const addressInput = document.getElementById('address');
-                    const contactNoInput = document.getElementById('phone');
-                    {% comment %} const pinInput = document.getElementById('pin'); {% endcomment %}
-
+                    const driverNameInput = document.getElementById('dname');
+                    const addressInput = document.getElementById('daddress');
+                    const contactNoInput = document.getElementById('dphone');
 
                     const nameError = document.getElementById('nameError');
                     const addressError = document.getElementById('addressError');
                     const contactNoError = document.getElementById('contactNoError');
-                    {% comment %} const pinError = document.getElementById('pinError'); {% endcomment %}
 
-                    const passwordInput = document.getElementById('password');
+                    const passwordInput = document.getElementById('dpassword');
                     const passwordError = document.getElementById('passwordError');
 
-                    const emailInput = document.getElementById('email');
+                    const emailInput = document.getElementById('demail');
                     const emailError = document.getElementById('emailError');
 
-                    const pinInput = document.getElementById('pin');
+                    const pinInput = document.getElementById('dpin');
                     const pinError = document.getElementById('pinError');
-
                     pinInput.addEventListener('input', function () {
                         const postalCode = pinInput.value;
                         const postalCodeRegex = /^[0-9]{6}$/; // Assuming a 5-digit postal code format
@@ -497,7 +315,6 @@
                             pinError.textContent = 'Please enter a valid 6-digit postal code.';
                         }
                     });
-                    
                     emailInput.addEventListener('input', function () {
                         const email = emailInput.value;
                         const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
@@ -519,8 +336,7 @@
                         }
                     });
                     function validateName() {
-                        const nameValue = farmerNameInput.value.trim();
-                
+                        const nameValue = driverNameInput.value.trim();         
                         if (!nameValue) {
                             nameError.textContent = 'Name is required.';
                             nameError.style.color = 'red';
@@ -534,10 +350,8 @@
                             return true;
                         }
                     }
-                
                     function validateAddress() {
                         const addressValue = addressInput.value.trim();
-                
                         if (!addressValue) {
                             addressError.textContent = 'Address is required.';
                             addressError.style.color = 'red';
@@ -551,30 +365,25 @@
                             return true;
                         }
                     }
-                
                     function validateContactNo() {
                         const contactNoValue = contactNoInput.value.trim();
-                
                         if (!contactNoValue) {
                             contactNoError.textContent = 'Contact No is required.';
                             contactNoError.style.color = 'red';
                             return false;
-                        } else if (!/^\d{10}$/.test(contactNoValue)) {
-                            contactNoError.textContent = 'Contact No should be a 10-digit number.';
+                        } else if (!/^[986]\d{9}$/.test(contactNoValue)) {
+                            contactNoError.textContent = 'Contact No should start with 9, 8, or 6 and be a 10-digit number.';
                             contactNoError.style.color = 'red';
                             return false;
                         } else {
-                            contactNoError.textContent = ''; // Clear the error message
+                            contactNoError.textContent = '';
                             return true;
                         }
                     }
-
-                 
-                    farmerNameInput.addEventListener('input', validateName);
+                    driverNameInput.addEventListener('input', validateName);
                     addressInput.addEventListener('input', validateAddress);
                     contactNoInput.addEventListener('input', validateContactNo);
                     PinInput.addEventListener('input', validatePin);
-                   
                     document.getElementById('apply').addEventListener('submit', function(event) {
                         if (!validateName() || !validateAddress() || !validateContactNo()) {
                             event.preventDefault();
@@ -586,8 +395,7 @@
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
                         <span>Messages</span>
-                    </div>
-                   
+                    </div>     
                     </div>
                     {% comment %} <div class="topnav-dropdown-footer">
                         <a href="chat.html">See all messages</a>
@@ -606,7 +414,5 @@
 	<script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-
-
 <!-- add-doctor24:06-->
 </html>

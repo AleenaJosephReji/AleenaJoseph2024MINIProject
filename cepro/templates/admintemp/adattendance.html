@@ -430,11 +430,11 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-4 col-3">
-                        <h4 class="page-title" style="font-size: 27px; color: #3c733c;"><b><i><u>List Of Meetings </b></i></u></h4>
+                        <h4 class="page-title" style="font-size: 27px; color: #3c733c;"><b><i><u>Mark Attendance </b></i></u></h4>
                     </div>
-                    <div class="col-sm-8 col-9 text-right m-b-20">
+                    {% comment %} <div class="col-sm-8 col-9 text-right m-b-20">
                         <a href="{% url 'adaddmeeting' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="fa fa-plus" id="addmem"></i> Add Meeting</a>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -457,7 +457,7 @@
                                     <th>Venue</th>
                                     <th>Attendance</th>
                                     
-                                    <th>Actions</th>
+                                    {% comment %} <th>Actions</th> {% endcomment %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -473,17 +473,17 @@
                                         </div>
                                     </td>
                                     
-                                    <td>
+                                    {% comment %} <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
                                                 ...
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="actionsDropdown{{ forloop.counter }}">
-                                                <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
+                                                <a class="dropdown-item" href="{% url 'edit_attendance' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
                                                 <a class "dropdown-item" href="{% url 'delete_meeting' meeting.id %}" style="background-color: #dc3545; color: #fff;">Delete</a>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> {% endcomment %}
                                 </tr>
                                 {% empty %}
                                 <tr>

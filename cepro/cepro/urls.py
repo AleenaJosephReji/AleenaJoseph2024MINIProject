@@ -141,6 +141,18 @@ urlpatterns = [
     path('edit_member/<int:member_id>/', views.edit_member, name='edit_member'),
     path('delete_member/<int:member_id>/', views.delete_member, name='delete_member'),
 
+
+
+
+    path('edit_attendance/<int:meeting_id>/', views.edit_attendance, name='edit_attendance'),
+    path('addriver', views.addriver, name='addriver'),
+    path('adadddriver', views.adadddriver, name='adadddriver'),
+
+
+
+
+
+
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
 
     path('password-reset-confirm/<uidb64>/<token>/',

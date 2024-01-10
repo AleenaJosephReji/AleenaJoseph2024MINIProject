@@ -1,8 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
 <!-- doctors23:12-->
 <head>
     <meta charset="utf-8">
@@ -15,7 +13,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
@@ -32,9 +29,6 @@
         .green-background {
             background-color: green; /* Set the background color to green */
         }
-        {% comment %} .sidebar{
-            background-color: green;
-        } {% endcomment %}
         .sidebar
         {
             background-color:green;
@@ -49,68 +43,25 @@
             color: green;
             background-color: #f3f3f3;
         }
-
-        table {
-            width: 70%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            margin-left:10% ;
+        .custom-search-input {
+            border: 2px solid #337ab7; 
+            border-radius: 5px; 
+            padding: 2px 10px;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.6);
-
         }
-        h1{
-            margin-left:80px;
-            color:black;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            color:black;
-        }
-
-        th {
-            background-color: Green;
-            color:white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .dropdown-menu a {
-            color: #333; /* Link color */
-            text-decoration: none; /* Remove underline */
-            padding: 5px 15px; /* Add padding for spacing */
-            display: block; /* Display links as block elements */
-            
-        }
-    
-        .dropdown-menu a:hover {
-            background-color: #f2f2f2; /* Background color on hover */
-        }
-            /* Optional CSS for better formatting */
-            .custom-dropdown {
-                display: inline-block;
-                position: relative;
-            }
-    
-            .custom-dropdown-content {
-                display: none;
-                position: absolute;
-                background-color: #f9f9f9;
-                min-width: 150px;
-                border: 1px solid #ccc;
-            }
-    
-            .custom-checkbox {
-                display: block;
-            }
+    .custom-search-btn {
+        background-color: #337ab7;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        color: #fff; 
+    }
+    .custom-search-btn:hover {
+        background-color: #235a94; 
+        margin-left:40px;
+    }
     </style> 
 </head>
-
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -123,7 +74,6 @@
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
                 <li class="nav-item dropdown d-none d-sm-block">
-                    {% comment %} <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a> {% endcomment %}
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
@@ -139,12 +89,8 @@
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
 					</div>
                 </li>
@@ -152,9 +98,6 @@
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
             </div>
@@ -170,13 +113,9 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
-                        
-                        
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
-                       
-
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -193,7 +132,7 @@
                                     </i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
-                        </li>  
+                        </li>    
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -201,67 +140,86 @@
                                     <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
                                     </i> <span>Meeting List</span></a>
                                 </li> 
-                                <li class="active">
+                                <li>
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
                             </ul>
-                        </li>      
-                        
-                       
+                        </li>    
+                        <li class="active">
+                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
+                        </li> 
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
+						<li class="submenu">
 						</li>
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
-
                             </i>
                                 <span>Calendar</span></a>
                         </li>
-                      
                     </ul>
                 </div>
             </div>
         </div>
-      
-<div class="container">
-    <div class="details">
-        <br>
-        <br>
-        <br>
-        <h1>Attendence</h1>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Attendance</th>
-            </tr>
-            {% for member_id, data in members.items %}
-            <tr>
-                <td>
-                    <h4 class="doctor-name text-ellipsis">
-                        <a href="profile.html">{{ data.Name }}</a>
-                    </h4>
-                </td>
-                <td>
-                    <form method="post" action="{% url 'mark_attendance' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="member_id" value="{{ member_id }}">
-                        <select name="attendance_status">
-                            <option value="pending" {% if data.is_present == 'pending' %}selected{% endif %}>Pending</option>
-                            <option value="absent" {% if data.is_present == 'absent' %}selected{% endif %}>Absent</option>
-                            <option value="present" {% if data.is_present == 'present' %}selected{% endif %}>Present</option>
-                        </select>
-                        <button class="btn btn-primary" type="submit"><form method="post" action="{% url 'mark_attendance' %}">
-                            Mark Attendance</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        
-    </div>
-        
+        <div class="page-wrapper" >
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-4 col-3">
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="memberlist"><b><i><u>Drivers List</b></i></u></h4>
+                    </div>
+                    <div class="col-sm-8 col-9 text-right m-b-20">
+                        <a href="{% url 'adadddriver' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="fa fa-plus" id="addmem"></i> Add Driver</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="search-form" method="GET" action="{% url 'search_member' %}">
+                            <div class="input-group">
+                                <a href="{% url 'admember' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
+                                <input type="text" class="form-control custom-search-input" name="membername" placeholder="Search By Member Name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><br><br>
+                <div class="row doctor-grid">
+                    {% for member in members %}
+                    <div class="col-md-4 col-sm-4  col-lg-3 ">
+                        <div class="profile-widget" style="text-align:left;">
+                             <div class="doctor-img">
+                                <a class="avatar" href="#"><img alt="" src="{{ member.profile_photo.url }}"></a>
+                               </div>
+                            <div class="dropdown profile-action">
+                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                     <a class="dropdown-item" href=" {% url 'edit_member' member.id %}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                     <a class="dropdown-item" href=" {% url 'delete_member' member.id %}"><i class="fa fa-pencil m-r-5"></i> Delete</a>
+                                </div>
+                            </div>
+                            <h4 class="doctor-name text-ellipsis"><a href="profile.html"> {{ member.Name }}</a></h4>
+                            <div class="user-country" style="color:black;">
+                                <i class="fa fa-map-marker"></i> {{ member.address }}
+                            </div>                            
+                            <div>
+                                <p style="color:black;">Member ID: {{ member.id }}</p>
+                                <p class="card-text" style="color:black;"><b>Email: </b>{{ member.email }}</p>
+                                <p class="card-text" style="color:black;"><b>District: </b>{{ member.district }}</p>
+                                <p class="card-text" style="color:black;"><b>Taluk: </b>{{ member.taluk }}</p>
+                                <p class="card-text" style="color:black;"><b>Panchayat: </b>{{ member.Panchayat }}</p>
+                                <p class="card-text" style="color:black;"><b>Wardno: </b>{{ member.wardno }}</p>
+                                <p class="card-text" style="color:black;"><b>Ward: </b>{{ member.wardname }}</p>
+                                <p class="card-text" style="color:black;"><b>Postal: </b>{{ member.postal }}</p>
+                                <p class="card-text" style="color:black;"><b>Phone: </b>{{ member.phone }}</p>
+                                <p class="card-text" style="color:black;"><b>Bio: </b>{{ member.bio }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %} 
+                </div> 
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
@@ -269,21 +227,11 @@
                     </div>
                         </ul>
                     </div>
-                    
                 </div>
             </div>
 		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
-    <script>
-        function toggleDropdown(button) {
-            var dropdownContent = button.nextElementSibling;
-            dropdownContent.style.display = (dropdownContent.style.display === 'block') ? 'none' : 'block';
-        }
-
-
-    </script>
-    
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
@@ -293,7 +241,5 @@
     <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-
-
 <!-- doctors23:17-->
 </html>

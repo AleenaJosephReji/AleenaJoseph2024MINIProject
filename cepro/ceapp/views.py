@@ -1798,3 +1798,28 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'registration/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('loginn')
+
+    
+    
+    
+    #new
+    
+    
+    
+def edit_attendance(request, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+    if request.method == 'POST':
+        report = request.POST.get('report')
+        meeting.report = report
+        meeting.save()
+        return redirect('adattendance')
+    return render(request, 'admintemp/edit_attendance.html', {'meeting': meeting})
+
+
+def addriver(request):
+    return render(request,'admintemp/addriver.html')
+def adadddriver(request):
+    return render(request,'admintemp/adadddriver.html')
+# def addriver(request):
+#     members = Member.objects.filter(is_active=True)
+#     return render(request, 'admintemp/addriver.html', {'members': members})

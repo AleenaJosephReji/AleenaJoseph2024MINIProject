@@ -1,8 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
 <!-- departments23:21-->
 <head>
     <meta charset="utf-8">
@@ -289,10 +287,8 @@
                                 <li><a href="tables-datatables.html">Data Table</a></li>
                             </ul>
                         </li> {% endcomment %}
-                      
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
-
                             </i>
                                 <span>Calendar</span></a>
                         </li>
@@ -339,10 +335,6 @@
             </div>
         </div>            
                 </div>
-                
-        
-            
-                 
                 <div class="page-wrapper">
                     <div class="content">
                         <div class="row">
@@ -353,11 +345,7 @@
                                 <a href="{% url 'adaddcrop' %}" class="btn btn-primary btn-rounded" style="background-color: green; color: white;" id="addcro"><i class="fa fa-plus"></i> Add Crop</a>
                             </div>
                         </div>
-        
-        
-                        
                         </div>
-        
                         <div class="row">
                             <div class="col-md-12">
                                 <form id="search-form" method="GET" action="{% url 'search_crop' %}">
@@ -369,14 +357,10 @@
                                         </div>
                                     </div>
                                 </form>
-                                
-                      
                             </div>
                         </div><br><br>
-                        
                         <div class="row">
                             {% for crop in crops %}
-        
                             <div class="col-md-4">
                                 <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4); margin-left:40px;">
                                     <div class="dropdown profile-action">
@@ -413,11 +397,8 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            {% endfor %}
-                                    
+                            {% endfor %}  
                         </div>
-                    
                     {% comment %} <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table table-striped custom-table mb-0 datatable"> {% endcomment %}
