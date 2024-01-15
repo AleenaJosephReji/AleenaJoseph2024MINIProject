@@ -736,8 +736,6 @@ def adcrop(request):
 
 #     return render(request, 'admintemp/adaddcrop.html')
 
-
-
 from django.db.models import Max
 def adaddcrop(request):
     if request.method == 'POST':
@@ -1820,6 +1818,10 @@ def addriver(request):
     return render(request,'admintemp/addriver.html')
 def adadddriver(request):
     return render(request,'admintemp/adadddriver.html')
+
+
+
+
 # def addriver(request):
 #     members = Member.objects.filter(is_active=True)
 #     return render(request, 'admintemp/addriver.html', {'members': members})

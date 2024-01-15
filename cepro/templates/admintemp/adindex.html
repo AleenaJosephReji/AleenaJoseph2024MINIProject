@@ -73,7 +73,6 @@
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
-
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -91,10 +90,8 @@
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-
                             </ul>
-                        </div>
-                        
+                        </div> 
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
@@ -115,8 +112,7 @@
             </ul>
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                   
+                <div class="dropdown-menu dropdown-menu-right">               
                     <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
                 </div>
             </div>
@@ -137,7 +133,6 @@
                         <li>
                             <a href="{% url 'adcrop' %}" id="cid"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
-                       
 
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
@@ -169,14 +164,12 @@
                             </ul>
                         </li>    
                         <li>
-                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
+                            <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
-                  
-                        
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
 

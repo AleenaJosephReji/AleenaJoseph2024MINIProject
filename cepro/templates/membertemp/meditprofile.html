@@ -1,9 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- add-doctor24:06-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -15,13 +12,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
-    <style>
-        
+    <style> 
             body {
                 font-family: Arial, sans-serif;
                 background-color: #b3f59d;
@@ -420,6 +415,7 @@
                                             <div class="form-group">
                                                 <label for="dob">Date of Birth</label>
                                                 <input type="date" class="form-control" id="dob" name="dob" value="{{ member.dob }}">
+                                                <small id="dobError" class="form-text text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -466,6 +462,7 @@
                                             <div class="form-group">
                                                 <label for="amob">Alternate Mobile Number</label>
                                                 <input type="tel" class="form-control" id="amob" name="amob" value="{{ member.amob }}">
+                                                <small id="amobError" class="form-text text-danger"></small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -514,6 +511,46 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        const amobInput = document.getElementById('amob');
+        const amobError = document.getElementById('amobError');
+
+            function validateAmob() {
+                const amobValue = amobInput.value.trim();
+
+                if (!/^[986]\d{9}$/.test(amobValue)) {
+                    amobError.textContent = 'Please enter a valid 10-digit number starting with 9, 8, or 6.';
+                    amobError.style.color = 'red';
+                    return false;
+                } else {
+                    amobError.textContent = ''; // Clear the error message
+                    return true;
+                }
+            }
+
+            amobInput.addEventListener('input', validateAmob);
+            const dobInput = document.getElementById('dob');
+const dobError = document.getElementById('dobError');
+
+function validateDob() {
+    const dobValue = new Date(dobInput.value);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - dobValue.getFullYear();
+
+    if (age < 25 || age > 55) {
+        dobError.textContent = 'Please enter a valid date of birth between 25 and 55 years.';
+        dobError.style.color = 'red';
+        return false;
+    } else {
+        dobError.textContent = ''; // Clear the error message
+        return true;
+    }
+}
+
+dobInput.addEventListener('input', validateDob);
+    </script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>

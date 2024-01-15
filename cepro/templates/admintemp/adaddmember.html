@@ -164,8 +164,8 @@
                             </ul>
                         </li>  
                         <li>
-                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
-                        </li>  
+                            <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
+                        </li> 
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
@@ -403,7 +403,6 @@
 												<input class="form-control" type="text" name="taluk" value="Kanjirappally" readonly="">
 											</div>
 										</div>
-
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
 												<label style="color:black;"><b>Panchayath</b></label>
@@ -469,14 +468,18 @@
                 <script>
                     const farmerNameInput = document.getElementById('name');
                     const addressInput = document.getElementById('address');
-                    const contactNoInput = document.getElementById('phone');
+                    {% comment %} const contactNoInput = document.getElementById('phone'); {% endcomment %}
                     {% comment %} const pinInput = document.getElementById('pin'); {% endcomment %}
 
 
                     const nameError = document.getElementById('nameError');
                     const addressError = document.getElementById('addressError');
-                    const contactNoError = document.getElementById('contactNoError');
+                    {% comment %} const contactNoError = document.getElementById('contactNoError'); {% endcomment %}
                     {% comment %} const pinError = document.getElementById('pinError'); {% endcomment %}
+
+
+                    const phoneInput = document.getElementById('phone');
+                    const contactNoError = document.getElementById('contactNoError');
 
                     const passwordInput = document.getElementById('password');
                     const passwordError = document.getElementById('passwordError');
@@ -552,7 +555,7 @@
                         }
                     }
                 
-                    function validateContactNo() {
+                    {% comment %} function validateContactNo() {
                         const contactNoValue = contactNoInput.value.trim();
                 
                         if (!contactNoValue) {
@@ -567,10 +570,28 @@
                             contactNoError.textContent = ''; // Clear the error message
                             return true;
                         }
+                    } {% endcomment %}
+
+                    function validatePhone() {
+                        const phoneValue = phoneInput.value.trim();
+                    
+                        if (!phoneValue) {
+                            contactNoError.textContent = 'Phone number is required.';
+                            contactNoError.style.color = 'red';
+                            return false;
+                        } else if (!/^[986]\d{9}$/.test(phoneValue)) {
+                            contactNoError.textContent = 'Please enter a valid 10-digit phone number starting with 9, 8, or 6.';
+                            contactNoError.style.color = 'red';
+                            return false;
+                        } else {
+                            contactNoError.textContent = '';
+                            return true;
+                        }
                     }
                     farmerNameInput.addEventListener('input', validateName);
                     addressInput.addEventListener('input', validateAddress);
-                    contactNoInput.addEventListener('input', validateContactNo);
+                    phoneInput.addEventListener('input', validatePhone);
+                    {% comment %} contactNoInput.addEventListener('input', validateContactNo); {% endcomment %}
                     PinInput.addEventListener('input', validatePin);
                    
                     document.getElementById('apply').addEventListener('submit', function(event) {
