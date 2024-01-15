@@ -55,24 +55,19 @@
             border-collapse: collapse;
             margin-top: 20px;
             box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.6);
-
         }
-
         table, th, td {
             border: 1px solid black;
         }
-
         th, td {
             padding: 8px;
             text-align: left;
             color:black;
         }
-
         th {
             background-color: Green;
             color:white;
         }
-
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
@@ -80,16 +75,13 @@
             color: #333; /* Link color */
             text-decoration: none; /* Remove underline */
             padding: 5px 15px; /* Add padding for spacing */
-            display: block; /* Display links as block elements */
-            
+            display: block; /* Display links as block elements */  
         }
-    
         .dropdown-menu a:hover {
             background-color: #f2f2f2; /* Background color on hover */
         }
     </style> 
 </head>
-
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -108,9 +100,7 @@
                             <span>Notifications</span>
                         </div>
                         <div class="drop-scroll">
-                            <ul class="notification-list">
-
-                                
+                            <ul class="notification-list">            
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
@@ -197,6 +187,9 @@
                                 </li>
                             </ul>
                         </li>    
+                        <li>
+                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>

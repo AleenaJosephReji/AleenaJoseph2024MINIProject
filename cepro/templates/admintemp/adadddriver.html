@@ -1,13 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- add-doctor24:06-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
     <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
@@ -146,7 +142,6 @@
                         </li>
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
-
                             </i>
                                 <span>Calendar</span></a>
                         </li>
@@ -197,6 +192,26 @@
                                         <label for="password" style="color:black;"><b>Password</b></label>
                                         <input type="password" class="form-control" id="dpassword" name="dpassword" required>
                                     <small id="passwordError" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="" style="color:black;"><b></b></label>
+                                        {% comment %} <input type="" class="form-control" id="" name="" required> {% endcomment %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="gender" style="color:black;"><b>Gender</b></label>
+                                        <input type="dgender" class="form-control" id="dgender" name="dgender" value="Male" readonly>
+                                    <small id="genderError" class="form-text text-danger"></small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Age" style="color:black;"><b>Age</b></label>
+                                        <input type="dage" class="form-control" id="dage" name="dage" required>
+                                    <small id="ageError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
 								<div class="col-sm-12">
@@ -278,12 +293,21 @@
                                         <small id="ddateError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
+                            <div class="col-sm-6">
 							<div class="form-group">
                                 <label style="color:black;"><b>Short Biography</b></label>
                                 <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
-                            </div>        
+                            </div>
+                        </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" style="color:black;"><b></b></label>
+                                    {% comment %} <input type="" class="form-control" id="" name="" required> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>                      
                             <div class="m-t-20 text-center">
-                                <button type="submit"class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createmem">Create Driver</button>
+                                <button type="submit"class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createdriver">Create Driver</button>
                             </div>
                         </form>
                     </div>
@@ -302,6 +326,9 @@
 
                     const emailInput = document.getElementById('demail');
                     const emailError = document.getElementById('emailError');
+
+                    const ageInput = document.getElementById('dage');
+                    const ageError = document.getElementById('ageError');
 
                     const pinInput = document.getElementById('dpin');
                     const pinError = document.getElementById('pinError');
@@ -336,13 +363,14 @@
                         }
                     });
                     function validateName() {
-                        const nameValue = driverNameInput.value.trim();         
+                        const nameValue = driverNameInput.value.trim();
+                    
                         if (!nameValue) {
                             nameError.textContent = 'Name is required.';
                             nameError.style.color = 'red';
                             return false;
-                        } else if (!/^[a-zA-Z]+$/.test(nameValue)) {
-                            nameError.textContent = 'Name should contain only alphabetical characters.';
+                        } else if (!/^[A-Z][a-zA-Z]*$/.test(nameValue)) {
+                            nameError.textContent = 'Name should start with a capital letter and contain only alphabetical characters.';
                             nameError.style.color = 'red';
                             return false;
                         } else {
@@ -380,6 +408,23 @@
                             return true;
                         }
                     }
+                    function validateAge() {
+                        const ageValue = parseInt(ageInput.value.trim(), 10);
+                    
+                        if (isNaN(ageValue)) {
+                            ageError.textContent = 'Please enter a valid age.';
+                            ageError.style.color = 'red';
+                            return false;
+                        } else if (ageValue < 20 || ageValue > 50) {
+                            ageError.textContent = 'Age should be between 20 and 50.';
+                            ageError.style.color = 'red';
+                            return false;
+                        } else {
+                            ageError.textContent = ''; // Clear the error message
+                            return true;
+                        }
+                    }
+                    ageInput.addEventListener('input', validateAge);
                     driverNameInput.addEventListener('input', validateName);
                     addressInput.addEventListener('input', validateAddress);
                     contactNoInput.addEventListener('input', validateContactNo);
@@ -414,5 +459,4 @@
 	<script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-<!-- add-doctor24:06-->
 </html>

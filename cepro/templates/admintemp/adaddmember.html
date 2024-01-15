@@ -70,9 +70,7 @@
                             <span>Notifications</span>
                         </div>
                         <div class="drop-scroll">
-                            <ul class="notification-list">
-
-                               
+                            <ul class="notification-list">  
                             </ul>
                         </div>
                         {% comment %} <div class="topnav-dropdown-footer">
@@ -164,7 +162,10 @@
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
                             </ul>
-                        </li>    
+                        </li>  
+                        <li>
+                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
+                        </li>  
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
@@ -332,22 +333,21 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><b>Name <span class="text-danger">*</span></b></label>
+                                        <label style="color:black;"><b>Name <span class="text-danger">*</span></b></label>
                                         <input class="form-control" name="name" type="text" id="name">
                                         <small id="nameError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><b>Email <span class="text-danger">*</span></b></label>
+                                        <label style="color:black;"><b>Email <span class="text-danger">*</span></b></label>
                                         <input class="form-control" id="email" name="email" type="email">
                                         <small id="emailError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
-                                
                                 <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="password"><b>Password</b></label>
+                                    <label for="password" style="color:black;"><b>Password</b></label>
                                     <input type="password" class="form-control" id="password" name="password" required>
                                     <small id="passwordError" class="form-text text-danger"></small>
                                   </div>
@@ -386,40 +386,40 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="form-group">
-												<label><b>Address</b></label>
+												<label style="color:black;"><b>Address</b></label>
 												<input type="text" class="form-control " id="address" name="address">
                                                 <small id="addressError" class="form-text text-danger"></small>
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>District</b></label>
+												<label style="color:black;"><b>District</b></label>
                                                 <input class="form-control" type="text" name="dis" value="Kottayam" readonly="">
                                             </div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Thaluk</b></label>
+												<label style="color:black;"><b>Thaluk</b></label>
 												<input class="form-control" type="text" name="taluk" value="Kanjirappally" readonly="">
 											</div>
 										</div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Panchayath</b></label>
+												<label style="color:black;"><b>Panchayath</b></label>
 												<input class="form-control" type="text" name="panchayat" value="Erumely" readonly="">
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Ward No</b></label>
+												<label style="color:black;"><b>Ward No</b></label>
 												<input class="form-control" type="number" name="wardno" id="wardno" required>
 											</div>
 										</div>
 
                                         <div class="col-sm-6 col-md-6 col-lg-3">
                                             <div class="form-group">
-                                                <label><b>Ward Name</b></label>
+                                                <label style="color:black;"><b>Ward Name</b></label>
                                                 <select class="form-control select" name="wardname" id="wardname" required>
                                                     <option>Ward 1-Pazhayidom</option>
                                                     <option>Ward 2-Chennappaddy</option>
@@ -435,7 +435,7 @@
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label><b>Postal Code</b></label>
+												<label style="color:black;"><b>Postal Code</b></label>
 												<input type="text" class="form-control" id="pin" name="pin">
                                                 <small id="pinError" class="form-text text-danger"></small>
                                             </div>
@@ -444,19 +444,19 @@
 								</div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><b>Phone </b></label>
+                                        <label style="color:black;"><b>Phone </b></label>
                                         <input class="form-control" type="text" id="phone"name="phone">
                                         <small id="contactNoError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                             
 							<div class="form-group">
-                                <label><b>Short Biography</b></label>
+                                <label style="color:black;"><b>Short Biography</b></label>
                                 <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
                             </div>
                             <div class="col-sm-6">
                                  <div class="form-group">
-                                    <label>Profile Photo</label>
+                                    <label style="color:black;"><b>Profile Photo</b></label>
                                         <input type="file" class="form-control" name="profile_photo">
                                 </div>
                             </div>
@@ -568,8 +568,6 @@
                             return true;
                         }
                     }
-
-                 
                     farmerNameInput.addEventListener('input', validateName);
                     addressInput.addEventListener('input', validateAddress);
                     contactNoInput.addEventListener('input', validateContactNo);

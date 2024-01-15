@@ -145,7 +145,10 @@
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
                             </ul>
-                        </li>    
+                        </li>   
+                        <li>
+                            <a href="{% url 'addriver' %}"><i class="fa fa-user"></i> <span>Drivers</span></a>
+                        </li> 
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
@@ -179,14 +182,14 @@
                             {% csrf_token %}
         
                             <div class="form-group">
-                                <label><b>Crop Name</b></label>
+                                <label style="color:black;"><b>Crop Name</b></label>
                                 <input class="form-control" type="text" name="cname">
                             </div>
                             <div class="form-group">
-                                <label><b>Description</b></label>
+                                <label style="color:black;"><b>Description</b></label>
                                 <textarea cols="30" rows="4" class="form-control" name="cdescription"></textarea>
                             </div>
-                            <label><b>Available Date </b></label>
+                            <label style="color:black;"><b>Available Date </b></label>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Start Date :</label>
@@ -199,17 +202,19 @@
                                         <input type="date" class="form-control datetimepicker" name="end_date">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label><b>Count</b></label>                                
-                                <input class="form-control" type="text" name="count">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label style="color:black;"><b>Count</b></label>                                
+                                    <input class="form-control" type="text" name="count">
+                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                   <label>Crop Photo</label>
+                                   <label style="color:black;"><b>Crop Photo</b></label>
                                        <input type="file" class="form-control" name="crop_photo">
                                </div>
                            </div>
-                            </div>
+                            
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createcrop">Create Crop</button>
                             </div>
