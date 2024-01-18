@@ -40,6 +40,9 @@ def loginn(request):
             elif user.role == CustomUser.FARMER:
                 login(request, user)
                 return redirect('homepage')
+            elif user.role == CustomUser.ADMIN:
+                login(request, user)
+                return redirect('adindex')
             else:
                 messages.info(request, "Invalid Role for Login")
         else:
@@ -275,28 +278,29 @@ def mlogin(request):
 
 def adblog(request):
     blogs = Blog.objects.all()
-    context={
-        'blogs' : blogs,
-    }
-    return render(request, 'admintemp/adblog.html',context)
+
+    # blogs = Blog.objects.all()
+    # context={
+    #     'blogs' : blogs,
+    # }
+    return render(request, 'admintemp/adblog.html',{'blogs': blogs})
+# views.py
+
 def adaddblog(request):
     if request.method == 'POST':
         blogname = request.POST.get('blogname')
-        blogcategory = request.POST.get('blogcategory')
-        blogdes = request.POST.get('blogdes')
-        blogimage  = request.POST.get('blogimage')
+        # blogcategory = request.POST.get('blogcategory')
+        # blogdes = request.POST.get('blogdes')
+        blogimage = request.FILES.get('blogimage')  # Assuming 'blogimage' is the name attribute in your HTML form
 
         obj = Blog()
         obj.blogname = blogname
-        obj.blogcategory = blogcategory
-        obj.blogdes = blogdes
+        # obj.blogcategory = blogcategory
+        # obj.blogdes = blogdes
         obj.blogimage = blogimage
         obj.save()
 
-
-        # You can use messages and redirection if needed
-        # messages.success(request, 'Asha Worker created successfully!')
-        return redirect('adblog')
+        return redirect('adblog')  # Redirect to the 'adblog' view after successful creation
 
     return render(request, 'admintemp/adaddblog.html')
 

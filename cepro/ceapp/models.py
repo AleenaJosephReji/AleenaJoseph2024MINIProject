@@ -154,8 +154,8 @@ class Crop(models.Model):
 
 class Blog(models.Model):
     blogname = models.CharField(max_length=100)
-    blogcategory = models.CharField(max_length=100)
-    blogdes = models.TextField()
+    # blogcategory = models.CharField(max_length=100)
+    # blogdes = models.TextField()
     blogimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
 
 # models.py
