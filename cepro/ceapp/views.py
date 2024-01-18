@@ -1153,7 +1153,9 @@ from .models import ApplyCrop, Crop
 
 def adpendingapproval(request):
     # Retrieve the approved details from your model or database
-    approved_details = ApplyCrop.objects.filter(is_approved='approved')
+
+    approved_details= ApplyCrop.objects.filter(is_approved='approved',is_given='notgiven')
+    # approved_details = ApplyCrop.objects.filter(is_approved='approved')
 
     if request.method == 'POST':
         # Handle the approve request
