@@ -26,41 +26,30 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
- 
-
+    <style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+            transition: box-shadow 0.3s ease; 
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
+        .custom-card {
+            height: 170px; 
+            
+        }
+    
+        .doctor-img {
+            text-align: center;
+        }
+    
+        .doctor-img img {
+            max-height: 40%; 
+            max-width: 40%; /* Make the image fill the container */
+        }
+    </style>   
 </head>
-
 <body>
-    <!-- Topbar Start -->
-    {% comment %} <div class="container-fluid px-5 d-none d-lg-block">
-        <div class="row gx-5 py-3 align-items-center">
-            <div class="col-lg-3">
-                <div class="d-flex align-items-center justify-content-start">
-                    <i class="bi bi-phone-vibrate fs-1 text-primary me-2"></i>
-                    <h2 class="mb-0">+012 345 6789</h2>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="d-flex align-items-center justify-content-center">
-                    <a href="index.html" class="navbar-brand ms-lg-5">
-                        <h1 class="m-0 display-4 text-primary"><span class="text-secondary">Farm</span>Fresh</h1>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="d-flex align-items-center justify-content-end">
-                    <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-primary btn-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a class="btn btn-primary btn-square rounded-circle" href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
-    <!-- Topbar End -->
-
-
-    <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-5">
         <a href="index.html" class="navbar-brand d-flex d-lg-none">
             {% comment %} <h1 class="m-0 display-4 text-secondary"><span class="text-white">Farm</span>Fresh</h1> {% endcomment %}
@@ -78,45 +67,16 @@
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <a href="{% url 'product' %}" class="nav-item nav-link active">Product</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
-                    <option value="" disabled selected>Select</option>
-                    <option value="{% url 'contact' %}">Book Crop</option>
-                    <option value="{% url 'crop' %}">Register Crop</option>
-                </select> {% endcomment %}
-
-
-                {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
-                    <option value="" disabled selected>Select</option>
-                    <option value="{% url 'cprofile' %}">UserProfile</option>
-                    <option value="{% url 'contact' %}"></option>
-                    <option value="#"></option>
-                </select> {% endcomment %}
-                
-                {% comment %} <label for="linkList">Select</label> {% endcomment %}
-                
-                {% comment %} <a href="{% url 'contact' %}" class="nav-item nav-link">Book Crop</a>
-                <a href="{% url 'crop' %}" class="nav-item nav-link">Crop</a> {% endcomment %}
-                {% comment %} <a href="{% url 'fnotifications' %}" class="nav-item nav-link">Notifications</a> {% endcomment %}
-
-                {% comment %} <a href="{% url 'notification' %}" class="nav-item nav-link">Notification</a> {% endcomment %}
-
-
+          
                 {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="nav-link" href="{% url 'loginn' %}">Login</a>
                 {% endif %}
-                   
-                {% comment %} <a href="{% url 'loginn' %}" class="nav-item nav-link">Login</a> {% endcomment %}
-
             </div>
-
         </div>
     </nav>
-    <!-- Navbar End -->
-
-
-    <!-- Hero Start -->
+  
     <div class="container-fluid bg-primary py-5 bg-hero mb-5">
         <div class="container py-5">
             <div class="row justify-content-start">
@@ -128,75 +88,27 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-
-
-    <!-- Products Start -->
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="mx-auto text-center mb-5" style="max-width: 500px;">
-                <h6 class="text-primary text-uppercase">Products</h6>
-                <h1 class="display-5">Our Crops</h1>
-            </div>
-            <div class="owl-carousel product-carousel px-5">
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/banana.jpeg' %}" alt="">
-                        <h6 class="mb-3">Banana Plant</h6>  
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
+   
+            <div class="row">
+                            {% for blog in blogs %}
+                            <div class="col-md-3">
+                                <div class="card custom-card">
+                                    <div class="doctor-img">
+                                        {% if blog.blogimage %}
+                                            <a class="avatar" href="#"><img alt="" src="{{ blog.blogimage.url }}"></a>
+                                        {% endif %}
+                                        <div class="doctor-img">
+                                            {% if blog.blogname %}
+                                                <h5 class="card-title">{{ blog.blogname }}</h5>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                         </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/rice.jpg' %}" alt="">
-                        <h6 class="mb-3">Rice Crop</h6>
-                        <h5 class="text-primary mb-0">  </h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/coconut.jpg' %}" alt="">
-                        <h6 class="mb-3">Organic Vegetable</h6>
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/potato.jpg' %}" alt="">
-                        <h6 class="mb-3">Potato</h6>
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/peper.jpg' %}" alt="">
-                        <h6 class="mb-3">Pepper</h6>
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                   
+    
     <!-- Products End -->
     <!-- Footer Start -->
     <div class="container-fluid bg-footer bg-primary text-white mt-5">

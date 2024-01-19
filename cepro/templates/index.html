@@ -28,6 +28,28 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+            transition: box-shadow 0.3s ease; 
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
+        .custom-card {
+            height: 170px; 
+            
+        }
+    
+        .doctor-img {
+            text-align: center;
+        }
+    
+        .doctor-img img {
+            max-height: 40%; 
+            max-width: 40%; /* Make the image fill the container */
+        }
+    </style>
 </head>
 
 <body>
@@ -343,7 +365,7 @@
 
 
     <!-- Products Start -->
-    <div class="container-fluid py-5">
+    {% comment %} <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
                 <h6 class="text-primary text-uppercase">Products</h6>
@@ -407,6 +429,31 @@
                 </div>
             </div>
         </div>
+    </div> {% endcomment %}
+    <div class="container">
+        <div class="mx-auto text-center mb-5" style="max-width: 500px;">
+            <h6 class="text-primary text-uppercase">Products</h6>
+            <h1 class="display-5">Our Crops</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for blog in blogs %}
+        <div class="col-md-3">
+            <div class="card custom-card">
+                <div class="doctor-img">
+                    {% if blog.blogimage %}
+                        <a class="avatar" href="#"><img alt="" src="{{ blog.blogimage.url }}"></a>
+                    {% endif %}
+                    <div class="doctor-img">
+                        {% if blog.blogname %}
+                            <h5 class="card-title">{{ blog.blogname }}</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     </div>
     <!-- Products End -->
 

@@ -5,7 +5,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from .models import Member
 from .models import Crop
-from .models import Blog
+from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
 from .models import FarmerProfile
@@ -97,8 +97,8 @@ def register(request):
     else:
      return render(request, 'signup.html')
     
-def index(request):
-    return render(request,'index.html')
+# def index(request):
+#     return render(request,'index.html')
 
 # def home1(request):
 #     return render(request,'home1.html')
@@ -156,8 +156,8 @@ def service(request):
     return render(request,'service.html')
 def contact(request):
     return render(request,'contact.html')
-def product(request):
-    return render(request,'product.html')
+# def product(request):
+#     return render(request,'product.html')
 def apply(request):
     return render(request,'apply.html')
 # def crop(request):
@@ -277,13 +277,13 @@ def mlogin(request):
 
 
 def adblog(request):
-    blogs = Blog.objects.all()
+    products = Product.objects.all()
 
     # blogs = Blog.objects.all()
     # context={
     #     'blogs' : blogs,
     # }
-    return render(request, 'admintemp/adblog.html',{'blogs': blogs})
+    return render(request, 'admintemp/adblog.html',{'products': products})
 # views.py
 
 def adaddblog(request):
@@ -293,7 +293,7 @@ def adaddblog(request):
         # blogdes = request.POST.get('blogdes')
         blogimage = request.FILES.get('blogimage')  # Assuming 'blogimage' is the name attribute in your HTML form
 
-        obj = Blog()
+        obj = Product()
         obj.blogname = blogname
         # obj.blogcategory = blogcategory
         # obj.blogdes = blogdes
@@ -1824,7 +1824,39 @@ def addriver(request):
     return render(request,'admintemp/addriver.html')
 def adadddriver(request):
     return render(request,'admintemp/adadddriver.html')
+def product(request):
+    blogs = Product.objects.all()
 
+    # blogs = Blog.objects.all()
+    # context={
+    #     'blogs' : blogs,
+    # }
+    return render(request, 'product.html',{'blogs': blogs})
+def index(request):
+    blogs = Product.objects.all()
+
+    # blogs = Blog.objects.all()
+    # context={
+    #     'blogs' : blogs,
+    # }
+    return render(request, 'index.html',{'blogs': blogs})
+
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        blogname = request.POST.get('blogname')
+        blogimage = request.FILES.get('blogimage')
+
+        product.blogname = blogname
+        product.blogimage = blogimage
+        # Save the updated member object
+        product.save()
+
+        # Redirect to the member list page after editing
+        return redirect('adblog')
+
+    return render(request, 'admintemp/edit_product.html', {'product': product})
 
 
 

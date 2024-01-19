@@ -152,7 +152,7 @@ class Crop(models.Model):
 
 
 
-class Blog(models.Model):
+class Product(models.Model):
     blogname = models.CharField(max_length=100)
     # blogcategory = models.CharField(max_length=100)
     # blogdes = models.TextField()
