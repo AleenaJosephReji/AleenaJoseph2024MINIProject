@@ -1,63 +1,66 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
-    <title>CropElevate</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <!--[if lt IE 9]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
-    <style>
-        .header
-        {
-            background-color:green;
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
+        <title>CropElevate</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+        <!--[if lt IE 9]>
+            <script src="assets/js/html5shiv.min.js"></script>
+            <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+        <style>
+            .header
+            {
+                background-color:green;
+            }
+            .header .header-left 
+            {
+                background-color:green;
+            }
+            .green-background {
+                background-color: green; 
+            }
+            .sidebar
+            {
+                background-color:green;
+            }
+            .sidebar-menu li a {
+                color:white;
+            }
+            .sidebar-menu li a:hover {
+                color: white;
+            }
+            .sidebar-menu li.active a {
+                color: green;
+                background-color: #f3f3f3;
+            }
+            .custom-search-input {
+                border: 2px solid #337ab7; 
+                border-radius: 5px; 
+                padding: 2px 10px;
+                box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.6);
+            }
+        .custom-search-btn {
+            background-color: #337ab7;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            color: #fff; 
         }
-        .header .header-left 
-        {
-            background-color:green;
+        .custom-search-btn:hover {
+            background-color: #235a94; 
+            margin-left:40px;
         }
-        .green-background {
-            background-color: green; /* Set the background color to green */
-        }
-        {% comment %} .sidebar{
-            background-color: green;
-        } {% endcomment %}
-        .sidebar
-        {
-            background-color:green;
-        }
-        .sidebar-menu li a {
-            color:white;
-        }
-        .sidebar-menu li a:hover {
-            color: white;
-        }
-        .sidebar-menu li.active a {
-            color: green;
-            background-color: #f3f3f3;
-        }
-        .card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
-            transition: box-shadow 0.3s ease; 
-            height: 120px;
-            
-        }
-        .card:hover {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
-        }
-        .custom-card {
-            height: 120px;
-        }
-    </style> 
-</head>
+        </style> 
+    </head>
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -190,7 +193,7 @@
                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href=" {% url 'edit_product' product.id %} "><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                        <a class="dropdown-item" href=" "><i class="fa fa-pencil m-r-5"></i> Delete</a>
+                                        <a class="dropdown-item" href=" {% url 'delete_product' product.id %} "><i class="fa fa-pencil m-r-5"></i> Delete</a>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -213,7 +216,6 @@
                     </div>
                 </div>
                 
-                        </ul>
                     </div>
                     {% comment %} <div class="topnav-dropdown-footer">
                         <a href="chat.html">See all messages</a>

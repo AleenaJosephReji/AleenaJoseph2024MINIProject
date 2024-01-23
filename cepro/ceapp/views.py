@@ -9,6 +9,7 @@ from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
 from .models import FarmerProfile
+from .models import Driver
 from .models import SecretaryProfile
 from .models import *
 from django.core.files.storage import FileSystemStorage
@@ -156,6 +157,8 @@ def service(request):
     return render(request,'service.html')
 def contact(request):
     return render(request,'contact.html')
+# def adproduct(request):
+#     return render(request,'admintemp/adproduct.html')
 # def product(request):
 #     return render(request,'product.html')
 def apply(request):
@@ -1820,10 +1823,10 @@ def edit_attendance(request, meeting_id):
     return render(request, 'admintemp/edit_attendance.html', {'meeting': meeting})
 
 
-def addriver(request):
-    return render(request,'admintemp/addriver.html')
-def adadddriver(request):
-    return render(request,'admintemp/adadddriver.html')
+# def addriver(request):
+#     return render(request,'admintemp/addriver.html')
+# def adadddriver(request):
+#     return render(request,'admintemp/adadddriver.html')
 def product(request):
     blogs = Product.objects.all()
 
@@ -1843,23 +1846,69 @@ def index(request):
 
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-
     if request.method == 'POST':
         blogname = request.POST.get('blogname')
         blogimage = request.FILES.get('blogimage')
-
         product.blogname = blogname
         product.blogimage = blogimage
-        # Save the updated member object
         product.save()
-
-        # Redirect to the member list page after editing
         return redirect('adblog')
-
     return render(request, 'admintemp/edit_product.html', {'product': product})
 
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('adblog')
+    return render(request, 'admintemp/delete_product.html', {'product': product})
+def adproduct(request):
+    products = Product.objects.all()
 
-
+    # blogs = Blog.objects.all()
+    # context={
+    #     'blogs' : blogs,
+    # }
+    return render(request, 'admintemp/adproduct.html',{'products': products})
 # def addriver(request):
 #     members = Member.objects.filter(is_active=True)
 #     return render(request, 'admintemp/addriver.html', {'members': members})
+
+def adadddriver(request):
+    if request.method == 'POST':
+        dname = request.POST.get('dname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        dage = request.POST.get('dage')
+        dgender = request.POST.get('dgender', 'Default Gender')
+        daddress = request.POST.get('daddress')
+        ddis = request.POST.get('ddis', 'Default District')  # Set a default value for District
+        dtaluk = request.POST.get('dtaluk', 'Default Taluk')   # Set a default value for Taluk
+        dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')  # Set a default value for Panchayat
+        dwardno = request.POST.get('dwardno')
+        dpin = request.POST.get('dpin')
+        dphone = request.POST.get('dphone')
+        dlisence = request.POST.get('dlisence')
+        ddate = request.POST.get('ddate')
+        dbio = request.POST.get('dbio')
+        profile_photo = request.FILES.get('profile_photo')
+        
+        role=CustomUser.DRIVER
+        print(role)
+
+        if CustomUser.objects.filter(email=email,role=CustomUser.DRIVER).exists():
+                messages.info(request, 'Email already exists') 
+                return redirect('adadddriver')
+        else:
+                user = CustomUser.objects.create_user(email=email, password=password ,name=dname)
+                user.role = CustomUser.DRIVER
+                user.save()
+                dri = Driver(user=user,name=dname,email=email,dgender=dgender,daddress=daddress,dage=dage,ddis=ddis,dtaluk=dtaluk,dPanchayat=dpanchayat,dwardno=dwardno,dpin=dpin,dphone=dphone,dbio=dbio,dlisence=dlisence,ddate=ddate,profile_photo=profile_photo)
+                dri.save()
+                return redirect('addriver')
+    else:
+         
+        return render(request, 'admintemp/adadddriver.html')
+
+def addriver(request):
+    drivers = Driver.objects.filter(is_active=True)
+    return render(request, 'admintemp/addriver.html', {'drivers': drivers})

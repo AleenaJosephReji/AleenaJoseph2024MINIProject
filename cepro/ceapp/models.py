@@ -45,11 +45,12 @@ class CustomUser(AbstractUser):
     FARMER = 1
     MEMBER = 2
     ADMIN = 3
-
+    DRIVER = 4
     ROLE_CHOICE = (
         (FARMER, 'FARMER'),
         (MEMBER, 'MEMBER'),
         (ADMIN,'ADMIN'),
+        (DRIVER,'DRIVER'),
     
     )
 
@@ -346,6 +347,39 @@ class SecretaryProfile(models.Model):
 #     def __str__(self):
 #         return self.name
 
+class Driver(models.Model): 
+    
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=100,null=True, blank=True)
+    email = models.EmailField(max_length=100,null=True, blank=True)
+    dage = models.CharField(max_length=100,null=True, blank=True)
+
+    admin_set_password = models.CharField(max_length=128, blank=True, null=True)
+
+    def set_password(self, password):
+        # Hash and set the password
+        self.admin_set_password = make_password(password)
+
+    dgender= models.CharField(max_length=100,null=True, blank=True)
+    daddress = models.TextField()
+    ddis= models.CharField(max_length=100,null=True, blank=True)
+    dtaluk = models.CharField(max_length=255, null=True, blank=True)
+    dPanchayat = models.CharField(max_length=100,null=True, blank=True)
+    dwardno = models.IntegerField(max_length=100,null=True, blank=True)
+    dpin = models.IntegerField()
+    dphone = models.IntegerField()
+    dlisence = models.CharField(max_length=255, null=True, blank=True)
+    ddate = models.CharField(max_length=100,null=True, blank=True)
+    dbio=models.TextField()
+    profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.email
+# class Crop(models.Model):
+#     Namec = models.CharField(max_length=100)
+#     des = models.TextField()
+#     available = models.BooleanField(default=False)
+#     not_available = models.BooleanField(default=False)
 
 
 

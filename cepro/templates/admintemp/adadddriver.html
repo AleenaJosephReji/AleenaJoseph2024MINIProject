@@ -176,22 +176,22 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label style="color:black;"><b>Name <span class="text-danger">*</span></b></label>
-                                        <input class="form-control" name="dname" type="text" id="dname">
+                                        <input class="form-control" name="dname" type="text" id="dname" oninput="validateName()">
                                         <small id="nameError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label style="color:black;"><b>Email <span class="text-danger">*</span></b></label>
-                                        <input class="form-control" id="demail" name="demail" type="demail">
+                                        <input class="form-control" id="email" name="email" type="email" oninput="validateEmail()">
                                         <small id="emailError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="password" style="color:black;"><b>Password</b></label>
-                                        <input type="password" class="form-control" id="dpassword" name="dpassword" required>
-                                    <small id="passwordError" class="form-text text-danger"></small>
+                                        <input type="password" class="form-control" id="password" name="password" oninput="validatePassword()" required>
+                                        <small id="passwordError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -203,15 +203,15 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="gender" style="color:black;"><b>Gender</b></label>
-                                        <input type="dgender" class="form-control" id="dgender" name="dgender" value="Male" readonly>
+                                        <input type="text" class="form-control" id="dgender" name="dgender" value="Male" readonly>
                                     <small id="genderError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="Age" style="color:black;"><b>Age</b></label>
-                                        <input type="dage" class="form-control" id="dage" name="dage" required>
-                                    <small id="ageError" class="form-text text-danger"></small>
+                                        <input type="text" class="form-control" id="dage" name="dage" oninput="validateAge()" required>
+                                        <small id="ageError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
 								<div class="col-sm-12">
@@ -243,26 +243,11 @@
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
-												<label style="color:black;"><b>Ward No</b></label>
-												<input class="form-control" type="number" name="dwardno" id="dwardno" required>
-											</div>
-										</div>
-                                        {% comment %} <div class="col-sm-6 col-md-6 col-lg-3">
-                                            <div class="form-group">
-                                                <label><b>Ward Name</b></label>
-                                                <select class="form-control select" name="wardname" id="wardname" required>
-                                                    <option>Ward 1-Pazhayidom</option>
-                                                    <option>Ward 2-Chennappaddy</option>
-                                                    <option>Ward 3-Kizhakkekkerra</option>
-                                                    <option>Ward 4-Cheruvally Estate</option>
-                                                    <option>Ward 5-Ozhakkanad</option>
-                                                    <option>Ward 6-Vazhakkala</option>
-                                                    <option>Ward 7-Nerchapara</option>
-                                                    <option>Ward 8-Kariserry</option>
-                                                    <option>Ward 9-Irumpoonikkarra</option>
-                                                </select>
+                                                <label style="color:black;"><b>Ward No</b></label>
+                                                <input class="form-control" type="number" name="dwardno" id="dwardno" oninput="validateWardNo()" required>
+                                                <small id="wardNoError" class="form-text text-danger"></small>
                                             </div>
-                                        </div> {% endcomment %}
+										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
 											<div class="form-group">
 												<label style="color:black;"><b>Postal Code</b></label>
@@ -282,7 +267,7 @@
                                 <div class ="col-sm-6">
                                     <div class="frm-group">
                                         <label style="color:black;"><b>Licence Number</b></label>
-                                        <input class="form-control" type="text" id="dlicense" name="dlicence">
+                                        <input class="form-control" type="text" id="dlisence" name="dlisence">
                                         <small id="licenceError" class="form-text text-danger"></small>
                                     </div>
                                 </div>
@@ -296,7 +281,7 @@
                             <div class="col-sm-6">
 							<div class="form-group">
                                 <label style="color:black;"><b>Short Biography</b></label>
-                                <textarea class="form-control" rows="3" cols="30" name="bio"></textarea>
+                                <textarea class="form-control" rows="3" cols="30" name="dbio"></textarea>
                             </div>
                         </div>
                             <div class="col-sm-6">
@@ -342,40 +327,73 @@
                             pinError.textContent = 'Please enter a valid 6-digit postal code.';
                         }
                     });
-                    emailInput.addEventListener('input', function () {
-                        const email = emailInput.value;
-                        const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-                    
-                        if (emailRegex.test(email)) {
-                            emailError.textContent = '';
+                    function validateEmail() {
+                        const emailInput = document.getElementById('email');
+                        const emailError = document.getElementById('emailError');
+                
+                        // Check if the email is empty
+                        if (emailInput.value.trim() === '') {
+                            emailError.textContent = 'Email is required';
                         } else {
-                            emailError.textContent = 'Please enter a valid email address.';
+                            // Validate email format
+                            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailRegex.test(emailInput.value)) {
+                                emailError.textContent = 'Email must contain an @ symbol';
+                            } else {
+                                emailError.textContent = ''; // Clear the error message
+                            }
                         }
-                    });
-                    passwordInput.addEventListener('input', function () {
-                        const password = passwordInput.value;
-                        const validPasswordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$/;
-
-                        if (validPasswordRegex.test(password)) {
-                            passwordError.textContent = '';
+                    }
+                    function validatePassword() {
+                        const passwordInput = document.getElementById('password');
+                        const passwordError = document.getElementById('passwordError');
+                
+                        // Check if the password is empty
+                        if (passwordInput.value.trim() === '') {
+                            passwordError.textContent = 'Password is required';
                         } else {
-                            passwordError.textContent = 'Password should contain at least 1 capital letter, 1 number, 1 special character, and be at least 8 characters long.';
+                            // Validate password format
+                            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                            if (!passwordRegex.test(passwordInput.value)) {
+                                passwordError.textContent = 'Password should contain at least 1 capital letter, 1 number, 1 special character, and be at least 8 characters long';
+                            } else {
+                                passwordError.textContent = ''; // Clear the error message
+                            }
                         }
-                    });
+                    }
                     function validateName() {
-                        const nameValue = driverNameInput.value.trim();
-                    
-                        if (!nameValue) {
-                            nameError.textContent = 'Name is required.';
-                            nameError.style.color = 'red';
-                            return false;
-                        } else if (!/^[A-Z][a-zA-Z]*$/.test(nameValue)) {
-                            nameError.textContent = 'Name should start with a capital letter and contain only alphabetical characters.';
-                            nameError.style.color = 'red';
-                            return false;
+                        const nameInput = document.getElementById('dname');
+                        const nameError = document.getElementById('nameError');
+                
+                        // Check if the name is empty
+                        if (nameInput.value.trim() === '') {
+                            nameError.textContent = 'Name is required';
                         } else {
-                            nameError.textContent = ''; // Clear the error message
-                            return true;
+                            // Validate name format
+                            const nameRegex = /^[A-Z][A-Za-z ]*$/;
+                            if (!nameRegex.test(nameInput.value)) {
+                                nameError.textContent = 'Name should start with a capital letter, contain only alphabets, allow only spaces, and no digits are allowed';
+                            } else {
+                                nameError.textContent = ''; // Clear the error message
+                            }
+                        }
+                    }
+                   
+                    function validateWardNo() {
+                        const wardNoInput = document.getElementById('dwardno');
+                        const wardNoError = document.getElementById('wardNoError');
+                
+                        // Check if the ward number is empty
+                        if (wardNoInput.value.trim() === '') {
+                            wardNoError.textContent = 'Ward number is required';
+                        } else {
+                            // Validate ward number range
+                            const wardNoValue = parseInt(wardNoInput.value, 10);
+                            if (isNaN(wardNoValue) || wardNoValue < 1 || wardNoValue > 9) {
+                                wardNoError.textContent = 'Ward number should be between 1 and 9';
+                            } else {
+                                wardNoError.textContent = ''; // Clear the error message
+                            }
                         }
                     }
                     function validateAddress() {
@@ -409,19 +427,20 @@
                         }
                     }
                     function validateAge() {
-                        const ageValue = parseInt(ageInput.value.trim(), 10);
-                    
-                        if (isNaN(ageValue)) {
-                            ageError.textContent = 'Please enter a valid age.';
-                            ageError.style.color = 'red';
-                            return false;
-                        } else if (ageValue < 20 || ageValue > 50) {
-                            ageError.textContent = 'Age should be between 20 and 50.';
-                            ageError.style.color = 'red';
-                            return false;
+                        const ageInput = document.getElementById('dage');
+                        const ageError = document.getElementById('ageError');
+                        
+                        // Check if the age is empty
+                        if (ageInput.value.trim() === '') {
+                            ageError.textContent = 'Age is required';
                         } else {
-                            ageError.textContent = ''; // Clear the error message
-                            return true;
+                            // Validate age range
+                            const ageValue = parseInt(ageInput.value, 10);
+                            if (isNaN(ageValue) || ageValue < 22 || ageValue > 50) {
+                                ageError.textContent = 'Age should be between 22 and 50';
+                            } else {
+                                ageError.textContent = ''; // Clear the error message
+                            }
                         }
                     }
                     ageInput.addEventListener('input', validateAge);

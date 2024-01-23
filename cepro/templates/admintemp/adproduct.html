@@ -162,66 +162,62 @@
                 </div>
             </div>
         </div>
-        <div class="page-wrapper" >
+        <div class="page-wrapper">
             <div class="content">
                 <div class="row">
-                    <div class="col-sm-4 col-3">
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="memberlist"><b><i><u>Drivers List</b></i></u></h4>
+                    <div class="col-lg-8 offset-lg-2">
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Products</b></i></u></h4>
+                        <a class="btn btn-primary btn-rounded float-right" style="background:green;"href="{% url 'adaddblog' %}"><i class="fa fa-plus"></i> Add Products</a>
                     </div>
-                    <div class="col-sm-8 col-9 text-right m-b-20">
-                        <a href="{% url 'adadddriver' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="fa fa-plus" id="addmem"></i> Add Driver</a>
-                    </div>
+                    {% comment %} <div class="col-sm-4 col-8 text-right m-b-30">
+                    </div> {% endcomment %}
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <form id="search-form" method="GET" action="{% url 'search_member' %}">
-                            <div class="input-group">
-                                <a href="{% url 'admember' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
-                                <input type="text" class="form-control custom-search-input" name="membername" placeholder="Search By Member Name">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><br><br>
-                <div class="row doctor-grid">
-                    {% for driver in drivers %}
-                    <div class="col-md-4 col-sm-4  col-lg-3 ">
-                        <div class="profile-widget" style="text-align:left;">
-                             <div class="doctor-img">
-                                <a class="avatar" href="#"><img alt="" src="{{ driver.profile_photo.url }}"></a>
-                               </div>
-                            <div class="dropdown profile-action">
-                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                {% comment %} <div class="dropdown-menu dropdown-menu-right">
-                                     <a class="dropdown-item" href=" {% url 'edit_member' member.id %}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                     <a class="dropdown-item" href=" {% url 'delete_member' member.id %}"><i class="fa fa-pencil m-r-5"></i> Delete</a>
-                                </div> {% endcomment %}
-                            </div>
-                            <h4 class="doctor-name text-ellipsis"><a href="profile.html"> {{ driver.dname }}</a></h4>
-                            <div class="user-country" style="color:black;">
-                                <i class="fa fa-map-marker"></i> {{ driver.daddress }}
-                            </div>                            
-                            <div>
-                                {% comment %} <p style="color:black;">Member ID: {{ driver.id }}</p> {% endcomment %}
-                                <p class="card-text" style="color:black;"><b>Email: </b>{{ driver.email }}</p>
-                                <p class="card-text" style="color:black;"><b>Gender: </b>{{ driver.dgender }}</p>
-                                <p class="card-text" style="color:black;"><b>District: </b>{{ driver.ddis }}</p>
-                                <p class="card-text" style="color:black;"><b>Taluk: </b>{{ driver.dtaluk }}</p>
-                                <p class="card-text" style="color:black;"><b>Panchayat: </b>{{ driver.dPanchayat }}</p>
-                                <p class="card-text" style="color:black;"><b>Wardno: </b>{{ driver.dwardno }}</p>
-                                <p class="card-text" style="color:black;"><b>Postal: </b>{{ driver.dpin }}</p>
-                                <p class="card-text" style="color:black;"><b>Phone: </b>{{ driver.dphone }}</p>
-                                <p class="card-text" style="color:black;"><b>Lisence: </b>{{ driver.dlisence }}</p>
-                                <p class="card-text" style="color:black;"><b>Lisence Date: </b>{{ driver.ddate }}</p>
 
-                                <p class="card-text" style="color:black;"><b>Bio: </b>{{ member.bio }}</p>
+               
+                    
+                <div class="container">
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="col-md-4">
+                            
+                            <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4); margin-left:40px;">
+                                <div class="dropdown profile-action">
+                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href=" {% url 'edit_product' product.id %} "><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" href=" {% url 'delete_product' product.id %} "><i class="fa fa-pencil m-r-5"></i> Delete</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    {% comment %} <div class="card custom-card"> {% endcomment %}
+                                        <div class="doctor-img">
+                                            {% if product.blogimage %}
+                                                <a class="avatar" href="#"><img alt="" src="{{ product.blogimage.url }}"></a>
+                                            {% endif %}
+                                            <div class="doctor-img">
+                                                {% if product.blogname %}
+                                                    <h5 class="card-title">{{ product.blogname }}</h5>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% comment %} </div> {% endcomment %}
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %} 
-                </div> 
+                </div>
+                
+                    </div>
+                    {% comment %} <div class="topnav-dropdown-footer">
+                        <a href="chat.html">See all messages</a>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+                
+           
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
@@ -230,8 +226,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-		</div>
+            
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
