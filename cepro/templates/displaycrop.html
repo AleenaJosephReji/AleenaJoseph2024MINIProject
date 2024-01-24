@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Details</title>
+</head>
+<style>
+    h2{
+        text-align: center;
+    }
+    .main {
+        width: 50%;
+        margin: 10px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+        transition: background-color 0.3s ease; 
+    }
+    .main:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+    }
+    table
+    {
+        width:40%;
+        border-collapse: collapse;
+        margin: auto;
+
+    }
+    table, th, td {
+        border: 1px solid black;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+
+    }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th{
+        background-color:#34AD54;
+    }
+</style>
+<body>
+
+<h2>Received Crops</h2>
+<div class="main">
+{% if approved_crops %}
+  <table>
+    <thead>
+      <tr>
+        <th>Crop Name</th>
+        <th>Given Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for crop in approved_crops %}
+        <tr>
+          <td>{{ crop.cname }}</td>
+          <td>{{ crop.crop_giventime|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No approved and given crops.</p>
+{% endif %}
+</div>
+</body>
+</html>

@@ -147,6 +147,7 @@ urlpatterns = [
     path('edit_attendance/<int:meeting_id>/', views.edit_attendance, name='edit_attendance'),
     path('addriver', views.addriver, name='addriver'),
     path('adproduct', views.adproduct, name='adproduct'),
+    path('displaycrop', views.displaycrop, name='displaycrop'),
 
     path('adadddriver', views.adadddriver, name='adadddriver'),
     path('edit_product/<product_id>', views.edit_product, name='edit_product'),

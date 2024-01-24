@@ -1912,3 +1912,15 @@ def adadddriver(request):
 def addriver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
+
+
+# def displaycrop(request):
+#     return render(request,'displaycrop.html')
+def displaycrop(request):
+    # approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
+    # return render(request, 'displaycrop.html', {'approved_applications': approved_details})
+    user = request.user
+    current_date = date.today()
+    approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
+    return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
+
