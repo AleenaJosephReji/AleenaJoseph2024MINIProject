@@ -384,4 +384,10 @@ class Driver(models.Model):
 
 
 
+class Service(models.Model):
+    servicename = models.CharField(max_length=100)
+    serviceimage =  models.ImageField(upload_to='service/', null=True, blank=True)
+    servicedes=models.TextField()
+
+
 

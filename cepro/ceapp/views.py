@@ -110,9 +110,6 @@ def register(request):
 # def testimonail(request):
     # return render(request,'testimonail.html')
 
-# def blog(request):
-    # return render(request,'blog.html')
-
 # def contact(request):
     # return render(request,'contact.html')
 
@@ -149,8 +146,6 @@ def testimonial(request):
     return render(request,'testimonial.html')
 def about(request):
     return render(request,'about.html')
-def service(request):
-    return render(request,'service.html')
 def contact(request):
     return render(request,'contact.html')
 # def adproduct(request):
@@ -285,23 +280,6 @@ def adblog(request):
     return render(request, 'admintemp/adblog.html',{'products': products})
 # views.py
 
-def adaddproduct(request):
-    if request.method == 'POST':
-        blogname = request.POST.get('blogname')
-        # blogcategory = request.POST.get('blogcategory')
-        # blogdes = request.POST.get('blogdes')
-        blogimage = request.FILES.get('blogimage')  # Assuming 'blogimage' is the name attribute in your HTML form
-
-        obj = Product()
-        obj.blogname = blogname
-        # obj.blogcategory = blogcategory
-        # obj.blogdes = blogdes
-        obj.blogimage = blogimage
-        obj.save()
-
-        return redirect('adproduct')  # Redirect to the 'adblog' view after successful creation
-
-    return render(request, 'admintemp/adaddproduct.html')
 
  # Import a form for editing member details if you have one
 
@@ -1823,14 +1801,7 @@ def edit_attendance(request, meeting_id):
 #     return render(request,'admintemp/addriver.html')
 # def adadddriver(request):
 #     return render(request,'admintemp/adadddriver.html')
-def product(request):
-    blogs = Product.objects.all()
 
-    # blogs = Blog.objects.all()
-    # context={
-    #     'blogs' : blogs,
-    # }
-    return render(request, 'product.html',{'blogs': blogs})
 def index(request):
     blogs = Product.objects.all()
 
@@ -1840,6 +1811,10 @@ def index(request):
     # }
     return render(request, 'index.html',{'blogs': blogs})
 
+
+def product(request):
+    blogs = Product.objects.all()
+    return render(request, 'product.html',{'blogs': blogs})
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
@@ -1859,15 +1834,24 @@ def delete_product(request, product_id):
     return render(request, 'admintemp/delete_product.html', {'product': product})
 def adproduct(request):
     products = Product.objects.all()
-
-    # blogs = Blog.objects.all()
-    # context={
-    #     'blogs' : blogs,
-    # }
     return render(request, 'admintemp/adproduct.html',{'products': products})
-# def addriver(request):
-#     members = Member.objects.filter(is_active=True)
-#     return render(request, 'admintemp/addriver.html', {'members': members})
+def adaddproduct(request):
+    if request.method == 'POST':
+        blogname = request.POST.get('blogname')
+        # blogcategory = request.POST.get('blogcategory')
+        # blogdes = request.POST.get('blogdes')
+        blogimage = request.FILES.get('blogimage')  # Assuming 'blogimage' is the name attribute in your HTML form
+
+        obj = Product()
+        obj.blogname = blogname
+        # obj.blogcategory = blogcategory
+        # obj.blogdes = blogdes
+        obj.blogimage = blogimage
+        obj.save()
+
+        return redirect('adproduct')  # Redirect to the 'adblog' view after successful creation
+
+    return render(request, 'admintemp/adaddproduct.html')
 
 def adadddriver(request):
     if request.method == 'POST':
@@ -1909,19 +1893,34 @@ def addriver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
 
-
-# def displaycrop(request):
-#     return render(request,'displaycrop.html')
 def displaycrop(request):
     user = request.user
     current_date = date.today()
     approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
     return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
-
-
-
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()
     profile = FarmerProfile.objects.get(user=user)
     return render(request,'homepage.html',{'profile':profile,'blogs' : blogs})
+
+#service
+def adservice(request):
+    return render(request,'admintemp/adservice.html')
+def service(request):
+    return render(request,'service.html')
+def adaddservice(request):
+    if request.method == 'POST':
+        servicename = request.POST.get('servicename')
+        serviceimage = request.FILES.get('blogimage')  
+        servicedes = request.POST.get('servicedes')
+        obj = Service()
+        obj.servicename = servicename
+        obj.serviceimage = serviceimage
+        obj.servicedes = servicedes
+        obj.save()
+        return redirect('adservice') 
+    return render(request, 'admintemp/adaddservice.html')
+def adservice(request):
+    services = Service.objects.all()
+    return render(request, 'admintemp/adservice.html',{'services': services})

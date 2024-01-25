@@ -152,6 +152,9 @@ urlpatterns = [
     path('adadddriver', views.adadddriver, name='adadddriver'),
     path('edit_product/<product_id>', views.edit_product, name='edit_product'),
     path('delete_product/<product_id>', views.delete_product, name='delete_product'),
+    path('adservice', views.adservice, name='adservice'),
+    path('adaddservice', views.adaddservice, name='adaddservice'),
+
 
 
 
