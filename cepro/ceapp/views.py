@@ -133,10 +133,6 @@ def about(request):
 #     return render(request,'wishlist.html')
 # def gallery(request):
 #     return render(request,'gallery.html')
-def homepage(request):
-    user = request.user
-    profile = FarmerProfile.objects.get(user=user)
-    return render(request,'homepage.html',{'profile':profile})
 
 def applyerror(request):
     message = "This crop is unavailable."
@@ -289,7 +285,7 @@ def adblog(request):
     return render(request, 'admintemp/adblog.html',{'products': products})
 # views.py
 
-def adaddblog(request):
+def adaddproduct(request):
     if request.method == 'POST':
         blogname = request.POST.get('blogname')
         # blogcategory = request.POST.get('blogcategory')
@@ -303,9 +299,9 @@ def adaddblog(request):
         obj.blogimage = blogimage
         obj.save()
 
-        return redirect('adblog')  # Redirect to the 'adblog' view after successful creation
+        return redirect('adproduct')  # Redirect to the 'adblog' view after successful creation
 
-    return render(request, 'admintemp/adaddblog.html')
+    return render(request, 'admintemp/adaddproduct.html')
 
  # Import a form for editing member details if you have one
 
@@ -1852,7 +1848,7 @@ def edit_product(request, product_id):
         product.blogname = blogname
         product.blogimage = blogimage
         product.save()
-        return redirect('adblog')
+        return redirect('adproduct')
     return render(request, 'admintemp/edit_product.html', {'product': product})
 
 def delete_product(request, product_id):
@@ -1917,10 +1913,15 @@ def addriver(request):
 # def displaycrop(request):
 #     return render(request,'displaycrop.html')
 def displaycrop(request):
-    # approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
-    # return render(request, 'displaycrop.html', {'approved_applications': approved_details})
     user = request.user
     current_date = date.today()
     approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
     return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
 
+
+
+def homepage(request):
+    user = request.user
+    blogs = Product.objects.all()
+    profile = FarmerProfile.objects.get(user=user)
+    return render(request,'homepage.html',{'profile':profile,'blogs' : blogs})

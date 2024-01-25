@@ -59,6 +59,16 @@
         background-color: #235a94; 
         margin-left:40px;
     }
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+        margin-left: 40px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+    }
     </style> 
 </head>
 <body>
@@ -148,6 +158,9 @@
                             <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
                         <li>
+                            <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
+                        </li>
+                        <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
@@ -167,7 +180,7 @@
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Products</b></i></u></h4>
-                        <a class="btn btn-primary btn-rounded float-right" style="background:green;"href="{% url 'adaddblog' %}"><i class="fa fa-plus"></i> Add Products</a>
+                        <a class="btn btn-primary btn-rounded float-right" style="background:green;"href="{% url 'adaddproduct' %}"><i class="fa fa-plus"></i> Add Products</a>
                     </div>
                     {% comment %} <div class="col-sm-4 col-8 text-right m-b-30">
                     </div> {% endcomment %}
@@ -199,6 +212,8 @@
                                                     <h5 class="card-title">{{ product.blogname }}</h5>
                                                 {% endif %}
                                             </div>
+                                            
+                                           
                                         </div>
                                     </div>
                                 {% comment %} </div> {% endcomment %}

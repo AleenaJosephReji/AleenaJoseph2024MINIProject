@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from ceapp import views 
-from ceapp.views import index,loginn,loggout,register,about,service,product,contact,adindex,admember,adaddmember,adappointment,adcrop,adinbox,admailview,adcompose,adaddappointment,adaddcrop,adblog,adaddblog,adeditblog,adblogdetails,adcalendar,adeditprofile,adapproval,mindex,mblog,mcalendar,mcrop,mappointment,mlogin
+from ceapp.views import index,loginn,loggout,register,about,service,product,contact,adindex,admember,adaddmember,adappointment,adcrop,adinbox,admailview,adcompose,adaddappointment,adaddcrop,adblog,adaddproduct,adeditblog,adblogdetails,adcalendar,adeditprofile,adapproval,mindex,mblog,mcalendar,mcrop,mappointment,mlogin
 from django.conf import settings
 from django.conf.urls.static import static
 from ceapp.views import ResetPasswordView, ChangePasswordView
@@ -67,7 +67,7 @@ urlpatterns = [
     path('adinbox',views.adinbox,name='adinbox'),
     path('admailview',views.admailview,name='admailview'),
     path('adblog',views.adblog,name='adblog'),
-    path('adaddblog',adaddblog,name='adaddblog'),
+    path('adaddproduct',adaddproduct,name='adaddproduct'),
     path('adeditblog',views.adeditblog,name='adeditblog'),
     path('adblogdetails',views.adblogdetails,name='adblogdetails'),
     path('adcalendar',views.adcalendar,name='adcalendar'),

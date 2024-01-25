@@ -46,15 +46,17 @@
 <h2>Received Crops</h2>
 <div class="main">
 {% if approved_crops %}
+
   <table>
     <thead>
       <tr>
         <th>Crop Name</th>
         <th>Given Date</th>
+        <th>Sell</th>
       </tr>
     </thead>
     <tbody>
-      {% for crop in approved_crops %}
+      {% for crop in approved_crops %}     
         <tr>
           <td>{{ crop.cname }}</td>
           <td>{{ crop.crop_giventime|date:"Y-m-d H:i:s" }}</td>
