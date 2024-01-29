@@ -180,20 +180,20 @@
                         <h6 class="text-primary text-uppercase">About Us</h6>
                         <h1 class="display-5"></h1>
                     </div>
-                    <p class="mb-4">Empowering local farmers, our system, supported by the Panchayat, seamlessly connects farmers with premium crops tailored to their needs. With an easy-to-use platform, we offer diverse crop options, expert guidance, and market insights, fostering sustainable growth within the farming community. Join us in cultivating a greener tomorrow </p>
+                    <p class="mb-4" style="color:#301f1e; font-size: 18px;">Empowering local farmers, our system, supported by the Panchayat, seamlessly connects farmers with premium crops tailored to their needs. With an easy-to-use platform, we offer diverse crop options, expert guidance, and market insights, fostering sustainable growth within the farming community. Join us in cultivating a greener tomorrow </p>
 
-                    <p class="mb-4">The crops provided by the Panchayat bring a multitude of benefits to our farmers. With locally sourced and carefully curated options, these crops ensure optimal yield and quality, enhancing the agricultural landscape</p>
+                    <p class="mb-4" style="color:#301f1e; font-size: 18px;">The crops provided by the Panchayat bring a multitude of benefits to our farmers. With locally sourced and carefully curated options, these crops ensure optimal yield and quality, enhancing the agricultural landscape</p>
                     <div class="row gx-5 gy-4">
                         <div class="col-sm-6">
                             <i class="fa fa-seedling display-1 text-secondary"></i>
                             <h4>100% Organic Crops</h4>
-                            <p class="mb-0">Our Panchayat takes pride in offering a bounty of 100% organic crops, a testament to our dedication to sustainable and healthy farming practices.</p>
+                            <p class="mb-0" style="color:#301f1e; font-size: 18px;">Our Panchayat takes pride in offering a bounty of 100% organic crops, a testament to our dedication to sustainable and healthy farming practices.</p>
                         </div>
                         <div class="col-sm-6">
                             <i class="fa fa-award display-1 text-secondary"></i>
                             <h4> </h4>
                             <p></p>
-                            <p class="mb-0">These crops, cultivated without synthetic chemicals or pesticides, not only promote ecological harmony but also prioritize the well-being of both farmers and consumers</p>
+                            <p class="mb-0" style="color:#301f1e; font-size: 18px;">These crops, cultivated without synthetic chemicals or pesticides, not only promote ecological harmony but also prioritize the well-being of both farmers and consumers</p>
                         </div>
                     </div>
                 </div>
@@ -266,27 +266,22 @@
                         <h6 class="text-primary text-uppercase">Services</h6>
                         <h1 class="display-5">Services that are Offered by Us</h1>
                     </div>
-                    <p class="mb-4">Our system offers a rich catalog of 100% organic crops curated by the Panchayat, supporting farmers in adopting sustainable practices. We suggest a best crop for their area</p>
+                    <p class="mb-4" style="color:#301f1e; font-size: 18px;">Our system offers a rich catalog of 100% organic crops curated by the Panchayat, supporting farmers in adopting sustainable practices. We suggest the best crop for their area.</p>
                     <a href="" class="btn btn-primary py-md-3 px-md-5">Contact Us</a>
                 </div>
+    
+                {% for service in services %}
                 <div class="col-lg-4 col-md-6">
-                    <div class="service-item bg-light text-center p-5">
-                        
-                        <img class="img-fluid" src="https://t3.ftcdn.net/jpg/03/12/86/50/360_F_312865021_y6gNFnSiix0sjGu6bQIAcrwQ6kTCgERV.jpg" alt="">
-                        <h4>Quality Crops</h4>
-                        <p class="mb-0">The good quality crops,that provide high yield are given to the farmers.</p>
-                        <p class="mb-0"> The crops are mainly given in a way such that the crops will that produce a good yield in minimum amount of time.</p>
+                    <div class="service-item bg-light text-center p-5" style="color:#301f1e; font-size: 18px;">
+                        {% if service.serviceimage %}
+                        <img class="img-fluid" src="{{ service.serviceimage.url }}" alt="{{ service.servicename }}">
+                        {% endif %}
+                        <h4>{{ service.servicename }}</h4>
+                        <p class="mb-0">{{ service.servicedes }}</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-item bg-light text-center p-5">
-                        
-                        <img class="img-fluid" src="https://previews.123rf.com/images/samathi1983/samathi19831801/samathi1983180100007/93799011-fresh-vegetables-market-madeira-funchal-healthy-nutrition.jpg" alt="">
-                        <h4>Sell Products</h4>
-                        <p class="mb-0">one of the important service is that we helps the farmers to sell their products in the market</p>
-                    </div>
-                </div>
-              
+                {% endfor %}
+                
             </div>
         </div>
     </div>

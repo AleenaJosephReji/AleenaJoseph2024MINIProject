@@ -1804,12 +1804,13 @@ def edit_attendance(request, meeting_id):
 
 def index(request):
     blogs = Product.objects.all()
+    services = Service.objects.filter(is_active=True)
 
     # blogs = Blog.objects.all()
     # context={
     #     'blogs' : blogs,
     # }
-    return render(request, 'index.html',{'blogs': blogs})
+    return render(request, 'index.html',{'blogs': blogs , 'services': services})
 
 
 def product(request):
@@ -1829,11 +1830,13 @@ def edit_product(request, product_id):
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
-        product.delete()
-        return redirect('adblog')
+        product.is_active = False
+        product.save()
+        request.session['delete product'] = True
+        return redirect('adproduct')
     return render(request, 'admintemp/delete_product.html', {'product': product})
 def adproduct(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(is_active=True)
     return render(request, 'admintemp/adproduct.html',{'products': products})
 def adaddproduct(request):
     if request.method == 'POST':
@@ -1905,14 +1908,14 @@ def homepage(request):
     return render(request,'homepage.html',{'profile':profile,'blogs' : blogs})
 
 #service
-def adservice(request):
-    return render(request,'admintemp/adservice.html')
+
 def service(request):
-    return render(request,'service.html')
+   services = Service.objects.filter(is_active=True)
+   return render(request, 'service.html',{'services': services})
 def adaddservice(request):
     if request.method == 'POST':
         servicename = request.POST.get('servicename')
-        serviceimage = request.FILES.get('blogimage')  
+        serviceimage = request.FILES.get('serviceimage')  
         servicedes = request.POST.get('servicedes')
         obj = Service()
         obj.servicename = servicename
@@ -1922,5 +1925,27 @@ def adaddservice(request):
         return redirect('adservice') 
     return render(request, 'admintemp/adaddservice.html')
 def adservice(request):
-    services = Service.objects.all()
+    services = Service.objects.filter(is_active=True)
     return render(request, 'admintemp/adservice.html',{'services': services})
+
+def edit_service(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    if request.method == 'POST':
+        servicename = request.POST.get('servicename')
+        serviceimage = request.FILES.get('serviceimage')
+        servicedes = request.POST.get('servicedes')
+        service.servicename = servicename
+        service.serviceimage = serviceimage
+        service.servicedes = servicedes
+        service.save()
+        return redirect('adservice')
+    return render(request, 'admintemp/edit_service.html', {'service': service})
+def delete_service(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    if request.method == 'POST':
+        service.is_active = False
+        service.save()
+        request.session['delete service'] = True
+        # service.delete()
+        return redirect('adservice')
+    return render(request, 'admintemp/delete_service.html', {'service': service})

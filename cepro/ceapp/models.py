@@ -158,7 +158,7 @@ class Product(models.Model):
     # blogcategory = models.CharField(max_length=100)
     # blogdes = models.TextField()
     blogimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
-
+    is_active = models.BooleanField(default=True)
 # models.py
 
 
@@ -386,8 +386,9 @@ class Driver(models.Model):
 
 class Service(models.Model):
     servicename = models.CharField(max_length=100)
-    serviceimage =  models.ImageField(upload_to='service/', null=True, blank=True)
+    serviceimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
     servicedes=models.TextField()
+    is_active = models.BooleanField(default=True)
 
 
 

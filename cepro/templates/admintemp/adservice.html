@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
@@ -60,15 +62,18 @@
         margin-left:40px;
     }
     .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
         margin-left: 40px;
-        transition: transform 0.3s, box-shadow 0.3s;
+        transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out; 
+        width: 270px;
+        height: 250px;
     }
-
+    
     .card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+        transform: scale(1.05); 
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
     }
+    
     </style> 
 </head>
 <body>
@@ -158,7 +163,7 @@
                             <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'adproduct' %}"><i class="fa fa-user"></i> <span>Products</span></a>
+                            <a href="{% url 'adproduct' %}"><i class="fas fa-box"></i><span>Products</span></a>
                         </li>
                         <li>
                             <a href="{% url 'adservice' %}"><i class="fa fa-user"></i> <span>Services</span></a>
@@ -182,55 +187,42 @@
             <div class="content">
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Products</b></i></u></h4>
-                        <a class="btn btn-primary btn-rounded float-right" style="background:green;"href="{% url 'adaddservice' %}"><i class="fa fa-plus"></i> Add Products</a>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Services</b></i></u></h4>
+                        <a class="btn btn-primary btn-rounded float-right" style="background:green;"href="{% url 'adaddservice' %}"><i class="fa fa-plus"></i> Add Service</a>
                     </div>
                     {% comment %} <div class="col-sm-4 col-8 text-right m-b-30">
                     </div> {% endcomment %}
                 </div>
-
-               
-                    
                 <div class="container">
-                    <div class="row">
-                        {% for service in services %}
-                        <div class="col-md-4">
-                            
-                            <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4); margin-left:40px;">
-                                <div class="dropdown profile-action">
-                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                    {% comment %} <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href=" {% url 'edit_product' product.id %} "><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                        <a class="dropdown-item" href=" {% url 'delete_product' product.id %} "><i class="fa fa-pencil m-r-5"></i> Delete</a>
-                                    </div> {% endcomment %}
-                                </div>
-                                <div class="col-md-3">
-                                    {% comment %} <div class="card custom-card"> {% endcomment %}
-                                        <div class="doctor-img">
-                                            {% if service.servicename %}
-                                            <h5 class="card-title">{{ service.servicename }}</h5>
-                                            {% endif %}
-                                            <div class="doctor-img">
-                                                {% if service.serviceimage %}
-                                                <a class="avatar" href="#"><img alt="" src="{{ service.serviceimage.url }}"></a>
-                                                {% endif %}
-                                                <div class="doctor-img">
-                                                    {% if service.servicedes %}
-                                                        <h5 class="card-title">{{ service.servicedes }}</h5>
-                                                    {% endif %}
-
-                                                </div>
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-                                {% comment %} </div> {% endcomment %}
-                            </div>
+    <div class="row">
+        {% for service in services %}
+            <div class="col-md-4">    
+                <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4); margin-left: 40px;">
+                    <div class="dropdown profile-action">
+                        <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{% url 'edit_service' service.id %}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                            <a class="dropdown-item" href="{% url 'delete_service' service.id %}"><i class="fa fa-pencil m-r-5"></i> Delete</a>
                         </div>
-                        {% endfor %}
+                    </div>
+                    <div class="card-body"  style="color:#120b0b; font-size: 18px;">
+                        <div class="doctor-img" >
+                            {% if service.serviceimage %}
+                                <a class="avatar" href="#"><img src="{{ service.serviceimage.url }}" alt="{{ service.servicename }}"></a>
+                            {% endif %}
+                        </div>
+                        {% if service.servicename %}
+                            <h5 class="card-title text-truncate">{{ service.servicename }}</h5>
+                        {% endif %}
+                        {% if service.servicedes %}
+                            <p class="card-text">{{ service.servicedes }}</p>
+                        {% endif %}
                     </div>
                 </div>
-                
+            </div>
+        {% endfor %}
+    </div>
+</div>
                     </div>
                     {% comment %} <div class="topnav-dropdown-footer">
                         <a href="chat.html">See all messages</a>

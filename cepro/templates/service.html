@@ -65,39 +65,12 @@
                 <a href="{% url 'service' %}" class="nav-item nav-link active">Service</a>
                 <a href="{% url 'product' %}" class="nav-item nav-link">Product</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
-                    <option value="" disabled selected>Select</option>
-                    <option value="{% url 'contact' %}">Book Crop</option>
-                    <option value="{% url 'crop' %}">Register Crop</option>
-                </select> {% endcomment %}
-
-
-                {% comment %} <select onchange="window.location.href=this.value;" style="background-color: #34AD54; color: white; height: 30px; width: 150px; margin-top: 25px;">
-                    <option value="" disabled selected>Select</option>
-                    <option value="{% url 'cprofile' %}">UserProfile</option>
-                    <option value="{% url 'contact' %}"></option>
-                    <option value="#"></option>
-                </select> {% endcomment %}
-                
-                {% comment %} <label for="linkList">Select</label> {% endcomment %}
-                
-                {% comment %} <a href="{% url 'contact' %}" class="nav-item nav-link">Book Crop</a>
-                <a href="{% url 'crop' %}" class="nav-item nav-link">Crop</a> {% endcomment %}
-                {% comment %} <a href="{% url 'fnotifications' %}" class="nav-item nav-link">Notifications</a> {% endcomment %}
-
-                {% comment %} <a href="{% url 'notification' %}" class="nav-item nav-link">Notification</a> {% endcomment %}
-
-
                 {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="nav-link" href="{% url 'loginn' %}">Login</a>
                 {% endif %}
-                   
-                {% comment %} <a href="{% url 'loginn' %}" class="nav-item nav-link">Login</a> {% endcomment %}
-
             </div>
-
         </div>
     </nav>
     <!-- Navbar End -->
@@ -127,27 +100,22 @@
                         <h6 class="text-primary text-uppercase">Services</h6>
                         <h1 class="display-5">Services that are Offered by Us</h1>
                     </div>
-                    <p class="mb-4">Our system offers a rich catalog of 100% organic crops curated by the Panchayat, supporting farmers in adopting sustainable practices. We suggest a best crop for their area</p>
+                    <p class="mb-4" style="color:#301f1e; font-size: 18px;">Our system offers a rich catalog of 100% organic crops curated by the Panchayat, supporting farmers in adopting sustainable practices. We suggest the best crop for their area.</p>
                     <a href="" class="btn btn-primary py-md-3 px-md-5">Contact Us</a>
                 </div>
+    
+                {% for service in services %}
                 <div class="col-lg-4 col-md-6">
-                    <div class="service-item bg-light text-center p-5">
-                        
-                        <img class="img-fluid" src="https://t3.ftcdn.net/jpg/03/12/86/50/360_F_312865021_y6gNFnSiix0sjGu6bQIAcrwQ6kTCgERV.jpg" alt="">
-                        <h4>Quality Crops</h4>
-                        <p class="mb-0">The good quality crops,that provide high yield are given to the farmers.</p>
-                        <p class="mb-0"> The crops are mainly given in a way such that the crops will that produce a good yield in minimum amount of time.</p>
+                    <div class="service-item bg-light text-center p-5" style="color:#301f1e; font-size: 18px;">
+                        {% if service.serviceimage %}
+                        <img class="img-fluid" src="{{ service.serviceimage.url }}" alt="{{ service.servicename }}">
+                        {% endif %}
+                        <h4>{{ service.servicename }}</h4>
+                        <p class="mb-0">{{ service.servicedes }}</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="service-item bg-light text-center p-5">
-                        
-                        <img class="img-fluid" src="https://previews.123rf.com/images/samathi1983/samathi19831801/samathi1983180100007/93799011-fresh-vegetables-market-madeira-funchal-healthy-nutrition.jpg" alt="">
-                        <h4>Sell Products</h4>
-                        <p class="mb-0">one of the important service is that we helps the farmers to sell their products in the market</p>
-                    </div>
-                </div>
-              
+                {% endfor %}
+                
             </div>
         </div>
     </div>

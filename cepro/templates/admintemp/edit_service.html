@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Crop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Edit Service</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="cname"> Service Name:</label>
+        <input type="text" id="blogname" name="servicename" value="{{ service.servicename }}"><br>
+       
+        <div class="col-sm-6">
+            <div class="form-group">
+               <label>Image</label>
+                   <input type="file" class="form-control" name="serviceimage" value="{{ service.serviceimage }}" >
+           </div>
+        <div class="form-group">
+            <label style="color:black;"><b>Service Description</b></label>
+            <textarea class="form-control" rows="3" cols="30" name="servicedes" value="{{ service.servicedes }}"></textarea>
+        </div>
+       </div>
+        <br>
+
+        
+            {% comment %} <label>Availability</label> {% endcomment %}
+            {% comment %} <div class="form-check">
+                <input class="form-check-input" type="radio" name="availability" id="available" value="1" {% if crop.available == 1 %}checked{% endif %}>
+                <label class="form-check-label" for="available">Available</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="availability" id="notavailable" value="0" {% if crop.available == 0 %}checked{% endif %}>
+                <label class="form-check-label" for="notavailable">Not Available</label>
+            </div>
+         {% endcomment %}
+
+        {% comment %} <input type="radio" id="available" name="available" >
+        <label for="available">Available</label>
+        <input type="radio" id="notavailable" name="notavailable" >
+        <label for="notavailable">Not Available</label><br> {% endcomment %}
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

@@ -154,6 +154,8 @@ urlpatterns = [
     path('delete_product/<product_id>', views.delete_product, name='delete_product'),
     path('adservice', views.adservice, name='adservice'),
     path('adaddservice', views.adaddservice, name='adaddservice'),
+    path('edit_service/<service_id>', views.edit_service, name='edit_service'),
+    path('delete_service/<service_id>', views.delete_service, name='delete_service'),
 
 
 
