@@ -156,6 +156,7 @@ urlpatterns = [
     path('adaddservice', views.adaddservice, name='adaddservice'),
     path('edit_service/<service_id>', views.edit_service, name='edit_service'),
     path('delete_service/<service_id>', views.delete_service, name='delete_service'),
+    path('dindex', views.dindex, name='dindex'),
 
 
 

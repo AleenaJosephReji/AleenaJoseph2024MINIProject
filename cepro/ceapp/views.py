@@ -44,6 +44,9 @@ def loginn(request):
             elif user.role == CustomUser.ADMIN:
                 login(request, user)
                 return redirect('adindex')
+            elif user.role == CustomUser.DRIVER:
+                login(request,user)
+                return redirect('dindex')
             else:
                 messages.info(request, "Invalid Role for Login")
         else:
@@ -1783,7 +1786,7 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     
     
     
-    #new
+#new
     
     
     
@@ -1904,8 +1907,10 @@ def displaycrop(request):
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()
+    services = Service.objects.filter(is_active=True)
+
     profile = FarmerProfile.objects.get(user=user)
-    return render(request,'homepage.html',{'profile':profile,'blogs' : blogs})
+    return render(request,'homepage.html',{'profile':profile,'blogs' : blogs , 'services' :services})
 
 #service
 
@@ -1949,3 +1954,7 @@ def delete_service(request, service_id):
         # service.delete()
         return redirect('adservice')
     return render(request, 'admintemp/delete_service.html', {'service': service})
+
+
+def dindex(request):
+    return render(request,'drivertemp/dindex.html')
