@@ -1,0 +1,512 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
+    <title>CropElevate</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+    <style> 
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #b3f59d;
+                {% comment %} background-image: url('{% static "img/img2.jfif" %}'); {% endcomment %}
+                {% comment %} background-size: cover;
+                background-repeat: no-repeat;
+                background-attachment: fixed; {% endcomment %}
+                margin: 0;
+                padding: 0;
+            }
+            .header
+            {
+                background-color:#88a60f;
+    
+            }
+            .header .header-left 
+            {
+                background-color:#88a60f;
+    
+                {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
+    
+            }
+            .sidebar-menu li a {
+                 color:black;
+                {% comment %} color:white; {% endcomment %}
+            }
+            .sidebar-menu li a:hover {
+                color:#88a60f;
+                {% comment %} color: white; {% endcomment %}
+            }
+            .sidebar-menu li.active a {
+                color:#88a60f;
+                background-color: #f3f3f3;
+            }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); 
+        }
+    
+        .form-control {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 3px;
+        }
+    
+        .btn-primary {
+            background-color: #007bff; 
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0056b3; 
+        }
+        .form-control {
+            border: 4px solid #ccc; 
+            border-width: 1px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius:10px;
+        }
+        .form-group
+        {
+            color:black;
+        }
+       
+        .profile-form {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .form-heading {
+            font-size: 20px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .form-group label span.text-danger {
+            color: red;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .profile-form
+        {
+
+            background-color: #b3f59d;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
+
+        }
+        .form-group{
+            color:black;
+            font-weight:bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="{% url 'adindex' %}" class="logo">
+					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                            </ul>
+                        </div>
+                        {% comment %} <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div> {% endcomment %}
+                    </div>
+                </li>
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        {% comment %} <span class="user-img"><img class="rounded-circle" src="{{ member.profile_photo.url }}" width="40" alt="Admin"> {% endcomment %}
+							<span class="status online"></span></span>
+                            <span>{{ user.name }}</span>                           
+                             <img class="rounded-circle" src="{% static 'img/img2.jpg' %}"width="35" height="35">
+                    </a>
+					<div class="dropdown-menu">
+						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
+						<a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
+                    <a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a>
+                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title" style="color:black; font-weight:bold;">Member</li>
+                        <li>
+                            <a href="{% url 'dindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+						{% comment %} <li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
+                        </li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        </li> {% endcomment %}
+                       
+                       {% comment %} <li>
+                            <a href="{% url 'mfregistered' %}"><i class="fas fa-user fa-2x"></i><span>Registered Farmers</span></a>
+                        </li> 
+                        <li>
+                            <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
+                        </li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="{% url 'mappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="{% url 'mapprove' %}"><i class="fas fa-check-circle"></i>  <span>Approved List</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'mpending' %}"><i class="fas fa-hourglass-half"></i> <span>Pending List</span></a>
+                        </li> {% endcomment %}
+						{% comment %} <li class="submenu">
+							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="employees.html">Employees List</a></li>
+								<li><a href="leaves.html">Leaves</a></li>
+								<li><a href="holidays.html">Holidays</a></li>
+								<li><a href="attendance.html">Attendance</a></li>
+							</ul>
+						</li> {% endcomment %}
+						{% comment %} <li class="submenu">
+							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="invoices.html">Invoices</a></li>
+								<li><a href="payments.html">Payments</a></li>
+								<li><a href="expenses.html">Expenses</a></li>
+								<li><a href="taxes.html">Taxes</a></li>
+								<li><a href="provident-fund.html">Provident Fund</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="salary.html"> Employee Salary </a></li>
+								<li><a href="salary-view.html"> Payslip </a></li>
+							</ul>
+						</li>
+                        <li>
+                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
+                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="voice-call.html">Voice Call</a></li>
+                                <li><a href="video-call.html">Video Call</a></li>
+                                <li><a href="incoming-call.html">Incoming Call</a></li>
+                            </ul>
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
+                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
+                                <li><a href="{% url 'adinbox' %}">Inbox</a></li>
+                               <li><a href="{% url 'admailview' %}">Mail View</a></li>
+                            </ul> 
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="{% url 'mblog' %}">Blog</a></li>
+                               <li><a href="{% url 'adblogdetails' %}">Blog View</a></li>
+                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li>
+                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li>
+                            </ul>
+                        </li> {% endcomment %}
+						{% comment %} <li>
+							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
+						</li> {% endcomment %}
+						{% comment %} <li>
+							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
+						</li> {% endcomment %}
+						{% comment %} <li class="submenu">
+							<a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="expense-reports.html"> Expense Report </a></li>
+								<li><a href="invoice-reports.html"> Invoice Report </a></li>
+							</ul>
+						</li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
+                        </li> {% endcomment %}
+                        {% comment %} <li class="menu-title">UI Elements</li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="uikit.html">UI Kit</a></li>
+                                <li><a href="typography.html">Typography</a></li>
+                                <li><a href="tabs.html">Tabs</a></li>
+                            </ul>
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
+                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
+                                <li><a href="form-input-groups.html">Input Groups</a></li>
+                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
+                                <li><a href="form-vertical.html">Vertical Form</a></li>
+                            </ul>
+                        </li> {% endcomment %}
+                        {% comment %} <li class="submenu">
+                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="tables-basic.html">Basic Tables</a></li>
+                                <li><a href="tables-datatables.html">Data Table</a></li>
+                            </ul>
+                        </li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
+                        </li>  {% endcomment %}
+                        <li>
+                            <a href="{% url 'dcalender' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
+                        </li>   
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <h4 class="page-title"><b><i>Edit Profile</i></b></h4>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <form method="POST" action="" autocomplete="off">
+                                <div class="profile-form">
+                                    <!-- Basic Information -->
+                                    <h2 class="form-heading" style="color:brown; font-weight:bold;">Basic Information</h2>
+                                    {% csrf_token %}
+                                    
+                                    <div>
+                                        <label for="address" id="carde" class="form-label text animated zoomIn">Reset Password:</label>
+                                        <hr class=" text animated zoomIn" id="signintext2">
+                                        <input type="Password" class="form-control text animated zoomIn"  id="cardelement" name="old_password" placeholder="current password">
+                                        <input type="Password" class="form-control text animated zoomIn"  id="cardelement" name="reset_password" style="margin-top:20px;" placeholder="new password">
+                                        <input type="Password" class="form-control text animated zoomIn"  id="cardelement" name="cpass" style="margin-top:20px;" placeholder="confirm new password">
+                                        <span id="pspan" class="text-danger" style="margin-left:50%;"></span>
+                                    </div>
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                        <p class="text-danger" >{{ message }}</p>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Name <span class="text-danger"></span></label>
+                                                <input type="text" class="form-control" id="name" name="name" value="{{ driver.name }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">Email <span class="text-danger"></span></label>
+                                                <input type="email" class="form-control" id="email" name="email" value="{{ driver.email }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea class="form-control" id="address" name="daddress">{{ driver.daddress }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="district">District</label>
+                                                <input type="text" class="form-control" id="ddis" name="ddis" value="{{ driver.ddis }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="taluk">Taluk</label>
+                                                <input type="text" class="form-control" id="dtaluk" name="dtaluk" value="{{ driver.dtaluk }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="panchayat">Panchayath</label>
+                                                <input type="text" class="form-control" id="dpanchayat" name="dpanchayat" value="{{ driver.dPanchayat }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Contact Information -->
+                                    <h2 class="form-heading" style="color:brown;font-weight:bold">Contact Information</h2>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="ward">Ward</label>
+                                                <input type="text" class="form-control" id="dwardno" name="dwardno" value="{{ driver.dwardno }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="postal">Postal Code</label>
+                                                <input type="text" class="form-control" id="dpin" name="dpin" value="{{ driver.dpin }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phone">Phone</label>
+                                                <input type="tel" class="form-control" id="dphone" name="dphone" value="{{ driver.dphone }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="amob">Alternate Mobile Number</label>
+                                                <input type="tel" class="form-control" id="damob" name="damob" value="{{ driver.damob }}" oninput="validatePhoneNumber()">
+                                                <small id="amobError" class="form-text text-danger"></small>
+                                              </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="aemail">Alternate Email</label>
+                                              <input type="text" class="form-control" id="daemail" name="daemail" value="{{ driver.daemail }}" oninput="validateEmail()">
+                                              <small id="aemailError" class="form-text text-danger"></small>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <!-- Educational Information -->
+                                    <h2 class="form-heading" style="color:brown;font-weight:bold">Lisence Details</h2>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="dlisence">Lisence No</label>
+                                                <input type="text" class="form-control" id="dlisence" name="dlisence" value="{{ driver.dlisence }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="ddate">Lisence Date</label>
+                                                <input type="text" class="form-control" id="ddate" name="ddate" value="{{ driver.ddate }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Short Biography -->
+                                    <h2 class="form-heading" style="color:brown;font-weight:bold">Short Biography</h2>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="bio">Short Biography</label>
+                                                <textarea class="form-control" id="bio" name="bio">{{ driver.bio }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validatePhoneNumber() {
+          var phoneNumber = document.getElementById('damob').value;
+          var errorElement = document.getElementById('amobError');
+        // Regular expression to match 10-digit numbers starting with 9, 8, or 6
+        var regex = /^[986]\d{9}$/;
+        
+        if (regex.test(phoneNumber)) {
+        errorElement.textContent = ''; // Clear error message if valid
+        } else {
+        errorElement.textContent = 'Invalid phone number'; // Display error message
+        }
+        }
+            function validateEmail() {
+              var email = document.getElementById('daemail').value;
+              var errorElement = document.getElementById('aemailError');
+            // Regular expression for a simple email validation
+            var regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+            
+            if (regex.test(email)) {
+            errorElement.textContent = ''; // Clear error message if valid
+            } else {
+            errorElement.textContent = 'Invalid email address'; // Display error message
+            }
+            }
+            
+        </script>
+    <div class="sidebar-overlay" data-reff=""></div>
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+	<script src="{% static 'assets/js/moment.min.js' %}"></script>
+	<script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+</body>
+
+
+<!-- add-doctor24:06-->
+</html>

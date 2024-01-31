@@ -1800,11 +1800,6 @@ def edit_attendance(request, meeting_id):
     return render(request, 'admintemp/edit_attendance.html', {'meeting': meeting})
 
 
-# def addriver(request):
-#     return render(request,'admintemp/addriver.html')
-# def adadddriver(request):
-#     return render(request,'admintemp/adadddriver.html')
-
 def index(request):
     blogs = Product.objects.all()
     services = Service.objects.filter(is_active=True)
@@ -1900,10 +1895,20 @@ def addriver(request):
     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
 
 def displaycrop(request):
-    user = request.user
-    current_date = date.today()
-    approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
-    return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
+    if request.method == 'POST':
+        names = request.POST.getlist('name')  # Use getlist to retrieve multiple values
+        quantities = request.POST.getlist('quantity')
+
+        for name, quantity in zip(names, quantities):
+            obj = Sell()
+            obj.name = name
+            obj.quantity = quantity
+            obj.save()
+
+    return render(request, 'displaycrop.html')
+    # approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
+    # return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
+
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()
@@ -1958,3 +1963,61 @@ def delete_service(request, service_id):
 
 def dindex(request):
     return render(request,'drivertemp/dindex.html')
+
+
+def deditprofile(request):
+    
+    # user = request.user
+    # profile = PatientProfile.objects.get(user=user)
+    user = request.user
+    driver = get_object_or_404(Driver, user=user)
+    
+    if request.method == "POST":
+        print ('POST')
+        driver.name = request.POST.get('name')
+        driver.email = request.POST.get('email')
+        # mem.gender = request.POST.get('gender')
+        # mem.date_of_birth = request.POST.get('dob')
+        # mem.date_of_join = request.POST.get('doj')        
+        driver.daddress = request.POST.get('daddress')
+        driver.ddis = request.POST.get('ddis')
+        driver.dwardno = request.POST.get('dwardno')
+        driver.dpin = request.POST.get('dpin')
+        driver.dphone = request.POST.get('dphone')
+        driver.dPanchayat = request.POST.get('dpanchayat')
+        driver.dphone = request.POST.get('dphone')
+        profile_photo = request.FILES.get('profile_photo')
+        driver.profile_photo = profile_photo
+        
+        driver.damob = request.POST.get('damob')
+        driver.daemail = request.POST.get('daemail')
+        # mem.dob = request.POST.get('dob')
+        driver.dlisence = request.POST.get('dlisence')
+        driver.ddate = request.POST.get('ddate')
+        reset_password = request.POST.get('reset_password')
+        old_password = request.POST.get('old_password')
+
+
+        if old_password and reset_password and request.POST.get('cpass') == reset_password:
+            if user.check_password(old_password):
+                # The old password is correct, set the new password
+                user.set_password(reset_password)
+                user.save()
+                update_session_auth_hash(request, request.user)  # Update the session to prevent logging out
+            else:
+                messages.error(request, "Incorrect old password. Password not updated.")
+        else:
+            print("Please fill all three password fields correctly.")
+        
+        driver.reset_password = reset_password
+        driver.save()
+        return redirect('deditprofile') 
+    context = {
+        'user': user,
+        'driver': driver
+    }
+
+    return render(request, 'drivertemp/deditprofile.html',context)
+
+def dcalender(request):
+    return render(request,'drivertemp/dcalender.html')

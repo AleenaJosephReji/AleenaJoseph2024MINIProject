@@ -6,7 +6,7 @@
     <title>Crop Details</title>
 </head>
 <style>
-    h2{
+    h2 {
         text-align: center;
     }
     .main {
@@ -15,58 +15,61 @@
         padding: 20px;
         border: 1px solid #ddd;
         border-radius: 5px;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
         transition: background-color 0.3s ease; 
     }
     .main:hover {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
     }
-    table
-    {
-        width:40%;
-        border-collapse: collapse;
+    form {
         margin: auto;
-
     }
-    table, th, td {
-        border: 1px solid black;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
-
+    label {
+        display: block;
+        margin-bottom: 10px;
     }
-    th, td {
+    input, select {
+        width: 100%;
         padding: 10px;
-        text-align: left;
+        margin-bottom: 20px;
+        box-sizing: border-box;
     }
-    th{
-        background-color:#34AD54;
+    button {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
     }
 </style>
 <body>
-
-<h2>Received Crops</h2>
 <div class="main">
-{% if approved_crops %}
-
-  <table>
-    <thead>
-      <tr>
-        <th>Crop Name</th>
-        <th>Given Date</th>
-        <th>Sell</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for crop in approved_crops %}     
-        <tr>
-          <td>{{ crop.cname }}</td>
-          <td>{{ crop.crop_giventime|date:"Y-m-d H:i:s" }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% else %}
-  <p>No approved and given crops.</p>
-{% endif %}
+  <form method="post" action="">
+    {% csrf_token %}
+    <label for="cropInput">Product Name:</label>
+    <input list="cropNames" name="name" id="cropInput">
+    <datalist id="cropNames">
+        <option value="Mango">
+        <option value="Rice">
+        <option value="Pepper">
+        <option value="Coconut">
+        <option value="Tomato">
+        <option value="Potato">
+        <option value="Pea">
+    </datalist>
+    
+    <label for="quantityInput">Quantity:</label>
+    <input type="text" name="quantity" id="quantityInput">
+    
+    <div class="m-t-20 text-center">
+        <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
+    </div>
+  </form>
 </div>
+<script>
+function addNewTextbox() {
+  // Your JavaScript code for adding new textboxes if needed
+}
+</script>
 </body>
 </html>

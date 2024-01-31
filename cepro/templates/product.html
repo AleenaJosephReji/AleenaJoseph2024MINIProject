@@ -88,8 +88,72 @@
             </div>
         </div>
     </div>
-   
-            <div class="row">
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="mx-auto text-center mb-5" style="max-width: 500px;">
+                <h6 class="text-primary text-uppercase">Products</h6>
+                <h1 class="display-5">Our Crops</h1>
+            </div>
+            <div class="owl-carousel product-carousel px-5">
+                <div class="pb-5">
+                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
+                        <img class="img-fluid mb-4" src="{% static 'img/banana.jpeg' %}" alt="">
+                        <h6 class="mb-3">Banana Plant</h6>  
+                        <h5 class="text-primary mb-0"></h5>
+                        <div class="btn-action d-flex justify-content-center">
+                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
+                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-5">
+                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
+                        <img class="img-fluid mb-4" src="{% static 'img/rice.jpg' %}" alt="">
+                        <h6 class="mb-3">Rice Crop</h6>
+                        <h5 class="text-primary mb-0">  </h5>
+                        <div class="btn-action d-flex justify-content-center">
+                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
+                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-5">
+                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
+                        <img class="img-fluid mb-4" src="{% static 'img/coconut.jpg' %}" alt="">
+                        <h6 class="mb-3">Organic Vegetable</h6>
+                        <h5 class="text-primary mb-0"></h5>
+                        <div class="btn-action d-flex justify-content-center">
+                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
+                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-5">
+                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
+                        <img class="img-fluid mb-4" src="{% static 'img/potato.jpg' %}" alt="">
+                        <h6 class="mb-3">Potato</h6>
+                        <h5 class="text-primary mb-0"></h5>
+                        <div class="btn-action d-flex justify-content-center">
+                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
+                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-5">
+                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
+                        <img class="img-fluid mb-4" src="{% static 'img/peper.jpg' %}" alt="">
+                        <h6 class="mb-3">Pepper</h6>
+                        <h5 class="text-primary mb-0"></h5>
+                        <div class="btn-action d-flex justify-content-center">
+                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
+                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            {% comment %} <div class="row">
                             {% for blog in blogs %}
                             <div class="col-md-3">
                                 <div class="card custom-card">
@@ -108,7 +172,7 @@
                         {% endfor %}
                         </div>
                    
-    
+     {% endcomment %}
     <!-- Products End -->
     <!-- Footer Start -->
     <div class="container-fluid bg-footer bg-primary text-white mt-5">

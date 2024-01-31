@@ -12,6 +12,7 @@ from .models import Attendance
 from .models import Driver
 from .models import Service
 from .models import WardAttendance
+from .models import Sell
 
 # from .models import Notification
 # from .models import Notification
@@ -31,4 +32,6 @@ admin.site.register(Attendance)
 admin.site.register(WardAttendance)
 admin.site.register(Driver)
 admin.site.register(Service)
+admin.site.register(Sell)
+
 # admin.site.register(Notification)

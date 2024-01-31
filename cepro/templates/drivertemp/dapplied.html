@@ -1,0 +1,437 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- departments23:21-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
+    <title>CropElevate</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b3f59d;
+            {% comment %} background-image: url('{% static "img/img2.jfif" %}'); {% endcomment %}
+            {% comment %} background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed; {% endcomment %}
+            margin: 0;
+            padding: 0;
+        }
+        .header
+        {
+            background-color:#88a60f;
+
+        }
+        .header .header-left 
+        {
+            background-color:#88a60f;
+
+            {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
+
+        }
+        .sidebar-menu li a {
+             color:black;
+            {% comment %} color:white; {% endcomment %}
+        }
+        .sidebar-menu li a:hover {
+            color:#88a60f;
+            {% comment %} color: white; {% endcomment %}
+        }
+        .sidebar-menu li.active a {
+            color:#88a60f;
+            background-color: #f3f3f3;
+        }
+            {% comment %} body {
+                background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145));
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                margin: 0;
+                padding: 0;
+            } {% endcomment %}
+    
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 1.9);
+                border-radius: 5px;
+                
+            }
+    
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+    
+            .details {
+                margin-top: 20px;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+    
+            table, th, td {
+                border: 1px solid grey;
+            }
+    
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: lightgreen;
+            }
+    
+            .no-details {
+                text-align: center;
+                color: #777;
+            }
+    
+            .text-right {
+                text-align: right;
+            }
+    
+            .btn-primary {
+                background-color: #007BFF;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+            .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            }
+        
+    </style>
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="{% url 'mindex' %}" class="logo">
+					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <span>{{ user.name }}</span>                           
+                            <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+							<span class="status online"></span></span>
+                    </a>
+					<div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a> 
+						<a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a> 
+                    <a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title" style="color:black; font-weight:bold;">Driver</li>
+                        <li>
+                            <a href="{% url 'dindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                       <li class="active">
+                            <a href="#"><i class="fas fa-user fa-2x"></i><span>Applied Farmers</span></a>
+                        </li> 
+                        {% comment %} <li>
+                            <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'mapprove' %}"><i class="fas fa-check-circle"></i>  <span>Approved List</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'mpending' %}"><i class="fas fa-hourglass-half"></i> <span>Pending List</span></a>
+                        </li> {% endcomment %}
+						
+                        {% comment %} <li>
+                            <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
+                        </li>  {% endcomment %}
+                        <li>
+                            <a href="{% url 'dcalender' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
+                        </li>   
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-5 col-5">
+                        <h4 class="page-title"></h4>
+                    </div>  
+                </div>   
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        <div class="container">
+            <div class="container">
+                <h1 style="color:black; font-weight:bold;">Registered Farmers</h1>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <div class="details">
+                        <div id="indiv">
+                            <label for="role-filter" class="filter-label">Filter by Status:</label>
+                            <select id="role-filter" class="filter-select">
+                                <option value="all">All</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="pending">Pending</option>
+                                <option value="waiting">Waiting</option>
+                            </select>
+                            <br><br>
+                            <form class="search-form" id="searchform">
+                                <label for="username" class="search-label">Search by Name:</label>
+                                <input type="text" id="username" name="username" class="search-input">
+                                <button type="button" id="search-button" class="search-button">Search</button>
+                            </form>
+                            <br><br>
+                        </div>
+                        <p id="no-user-message" style="display: none;">No such Farmer</p>
+                        {% if pending_details %}
+                        <table class="user-list">
+                            <tr>
+                                <th style="color:black;"><b>Crop Name</b></th>
+                                <th style="color:black;"><b>Farmer Name</b></th>
+                                <th style="color:black;"><b>Address</b></th>
+                                <th style="color:black;"><b>Contact No</b></th>
+                                <th style="color:black;"><b>Ward No</b></th>
+                                <th style="color:black;"><b>Annual Income </b></th>
+                                <th style="color:black;"><b>Status</b></th>
+                                <th style="color:black;"><b>Approve</b></th>
+                                <th style="color:black;"><b>File</b></th>
+                            </tr>
+                            {% for application in pending_details %}
+                            <tr>
+                                <td style="color:black;">{{ application.cname }}</td>
+                                <td style="color:black;">{{ application.farmerName }}</td>
+                                <td style="color:black;">{{ application.address }}</td>
+                                <td style="color:black;">{{ application.contactNo }}</td>
+                                <td style="color:black;">{{ application.wardNo }}</td>
+                                <td style="color:black;">{{ application.AnnualIncome }}</td>
+                                <td>
+                                    {% if application.is_approved == 'pending' %}
+                                    <span class="text-success" style="font-weight: bolder; font-size: large;"></span>
+                                    {% elif application.is_approved == 'approved' %}
+                                    <span class="text-success" style="font-weight: bolder; font-size: large;">Approved</span>
+                                    {% elif application.is_approved == 'rejected' %}
+                                    <span class="text-danger" style="font-weight: bolder; font-size: large;">Rejected</span>
+                                    {% elif application.is_approved == 'waiting' %}
+                                    <span class="text-waiting" style="font-weight: bolder; font-size: large; color:#ccb023;">Waiting</span>
+                                    {% else %}
+                                    <span class="text-danger" style="font-weight: bolder; font-size: large;"></span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% with annual_income=application.AnnualIncome|default_if_none:"0" %}
+                                    {% if annual_income|add:0 <= 30000 %}
+                                    {% if application.is_approved == 'pending' %}
+                                    <form method="post" action="{% url 'approve_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                    </form>
+                                    <form method="post" action="{% url 'reject_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                    </form>
+                                    {% elif application.is_approved == 'approved' %}
+                                    <form method="post" action="{% url 'reject_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                    </form>
+                                    {% elif application.is_approved == 'rejected' %}
+                                    <form method="post" action="{% url 'approve_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                    </form>
+                                    {% else %}
+                                    <p>Not working</p>
+                                    {% endif %}
+                                    {% else %}
+                                    <span class="text-danger">Income too high</span>
+                                    {% if application.is_approved == 'pending' %}
+                                    <form method="post" action="{% url 'approve_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                    </form>
+                                    <form method="post" action="{% url 'set_status_waiting' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                                    </form>
+                                    {% elif application.is_approved == 'approved' %}
+                                    <form method="post" action="{% url 'set_status_waiting' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-warning waiting-btn" type="submit">Waiting</button>
+                                    </form>
+                                    {% elif application.is_approved == 'waiting' %}
+                                    <form method="post" action="{% url 'approve_certification' application.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                    </form>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {% if application.file_upload %}
+                                    <a href="{{ application.file_upload.url }}" target="_blank">Download File</a>
+                                    {% else %}
+                                    No File
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        {% else %}
+                        <p>No details available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            <script>
+                $(document).ready(function () {
+                    const input = $('#username');
+                    const roleFilter = $('#role-filter');
+                    const rows = $('.user-list tbody tr');
+                    const noUserMessage = $('#no-user-message');
+                    $('#search-button').on('click', filterUsers);
+                    roleFilter.on('change', filterUsers);
+                    function filterUsers() {
+                        const searchTerm = input.val().toLowerCase();
+                        const selectedRole = roleFilter.val();
+                        let found = false; // Flag to track if a matching user is found
+                        rows.each(function () {
+                            const username = $(this).find('td:nth-child(2)').text().toLowerCase();
+                            const role = $(this).find('td:nth-child(7)').text().toLowerCase();
+            
+                            // Check if the user matches the selected role (or if all roles are selected)
+                            if ((selectedRole === 'all' || role.includes(selectedRole)) &&
+                                (searchTerm.length === 0 || username.includes(searchTerm))) {
+                                $(this).css('display', 'table-row');
+                                found = true; // Matching user found
+                            } else {
+                                $(this).css('display', 'none');
+                            }
+                        });
+            
+                        // Show/hide "No such user" message
+                        if (found) {
+                            noUserMessage.css('display', 'none');
+                        } else {
+                            noUserMessage.css('display', 'block');
+                        }
+                    }
+                });
+
+                
+            </script>
+                            </table> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notification-box">
+                <div class="msg-sidebar notifications msg-noti">
+                    <div class="topnav-dropdown-header">
+                        <span>Messages</span>
+                    </div>
+                </div>
+            </div>
+		</div>
+    </div>
+<script>
+    document.querySelectorAll(".apply-button").forEach(button => {
+        button.addEventListener("click", function() {
+            const rowId = this.closest("tr").getAttribute("data-row-id");
+            const isApproved = true;  // Modify this condition as needed
+            if (isApproved) {
+                const rowHtml = this.closest("tr").outerHTML;
+                const mapproveTable = document.getElementById("mapprove-table");
+                mapproveTable.innerHTML += rowHtml;
+            }
+            this.closest("tr").remove();
+        });
+    });
+</script>
+    <div class="sidebar-overlay" data-reff=""></div>
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+</body>
+</html>

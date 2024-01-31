@@ -359,7 +359,6 @@ class Driver(models.Model):
     def set_password(self, password):
         # Hash and set the password
         self.admin_set_password = make_password(password)
-
     dgender= models.CharField(max_length=100,null=True, blank=True)
     daddress = models.TextField()
     ddis= models.CharField(max_length=100,null=True, blank=True)
@@ -372,6 +371,8 @@ class Driver(models.Model):
     ddate = models.CharField(max_length=100,null=True, blank=True)
     dbio=models.TextField()
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+    damob = models.IntegerField(max_length=100,null=True, blank=True)
+    daemail = models.CharField(max_length=255, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.email
@@ -380,15 +381,13 @@ class Driver(models.Model):
 #     des = models.TextField()
 #     available = models.BooleanField(default=False)
 #     not_available = models.BooleanField(default=False)
-
-
-
-
 class Service(models.Model):
     servicename = models.CharField(max_length=100)
     serviceimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
     servicedes=models.TextField()
     is_active = models.BooleanField(default=True)
 
-
-
+class Sell(models.Model):
+    name = models.CharField(max_length=100)
+    quantity = models.CharField(max_length=100)
+    
