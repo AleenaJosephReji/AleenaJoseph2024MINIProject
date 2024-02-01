@@ -1908,7 +1908,18 @@ def displaycrop(request):
     return render(request, 'displaycrop.html')
     # approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
     # return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
+def dapplied(request):
+    if request.method == 'POST':
+        names = request.POST.getlist('name')  # Use getlist to retrieve multiple values
+        quantities = request.POST.getlist('quantity')
 
+        for name, quantity in zip(names, quantities):
+            obj = Sell()
+            obj.name = name
+            obj.quantity = quantity
+            obj.save()
+
+    return render(request, 'drivertemp/dapplied.html')
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()

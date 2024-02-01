@@ -159,6 +159,7 @@ urlpatterns = [
     path('dindex', views.dindex, name='dindex'),
     path('deditprofile',views.deditprofile,name='deditprofile'),
     path('dcalender',views.dcalender,name='dcalender'),
+    path('dapplied',views.dapplied,name='dapplied'),
 
 
 
