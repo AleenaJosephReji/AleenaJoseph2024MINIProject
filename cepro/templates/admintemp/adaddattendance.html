@@ -241,7 +241,7 @@
                     </h4>
                 </td>
                 <td>
-                    <form method="post" action="{% url 'mark_attendance' %}">
+                    <form method="post" action="{% url 'mark_attendance'  meeting.id %}">
                         {% csrf_token %}
                         <input type="hidden" name="member_id" value="{{ member_id }}">
                         <select name="attendance_status">
@@ -249,7 +249,15 @@
                             <option value="absent" {% if data.is_present == 'absent' %}selected{% endif %}>Absent</option>
                             <option value="present" {% if data.is_present == 'present' %}selected{% endif %}>Present</option>
                         </select>
-                        <button class="btn btn-primary" type="submit"><form method="post" action="{% url 'mark_attendance' %}">
+                        {% if data.is_present == 'pending' %}
+                        <span class="text-danger" style="font-weight: bolder; font-size: large;">pending</span>
+                        {% elif data.is_present == 'absent' %}
+                        <span class="text-danger" style="font-weight: bolder; font-size: large;">Absent</span>
+                        {% else  %}
+                        <span class="text-success" style="font-weight: bolder; font-size: large;">Present</span>
+                       
+                        {% endif %}
+                        <button class="btn btn-primary" type="submit"><form method="post" action="{% url 'mark_attendance'  meeting.id %}">
                             Mark Attendance</button>
                     </form>
                 </td>

@@ -44,8 +44,26 @@
 </style>
 <body>
 <div class="main">
+   
   <form method="post" action="">
     {% csrf_token %}
+    <h2>Application Form </h2>
+    <div class="col-md-6">
+        <label for="farmerName" style="color:black;">Farmer Name</label>
+        <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
+        <small id="nameError" class="form-text text-danger"></small>
+    </div>   
+    <div class="col-md-6">
+        <label for="farmerName" style="color:black;">Address</label>
+        <input type="text" id="address" name="address" value="{{ address }}" required readonly>
+        <small id="nameError" class="form-text text-danger"></small>
+    </div>  
+    <div class="col-md-6">
+        <label for="farmerName" style="color:black;">WardNo</label>
+        <input type="text" id="wardno" name="wardno"  value="{{ wardNo }}" required readonly>
+        <small id="nameError" class="form-text text-danger"></small>
+    </div>  
+    
     <label for="cropInput">Product Name:</label>
     <input list="cropNames" name="name" id="cropInput">
     <datalist id="cropNames">

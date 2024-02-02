@@ -305,7 +305,7 @@ class WardAttendance(models.Model):
     # ward_name = models.CharField(max_length=50)
     # is_present = models.BooleanField(default=False)
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE,null=True)
-                        
+    meeting_date = models.DateField(null=True, blank=True)            
     is_present = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
@@ -388,6 +388,30 @@ class Service(models.Model):
     is_active = models.BooleanField(default=True)
 
 class Sell(models.Model):
+    ACCEPT = 'accept'
+    REMOVE = 'remove'
+    PENDING = 'pending'
+
+    
+    APPROVAL_CHOICES = [
+    (ACCEPT, 'Accept'),
+    (REMOVE, 'Remove'),
+    (PENDING, 'Pending'),
+    
+    ]
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
+
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    farmerName = models.CharField(max_length=100,null=True, blank=True)
+    address = models .CharField(max_length=100,null=True,blank=True)
+    wardNo = models .CharField(max_length=100,null=True,blank=True)
+    # farmer = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE, null=True,blank=True)
     name = models.CharField(max_length=100)
     quantity = models.CharField(max_length=100)
-    
+    applied = models.DateTimeField(null=True,blank=True)
+
+    is_accept = models.CharField(
+        max_length=10,
+        choices=APPROVAL_CHOICES,
+        default=PENDING,
+    )

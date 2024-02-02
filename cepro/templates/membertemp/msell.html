@@ -194,7 +194,7 @@
                     <ul>
                         <li class="menu-title" style="color:black; font-weight:bold;">Driver</li>
                         <li>
-                            <a href="{% url 'dindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                            <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
                        <li class="active">
                             <a href="#"><i class="fas fa-user fa-2x"></i><span>Applied Farmers</span></a>
@@ -236,22 +236,34 @@
                         </div>
                     </div>
                 </div>
-        <div class="container">
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Product Details</title>
-            </head>
-            <body>
-                <h2>Product Details</h2>
-                {% for product in products %}
-                    <p><strong>Product Name:</strong> {{ product.name }}, <strong>Quantity:</strong> {{ product.quantity }}</p>
-                {% endfor %}
-            </body>
-            </html>
-            
+                <div class="container">
+                    <h1>Product List</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Farmer Name</th>
+                                <th>Address</th>
+                                <th>Ward No</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Accept</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ product.farmerName }}</td>
+                                    <td>{{ product.address }}</td>
+                                    <td>{{ product.wardNo }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                    <td>{{ product.applied }}</td> 
+                         
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             <script>
                 $(document).ready(function () {

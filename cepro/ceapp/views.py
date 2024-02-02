@@ -1465,6 +1465,7 @@ def adattendance(request):
     if request.method == 'POST':
         selected_wards = request.POST.getlist('ward')
         meeting_id = request.POST.get('meeting_id')
+        meeting_day = Meeting.objects.get(id=meeting_id)
 
         # Iterate through selected wards and update attendance records
         for ward in selected_wards:
@@ -1472,6 +1473,7 @@ def adattendance(request):
             attendance, created = WardAttendance.objects.get_or_create(
                 meeting_id=meeting_id,
                 person_id=ward,
+                meeting_date=meeting_day.meeting_date
             )
             
             # Update the 'attended' field to True
@@ -1486,19 +1488,21 @@ def adattendance(request):
     return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
 
 
-def adaddattendance(request):
+def adaddattendance(request,meeting_id):
     members = Member.objects.filter(is_active=True)
     attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
+    meeting_day = Meeting.objects.get(id=meeting_id)
     member_data = {}
 
     for member in members:
-        attendance_record = attendance_records.filter(member=member).first()
+        attendance_record = attendance_records.filter(member=member,meeting=meeting_day).first()
         
         if attendance_record:
             # If the member is in attendance records, set the value to is_present
             member_data[member.id] = {
             'is_present': attendance_record.is_present,  # Replace with the actual field name
             'Name': member.Name,  # Replace with actual field names
+        
             # Add other fields as needed
             }  # Replace with the actual field name
         else:
@@ -1506,10 +1510,11 @@ def adaddattendance(request):
             member_data[member.id] = {
             'is_present': 'pending',  # Replace with the actual field name
             'Name': member.Name,  # Replace with actual field names
+           
             # Add other fields as needed
             }
     print(member_data.items())
-    return render(request, 'admintemp/adaddattendance.html', {'members': member_data, 'attendance_records': attendance_records})
+    return render(request, 'admintemp/adaddattendance.html', {'members': member_data, 'attendance_records': attendance_records, 'meeting':meeting_day})
 
 
 # def adaddattendance(request):
@@ -1536,17 +1541,22 @@ def submit_attendance(request):
     return redirect('adaddattendance')
 from django.shortcuts import redirect
 
-def mark_attendance(request):
+def mark_attendance(request, meeting_id):
     if request.method == 'POST':
         member_id = request.POST.get('member_id')
         attendance_status = request.POST.get('attendance_status')
-        
-        print(f"Member ID: {member_id}, Attendance Status: {attendance_status}")
-        obj,created = WardAttendance.objects.update_or_create(member_id=member_id,is_present=attendance_status)
-        print(obj)
-        # ... (update the model)
-    return redirect('adaddattendance')
 
+        print(f"Member ID: {member_id}, Attendance Status: {attendance_status}")
+
+        # Get or create the WardAttendance record based on member_id and meeting_id
+        obj, created = WardAttendance.objects.get_or_create(member_id=member_id, meeting_id=meeting_id, defaults={'is_present': attendance_status})
+        
+        # If the record already exists, update the is_present field
+        if not created:
+            obj.is_present = attendance_status
+            obj.save()
+
+    return redirect('adaddattendance', meeting_id)
 
 def display_attendance(request):
     # Fetch all members
@@ -1895,31 +1905,40 @@ def addriver(request):
     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
 
 def displaycrop(request):
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+     
+    # wardno=ApplyCrop.objects.get(user=request.user)
     if request.method == 'POST':
+        farmerName = request.POST.get('farmerName')
+        address = request.POST.get('address')
+        wardNo  = request.POST.get('wardno')
         names = request.POST.getlist('name')  # Use getlist to retrieve multiple values
         quantities = request.POST.getlist('quantity')
+        member =  Member.objects.get(wardno=wardNo)
 
         for name, quantity in zip(names, quantities):
             obj = Sell()
+            obj.farmerName = farmerName
+            obj.address = address
+            obj.wardNo = wardNo
             obj.name = name
             obj.quantity = quantity
+            obj.member = member
             obj.save()
 
-    return render(request, 'displaycrop.html')
+    return render(request, 'displaycrop.html' , {'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name ,'address':farmer_profile.address , 'wardNo':farmer_profile.ward})
     # approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
     # return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
 def dapplied(request):
-    if request.method == 'POST':
-        names = request.POST.getlist('name')  # Use getlist to retrieve multiple values
-        quantities = request.POST.getlist('quantity')
+    products = Sell.objects.all()  # Retrieve all products from the Sell model
+    return render(request, 'drivertemp/dapplied.html', {'products': products})
+def msell(request):
+    profile = Member.objects.get(user=request.user)
+    products = Sell.objects.filter(member=profile)
+    current_date = date.today()
 
-        for name, quantity in zip(names, quantities):
-            obj = Sell()
-            obj.name = name
-            obj.quantity = quantity
-            obj.save()
-
-    return render(request, 'drivertemp/dapplied.html')
+      # Retrieve all products from the Sell model
+    return render(request, 'membertemp/msell.html', {'products': products})
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()
@@ -2027,8 +2046,21 @@ def deditprofile(request):
         'user': user,
         'driver': driver
     }
-
     return render(request, 'drivertemp/deditprofile.html',context)
 
 def dcalender(request):
     return render(request,'drivertemp/dcalender.html')
+
+
+# def accept_certification(request, certification_id):
+#     certification = get_object_or_404(Sell, id=certification_id)
+#     if request.method == 'POST':
+#         certification.is_accept = Sell.ACCEPT  # Set it to 'approved'
+#         certification.save()
+#     return redirect('msell')
+# def remove_certification(request, certification_id):
+#     certification = get_object_or_404(Sell, id=certification_id)
+#     if request.method == 'POST':
+#         certification.is_accept = Sell.REMOVE  # Set it to 'rejected'
+#         certification.save()
+#     return redirect('msell')

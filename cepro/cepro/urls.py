@@ -96,13 +96,13 @@ urlpatterns = [
     path('generate_pdfreport/', views.generate_pdfreport, name='generate_pdfreport'),
     # path('crop_graph/', views.crop_graph, name='crop_graph'),
     # path('update_attendance/<int:meeting_id>/', views.update_attendance, name='update_attendance'),
-    path('adaddattendance', views.adaddattendance, name='adaddattendance'),
+    path('adaddattendance/<int:meeting_id>/', views.adaddattendance, name='adaddattendance'),
     path('adattendance/', views.adattendance, name='adattendance'),
     path('submit_attendance/', views.submit_attendance, name='submit_attendance'),
     path('display_attendance/', views.display_attendance, name='display_attendance'),
     path('approve_attcertification/<int:attendance_id>/', views.approve_attcertification, name='approve_attcertification'),
     path('reject_attcertification/<int:attendance_id>/', views.reject_attcertification, name='reject_attcertification'),
-    path('mark_attendance/', views.mark_attendance, name='mark_attendance'),
+    path('mark_attendance/<int:meeting_id>/', views.mark_attendance, name='mark_attendance'),
     # path('store_attendance/', views.store_attendance, name='store_attendance'),
 
 
@@ -160,6 +160,7 @@ urlpatterns = [
     path('deditprofile',views.deditprofile,name='deditprofile'),
     path('dcalender',views.dcalender,name='dcalender'),
     path('dapplied',views.dapplied,name='dapplied'),
+    path('msell',views.msell,name='msell'),
 
 
 

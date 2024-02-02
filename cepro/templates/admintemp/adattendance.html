@@ -475,7 +475,7 @@
                                     <td>{{ meeting.meeting_venue }}</td>
                                     <td>
                                         <div class="col-sm-8 col-9 text-right m-b-20">
-                                            <a href="{% url 'adaddattendance' %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="" id="addmem"></i> Add Attendence</a>
+                                            <a href="{% url 'adaddattendance' meeting.id %}" class="btn btn-primary btn-rounded float-right" style="background-color: green; color: white;"><i class="" id="addmem"></i> Add Attendence</a>
                                         </div>
                                     </td>
                                     
