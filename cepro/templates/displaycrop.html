@@ -1,92 +1,214 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            
+            {% comment %} background-color: #f2f2f2; {% endcomment %}
+            margin: 0;
+            padding-top: 70px;
+            {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        
+        }
+        .navbar {
+            background-color: #34AD54;
+            padding: 10px 0;
+        }
+        .container {
+            max-width: 800px;
+            border: 1px solid black;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th{
+            background-color:#34AD54;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for the "Apply" button */
+        .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .apply-button-green {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 8px 16px; /* Adjust padding to make it smaller */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; /* Adjust font-size to make it smaller */
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .main {
+            width: 80%;
+            margin: 10px auto;
+            padding: 20px;
+            border: 1px solid black;
+            border-radius: 5px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            transition: background-color 0.3s ease; 
+        }
+        .main:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
+        form {
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input,
+        select {
+            width: 100%;
+            padding: 15px; 
+            font-size: 16px; 
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<style>
-    h2 {
-        text-align: center;
-    }
-    .main {
-        width: 50%;
-        margin: 10px auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
-        transition: background-color 0.3s ease; 
-    }
-    .main:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-    }
-    form {
-        margin: auto;
-    }
-    label {
-        display: block;
-        margin-bottom: 10px;
-    }
-    input, select {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-    }
-    button {
-        background-color: green;
-        color: white;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-    }
-</style>
 <body>
-<div class="main">
-   
-  <form method="post" action="">
-    {% csrf_token %}
-    <h2>Application Form </h2>
-    <div class="col-md-6">
-        <label for="farmerName" style="color:black;">Farmer Name</label>
-        <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
-        <small id="nameError" class="form-text text-danger"></small>
-    </div>   
-    <div class="col-md-6">
-        <label for="farmerName" style="color:black;">Address</label>
-        <input type="text" id="address" name="address" value="{{ address }}" required readonly>
-        <small id="nameError" class="form-text text-danger"></small>
-    </div>  
-    <div class="col-md-6">
-        <label for="farmerName" style="color:black;">WardNo</label>
-        <input type="text" id="wardno" name="wardno"  value="{{ wardNo }}" required readonly>
-        <small id="nameError" class="form-text text-danger"></small>
-    </div>  
-    
-    <label for="cropInput">Product Name:</label>
-    <input list="cropNames" name="name" id="cropInput">
-    <datalist id="cropNames">
-        <option value="Mango">
-        <option value="Rice">
-        <option value="Pepper">
-        <option value="Coconut">
-        <option value="Tomato">
-        <option value="Potato">
-        <option value="Pea">
-    </datalist>
-    <label for="quantityInput">Quantity:</label>
-    <input type="text" name="quantity" id="quantityInput">
-    
-    <div class="m-t-20 text-center">
-        <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
+        <h2 style="color:#0d4859; padding-left:20px; font-weight:bold;">CropElevate</h2>
+        {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
+                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
+                <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'displaycrop' %}"class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Sell</a>
+
+                {% comment %} <li>
+                    <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
+                </li> {% endcomment %}
+            </ul>
+        </div>
+
+        <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px;" >
+            {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>{{ user.name }}</span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">                
+                {% if user.is_authenticated %}
+                <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
+                <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
+                {% else %}
+                <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <br><br>
+
+    <div class="container">
+        <h1 style="color:#3c733c;">Crop Details</h1>
+        <div class="main">  
+            <form method="post" action="">
+              {% csrf_token %}
+              <h2 style="text-align:center;">Apply </h2>
+              <div class="col-md-6">
+                  <label for="farmerName" style="color:black;">Name</label>
+                  <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
+                  <small id="nameError" class="form-text text-danger"></small>
+              </div>   
+              <div class="col-md-6">
+                  <label for="farmerName" style="color:black;">Address</label>
+                  <input type="text" id="address" name="address" value="{{ address }}" required readonly>
+                  <small id="nameError" class="form-text text-danger"></small>
+              </div>  
+              <div class="col-md-6">
+                  <label for="farmerName" style="color:black;">WardNo</label>
+                  <input type="text" id="wardno" name="wardno"  value="{{ wardNo }}" required readonly>
+                  <small id="nameError" class="form-text text-danger"></small>
+              </div>  
+              
+              <label for="cropInput">Product Name:</label>
+              <input list="cropNames" name="name" id="cropInput">
+              <datalist id="cropNames">
+                  <option value="Mango">
+                  <option value="Rice">
+                  <option value="Pepper">
+                  <option value="Coconut">
+                  <option value="Tomato">
+                  <option value="Potato">
+                  <option value="Pea">
+              </datalist>
+              <label for="quantityInput">Quantity:</label>
+              <input type="text" name="quantity" id="quantityInput">
+              
+              <div class="m-t-20 text-center">
+                  <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
+              </div>
+            </form>
+          </div>
     </div>
-  </form>
-</div>
-<script>
-function addNewTextbox() {
-  // Your JavaScript code for adding new textboxes if needed
-}
-</script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

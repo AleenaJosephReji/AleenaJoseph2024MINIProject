@@ -192,30 +192,56 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title" style="color:black; font-weight:bold;">Driver</li>
-                        <li>
+                        <li class="menu-title" style="color:black; font-weight:bold;">Member</li>
+                        <li class="active">
                             <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-                       <li class="active">
-                            <a href="#"><i class="fas fa-user fa-2x"></i><span>Applied Farmers</span></a>
-                        </li> 
+						{% comment %} <li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
+                        </li> {% endcomment %}
                         {% comment %} <li>
+                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        </li> {% endcomment %}
+                       
+                       <li>
+                            <a href="{% url 'mfregistered' %}"><i class="fas fa-user fa-2x"></i><span>Registered Farmers</span></a>
+                        </li> 
+                        
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li>
+                                    <a href="{% url 'msell' %}"><i class="fas fa-shopping-cart"></i> <span>Sell Products</span></a>
+                                </li>
+                              <li>
+                                    <a href="{% url 'msellapprove' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved</span></a>
+                                </li>
+                                {% comment %} <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
+                                </li>  {% endcomment %}
+                            </ul>
+                        </li>
+                        <li>
                             <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
+                        {% comment %} <li>
+                            <a href="{% url 'mappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li> {% endcomment %}
                         <li>
                             <a href="{% url 'mapprove' %}"><i class="fas fa-check-circle"></i>  <span>Approved List</span></a>
                         </li>
                         <li>
                             <a href="{% url 'mpending' %}"><i class="fas fa-hourglass-half"></i> <span>Pending List</span></a>
-                        </li> {% endcomment %}
+                        </li>
 						
-                        {% comment %} <li>
-                            <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
-                        </li>  {% endcomment %}
                         <li>
-                            <a href="{% url 'dcalender' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
+                            <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
+                        </li> 
+                        <li>
+                            <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>   
-                        
+                       
                     </ul>
                 </div>
             </div>
@@ -236,35 +262,76 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="container">
-                    <h1>Product List</h1>
+                    <h1><b>Product List</b></h1>
+                    {% comment %} <div id="indiv">
+                        <label for="role-filter" class="filter-label">Filter by Status:</label>
+                        <select id="role-filter" class="filter-select">
+                            <option value="all">All</option>
+                            <option value="remove">Rejected</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                        <br><br>
+                        <form class="search-form" id="searchform">
+                            <label for="username" class="search-label">Search by Name:</label>
+                            <input type="text" id="username" name="username" class="search-input">
+                            <button type="button" id="search-button" class="search-button">Search</button>
+                        </form>
+                        <br><br>
+                    </div> {% endcomment %}
                     <table>
                         <thead>
                             <tr>
-                                <th>Farmer Name</th>
-                                <th>Address</th>
-                                <th>Ward No</th>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Accept</th>
+                                <th style="color:black;"><b>No</b></th>
+                                <th style="color:black;"><b>Farmer Name</th>
+                                <th style="color:black;"><b>Address</th>
+                                <th style="color:black;"><b>Ward No</th>
+                                <th style="color:black;"><b>Product Name</th>
+                                <th style="color:black;"><b>Quantity</th>
+                                <th style="color:black;"><b>Accept</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for product in products %}
                                 <tr>
-                                    <td>{{ product.farmerName }}</td>
-                                    <td>{{ product.address }}</td>
-                                    <td>{{ product.wardNo }}</td>
-                                    <td>{{ product.name }}</td>
-                                    <td>{{ product.quantity }}</td>
-                                    <td>{{ product.applied }}</td> 
-                         
-
+                                    <td style="color:black;">{{forloop.counter}}</td>
+                                    <td style="color:black;">{{ product.farmerName }}</td>
+                                    <td style="color:black;">{{ product.address }}</td>
+                                    <td style="color:black;">{{ product.wardNo }}</td>
+                                    <td style="color:black;">{{ product.name }}</td>
+                                    <td style="color:black;">{{ product.quantity }}</td>
+                                    
+                                    <td style="color:black;">
+                                        {% if product.is_accept == 'pending' %}
+                                            <form method="post" action="{% url 'accept_certification' product.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                            </form>
+                                            <form method="post" action="{% url 'remove_certification' product.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                            </form>
+                                        {% elif product.is_accept == 'accept' %}
+                                            <form method="post" action="{% url 'remove_certification' product.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                            </form>
+                                        {% elif product.is_accept == 'remove' %}
+                                            <form method="post" action="{% url 'accept_certification' product.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                            </form>
+                                        {% else %}
+                                            <p>Not working</p>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                
             <script>
                 $(document).ready(function () {
                     const input = $('#username');
@@ -300,7 +367,6 @@
                     }
                 });
 
-                
             </script>
                             </table> 
                         </div>

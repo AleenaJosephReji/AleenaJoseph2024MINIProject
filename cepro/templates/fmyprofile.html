@@ -1,161 +1,162 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"> {% endcomment %}
-    <title>CropElevate</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
-    <!--[if lt IE 9]>
-        <script src="assets/js/html5shiv.min.js"></script>
-        <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .content {
-            max-width: 900px; 
-            margin-right:25px auto; 
-            padding: 0px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+           
+            padding-top: 70px;
+            {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        
         }
-        .card-box {
-            background-color: #c8f7ad; 
-            padding: 20px;
-            border-radius: 10px; 
-            margin-bottom: 10px; 
-            padding-right:50px; 
-
-        }
-        .card-box .form-group {
-            text-align: left; 
-        }
-        .submit-btn {
-            background-color:#c8f7ad;
-            color: green;
-            border: none; 
-            padding: 10px 20px; 
-            border-radius: 5px; 
-            margin-left:320px;
-        }
-
         .navbar {
             background-color: #34AD54;
-            padding-bottom: 20px; 
+            padding: 10px 0;
+        }
+        .container {
+            background-color: #b4f76d;
+            border: 1px solid black;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            width: 1000px; /* Adjust the width as needed */
+            padding: 40px; /* Adjust the padding as needed */
+            margin-top: 30px;
+        }
+        
+        
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #263A4F;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-      
-        .navbar-nav .nav-link {
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th{
+            background-color:#34AD54;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for the "Apply" button */
+        .apply-button {
+            background-color: #4CAF50;
             color: white;
-            margin-left: 20px;
-            
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
         }
-
-       
-        .navbar-nav .nav-link.active {
-            font-weight: bold; 
+        .apply-button-green {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 8px 16px; /* Adjust padding to make it smaller */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; /* Adjust font-size to make it smaller */
+            border-radius: 5px;
+            cursor: pointer;
         }
-
-        .navbar-nav .nav-link[href="{% url 'homepage' %}"],
-        .navbar-nav .nav-link[href="{% url 'crop' %}"] {
-        color:white;
-        font-size:18px;
-        font-weight:bold;x
-}
-
-
-.container {
-    background-color: #b4f76d;
-    border: 1px solid black;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-    width:900px;
-    padding: 20px;
-    margin-top: 30px;
-}
-
-h1 {
-    text-align: center;
-    font-size: 28px;
-    color: #263A4F;
-    margin-bottom: 20px;
-}
-
-.doctor-img {
-    text-align: center;
-}
-
-.avatar img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 4px solid #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.profiles, .profilecontact {
-    background-color: #fff;
-    border: 1px solid brown;
-    border-radius: 5px;
-    padding: 50px;
-    padding-left:80px;
-    width:500px;
-    margin-left:160px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-
-}
-
-.profiles h4, .profilecontact h4 {
-    color: #263A4F;
-    font-size: 20px;
-    margin-bottom: 25px;
-}
-
-.profiles p, .profilecontact p {
-    font-size: 18px;
-    color: #333;
-    margin: 8px 0;
-}
-</style>
+        .doctor-img {
+            text-align: center;
+        }
+        
+        .avatar img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .profiles, .profilecontact {
+            background-color: #fff;
+            border: 1px solid brown;
+            border-radius: 5px;
+            padding: 50px;
+            padding-left:80px;
+            width:700px;
+            margin-left:130px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        
+        }
+        .profiles h4, .profilecontact h4 {
+            color: #263A4F;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .profiles p, .profilecontact p {
+            font-size: 18px;
+            color: #333;
+            margin: 8px 0;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="">
-        <h2 style="margin-left: 20px; color:#263A4F;">CropElevate</h2>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
+        <h2 style="color:#0d4859; padding-left:20px; font-weight:bold;">CropElevate</h2>
+        {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
+                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
                 <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'displaycrop' %}"class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Sell</a>
 
+                {% comment %} <li>
+                    <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
+                </li> {% endcomment %}
             </ul>
         </div>
+
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
-
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
-                
             </button>
             <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
                 
                 {% if user.is_authenticated %}
-                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
+                <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
 
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
@@ -164,21 +165,18 @@ h1 {
             </div>
         </div>
     </nav>
+    <br><br>
+
     <div class="container">
-        <div class="row">   
-            
+        <div class="row">       
             <div class="col-md-8">
                 <div class="col-md-4">
                     <div class="doctor-img" style="padding-left:350px;">
-                        <a class="avatar" href="#"><img alt="" src="{{ profile.fprofile_photo.url }}"></a>
-                        
+                        <a class="avatar" href="#"><img alt="" src="{{ profile.fprofile_photo.url }}"></a>                        
                     </div>
-
                 </div>
                 <h3 style="margin-left:330px; color:black;"><b>{{profile.first_name}}  {{  profile.last_name }}</b></h3>
-
                 <br>
-
                <div class="profiles">
                 <h4 style="color:brown;"><b><u>Basic Informations</u></b></h4>
                 <p><strong>Email : </strong> {{ user.email }}</p>
@@ -202,26 +200,19 @@ h1 {
             </div>
             
         </div>
+
+
+
+
+
     </div>
- </div>
-</div>
-</div>
-
-
     
-    <div class="sidebar-overlay" data-reff=""></div>
-    <script src="{% static 'assets/js/jquery-3.2.1.min.js'%}"></script>
-    <script src="{% static 'assets/js/popper.min.js'%}"></script>
-    <script src="{% static 'assets/js/bootstrap.min.js'%}"></script>
-    <script src="{% static 'assets/js/jquery.slimscroll.js'%}"></script>
-    <script src="{% static 'assets/js/app.js'%}"></script>
-    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+    
+    
     
 
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
-
-<!-- profile23:03-->
 </html>
-

@@ -343,112 +343,43 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label> Name <span class="text-danger">*</span></label>
-                                        <input class="form-control" id="name" name="name" value="{{ member.Name }}">
+                                        <label>Name <span class="text-danger">*</span></label>
+                                        <input class="form-control" id="name" name="dname" value="{{ driver.name }}">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span></label>
-                                        <input class="form-control" id="email" name="email" value="{{ member.email }}">
+                                        <input class="form-control" id="email" name="email" value="{{ driver.email }}">
                                     </div>
                                 </div>
-                                {% comment %} <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input class="form-control" id="dob" name="dob" value="{{ member.date_of_birth }}">
-                                    </div>
-                                </div> {% endcomment %}
-                                {% comment %} <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Date of Birth</label>
-                                        <div class="cal-icon">
-                                            <input type="text" class="form-control" id="dob" name="dob" value="{{ member.date_of_birth }}">
-                                        </div>
-                                    </div>
-                                </div> {% endcomment %}
-                                {% comment %} <div class="col-sm-6">
-									<div class="form-group gender-select">
-										<label class="gen-label">Gender:</label>
-										<div class="form-check-inline">
-											<label class="form-check-label">
-												<input type="radio" name="gender" class="form-check-input" name="gender">Male
-											</label>
-										</div>
-										<div class="form-check-inline">
-											<label class="form-check-label">
-												<input type="radio" name="gender" class="form-check-input" name="gender">Female
-											</label>
-										</div>
-									</div>
-                                </div> {% endcomment %}
-
-								<div class="col-sm-12">
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="form-group">
-												<label>Address</label>
-												<textarea id="address" name="address">{{ member.address }}</textarea><br>
-											</div>
-										</div>
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>District</label>
-                                                <input class="form-control" type="text" id="district" name="district" value="{{ member.district }}">
-                                            </div>
-										</div>
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>Thaluk</label>
-												<input class="form-control" type="text" id="taluk" name="taluk" value="{{ member.taluk }}">
-											</div>
-										</div>
-
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>Panchayath</label>
-												<input class="form-control" type="text" id="panchayat" name="panchayat" value="{{ member.Panchayat }}">
-											</div>
-										</div>
-
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-                                            <div class="form-group">
-                                                <label>Ward</label>
-                                                <input type="text" class="form-control" id="ward" name="ward" value="{{ member.wardno }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>Postal Code</label>
-												<input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}">
-											</div>
-										</div>
-									</div>
-								</div>
+                                <!-- Other form fields go here... -->
+                        
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Phone </label>
-                                        <input class="form-control" id="phone" name="phone" value="{{ member.phone }}" >
+                                        <input class="form-control" id="phone" name="dphone" value="{{ driver.dphone }}" >
                                     </div>
                                 </div>
-                            
-							<div class="form-group">
-                                <label>Short Biography</label>
-                                <textarea class="form-control"id="bio" name="bio">{{ member.bio }}</textarea>
-                            </div>
-
-                            <div class="col-sm-6">
+                        
                                 <div class="form-group">
-                                   <label>Profile Photo</label>
-                                       <input type="file" class="form-control" name="profile_photo" value="{{ member.profile_photo }}" >
-                               </div>
-                           </div>
-
-                                
-                            <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Edit Memeber</button>
+                                    <label>Short Biography</label>
+                                    <textarea class="form-control" id="bio" name="dbio">{{ driver.dbio }}</textarea>
+                                </div>
+                        
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Profile Photo</label>
+                                        <input type="file" class="form-control" name="profile_photo" value="{{ driver.profile_photo }}" >
+                                    </div>
+                                </div>
+                        
+                                <div class="m-t-20 text-center">
+                                    <button class="btn btn-primary submit-btn">Edit Member</button>
+                                </div>
                             </div>
                         </form>
+                        >
                     </div>
                 </div>
             </div>

@@ -161,8 +161,12 @@ urlpatterns = [
     path('dcalender',views.dcalender,name='dcalender'),
     path('dapplied',views.dapplied,name='dapplied'),
     path('msell',views.msell,name='msell'),
-
-
+    path('accept_certification/<int:certification_id>/', views.accept_certification, name='accept_certification'),
+    path('remove_certification/<int:certification_id>/', views.remove_certification, name='remove_certification'),
+    path('msellapprove',views.msellapprove,name='msellapprove'),
+    path('remove_scertification/<int:certification_id>/', views.remove_scertification, name='remove_scertification'),
+    path('dleave',views.dleave,name='dleave'),
+    path('edit_driver/<int:driver_id>/', views.edit_driver, name='edit_driver'),
 
 
 

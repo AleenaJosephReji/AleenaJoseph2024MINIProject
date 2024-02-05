@@ -1932,13 +1932,6 @@ def displaycrop(request):
 def dapplied(request):
     products = Sell.objects.all()  # Retrieve all products from the Sell model
     return render(request, 'drivertemp/dapplied.html', {'products': products})
-def msell(request):
-    profile = Member.objects.get(user=request.user)
-    products = Sell.objects.filter(member=profile)
-    current_date = date.today()
-
-      # Retrieve all products from the Sell model
-    return render(request, 'membertemp/msell.html', {'products': products})
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()
@@ -1993,7 +1986,8 @@ def delete_service(request, service_id):
 
 def dindex(request):
     return render(request,'drivertemp/dindex.html')
-
+def dleave(request):
+    return render(request,'drivertemp/dleave.html')
 
 def deditprofile(request):
     
@@ -2050,17 +2044,81 @@ def deditprofile(request):
 
 def dcalender(request):
     return render(request,'drivertemp/dcalender.html')
+# def msell(request):
+#     profile = Member.objects.get(user=request.user)
+#     products = Sell.objects.filter(member=profile)
+#     current_date = date.today()
+
+#       # Retrieve all products from the Sell model
+#     return render(request, 'membertemp/msell.html', {'products': products})
+def msell(request):
+    profile = Member.objects.get(user=request.user)
+    # Exclude products with is_accept equal to 'accept'
+    products = Sell.objects.filter(member=profile).exclude(is_accept='accept')
+    return render(request, 'membertemp/msell.html', {'products': products})
+def accept_certification(request, certification_id):
+    certification = get_object_or_404(Sell, id=certification_id)
+    if request.method == 'POST':
+        certification.is_accept = Sell.ACCEPT  # Set it to 'approved'
+        certification.save()
+    return redirect('msell')
+def remove_certification(request, certification_id):
+    certification = get_object_or_404(Sell, id=certification_id)
+    if request.method == 'POST':
+        certification.is_accept = Sell.REMOVE  # Set it to 'rejected'
+        certification.save()
+    return redirect('msell')
+def remove_scertification(request, certification_id):
+    certification = get_object_or_404(Sell, id=certification_id)
+    if request.method == 'POST':
+        certification.is_accept = Sell.REMOVE  # Set it to 'rejected'
+        certification.save()
+    return redirect('msellapprove')
+def msellapprove(request):
+    approved_products = Sell.objects.filter(is_accept='accept')
+    return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
 
 
-# def accept_certification(request, certification_id):
-#     certification = get_object_or_404(Sell, id=certification_id)
-#     if request.method == 'POST':
-#         certification.is_accept = Sell.ACCEPT  # Set it to 'approved'
-#         certification.save()
-#     return redirect('msell')
-# def remove_certification(request, certification_id):
-#     certification = get_object_or_404(Sell, id=certification_id)
-#     if request.method == 'POST':
-#         certification.is_accept = Sell.REMOVE  # Set it to 'rejected'
-#         certification.save()
-#     return redirect('msell')
+def edit_driver(request, driver_id):
+    driver = get_object_or_404(Driver, id=driver_id)
+
+    if request.method == 'POST':
+        dname = request.POST.get('dname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        dage = request.POST.get('dage')
+        dgender = request.POST.get('dgender', 'Default Gender')
+        daddress = request.POST.get('daddress')
+        ddis = request.POST.get('ddis', 'Default District')  # Set a default value for District
+        dtaluk = request.POST.get('dtaluk', 'Default Taluk')   # Set a default value for Taluk
+        dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')  # Set a default value for Panchayat
+        dwardno = request.POST.get('dwardno')
+        dpin = request.POST.get('dpin')
+        dphone = request.POST.get('dphone')
+        dlisence = request.POST.get('dlisence')
+        ddate = request.POST.get('ddate')
+        dbio = request.POST.get('dbio')
+        profile_photo = request.FILES.get('profile_photo')
+        # Update the member's attributes with the new data
+        driver.name = dname
+        driver.email = email
+        driver.password = password
+        # member.gender = gender
+        driver.daddress = daddress
+        driver.ddis = ddis
+        driver.dtaluk = dtaluk
+        driver.dPanchayat = dpanchayat
+        driver.dwardno = dwardno
+        driver.dpin = dpin
+        driver.dphone = dphone
+        driver.dbio = dbio
+        driver.dlisence = dlisence
+        driver.ddate = ddate
+        driver.profile_photo = profile_photo
+        # Save the updated member object
+        driver.save()
+
+        # Redirect to the member list page after editing
+        return redirect('admember')
+
+    return render(request, 'admintemp/edit_driver.html', {'driver': driver})

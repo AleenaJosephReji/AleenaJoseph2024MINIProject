@@ -1,8 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
 <!-- departments23:21-->
 <head>
     <meta charset="utf-8">
@@ -13,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
     <style>
@@ -50,14 +49,22 @@
             color:#88a60f;
             background-color: #f3f3f3;
         }
+            {% comment %} body {
+                background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145));
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                margin: 0;
+                padding: 0;
+            } {% endcomment %}
     
             .container {
                 max-width: 800px;
                 margin: 0 auto;
                 background-color: #fff;
                 padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 1.9);
                 border-radius: 5px;
+                
             }
     
             h1 {
@@ -76,18 +83,15 @@
             }
     
             table, th, td {
-                border: 1px solid black;
+                border: 1px solid #ddd;
             }
     
             th, td {
                 padding: 10px;
                 text-align: left;
-                color:black;
             }
     
             th {
-                color:black;
-                font-weight:bold;
                 background-color: lightgreen;
             }
     
@@ -156,12 +160,8 @@
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-
                             </ul>
                         </div>
-                        {% comment %} <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
-                        </div> {% endcomment %}
                     </div>
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
@@ -173,12 +173,9 @@
                             <span>{{ user.name }}</span>                           
                             <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                        <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
-						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+                        <a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a> 
 						<a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
 					</div>
                 </li>
@@ -186,9 +183,7 @@
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+                    <a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a> 
                     <a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
                 </div>
             </div>
@@ -216,7 +211,7 @@
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li>
-                                    <a href="{% url 'msell' %}"><i class="fas fa-shopping-cart"></i> <span>Sell Products</span></a>
+                                    <a href="{% url 'msell' %}"><i class="fas fa-shopping-cart"></i><span>Sell Products</span></a>
                                 </li>
                               <li>
                                     <a href="{% url 'msellapprove' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved</span></a>
@@ -256,88 +251,92 @@
                 <div class="row">
                     <div class="col-sm-5 col-5">
                         <h4 class="page-title"></h4>
-                    </div>
-                    {% comment %} <div class="col-sm-7 col-7 text-right m-b-30">
-                        <a href="{% url 'adaddcrop' %}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Crop</a>
-                    </div> {% endcomment %}
+                    </div>  
+                </div>   
                 </div>
-
-
-                
-                </div>
-                {% comment %} <div class="row">
-                    {% for crop in crops %}
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ crop.Namec }}</h5>
-                                <p class="card-text">Details :  {{ crop.des }}</p> {% endcomment %}
-                                {% comment %} <p class="card-text">Date of Birth: {{ member.date_of_birth }}</p> {% endcomment %}
-                            {% comment %} </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div> {% endcomment %}
-                
                 <div class="row">
                     <div class="col-md-6">
                         <div class="table-responsive">
                             <table class="table table-striped custom-table">
-                                <!-- Your table content here -->
                             </table>
                         </div>
-                    </div>
-                    <div class="col-md-6 text-right"> <!-- Added text-right class here -->
-                        {% comment %} <div class="m-t-20">
-                            <button class="btn btn-primary submit-btn">Application Registration</button>
-                        </div> {% endcomment %}
                     </div>
                 </div>
+                <!-- approved_applications.html -->
+
+                <div class="container">
+                    <h1><b>Approved Applications</b></h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="color:black;"><b>No</b></th>
+                                <th style="color:black;"><b>Farmer Name</b></th>
+                                <th style="color:black;"><b>Address</b></th>
+                                <th style="color:black;"><b>Ward No</b></th>
+                                <th style="color:black;"><b>Product Name</b></th>
+                                <th style="color:black;"><b>Quantity</b></th>
+                                <th style="color:black;"><b>Actions</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for approved_product in approved_products %}
+                                <tr>
+                                    <td style="color:black;">{{forloop.counter}}</td>
+                                    <td style="color:black;">{{ approved_product.farmerName }}</td>
+                                    <td style="color:black;">{{ approved_product.address }}</td>
+                                    <td style="color:black;">{{ approved_product.wardNo }}</td>
+                                    <td style="color:black;">{{ approved_product.name }}</td>
+                                    <td style="color:black;">{{ approved_product.quantity }}</td>
+                                    <td style="color:black;">
+                                        <form method="post" action="{% url 'remove_scertification' approved_product.id %}">
+                                            {% csrf_token %}
+                                            <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
                 
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>Latest Meetings</title>
-                </head>
-                <body>
-                    <div class="container">
-                        <h1 style="color:black; font-weight:bold;">Meetings list</h1>
-                        <div class="details">
-                            <table border="1">
-                                <thead>
-                                    <tr>
-                                        <th><b>No</b></th>
-                                        <th><b>Date</b></th>
-                                        <th><b>Time</b></th>
-                                        <th><b>Venue</b></th>
-                                        <th><b>Mode</b></th>
-                                        <th><b>Description</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for meeting in meetings %}
-                                    <tr style="{% if meeting.meeting_date == current_date %} background-color: red; color: white; {% endif %}">
-                                        <td>{{forloop.counter}}
-                                        <td>{{ meeting.meeting_date }}</td>
-                                        <td>{{ meeting.meeting_time }}</td>
-                                        <td>{{ meeting.meeting_venue }}</td>
-                                        <td>{{ meeting.meeting_mode }}</td>
-                                        <td>{{ meeting.desmeeting }}</td>
-                                    </tr>
-                                    
-                                    {% empty %}
-                                    <tr>
-                                        <td colspan="3">No meetings available.</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </body>
-                </html>
-                                                                    
+            <script>
+                $(document).ready(function () {
+                    const input = $('#username');
+                    const roleFilter = $('#role-filter');
+                    const rows = $('.user-list tbody tr');
+                    const noUserMessage = $('#no-user-message');
+                    $('#search-button').on('click', filterUsers);
+                    roleFilter.on('change', filterUsers);
+                    function filterUsers() {
+                        const searchTerm = input.val().toLowerCase();
+                        const selectedRole = roleFilter.val();
+                        let found = false; // Flag to track if a matching user is found
+                        rows.each(function () {
+                            const username = $(this).find('td:nth-child(2)').text().toLowerCase();
+                            const role = $(this).find('td:nth-child(7)').text().toLowerCase();
+            
+                            // Check if the user matches the selected role (or if all roles are selected)
+                            if ((selectedRole === 'all' || role.includes(selectedRole)) &&
+                                (searchTerm.length === 0 || username.includes(searchTerm))) {
+                                $(this).css('display', 'table-row');
+                                found = true; // Matching user found
+                            } else {
+                                $(this).css('display', 'none');
+                            }
+                        });
+            
+                        // Show/hide "No such user" message
+                        if (found) {
+                            noUserMessage.css('display', 'none');
+                        } else {
+                            noUserMessage.css('display', 'block');
+                        }
+                    }
+                });
+
+                
+            </script>
                             </table> 
                         </div>
                     </div>
@@ -350,9 +349,22 @@
                     </div>
                 </div>
             </div>
-			
 		</div>
     </div>
+<script>
+    document.querySelectorAll(".apply-button").forEach(button => {
+        button.addEventListener("click", function() {
+            const rowId = this.closest("tr").getAttribute("data-row-id");
+            const isApproved = true;  // Modify this condition as needed
+            if (isApproved) {
+                const rowHtml = this.closest("tr").outerHTML;
+                const mapproveTable = document.getElementById("mapprove-table");
+                mapproveTable.innerHTML += rowHtml;
+            }
+            this.closest("tr").remove();
+        });
+    });
+</script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
@@ -362,7 +374,4 @@
     <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-
-
-<!-- departments23:21-->
 </html>

@@ -8,12 +8,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            
+            font-family: Arial, sans-serif;           
             {% comment %} background-color: #f2f2f2; {% endcomment %}
             margin: 0;
-            padding: 0;
-
+            padding-top: 70px;
             {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
             background-size: cover;
             background-repeat: no-repeat; 
@@ -90,7 +88,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
         <h2 style="color:#0d4859; padding-left:20px; font-weight:bold;">CropElevate</h2>
         {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

@@ -1,33 +1,89 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico"> {% endcomment %}
-    <title>CropElevate</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
-    <!--[if lt IE 9]>
-        <script src="assets/js/html5shiv.min.js"></script>
-        <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;    
+            {% comment %} background-color: #f2f2f2; {% endcomment %}
+            margin: 0;
+            padding-top: 70px;
+            {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        }
+        .navbar {
+            background-color: #34AD54;
+            padding: 10px 0;
+        }
+        .container {
+            background-color: #fff;           
+            border: 1px solid black;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+            width: 1000px;
+            padding: 40px;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th{
+            background-color:#34AD54;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .apply-button-green {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 8px 16px; /* Adjust padding to make it smaller */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; /* Adjust font-size to make it smaller */
+            border-radius: 5px;
+            cursor: pointer;
+        }
         .content {
             max-width: 900px; 
             margin-right:25px auto; 
             padding: 0px;
             
         }
-       
         .card-box {
             background-color: #b4f76d; 
             padding: 20px; 
@@ -36,8 +92,6 @@
             padding-right:50px; 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
             border: 1px solid black;
-
-
         }
         .card-box .form-group {
             text-align: left; 
@@ -52,53 +106,50 @@
 
         .navbar {
             background-color: #34AD54;
-            padding-top: 20px;
-            padding-bottom: 20px; 
+            padding-top: 10px;
+            padding-bottom: 10px; 
         }
 
         .navbar-nav .nav-link {
             color: white; 
-            margin-left: 20px;
-            
+            margin-left: 20px;    
         }
-
         .navbar-nav .nav-link.active {
-            font-weight: bold; 
+            {% comment %} font-weight: bold;  {% endcomment %}
         }
-
-
-
         .navbar-nav .nav-link[href="{% url 'homepage' %}"],
         .navbar-nav .nav-link[href="{% url 'crop' %}"] {
-        color:white;
+        {% comment %} color:white;
         font-size:18px;
         font-weight:bold;x
-}
+} {% endcomment %}
 
     </style>
 </head>
-
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="">
-        <h2 style="margin-left: 20px; color:#263A4F;">CropElevate</h2>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
+        <h2 style="color:#0d4859; padding-left:20px; font-weight:bold;">CropElevate</h2>
+        {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-            <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
-            <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
-            <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
-            <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-            <a href="{% url 'displaycrop' %}"class="nav-item nav-link active" style="margin-left: 60px;">Sell</a>
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 80px; color:white; font-size:20px;">Home</a>
+                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
+                <a href="{% url 'crop' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'displaycrop' %}"class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Sell</a>
 
+                {% comment %} <li>
+                    <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
+                </li> {% endcomment %}
             </ul>
         </div>
+
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
-
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
@@ -106,7 +157,7 @@
             <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
                 
                 {% if user.is_authenticated %}
-                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
+                <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
 
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
@@ -115,401 +166,188 @@
             </div>
         </div>
     </nav>
+    <br><br>
 
-
-
-
-    <div class="main-wrapper">
-        <div class="page-wrapper">
-            <div class="content">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="page-title"><b><i>Edit Profile</b></i></h4>
-                    </div>
-                  {% comment %} <div class="col-sm-20 col-11 text-right m-b-30">
-                        <a href="{% url 'patient_profile' %}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Edit Profile</a>
-                    </div>
-                </div> {% endcomment %}
-                <form method="post" action="" autocomplete="off" enctype="multipart/form-data">
-                {% csrf_token %}  
-                    <div class="card-box">
-                        <h3 class="card-title" style="color:black;"><b>Basic Informations</b></h3>
-                        <div class="row">
-                            <div class="col-md-12">
-                                {% comment %} <div class="profile-img-wrap">
-                                   
-                                    <img id="propic" src="" alt="profile pic" class="inline-block"/>
-                             
-                                    <img class="inline-block" src="/static/assets/img/user.jpg" alt="user">
-                              
-                                    <div class="fileupload btn">
-                                        <span class="btn-text">edit</span>
-                                        <input class="upload" name="profile_pic" type="file" >
-                                    </div>
-                                </div> {% endcomment %}
-                                <div class="profile-basic">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label style="color:black;"><b>First Name  </b></label>
-                                            <div class="form-group form-focus"> 
-                                                {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
-                                                {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name" id="first_name" style="border-radius:10px;">
-                                                <small id="firstNameError" class="form-text text-danger"></small></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label style="color:black;"><b>Last Name</b></label>
-                                            <div class="form-group form-focus"> 
-                                                {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
-                                                {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
-                                               <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name" style="border-radius:10px;">
-                                               <small id="lastNameError" class="form-text text-danger"></small>
-                                            </div>
-                                        </div>
-                                        {% comment %} <div class="col-md-6">
-                                            <label>Birth Date </label>
-                                            <div class="form-group form-focus"> 
-                                               <input class="form-control floating " type="date" value="" name="birth_date">
-                                               <input class="form-control floating" type="date" value="{{ profile.birth_date|date:'Y-m-d' }}" name="birth_date">
-                                            </div>
-                                     </div>      {% endcomment %}
-                                        <div class="col-md-6">
-                                            <label style="color:black;"><b>Email</b></label>
-                                            <div class="form-group form-focus"> 
-                                                
-                                                {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
-                                                <input type="text" class="form-control floating" value="{{ profile.email }}" name="email"style="border-radius:10px;">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label class="focus-label" style="color:black;"><b>Gender</b></label>
-                                            <div class="form-group form-focus select-focus">
-                                                <select class="select form-control floating" name="gender" required>
-                                                    <option value="" disabled selected>-Select Gender-</option>
-                                                    <option value="Male" {% if profile.gender == 'Male' %} selected {% endif %}>Male</option>
-                                                    <option value="Female" {% if profile.gender == 'Female' %} selected {% endif %}>Female</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    
-                                        {% comment %} <div class="col-md-6">
-                                            <label>House Name  </label>
-                                            <div class="form-group form-focus">  {% endcomment %}
-                                                {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
-                                                {% comment %} <input type="text" class="form-control floating" value="" name="house_name"> {% endcomment %}
-                                                {% comment %} <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
-                                            </div> {% endcomment %}
-                                            <div class="col-md-6">
-                                                <label style="color:black;"><b>Annual Income</b></label>
-                                                <div class="form-group form-focus">
-                                                    <input type="number" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income" id="annual_income" style="border-radius:10px;">
-                                                    <small id="annualIncomeError" class="form-text text-danger"></small>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label style="color:black;"><b>Amount of land  (in cent )</b></label>
-                                                <div class="form-group form-focus">
-                                                    <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land" style="border-radius:10px;">
-                                                    <small id="landError" class="form-text text-danger"></small>
-                                                </div>
-                                            </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-box">
-                        <h3 class="card-title" style="color:black;"><b>Contact Informations</b></h3>
-                        <div class="row">
-                            {% comment %} <div class="col-md-6">
-                                <label>House Number</label>
-                                <div class="form-group form-focus"> 
-                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no">
-                                    <input type="number" class="form-control floating" value=" " name="house_no">
-                                    <small id="houseNoError" class="form-text text-danger"></small>
+    <div class="container">
+        {% comment %} <h1 style="color:#3c733c;">Crop Details</h1> {% endcomment %}
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="page-title" style="text-align:center;"><b><i>Edit Profile</b></i></h4>
+                </div>
+              {% comment %} <div class="col-sm-20 col-11 text-right m-b-30">
+                    <a href="{% url 'patient_profile' %}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Edit Profile</a>
+                </div>
+            </div> {% endcomment %}
+            <form method="post" action="" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}  
+                <div class="card-box">
+                    <h3 class="card-title" style="color:black;"><b>Basic Informations</b></h3>
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% comment %} <div class="profile-img-wrap">
+                               
+                                <img id="propic" src="" alt="profile pic" class="inline-block"/>
+                         
+                                <img class="inline-block" src="/static/assets/img/user.jpg" alt="user">
+                          
+                                <div class="fileupload btn">
+                                    <span class="btn-text">edit</span>
+                                    <input class="upload" name="profile_pic" type="file" >
                                 </div>
                             </div> {% endcomment %}
-                            <div class="col-md-6">
-                                <label style="color:black;"><b>House Number</b></label>
-                                <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no" style="border-radius:10px;">
-                                    <small id="houseNoError" class="form-text text-danger"></small>
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label style="color:black;"><b>First Name  </b></label>
+                                        <div class="form-group form-focus"> 
+                                            {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
+                                            {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
+                                            <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name" id="first_name" style="border-radius:10px;">
+                                            <small id="firstNameError" class="form-text text-danger"></small></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label style="color:black;"><b>Last Name</b></label>
+                                        <div class="form-group form-focus"> 
+                                            {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
+                                            {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
+                                           <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name" style="border-radius:10px;">
+                                           <small id="lastNameError" class="form-text text-danger"></small>
+                                        </div>
+                                    </div>
+                                    {% comment %} <div class="col-md-6">
+                                        <label>Birth Date </label>
+                                        <div class="form-group form-focus"> 
+                                           <input class="form-control floating " type="date" value="" name="birth_date">
+                                           <input class="form-control floating" type="date" value="{{ profile.birth_date|date:'Y-m-d' }}" name="birth_date">
+                                        </div>
+                                 </div>      {% endcomment %}
+                                    <div class="col-md-6">
+                                        <label style="color:black;"><b>Email</b></label>
+                                        <div class="form-group form-focus"> 
+                                            
+                                            {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
+                                            <input type="text" class="form-control floating" value="{{ profile.email }}" name="email"style="border-radius:10px;">
+                                        </div>
+                                    </div>
 
+                                    <div class="col-md-6">
+                                        <label class="focus-label" style="color:black;"><b>Gender</b></label>
+                                        <div class="form-group form-focus select-focus">
+                                            <select class="select form-control floating" name="gender" required>
+                                                <option value="" disabled selected>-Select Gender-</option>
+                                                <option value="Male" {% if profile.gender == 'Male' %} selected {% endif %}>Male</option>
+                                                <option value="Female" {% if profile.gender == 'Female' %} selected {% endif %}>Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                
+                                    {% comment %} <div class="col-md-6">
+                                        <label>House Name  </label>
+                                        <div class="form-group form-focus">  {% endcomment %}
+                                            {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
+                                            {% comment %} <input type="text" class="form-control floating" value="" name="house_name"> {% endcomment %}
+                                            {% comment %} <input type="text" class="form-control floating" value="{{ profile.house_name }}" name="house_name">
+                                        </div> {% endcomment %}
+                                        <div class="col-md-6">
+                                            <label style="color:black;"><b>Annual Income</b></label>
+                                            <div class="form-group form-focus">
+                                                <input type="number" class="form-control floating" value="{{ profile.annual_income }}" name="annual_income" id="annual_income" style="border-radius:10px;">
+                                                <small id="annualIncomeError" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label style="color:black;"><b>Amount of land  (in cent )</b></label>
+                                            <div class="form-group form-focus">
+                                                <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land" style="border-radius:10px;">
+                                                <small id="landError" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label style="color:black;"><b>Address </b> </label>
-                                <div class="form-group form-focus"> 
-                                    <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address" style="border-radius:10px;">
-                                    <small id="addressError" class="form-text text-danger"></small>
-                                    {% comment %} <input type="text" class="form-control floating" value=" " name="address"> {% endcomment %}
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <label style="color:black;"><b>Panchayat</b></label>
-                                <div class="form-group form-focus"> 
-                                     
-                                    <input type="text" class="form-control floating" value="Erumely" name="state" readonly style="border-radius:10px;">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label style="color:black;"><b>Ward</b></label>
-                                <div class="form-group form-focus">
-                                    <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward" style="border-radius:10px;">
-                                    <small id="wardError" class="form-text text-danger"></small>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label style="color:black;"><b>Pin Code  </b></label>
-                                <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code" style="border-radius:10px;">
-                                    {% comment %} <input type="text" class="form-control floating" value="" name="pin_code"> {% endcomment %}
-                                    <small id="pinError" class="form-text text-danger"></small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label style="color:black;"><b>Phone Number</b></label>
-                                <div class="form-group form-focus">
-                                    <input type="number" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number" style="border-radius:10px;">
-                                    <small id="phoneError" class="form-text text-danger"></small>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                   <label style="color:black;"><b>Profile Photo</b></label>
-                                       <input type="file" class="form-control" value="{{ profile.fprofile_photo }}" name="fprofile_photo" style="border-radius:10px;">
-                               </div>
-                           </div>
                         </div>
                     </div>
-                    
-                
-                                   
-                        <div class="text-center m-t-20">
-                        <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                </div>
+                <div class="card-box">
+                    <h3 class="card-title" style="color:black;"><b>Contact Informations</b></h3>
+                    <div class="row">
+                        {% comment %} <div class="col-md-6">
+                            <label>House Number</label>
+                            <div class="form-group form-focus"> 
+                                <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no">
+                                <input type="number" class="form-control floating" value=" " name="house_no">
+                                <small id="houseNoError" class="form-text text-danger"></small>
+                            </div>
+                        </div> {% endcomment %}
+                        <div class="col-md-6">
+                            <label style="color:black;"><b>House Number</b></label>
+                            <div class="form-group form-focus">
+                                <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no" style="border-radius:10px;">
+                                <small id="houseNoError" class="form-text text-danger"></small>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label style="color:black;"><b>Address </b> </label>
+                            <div class="form-group form-focus"> 
+                                <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address" style="border-radius:10px;">
+                                <small id="addressError" class="form-text text-danger"></small>
+                                {% comment %} <input type="text" class="form-control floating" value=" " name="address"> {% endcomment %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label style="color:black;"><b>Panchayat</b></label>
+                            <div class="form-group form-focus"> 
+                                 
+                                <input type="text" class="form-control floating" value="Erumely" name="state" readonly style="border-radius:10px;">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label style="color:black;"><b>Ward</b></label>
+                            <div class="form-group form-focus">
+                                <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward" style="border-radius:10px;">
+                                <small id="wardError" class="form-text text-danger"></small>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label style="color:black;"><b>Pin Code  </b></label>
+                            <div class="form-group form-focus">
+                                <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code" style="border-radius:10px;">
+                                {% comment %} <input type="text" class="form-control floating" value="" name="pin_code"> {% endcomment %}
+                                <small id="pinError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label style="color:black;"><b>Phone Number</b></label>
+                            <div class="form-group form-focus">
+                                <input type="number" class="form-control floating" value="{{ profile.phone_number }}" name="phone_number" id="phone_number" style="border-radius:10px;">
+                                <small id="phoneError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                               <label style="color:black;"><b>Profile Photo</b></label>
+                                   <input type="file" class="form-control" value="{{ profile.fprofile_photo }}" name="fprofile_photo" style="border-radius:10px;">
+                           </div>
+                       </div>
                     </div>
-        </form>
-            </div>
+                </div>
+                
             
+                               
+                    <div class="text-center m-t-20">
+                    <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                </div>
+    </form>
         </div>
+        
     </div>
-
-
+    </div>
     
-    <div class="sidebar-overlay" data-reff=""></div>
-    <script src="{% static 'assets/js/jquery-3.2.1.min.js'%}"></script>
-    <script src="{% static 'assets/js/popper.min.js'%}"></script>
-    <script src="{% static 'assets/js/bootstrap.min.js'%}"></script>
-    <script src="{% static 'assets/js/jquery.slimscroll.js'%}"></script>
-    <script src="{% static 'assets/js/app.js'%}"></script>
-    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
-    
-
-        <script>
-            // Get form elements
-            var firstNameInput = document.getElementById("first_name");
-            var lastNameInput = document.getElementById("last_name");
-            const addressInput = document.getElementById('address');
-            var annualIncomeInput = document.getElementById("annual_income");
-            var landInput = document.getElementById("land");
-            var houseNoInput = document.getElementById("house_no");
-            var wardInput = document.getElementById("ward");
-            var pinCodeInput = document.getElementById("pin_code");
-            var phoneNumberInput = document.getElementById("phone_number");
-
-        
-        
-            // Get error elements
-            var firstNameError = document.getElementById("firstNameError");
-            var lastNameError = document.getElementById("lastNameError");
-            const addressError = document.getElementById('addressError')
-            var annualIncomeError = document.getElementById("annualIncomeError");
-            {% comment %} var landError = document.getElementById("landError"); {% endcomment %}
-            var houseNoError = document.getElementById("houseNoError");
-            var wardError = document.getElementById("wardError");
-            var pinError = document.getElementById("pinError");
-            var phoneError = document.getElementById("phoneError");
-
-          
-
-            annualIncomeInput.addEventListener("input", function () {
-                validateAnnualIncome();
-            });
-        
-            wardInput.addEventListener("input", function () {
-                validateWard();
-            });
-            houseNoInput.addEventListener("input", function () {
-                validateHouseNumber();
-            });
-            pinCodeInput.addEventListener("input", function () {
-                validatePinCode();
-            });
-        
-            // Function to validate phone number as you type
-            phoneNumberInput.addEventListener("input", function () {
-                validatePhoneNumber();
-            });
-            addressInput.addEventListener("input",function(){
-                validateAddress();
-            });
-
-            // Add event listeners for live validation
-            {% comment %} firstNameInput.addEventListener("input", validateFirstName);
-            lastNameInput.addEventListener("input", validateLastName); {% endcomment %}
-        
-            firstNameInput.addEventListener("input", () => {
-                const firstName = firstNameInput.value.trim();
-                const regex = /^[A-Z][a-zA-Z]*$/;
-        
-                if (!regex.test(firstName)) {
-                    firstNameError.textContent = "First Name should start with a capital letter and contain only letters.";
-                } else {
-                    firstNameError.textContent = "";
-                }
-            });
-        
-            // Function to validate last name
-            lastNameInput.addEventListener("input", () => {
-                const lastName = lastNameInput.value.trim();
-                const regex = /^[A-Z][a-zA-Z]*$/;
-        
-                if (!regex.test(lastName)) {
-                    lastNameError.textContent = "Last Name should start with a capital letter and contain only letters.";
-                } else {
-                    lastNameError.textContent = "";
-                }
-            });
-
-            document.addEventListener("DOMContentLoaded", function () {
-                const landInput = document.getElementById("land");
-                const landError = document.getElementById("landError");
-        
-                landInput.addEventListener("input", function () {
-                    // Regular expression to allow only digits and commas
-                    const regex = /^[0-9,]*$/;
-                    const inputValue = landInput.value;
-        
-                    if (!regex.test(inputValue)) {
-                        landError.textContent = "Only digits and commas are allowed.";
-                        landInput.classList.add("is-invalid");
-                    } else {
-                        landError.textContent = "";
-                        landInput.classList.remove("is-invalid");
-                    }
-                });
-            });
-
-            function validateAddress() {
-                const addressValue = addressInput.value.trim();
-        
-                if (!addressValue) {
-                    addressError.textContent = 'Address is required.';
-                    addressError.style.color = 'red';
-                    return false;
-                } else if (!/^[a-zA-Z0-9\s]+$/.test(addressValue)) {
-                    addressError.textContent = 'Address should contain only alphabets, numbers, and spaces.';
-                    addressError.style.color = 'red';
-                    return false;
-                } else {
-                    addressError.textContent = ''; // Clear the error message
-                    return true;
-                }
-            }
-            function validateAnnualIncome() {
-                const annualIncome = annualIncomeInput.value.trim();
-                const regex = /^\d+$/; // Matches only digits
-        
-                if (!regex.test(annualIncome)) {
-                    annualIncomeError.textContent = "Annual Income should contain only numbers.";
-                } else {
-                    annualIncomeError.textContent = "";
-                }
-            }
-        
-            // Function to validate amount of land
-           
-           
-
-            function validateWard() {
-                const ward = wardInput.value.trim();
-                const regex = /^\d+$/; // Matches only digits
-        
-                if (!regex.test(ward)) {
-                    wardError.textContent = "Ward should contain only numbers.";
-                } else if (parseInt(ward) >= 35) {
-                    wardError.textContent = "It should be less than 35.";
-                } else {
-                    wardError.textContent = "";
-                }
-            }
-        
-
-            function validateHouseNumber() {
-                const houseNo = houseNoInput.value.trim();
-                const regex = /^\d+$/; // Matches only digits
-        
-                if (!regex.test(houseNo)) {
-                    houseNoError.textContent = "House Number should contain only numbers.";
-                } else {
-                    houseNoError.textContent = "";
-                }
-            }
-
-             // Function to validate phone number as you type
-    phoneNumberInput.addEventListener("input", function () {
-        validatePhoneNumber();
-    });
-
-    function validatePinCode() {
-        const pinCode = pinCodeInput.value.trim();
-        const regex = /^\d{6}$/; // Matches exactly 6 digits
-
-        if (!regex.test(pinCode)) {
-            pinError.textContent = "Pin Code should contain exactly 6 digits.";
-        } else {
-            pinError.textContent = "";
-        }
-    }
-
-    function validatePhoneNumber() {
-        const phoneNumber = phoneNumberInput.value.trim();
-        const regex = /^\d{10}$/; // Matches exactly 10 digits
-
-        if (!regex.test(phoneNumber)) {
-            phoneError.textContent = "Phone Number should contain exactly 10 digits.";
-        } else {
-            phoneError.textContent = "";
-        }
-    }
-        function addRow() {
-            var table = document.getElementById("medicationTable").getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow(table.rows.length);
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
-    
-            cell1.innerHTML = '<div class="form-group form-focus"><input type="text" class="form-control" name="medication_names[]"></div>';
-            cell2.innerHTML = '<div class="form-group form-focus"><input type="text" class="form-control" name="dosage[]"></div>';
-            cell3.innerHTML = '<div class="form-group form-focus"><input type="text" class="form-control" name="frequency[]"></div>';
-            cell4.innerHTML = '<button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button>';
-        }
-    
-        function removeRow(button) {
-            var row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
-
-
-    </script>
-    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
-
-<!-- profile23:03-->
 </html>
-
