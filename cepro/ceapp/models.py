@@ -392,6 +392,7 @@ class Sell(models.Model):
     REMOVE = 'remove'
     PENDING = 'pending'
 
+
     
     APPROVAL_CHOICES = [
     (ACCEPT, 'Accept'),
@@ -399,7 +400,17 @@ class Sell(models.Model):
     (PENDING, 'Pending'),
     
     ]
+
+    APPLY = 'apply'
+    PENDING = 'pending'
+
+    APPLY_CHOICES = [
+    (APPLY ,'Apply'),
+    (PENDING, 'Pending'),
+
+    ]
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, blank=True, null=True)
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     farmerName = models.CharField(max_length=100,null=True, blank=True)
@@ -414,5 +425,10 @@ class Sell(models.Model):
     is_accept = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
+        default=PENDING,
+    )
+    is_apply = models.CharField(
+        max_length=10,
+        choices=APPLY_CHOICES,
         default=PENDING,
     )

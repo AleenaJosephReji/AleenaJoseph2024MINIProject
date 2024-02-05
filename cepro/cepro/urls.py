@@ -167,6 +167,9 @@ urlpatterns = [
     path('remove_scertification/<int:certification_id>/', views.remove_scertification, name='remove_scertification'),
     path('dleave',views.dleave,name='dleave'),
     path('edit_driver/<int:driver_id>/', views.edit_driver, name='edit_driver'),
+    path('driverapply',views.driverapply,name='driverapply'),
+    path('apply_certification/<int:certification_id>/', views.apply_certification, name='apply_certification'),
+    path('mdriverapplied',views.mdriverapplied,name='mdriverapplied'),
 
 
 

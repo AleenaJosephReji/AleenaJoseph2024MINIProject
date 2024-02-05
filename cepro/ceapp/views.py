@@ -1932,6 +1932,8 @@ def displaycrop(request):
 def dapplied(request):
     products = Sell.objects.all()  # Retrieve all products from the Sell model
     return render(request, 'drivertemp/dapplied.html', {'products': products})
+from django.contrib.auth.decorators import login_required
+@login_required
 def homepage(request):
     user = request.user
     blogs = Product.objects.all()
@@ -2122,3 +2124,18 @@ def edit_driver(request, driver_id):
         return redirect('admember')
 
     return render(request, 'admintemp/edit_driver.html', {'driver': driver})
+
+def driverapply(request):
+    approved_products = Sell.objects.all()
+    return render(request, 'drivertemp/driverapply.html', {'approved_products': approved_products})
+
+def apply_certification(request, certification_id):
+    certification = get_object_or_404(Sell, id=certification_id)
+    if request.method == 'POST':
+        certification.is_apply = Sell.APPLY  # Set it to 'apply'
+        certification.save()
+    return redirect('driverapply')
+def mdriverapplied(request):
+    applies = Sell.objects.filter(is_apply='apply')
+    
+    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies})
