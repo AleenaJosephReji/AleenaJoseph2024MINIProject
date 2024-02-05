@@ -1866,7 +1866,7 @@ def adaddproduct(request):
 
 def adadddriver(request):
     if request.method == 'POST':
-        dname = request.POST.get('dname')
+        name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
         dage = request.POST.get('dage')
@@ -1890,10 +1890,10 @@ def adadddriver(request):
                 messages.info(request, 'Email already exists') 
                 return redirect('adadddriver')
         else:
-                user = CustomUser.objects.create_user(email=email, password=password ,name=dname)
+                user = CustomUser.objects.create_user(email=email, password=password ,name=name)
                 user.role = CustomUser.DRIVER
                 user.save()
-                dri = Driver(user=user,name=dname,email=email,dgender=dgender,daddress=daddress,dage=dage,ddis=ddis,dtaluk=dtaluk,dPanchayat=dpanchayat,dwardno=dwardno,dpin=dpin,dphone=dphone,dbio=dbio,dlisence=dlisence,ddate=ddate,profile_photo=profile_photo)
+                dri = Driver(user=user,name=name,email=email,dgender=dgender,daddress=daddress,dage=dage,ddis=ddis,dtaluk=dtaluk,dPanchayat=dpanchayat,dwardno=dwardno,dpin=dpin,dphone=dphone,dbio=dbio,dlisence=dlisence,ddate=ddate,profile_photo=profile_photo)
                 dri.save()
                 return redirect('addriver')
     else:
@@ -2137,5 +2137,5 @@ def apply_certification(request, certification_id):
     return redirect('driverapply')
 def mdriverapplied(request):
     applies = Sell.objects.filter(is_apply='apply')
-    
-    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies})
+    drivers = Driver.objects.filter(is_active=True)
+    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies ,'drivers': drivers})

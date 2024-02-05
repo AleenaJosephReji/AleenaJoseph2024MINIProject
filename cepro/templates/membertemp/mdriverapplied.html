@@ -282,7 +282,13 @@
                             {% for apply in applies %}
                                 <tr>
                                     <td style="color:black;">{{ forloop.counter }}</td>
-                                    <td style="color:black;">{{ apply.driver.name }}</td> <!-- Access driver's name -->
+                                    <td style="color:black;">
+                                        {% for driver in drivers %}
+                                            {% comment %} {% if driver.id == apply.driver.id %} {% endcomment %}
+                                                {{ driver.name }}
+                                            {% comment %} {% endif %} {% endcomment %}
+                                        {% endfor %}
+                                    </td>
                                     <td style="color:black;">{{ apply.farmerName }}</td>
                                     <td style="color:black;">{{ apply.address }}</td>
                                     <td style="color:black;">{{ apply.wardNo }}</td>
