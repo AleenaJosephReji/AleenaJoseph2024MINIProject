@@ -1543,18 +1543,20 @@ from django.shortcuts import redirect
 
 def mark_attendance(request, meeting_id):
     if request.method == 'POST':
-        member_id = request.POST.get('member_id')
-        attendance_status = request.POST.get('attendance_status')
+        member_ids = request.POST.getlist('member_ids[]')
 
-        print(f"Member ID: {member_id}, Attendance Status: {attendance_status}")
+        for member_id in member_ids:
+            attendance_status = request.POST.get(f'attendance_status_{member_id}')
 
-        # Get or create the WardAttendance record based on member_id and meeting_id
-        obj, created = WardAttendance.objects.get_or_create(member_id=member_id, meeting_id=meeting_id, defaults={'is_present': attendance_status})
-        
-        # If the record already exists, update the is_present field
-        if not created:
-            obj.is_present = attendance_status
-            obj.save()
+            # Get or create the WardAttendance record based on member_id and meeting_id
+            obj, created = WardAttendance.objects.get_or_create(
+                member_id=member_id, meeting_id=meeting_id, defaults={'is_present': attendance_status}
+            )
+
+            # If the record already exists, update the is_present field
+            if not created:
+                obj.is_present = attendance_status
+                obj.save()
 
     return redirect('adaddattendance', meeting_id)
 

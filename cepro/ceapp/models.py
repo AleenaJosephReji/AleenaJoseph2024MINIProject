@@ -294,11 +294,11 @@ class Attendance(models.Model):
 class WardAttendance(models.Model):
     ABSENT = 'absent'
     PRESENT = 'present'
-    PENDING = 'pending'
+   
     APPROVAL_CHOICES = [
     (ABSENT, 'absent'),
     (PRESENT, 'present'),
-    (PENDING, 'Pending'),
+    
    
     ]
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
@@ -309,7 +309,7 @@ class WardAttendance(models.Model):
     is_present = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
-        default=PENDING,
+        default=PRESENT,
     )
 
 
@@ -409,6 +409,7 @@ class Sell(models.Model):
     name = models.CharField(max_length=100)
     quantity = models.CharField(max_length=100)
     applied = models.DateTimeField(null=True,blank=True)
+    giventime = models.DateTimeField(null=True,blank=True)
 
     is_accept = models.CharField(
         max_length=10,
