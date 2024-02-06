@@ -170,7 +170,7 @@ urlpatterns = [
     path('driverapply',views.driverapply,name='driverapply'),
     path('apply_certification/<int:certification_id>/', views.apply_certification, name='apply_certification'),
     path('mdriverapplied',views.mdriverapplied,name='mdriverapplied'),
-    path('confirmation/<int:certification_id>/', views.confirmation, name='confirmation'),
+    path('confirmation/<int:apply_id>/', views.confirmation, name='confirmation'),
     # path('dispro', views.dispro, name='dispro'),
 
 

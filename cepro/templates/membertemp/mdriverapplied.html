@@ -265,11 +265,7 @@
                 <!-- approved_applications.html -->
                 <div class="container">
                     <h1><b>Approved Applications</b></h1>
-                    {% if messages %}
-        <div class="alert alert-success">
-            {{ messages }}
-        </div>
-    {% endif %}
+                    
                     <table>
                         <thead>
                             <tr>
@@ -282,6 +278,7 @@
                                 <th style="color:black;"><b>Quantity</b></th>
                                 <th style="color:black;"><b>Confirmation</b></th>
 
+
                                 <!-- Add more columns or actions as needed -->
                             </tr>
                         </thead>
@@ -289,27 +286,22 @@
                             {% for apply in applies %}
                                 <tr>
                                     <td style="color:black;">{{ forloop.counter }}</td>
-                                    <td style="color:black;">
-                                        {% for driver in drivers %}
-                                            {% if driver.id == apply.sell.driver.id %}
-                                                {{ driver.name }}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </td>
+                                    <td style="color:black;">{{ apply.driver.name }}</td>
                                     <td style="color:black;">{{ apply.sell.farmerName }}</td>
                                     <td style="color:black;">{{ apply.sell.address }}</td>
                                     <td style="color:black;">{{ apply.sell.wardNo }}</td>
                                     <td style="color:black;">{{ apply.sell.name }}</td>
                                     <td style="color:black;">{{ apply.sell.quantity }}</td>
-                                    <!-- Add more columns or actions as needed -->
-                                    {% comment %} <td style="color:black;"> {% endcomment %}
-                                        <td style="color:black;">
-                                            <form method="post" action="{% url 'confirmation' apply.sell.id %}">
+                                    <td style="color:black;">
+                                        {% if not apply.is_confirmed %}
+                                            <form method="post" action="{% url 'confirmation' apply.id %}">
                                                 {% csrf_token %}
                                                 <button class="btn btn-primary" type="submit">Confirm</button>
                                             </form>
-                                        </td>
-                                    {% comment %} </td> {% endcomment %}
+                                        {% else %}
+                                            <p>Confirmed</p>
+                                        {% endif %}
+                                    </td>
                                     
                                 </tr>
                             {% endfor %}

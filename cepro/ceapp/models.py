@@ -433,12 +433,14 @@ class Sellapply(models.Model):
     ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     sell = models.ForeignKey(Sell, on_delete=models.CASCADE, blank=True, null=True)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, blank=True, null=True)  # Add this field
 
     is_apply = models.CharField(
             max_length=10,
             choices=APPLY_CHOICES,
             default=PENDING,
         )
+    is_confirmed = models.BooleanField(default=False)
 class Confirm(models.Model):
     CONFIRM = 'confirm'
     PENDING = 'pending'

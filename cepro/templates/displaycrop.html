@@ -89,7 +89,7 @@
         }
         
         .main {
-            width: 80%;
+            width: 90%;
             margin: 10px auto;
             padding: 20px;
             border: 1px solid black;
@@ -188,19 +188,23 @@
               </div>  
               
               <label for="cropInput">Product Name:</label>
-              <input list="cropNames" name="name" id="cropInput">
-              <datalist id="cropNames">
-                  <option value="Mango">
-                  <option value="Rice">
-                  <option value="Pepper">
-                  <option value="Coconut">
-                  <option value="Tomato">
-                  <option value="Potato">
-                  <option value="Pea">
-              </datalist>
-              <label for="quantityInput">Quantity:</label>
+                <input list="cropNames" name="name" id="cropInput">
+                <datalist id="cropNames">
+                    <option value="Mango">
+                    <option value="Rice">
+                    <option value="Pepper">
+                    <option value="Coconut">
+                    <option value="Tomato">
+                    <option value="Potato">
+                    <option value="Pea">
+                </datalist>
+                <small id="cropNameError" class="form-text text-danger"></small>
+
+              <label for="cropInput">Quantity:(in kg)</label>
+
               <input type="text" name="quantity" id="quantityInput">
-              
+                <small id="quantityError" class="form-text text-danger"></small>
+
               <div class="m-t-20 text-center">
                   <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
               </div>
@@ -208,6 +212,55 @@
             </form>
           </div>
     </div>
+    <!-- Add the following script inside the head tag or at the end of the body tag -->
+<!-- Add the following script inside the head tag or at the end of the body tag -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the quantity input element
+        var quantityInput = document.getElementById('quantityInput');
+        var cropInput = document.getElementById('cropInput');
+
+        // Add an input event listener to the quantity input field
+        quantityInput.addEventListener('input', validateQuantity);
+
+        // Add an input event listener to the crop input field
+        cropInput.addEventListener('input', validateCropName);
+
+        function validateQuantity() {
+            var quantityValue = quantityInput.value;
+
+            if (!isValidQuantity(quantityValue)) {
+                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number.';
+                document.getElementById('createdriver').disabled = true;
+            } else {
+                document.getElementById('quantityError').innerText = '';
+                document.getElementById('createdriver').disabled = false;
+            }
+        }
+
+        function isValidQuantity(value) {
+            return /^\d+$/.test(value) && parseInt(value) > 0;
+        }
+
+        function validateCropName() {
+            var cropNameValue = cropInput.value;
+
+            if (!isValidCropName(cropNameValue)) {
+                document.getElementById('cropNameError').innerText = 'Invalid product name. Alphabets are allowed, but negative numbers and decimals are not.';
+                document.getElementById('createdriver').disabled = true;
+            } else {
+                document.getElementById('cropNameError').innerText = '';
+                document.getElementById('createdriver').disabled = false;
+            }
+        }
+
+        function isValidCropName(value) {
+            return /^[a-zA-Z]+$/.test(value);
+        }
+    });
+</script>
+
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

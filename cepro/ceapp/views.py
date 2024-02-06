@@ -2145,11 +2145,13 @@ def apply_certification(request, certification_id):
     print("something452")
     certification = get_object_or_404(Sell, id=certification_id)
     print(certification)
+    driver = Driver.objects.get(user=request.user)
+
     if request.method == 'POST':
   
         Sellapply.objects.create(
             user=request.user,
-          
+            driver=driver,
             sell=certification,
             is_apply=Sellapply.APPLY,
         )
@@ -2158,18 +2160,20 @@ def mdriverapplied(request):
     profile = Member.objects.get(user=request.user)
     # Filter sells related to the member
     sells = Sell.objects.filter(member=profile)
-    # Get all Sellapply instances related to the sells
+    # Get all Sellapply instances related to the sells, including the driver information
     applies = Sellapply.objects.filter(sell__in=sells, is_apply='apply')
 
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'membertemp/mdriverapplied.html', {'applies': applies, 'drivers': drivers})
 
-def confirmation(request, certification_id):
-    certification = get_object_or_404(Confirm, id=certification_id)
+def confirmation(request, apply_id):
+    sell_apply = get_object_or_404(Sellapply, id=apply_id)
+    
     if request.method == 'POST':
-        certification.is_confirm = Confirm.CONFIRM  # Set it to 'approved'
-        certification.save()
-    return redirect('mdriverapplied')
+        sell_apply.is_confirmed = True
+        sell_apply.save()
+
+    return redirect('confirmation')
 # def dispro(request):
 #     approved_products = Sell.objects.filter(is_accept='accept')
 #     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
