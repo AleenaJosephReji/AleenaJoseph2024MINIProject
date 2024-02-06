@@ -177,10 +177,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <form id="search-form" method="GET" action="{% url 'search_member' %}">
+                        <form id="search-form" method="GET" action="{% url 'search_driver' %}">
                             <div class="input-group">
-                                <a href="{% url 'admember' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
-                                <input type="text" class="form-control custom-search-input" name="membername" placeholder="Search By Member Name">
+                                <a href="{% url 'addriver' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
+                                <input type="text" class="form-control custom-search-input" name="drivername" placeholder="Search By Driver Name">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
                                 </div>
@@ -198,7 +198,7 @@
                             <div class="dropdown profile-action">
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                     {% comment %} <a class="dropdown-item" href=" {% url 'edit_driver' driver.id %}"><i class="fa fa-pencil m-r-5"></i> Edit</a> {% endcomment %}
+                                     <a class="dropdown-item" href=" {% url 'edit_driver' driver.id %}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
                                      {% comment %} <a class="dropdown-item" href=" {% url 'delete_member' member.id %}"><i class="fa fa-pencil m-r-5"></i> Delete</a> {% endcomment %}
                                 </div>
                             </div>
@@ -210,6 +210,7 @@
                                 {% comment %} <p style="color:black;">Member ID: {{ driver.id }}</p> {% endcomment %}
                                 <p class="card-text" style="color:black;"><b>Email: </b>{{ driver.email }}</p>
                                 <p class="card-text" style="color:black;"><b>Gender: </b>{{ driver.dgender }}</p>
+                                <p class="card-text" style="color:black;"><b>Age: </b>{{ driver.dage }}</p>
                                 <p class="card-text" style="color:black;"><b>District: </b>{{ driver.ddis }}</p>
                                 <p class="card-text" style="color:black;"><b>Taluk: </b>{{ driver.dtaluk }}</p>
                                 <p class="card-text" style="color:black;"><b>Panchayat: </b>{{ driver.dPanchayat }}</p>
@@ -219,7 +220,7 @@
                                 <p class="card-text" style="color:black;"><b>Lisence: </b>{{ driver.dlisence }}</p>
                                 <p class="card-text" style="color:black;"><b>Lisence Date: </b>{{ driver.ddate }}</p>
 
-                                <p class="card-text" style="color:black;"><b>Bio: </b>{{ member.bio }}</p>
+                                <p class="card-text" style="color:black;"><b>Bio: </b>{{ driver.dbio }}</p>
                             </div>
                         </div>
                     </div>

@@ -1231,7 +1231,7 @@ def adapproval(request):
 #     return render(request,'membertemp/mfregistered.html',{details : details})
 
 
-#search
+#hh
 from django.shortcuts import render
 from .models import Crop
 
@@ -2102,12 +2102,13 @@ def edit_driver(request, driver_id):
         dlisence = request.POST.get('dlisence')
         ddate = request.POST.get('ddate')
         dbio = request.POST.get('dbio')
-        profile_photo = request.FILES.get('profile_photo')
+        # profile_photo = request.FILES.get('profile_photo')
         # Update the member's attributes with the new data
         driver.name = dname
         driver.email = email
         driver.password = password
         # member.gender = gender
+        driver.dage = dage
         driver.daddress = daddress
         driver.ddis = ddis
         driver.dtaluk = dtaluk
@@ -2118,12 +2119,12 @@ def edit_driver(request, driver_id):
         driver.dbio = dbio
         driver.dlisence = dlisence
         driver.ddate = ddate
-        driver.profile_photo = profile_photo
+        # driver.profile_photo = profile_photo
         # Save the updated member object
         driver.save()
 
         # Redirect to the member list page after editing
-        return redirect('admember')
+        return redirect('addriver')
 
     return render(request, 'admintemp/edit_driver.html', {'driver': driver})
 
@@ -2173,7 +2174,18 @@ def confirmation(request, apply_id):
         sell_apply.is_confirmed = True
         sell_apply.save()
 
-    return redirect('confirmation')
+    return redirect('mdriverapplied')  # Replace with your actual view name
 # def dispro(request):
 #     approved_products = Sell.objects.filter(is_accept='accept')
 #     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
+def search_driver(request):
+    drivername = request.GET.get('drivername', '')
+    # crops = Crop.objects.filter(Namec__icontains=cropname)
+
+    if drivername:
+        drivers = Driver.objects.filter(name__icontains=drivername)
+    else:
+        drivers = Driver.objects.all()
+    
+    return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
+

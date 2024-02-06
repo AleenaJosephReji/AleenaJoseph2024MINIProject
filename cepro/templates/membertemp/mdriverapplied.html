@@ -58,7 +58,7 @@
             } {% endcomment %}
     
             .container {
-                max-width: 800px;
+                max-width: 900px;
                 margin: 0 auto;
                 background-color: #fff;
                 padding: 20px;
@@ -274,9 +274,11 @@
                             <tr>
                                 <th style="color:black;"><b>No</b></th>
                                 <th style="color:black;"><b>Driver Name</b></th>
+                                <th style="color:black;"><b>Driver Ward</b></th>
+                                <th style="color:black;"><b>Driver Phone</b></th>
                                 <th style="color:black;"><b>Farmer Name</b></th>
-                                <th style="color:black;"><b>Address</b></th>
-                                <th style="color:black;"><b>Ward No</b></th>
+                                <th style="color:black;"><b> Farmer Address</b></th>
+                                <th style="color:black;"><b>Farmer Ward No</b></th>
                                 <th style="color:black;"><b>Product Name</b></th>
                                 <th style="color:black;"><b>Quantity</b></th>
                                 <th style="color:black;"><b>Confirmation</b></th>
@@ -290,6 +292,8 @@
                                 <tr>
                                     <td style="color:black;">{{ forloop.counter }}</td>
                                     <td style="color:black;">{{ apply.driver.name }}</td>
+                                    <td style="color:black;">{{ apply.driver.dwardno }}</td>
+                                    <td style="color:black;">{{ apply.driver.dphone }}</td>
                                     <td style="color:black;">{{ apply.sell.farmerName }}</td>
                                     <td style="color:black;">{{ apply.sell.address }}</td>
                                     <td style="color:black;">{{ apply.sell.wardNo }}</td>

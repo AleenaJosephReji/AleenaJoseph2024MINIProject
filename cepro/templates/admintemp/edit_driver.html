@@ -333,7 +333,7 @@
 
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title">Add Member</h4>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="memberlist"><b><i><u>Edit Driver</b></i></u></h4>
                     </div>
                 </div>
                 <div class="row">
@@ -343,43 +343,83 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Name <span class="text-danger">*</span></label>
+                                        <label style="color:black;"><b>Name </b><span class="text-danger">*</span></label>
                                         <input class="form-control" id="name" name="dname" value="{{ driver.name }}">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Email <span class="text-danger">*</span></label>
+                                        <label style="color:black;"><b>Email </b><span class="text-danger">*</span></label>
                                         <input class="form-control" id="email" name="email" value="{{ driver.email }}">
                                     </div>
                                 </div>
-                                <!-- Other form fields go here... -->
-                        
+                                <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="Age" style="color:black;"><b>Age</b></label>
+                                    <input type="text" class="form-control" id="dage" name="dage" oninput="validateAge()" required value="{{driver.dage}}">
+                                    <small id="ageError" class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label style="color:black;"><b>Address</b></label>
+                                    <input type="text" class="form-control " id="daddress" name="daddress" value="{{ driver.daddress}}">
+                                    <small id="addressError" class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label style="color:black;"><b>Ward No</b></label>
+                                    <input class="form-control" type="number" name="dwardno" id="dwardno" oninput="validateWardNo()" required value="{{ driver.dwardno}}">
+                                    <small id="wardNoError" class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                            <div class="form-group">
+                                <label style="color:black;"><b>Postal Code</b></label>
+                                <input type="text" class="form-control" id="dpin" name="dpin" value="{{driver.dpin}}">
+                                <small id="pinError" class="form-text text-danger"></small>
+                            </div>
+                        </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Phone </label>
+                                        <label style="color:black;"><b>Phone </b></label>
                                         <input class="form-control" id="phone" name="dphone" value="{{ driver.dphone }}" >
                                     </div>
                                 </div>
-                        
+                                <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Short Biography</label>
+                                    <label style="color:black;"><b>Licence Number</b></label>
+                                    <input class="form-control" type="text" id="dlisence" name="dlisence" value="{{driver.dlisence}}">
+                                    <small id="licenceError" class="form-text text-danger"></small>
+                                </div>
+                            </div>
+                            {% comment %} <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label style="color:black;"><b>Licence Date </b></label>
+                                    <input class="form-control" type="date" id="ddate"name="ddate" vlaue="{{ driver.ddate}}">
+                                    <small id="ddateError" class="form-text text-danger"></small>
+                                </div>
+                            </div> {% endcomment %}
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label style="color:black;"><b>Short Biography</b></label>
                                     <textarea class="form-control" id="bio" name="dbio">{{ driver.dbio }}</textarea>
                                 </div>
-                        
-                                <div class="col-sm-6">
+                            </div>
+                                {% comment %} <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Profile Photo</label>
                                         <input type="file" class="form-control" name="profile_photo" value="{{ driver.profile_photo }}" >
                                     </div>
-                                </div>
+                                </div> {% endcomment %}
                         
                                 <div class="m-t-20 text-center">
-                                    <button class="btn btn-primary submit-btn">Edit Member</button>
+                                    <button class="btn btn-primary submit-btn" style="background-color:green;">Edit Driver</button>
                                 </div>
                             </div>
                         </form>
-                        >
                     </div>
                 </div>
             </div>

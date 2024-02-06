@@ -172,6 +172,7 @@ urlpatterns = [
     path('mdriverapplied',views.mdriverapplied,name='mdriverapplied'),
     path('confirmation/<int:apply_id>/', views.confirmation, name='confirmation'),
     # path('dispro', views.dispro, name='dispro'),
+    path('search_driver', views.search_driver, name='search_driver'),
 
 
 
