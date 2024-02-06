@@ -401,17 +401,10 @@ class Sell(models.Model):
     
     ]
 
-    APPLY = 'apply'
-    PENDING = 'pending'
-
-    APPLY_CHOICES = [
-    (APPLY ,'Apply'),
-    (PENDING, 'Pending'),
-
-    ]
+   
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, blank=True, null=True)
-
+    applied_drivers = models.ManyToManyField(Driver, related_name='applied_products', blank=True)
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     farmerName = models.CharField(max_length=100,null=True, blank=True)
     address = models .CharField(max_length=100,null=True,blank=True)
@@ -427,8 +420,40 @@ class Sell(models.Model):
         choices=APPROVAL_CHOICES,
         default=PENDING,
     )
+    
+
+class Sellapply(models.Model):
+    APPLY = 'apply'
+    PENDING = 'pending'
+
+    APPLY_CHOICES = [
+    (APPLY ,'Apply'),
+    (PENDING, 'Pending'),
+
+    ]
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    sell = models.ForeignKey(Sell, on_delete=models.CASCADE, blank=True, null=True)
+
     is_apply = models.CharField(
-        max_length=10,
-        choices=APPLY_CHOICES,
-        default=PENDING,
-    )
+            max_length=10,
+            choices=APPLY_CHOICES,
+            default=PENDING,
+        )
+class Confirm(models.Model):
+    CONFIRM = 'confirm'
+    PENDING = 'pending'
+
+    CONFIRM_CHOICES = [
+    (CONFIRM ,'Confirm'),
+    (PENDING, 'Pending'),
+
+    ]
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    sell = models.ForeignKey(Sell, on_delete=models.CASCADE, blank=True, null=True)
+
+    is_confirm = models.CharField(
+            max_length=10,
+            choices=CONFIRM_CHOICES,
+            default=PENDING,
+        )
+

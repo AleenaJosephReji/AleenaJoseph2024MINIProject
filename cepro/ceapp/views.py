@@ -8,7 +8,7 @@ from .models import Crop
 from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
-from .models import FarmerProfile
+from .models import FarmerProfile,Sellapply
 from .models import Driver
 from .models import SecretaryProfile
 from .models import *
@@ -1924,7 +1924,9 @@ def displaycrop(request):
             obj.name = name
             obj.quantity = quantity
             obj.member = member
+            obj.user_id = request.user.id
             obj.save()
+            
 
     return render(request, 'displaycrop.html' , {'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name ,'address':farmer_profile.address , 'wardNo':farmer_profile.ward})
     # approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
@@ -2127,15 +2129,47 @@ def edit_driver(request, driver_id):
 
 def driverapply(request):
     approved_products = Sell.objects.all()
-    return render(request, 'drivertemp/driverapply.html', {'approved_products': approved_products})
+    
+    data = []  # List to store dictionaries containing product and is_apply status
+
+    for product in approved_products:
+        is_apply = 'pending'
+        if Sellapply.objects.filter(sell=product, user=request.user).exists():
+            is_apply = 'apply'
+        data.append({'product': product, 'is_apply': is_apply})
+
+    return render(request, 'drivertemp/driverapply.html', {'data': data})
+
 
 def apply_certification(request, certification_id):
+    print("something452")
     certification = get_object_or_404(Sell, id=certification_id)
+    print(certification)
     if request.method == 'POST':
-        certification.is_apply = Sell.APPLY  # Set it to 'apply'
-        certification.save()
+  
+        Sellapply.objects.create(
+            user=request.user,
+          
+            sell=certification,
+            is_apply=Sellapply.APPLY,
+        )
     return redirect('driverapply')
 def mdriverapplied(request):
-    applies = Sell.objects.filter(is_apply='apply')
+    profile = Member.objects.get(user=request.user)
+    # Filter sells related to the member
+    sells = Sell.objects.filter(member=profile)
+    # Get all Sellapply instances related to the sells
+    applies = Sellapply.objects.filter(sell__in=sells, is_apply='apply')
+
     drivers = Driver.objects.filter(is_active=True)
-    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies ,'drivers': drivers})
+    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies, 'drivers': drivers})
+
+def confirmation(request, certification_id):
+    certification = get_object_or_404(Confirm, id=certification_id)
+    if request.method == 'POST':
+        certification.is_confirm = Confirm.CONFIRM  # Set it to 'approved'
+        certification.save()
+    return redirect('mdriverapplied')
+# def dispro(request):
+#     approved_products = Sell.objects.filter(is_accept='accept')
+#     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})

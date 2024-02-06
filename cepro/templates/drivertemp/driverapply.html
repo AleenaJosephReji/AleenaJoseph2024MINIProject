@@ -275,20 +275,23 @@
                                 <th style="color:black;"><b>Product Name</b></th>
                                 <th style="color:black;"><b>Quantity</b></th>
                                 <th style="color:black;"><b>Actions</b></th>
+                                <th style="color:black;"><b>Confirmation</b></th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            {% for approved_product in approved_products %}
+                            {% for entry in data %}
                                 <tr>
-                                    <td style="color:black;">{{forloop.counter}}</td>
-                                    <td style="color:black;">{{ approved_product.farmerName }}</td>
-                                    <td style="color:black;">{{ approved_product.address }}</td>
-                                    <td style="color:black;">{{ approved_product.wardNo }}</td>
-                                    <td style="color:black;">{{ approved_product.name }}</td>
-                                    <td style="color:black;">{{ approved_product.quantity }}</td>
+                                    <td style="color:black;">{{ forloop.counter }}</td>
+                                    <td style="color:black;">{{ entry.product.farmerName }}</td>
+                                    <td style="color:black;">{{ entry.product.address }}</td>
+                                    <td style="color:black;">{{ entry.product.wardNo }}</td>
+                                    <td style="color:black;">{{ entry.product.name }}</td>
+                                    <td style="color:black;">{{ entry.product.quantity }}</td>
                                     <td style="color:black;">
-                                        {% if approved_product.is_apply == 'pending' %}
-                                            <form method="post" action="{% url 'apply_certification' approved_product.id %}">
+                                      
+                                        {% if entry.is_apply == 'pending' %}
+                                            <form method="post" action="{% url 'apply_certification' entry.product.id %}">
                                                 {% csrf_token %}
                                                 <button class="btn btn-success approve-btn" type="submit">Apply</button>
                                             </form>
@@ -298,6 +301,7 @@
                                     </td>
                                 </tr>
                             {% endfor %}
+
                         </tbody>
                     </table>
                 </div>
