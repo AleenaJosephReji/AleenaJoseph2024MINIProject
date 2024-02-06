@@ -237,26 +237,24 @@
                 document.getElementById('createdriver').disabled = false;
             }
         }
+        function validateQuantity() {
+            var quantityValue = quantityInput.value;
 
-        function isValidQuantity(value) {
-            return /^\d+$/.test(value) && parseInt(value) > 0;
-        }
-
-        function validateCropName() {
-            var cropNameValue = cropInput.value;
-
-            if (!isValidCropName(cropNameValue)) {
-                document.getElementById('cropNameError').innerText = 'Invalid product name. Alphabets are allowed, but negative numbers and decimals are not.';
+            if (!isValidQuantity(quantityValue)) {
+                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number (positive, up to 3 digits, with decimals).';
                 document.getElementById('createdriver').disabled = true;
             } else {
-                document.getElementById('cropNameError').innerText = '';
+                document.getElementById('quantityError').innerText = '';
                 document.getElementById('createdriver').disabled = false;
             }
         }
 
-        function isValidCropName(value) {
-            return /^[a-zA-Z]+$/.test(value);
+        function isValidQuantity(value) {
+            // Use a regular expression to check if the value is a positive number with up to 3 digits and decimals
+            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) >= 0;
         }
+        
+        
     });
 </script>
 
