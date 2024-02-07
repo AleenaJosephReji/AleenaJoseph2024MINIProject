@@ -1863,6 +1863,10 @@ def adaddproduct(request):
         return redirect('adproduct')  # Redirect to the 'adblog' view after successful creation
 
     return render(request, 'admintemp/adaddproduct.html')
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import CustomUser, Driver
 
 def adadddriver(request):
     if request.method == 'POST':
@@ -1872,9 +1876,9 @@ def adadddriver(request):
         dage = request.POST.get('dage')
         dgender = request.POST.get('dgender', 'Default Gender')
         daddress = request.POST.get('daddress')
-        ddis = request.POST.get('ddis', 'Default District')  # Set a default value for District
-        dtaluk = request.POST.get('dtaluk', 'Default Taluk')   # Set a default value for Taluk
-        dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')  # Set a default value for Panchayat
+        ddis = request.POST.get('ddis', 'Default District')
+        dtaluk = request.POST.get('dtaluk', 'Default Taluk')
+        dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')
         dwardno = request.POST.get('dwardno')
         dpin = request.POST.get('dpin')
         dphone = request.POST.get('dphone')
@@ -1882,22 +1886,26 @@ def adadddriver(request):
         ddate = request.POST.get('ddate')
         dbio = request.POST.get('dbio')
         profile_photo = request.FILES.get('profile_photo')
-        
-        role=CustomUser.DRIVER
+
+        role = CustomUser.DRIVER
         print(role)
 
-        if CustomUser.objects.filter(email=email,role=CustomUser.DRIVER).exists():
-                messages.info(request, 'Email already exists') 
-                return redirect('adadddriver')
+        if CustomUser.objects.filter(email=email, role=CustomUser.DRIVER).exists():
+            messages.info(request, 'Email already exists')
+            return redirect('adadddriver')
         else:
-                user = CustomUser.objects.create_user(email=email, password=password ,name=name)
-                user.role = CustomUser.DRIVER
-                user.save()
-                dri = Driver(user=user,name=name,email=email,dgender=dgender,daddress=daddress,dage=dage,ddis=ddis,dtaluk=dtaluk,dPanchayat=dpanchayat,dwardno=dwardno,dpin=dpin,dphone=dphone,dbio=dbio,dlisence=dlisence,ddate=ddate,profile_photo=profile_photo)
-                dri.save()
-                return redirect('addriver')
+            user = CustomUser.objects.create_user(email=email, password=password, name=name)
+            user.role = CustomUser.DRIVER
+            user.save()
+
+            dri = Driver.objects.create(
+                user=user, name=name, email=email, dgender=dgender, daddress=daddress, dage=dage, ddis=ddis,
+                dtaluk=dtaluk, dPanchayat=dpanchayat, dwardno=dwardno, dpin=dpin, dphone=dphone,
+                dbio=dbio, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
+            )
+
+            return redirect('addriver')
     else:
-         
         return render(request, 'admintemp/adadddriver.html')
 
 def addriver(request):

@@ -352,7 +352,7 @@ class Driver(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=100,null=True, blank=True)
     email = models.EmailField(max_length=100,null=True, blank=True)
-    dage = models.CharField(max_length=100,null=True, blank=True)
+    dage = models.IntegerField(null=True, blank=True)
 
     admin_set_password = models.CharField(max_length=128, blank=True, null=True)
 

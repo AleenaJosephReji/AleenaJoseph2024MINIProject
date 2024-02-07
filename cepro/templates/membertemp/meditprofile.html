@@ -147,7 +147,7 @@
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                <li class="nav-item dropdown d-none d-sm-block">
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
@@ -157,11 +157,11 @@
                             <ul class="notification-list">
                             </ul>
                         </div>
-                        {% comment %} <div class="topnav-dropdown-footer">
+                        <div class="topnav-dropdown-footer">
                             <a href="activities.html">View all Notifications</a>
-                        </div> {% endcomment %}
+                        </div>
                     </div>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                 </li>
@@ -170,7 +170,7 @@
                         {% comment %} <span class="user-img"><img class="rounded-circle" src="{{ member.profile_photo.url }}" width="40" alt="Admin"> {% endcomment %}
 							<span class="status online"></span></span>
                             <span>{{ user.name }}</span>                           
-                             <img class="rounded-circle" src="{% static 'img/img2.jpg' %}"width="35" height="35">
+                             <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}""width="35" height="35">
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
