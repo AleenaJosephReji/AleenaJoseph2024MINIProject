@@ -86,8 +86,8 @@
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                <li class="nav-item dropdown d-none d-sm-block">
-                    {% comment %} <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a> {% endcomment %}
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
@@ -98,14 +98,14 @@
                                 
                             </ul>
                         </div>
-                        {% comment %} <div class="topnav-dropdown-footer">
+                        <div class="topnav-dropdown-footer">
                             <a href="activities.html">View all Notifications</a>
-                        </div> {% endcomment %}
+                        </div>
                     </div>
-                </li>
-                <li class="nav-item dropdown d-none d-sm-block">
+                </li> {% endcomment %}
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
@@ -149,7 +149,7 @@
                         </li> {% endcomment %}
                         
                         <li class="active">
-                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
@@ -347,10 +347,10 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-sm-5 col-5">
-                                <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="croplist"><b><i><u>Crops List</b></i></u></h4>
+                                <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="croplist"><b><i><u>Crops Sampling List</b></i></u></h4>
                             </div>
                             <div class="col-sm-7 col-7 text-right m-b-30">
-                                <a href="{% url 'adaddcrop' %}" class="btn btn-primary btn-rounded" style="background-color: green; color: white;" id="addcro"><i class="fa fa-plus"></i> Add Crop</a>
+                                <a href="{% url 'adaddcrop' %}" class="btn btn-primary btn-rounded" style="background-color: green; color: white;" id="addcro"><i class="fa fa-plus"></i> Add Crop Sampling</a>
                             </div>
                         </div>
                         </div>

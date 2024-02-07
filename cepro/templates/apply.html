@@ -84,7 +84,8 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-success">
-        <h2 style="color:#0d4859; padding-left:20px; font-weight:bold;">CropElevate</h2>
+        <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="" style="margin-top:10px; margin-left:70px;">
+        <h2 style="color:#0d4859; padding-left:20px; font-weight:bold; margin-top:10px;" >CropElevate</h2>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -96,7 +97,7 @@
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
             </ul>
         </div>
-        <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px;" >
+        <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
