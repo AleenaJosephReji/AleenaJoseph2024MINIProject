@@ -2197,3 +2197,7 @@ def search_driver(request):
     
     return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
 
+def adproductcost(request):
+     return render(request,'admintemp/adproductcost.html')
+def adaddproductcost(request):
+     return render(request,'admintemp/adaddproductcost.html')

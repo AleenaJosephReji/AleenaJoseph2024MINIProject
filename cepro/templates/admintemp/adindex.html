@@ -122,13 +122,10 @@
                         </li>
 						<li>
                             <a href="{% url 'admember' %}" id="memind"><i class="fa fa-user"></i> <span>Members</span></a>
-                        </li>
-                       
-                        
+                        </li>    
                         <li>
                             <a href="{% url 'adcrop' %}" id="cid"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
                         </li>
-
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -170,6 +167,9 @@
                         <li>
                             <a href="{% url 'adservice' %}"><i class="fa fa-user"></i> <span>Services</span></a>
                         </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-truck"></i> <span>Product Cost</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>

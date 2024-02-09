@@ -459,3 +459,8 @@ class Confirm(models.Model):
             default=PENDING,
         )
 
+class Sellproducts(models.Model):
+    pname = models.CharField(max_length=100)
+    quantity = models.CharField(max_length=100)
+    price = models.IntegerField(max_length=100,null=True, blank=True)
+    # serviceimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
