@@ -149,8 +149,8 @@
                 <a href="{% url 'homepage' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px; color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
                 <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
-                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-                <a href="{% url 'displaycrop' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Sell</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'sellproduct' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Sell Product</a>
                 {% comment %} <li>
                     <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
                 </li> {% endcomment %}
@@ -181,6 +181,7 @@
             <form method="post" action="">
               {% csrf_token %}
               <h2 style="text-align:center;">Apply </h2>
+              <h2 style="text-align:center;">Sell {{ product_name }}</h2>
               <div class="col-md-6">
                   <label for="farmerName" style="color:black;">Name</label>
                   <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
@@ -196,8 +197,13 @@
                   <input type="text" id="wardno" name="wardno"  value="{{ wardNo }}" required readonly>
                   <small id="nameError" class="form-text text-danger"></small>
               </div>  
-              
-              <label for="cropInput">Product Name:</label>
+              <div class="col-md-6">
+                <label for="farmerName" style="color:black;">Product Name</label>
+                <input type="text" id="pname" name="pname" value="{{ pname }}" required readonly>
+                <small id="nameError" class="form-text text-danger"></small>
+            </div>
+            
+              {% comment %} <label for="cropInput">Product Name:</label>
                 <input list="cropNames" name="name" id="cropInput">
                 <datalist id="cropNames">
                     <option value="Mango">
@@ -208,7 +214,7 @@
                     <option value="Potato">
                     <option value="Pea">
                 </datalist>
-                <small id="cropNameError" class="form-text text-danger"></small>
+                <small id="cropNameError" class="form-text text-danger"></small> {% endcomment %}
 
               <label for="cropInput">Quantity:(in kg)</label>
 

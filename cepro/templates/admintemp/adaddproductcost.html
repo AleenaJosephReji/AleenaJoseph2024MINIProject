@@ -189,17 +189,21 @@
         
                             <div class="form-group">
                                 <label style="color:black;"><b>Product Name</b></label>
-                                <input class="form-control" type="text" name="pname">
+                                <input class="form-control" type="text" name="pname" oninput="validateProductName(this)">
+                                <small id="productNameError" class="form-text text-danger"></small>
                             </div>
+                            
                             <div class="form-group">
-                                <label style="color:black;"><b>Quantity</b></label>
-                                <input class="form-control" type="text" name="quantity">
-                            </div>
-                           
+                                <label style="color: black;"><b>Quantity</b></label>
+                                <input class="form-control" type="text" name="quantity" oninput="validateQuantity(this)">
+                                <small id="quantityError" class="form-text text-danger"></small>
+                            </div>                                                       
                             <div class="form-group">
                                 <label style="color:black;"><b>Price</b></label>
-                                <input type="number" class="form-control" id="price" name="price">
+                                <input type="number" class="form-control" id="price" name="price" step="0.01" oninput="validatePrice(this)">
+                                <small id="priceError" class="form-text text-danger"></small>
                             </div>
+                            
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createcrop">Add Product</button>
                             </div>
@@ -220,14 +224,52 @@
         </div>
     </div>
     <script>
-        const availableRadio = document.getElementById("available");
-        const notAvailableRadio = document.getElementById("notavailable");
-        availableRadio.addEventListener("click", function () {
-            notAvailableRadio.disabled = true;
-        });
-        notAvailableRadio.addEventListener("click", function () {
-            availableRadio.disabled = true;
-        });
+            function validateProductName(inputElement) {
+                var productName = inputElement.value.trim();
+                var errorElement = document.getElementById('productNameError');
+        
+                // Regular expression to check if the product name contains only letters, numbers, and commas
+                var validRegex = /^[a-zA-Z0-9,]+$/;
+        
+                if (!validRegex.test(productName)) {
+                    errorElement.innerText = 'Invalid characters. Product name should only contain letters, numbers, and commas.';
+                    inputElement.classList.add('is-invalid');
+                } else {
+                    errorElement.innerText = '';
+                    inputElement.classList.remove('is-invalid');
+                }
+            }
+            function validateQuantity(inputElement) {
+                var quantity = inputElement.value.trim();
+                var errorElement = document.getElementById('quantityError');
+        
+                // Regular expression to check if the quantity is a positive number less than 11, can be a decimal
+                var validRegex = /^(?!-)[0-9]+(\.[0-9]+)?$/;
+        
+                if (!validRegex.test(quantity) || parseFloat(quantity) >= 11) {
+                    errorElement.innerText = 'Invalid quantity. Should be a positive number less than 11.';
+                    inputElement.classList.add('is-invalid');
+                } else {
+                    errorElement.innerText = '';
+                    inputElement.classList.remove('is-invalid');
+                }
+            }
+
+            function validatePrice(inputElement) {
+                var price = inputElement.value.trim();
+                var errorElement = document.getElementById('priceError');
+        
+                // Regular expression to check if the price is a positive decimal number
+                var validRegex = /^(?!-)[0-9]+(\.[0-9]+)?$/;
+        
+                if (!validRegex.test(price) || parseFloat(price) > 2500) {
+                    errorElement.innerText = 'Invalid price. Should be a positive number, not greater than 2500.';
+                    inputElement.classList.add('is-invalid');
+                } else {
+                    errorElement.innerText = '';
+                    inputElement.classList.remove('is-invalid');
+                }
+            }
     </script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>

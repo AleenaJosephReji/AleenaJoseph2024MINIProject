@@ -1914,7 +1914,7 @@ def addriver(request):
 
 def displaycrop(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
-     
+    product_name = request.GET.get('product_name', '')
     # wardno=ApplyCrop.objects.get(user=request.user)
     if request.method == 'POST':
         farmerName = request.POST.get('farmerName')
@@ -1936,7 +1936,7 @@ def displaycrop(request):
             obj.save()
             
 
-    return render(request, 'displaycrop.html' , {'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name ,'address':farmer_profile.address , 'wardNo':farmer_profile.ward})
+    return render(request, 'displaycrop.html' , {'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name ,'address':farmer_profile.address , 'wardNo':farmer_profile.ward, 'product_name': product_name})
     # approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
     # return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
 def dapplied(request):
@@ -2243,5 +2243,8 @@ def delete_product_cost(request, product_cost_id):
 
 def displayproduct(request):
     product_costs = Productcost.objects.all()
-
     return render(request,'displayproduct.html', {'product_costs':product_costs })
+
+def sellproduct(request):
+    product_costs = Productcost.objects.all()
+    return render(request, 'sellproduct.html', {'product_costs': product_costs})

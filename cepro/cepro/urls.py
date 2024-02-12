@@ -178,6 +178,7 @@ urlpatterns = [
     path('edit_product_cost/<product_cost_id>', views.edit_product_cost, name='edit_product_cost'),
     path('delete_product_cost/<product_cost_id>', views.delete_product_cost, name='delete_product_cost'),
     path('displayproduct', views.displayproduct, name='displayproduct'),
+    path('sellproduct', views.sellproduct, name='sellproduct'),
 
 
 

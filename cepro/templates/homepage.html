@@ -111,7 +111,9 @@
                 <a href="{% url 'crop' %}" class="nav-item nav-link " style="margin-left: 60px;color:white;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link " style="margin-left: 60px; color:white;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link " style="margin-left: 60px; color:white;">My Profile</a>
-                <a href="{% url 'displaycrop' %}"class="nav-item nav-link " style="margin-left: 60px; color:white;">Sell</a>
+                {% comment %} <a href="{% url 'displaycrop' %}"class="nav-item nav-link " style="margin-left: 60px; color:white;">Sell</a> {% endcomment %}
+                <a href="{% url 'sellproduct' %}"class="nav-item nav-link " style="margin-left: 60px; color:white;">Sell Products</a>
+
                 {% comment %} <a href="{% url 'dispro' %}"class="nav-item nav-link active" style="margin-left: 60px;">Sell</a> {% endcomment %}
 
                 {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px;">Application Form</a> {% endcomment %}

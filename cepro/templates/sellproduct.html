@@ -134,6 +134,39 @@
             background-color: #555;
             color: green;
         }
+        .table-container {
+            width: 780px; 
+            margin-top: 20px;
+            margin-bottom: 20px; 
+        }
+        
+        .custom-table {
+            margin-left:400px;
+            width: 780px; 
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+        }
+        
+        .custom-table th, .custom-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .custom-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .custom-table td {
+            color:black;
+            background-color: #f5f5f5;
+        }
+        
+        .table-actions a {
+            margin-right: 10px;
+            color: #007BFF;
+        }
     </style>
 </head>
 <body>
@@ -177,47 +210,32 @@
     </nav>
     <br><br>
 
-    <div class="container">
-        <div class="row">       
-            <div class="col-md-8">
-                <div class="col-md-4">
-                    <div class="doctor-img" style="padding-left:350px;">
-                        <a class="avatar" href="#"><img alt="" src="{{ profile.fprofile_photo.url }}"></a>                        
-                    </div>
-                </div>
-                <h3 style="margin-left:330px; color:black;"><b>{{profile.first_name}}  {{  profile.last_name }}</b></h3>
-                <br>
-               <div class="profiles">
-                <h4 style="color:brown;"><b><u>Basic Informations</u></b></h4>
-                <p><strong>Email : </strong> {{ user.email }}</p>
-                {% comment %} <p><strong>Username:</strong> {{ farmer.username }}</p> {% endcomment %}
-                <p><strong>First Name : </strong> {{  profile.first_name }}</p>
-                <p><strong>Last Name : </strong> {{  profile.last_name }}</p>
-                <p><strong>Gender : </strong> {{  profile.gender }}</p>
-                <p><strong>Annual Income :</strong> {{  profile.annual_income }}</p>
-                <p><strong>Amount Of Land : </strong> {{  profile.land }}</p>
-                </div>
-                <div class="profilecontact">
-                <h4 style="color:brown;"><b><u>Contact Informations</u></b></h4>
-                <p><strong>Address : </strong> {{  profile.address }}</p>
-                <p><strong>House Number  :</strong> {{  profile.house_no }}</p>
-                {% comment %} <p><strong>Panchayath :</strong> {{  Erumely  }}</p> {% endcomment %}
-                <p><strong>Ward  : </strong> {{  profile.ward }}</p>
-                <p><strong>Pin Code  : </strong> {{  profile.pin_code }}</p>
-                <p><strong>Phone Number  : </strong> {{  profile.phone_number }}</p>
-                </div>
-                <a href="{% url 'ceditprofile' %}" class="btn btn-primary submit-btn">Edit Profile</a>
-            </div>
-            
-        </div>
-
-
-
-
-
-    </div>
-    
-    
+    <table class="custom-table">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Apply</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_cost in product_costs %}
+                    <tr>
+                        <td>{{ forloop.counter }}
+                        <td>{{ product_cost.pname }}</td>
+                        <td>{{ product_cost.quantity }}</td>
+                        <td>{{ product_cost.price }}</td>
+                        <td class="table-actions">
+                            <a href="{% url 'displaycrop' %}?product_name={{ product_cost.pname }}" class="btn btn-primary">Apply</a>
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     
     
 
