@@ -2198,6 +2198,50 @@ def search_driver(request):
     return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
 
 def adproductcost(request):
-     return render(request,'admintemp/adproductcost.html')
+    # Retrieve all Productcost objects from the database
+    product_costs = Productcost.objects.all()
+
+    # Pass the product_costs queryset to the template
+    return render(request, 'admintemp/adproductcost.html', {'product_costs': product_costs})
 def adaddproductcost(request):
-     return render(request,'admintemp/adaddproductcost.html')
+    if request.method == 'POST':
+        pname = request.POST.get('pname')
+        quantity = request.POST.get('quantity')  # Change this line
+        price = request.POST.get('price')
+
+        obj = Productcost()
+        obj.pname = pname
+        obj.quantity = quantity
+        obj.price = price
+        obj.save()
+        return redirect('adproductcost') 
+    return render(request, 'admintemp/adaddproductcost.html')
+def edit_product_cost(request, product_cost_id):
+    productcost = get_object_or_404(Productcost, id=product_cost_id)
+    if request.method == 'POST':
+        pname = request.POST.get('pname')
+        quantity = request.POST.get('quantity')
+        price = request.POST.get('price')
+
+        productcost.pname = pname
+        productcost.quantity = quantity
+        productcost.price = price
+       
+        productcost.save()
+        return redirect('adproductcost')
+    return render(request, 'admintemp/edit_product_cost.html', {'productcost': productcost})
+
+def delete_product_cost(request, product_cost_id):
+    productcost = get_object_or_404(Productcost, id=product_cost_id)
+    if request.method == 'POST':
+        productcost.is_active = False
+        productcost.save()
+        request.session['delete pro'] = True
+        return redirect('adproductcost')
+    return render(request, 'admintemp/delete_product_cost.html', {'productcost': productcost})
+
+
+def displayproduct(request):
+    product_costs = Productcost.objects.all()
+
+    return render(request,'displayproduct.html', {'product_costs':product_costs })

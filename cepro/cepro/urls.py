@@ -175,6 +175,10 @@ urlpatterns = [
     path('search_driver', views.search_driver, name='search_driver'),
     path('adproductcost', views.adproductcost, name='adproductcost'),
     path('adaddproductcost', views.adaddproductcost, name='adaddproductcost'),
+    path('edit_product_cost/<product_cost_id>', views.edit_product_cost, name='edit_product_cost'),
+    path('delete_product_cost/<product_cost_id>', views.delete_product_cost, name='delete_product_cost'),
+    path('displayproduct', views.displayproduct, name='displayproduct'),
+
 
 
 

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Meeting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .col-lg-8 {
+            margin: 0 auto;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: red;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Details</h1>
+   <!-- admintemp/edit_product_cost.html -->
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="pname">Product Name:</label>
+        <input type="text" class="form-control" name="pname" value="{{ productcost.pname }}" required>
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input type="text" class="form-control" name="quantity" value="{{ productcost.quantity }}" required>
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" class="form-control" name="price" value="{{ productcost.price }}" required>
+    </div>
+    <div class="m-t-20 text-center">
+        <button class="btn btn-primary submit-btn">Save Changes</button>
+    </div>
+</form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var $meetingDateField = $("input[name='meeting_date']");
+            var $meetingTimeField = $("input[name='meeting_time']");
+            var $dateError = $("#date_error");
+            var $timeError = $("#time_error");
+            $meetingDateField.on('input', function() {
+                validateDate();
+            });
+
+            $meetingTimeField.on('input', function() {
+                validateTime();
+            });
+           
+            function validateTime() {
+                var selectedTime = $meetingTimeField.val();
+                var timeParts = selectedTime.split(":");
+                var hours = parseInt(timeParts[0]);
+                var minutes = parseInt(timeParts[1]);
+
+                if (hours < 10 || (hours === 10 && minutes < 0) || hours > 16 || (hours === 16 && minutes > 0)) {
+                    $timeError.text("Meeting time must be between 10:00 AM and 4:00 PM.");
+                } else {
+                    $timeError.text(""); // Clear error message
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -47,6 +47,40 @@
             max-height: 40%; 
             max-width: 40%; /* Make the image fill the container */
         }
+        .table-container {
+            width: 780px; 
+            margin-top: 20px;
+            margin-bottom: 20px; 
+        }
+        
+        .custom-table {
+            margin-left:200px;
+            width: 780px; 
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+        }
+        
+        .custom-table th, .custom-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .custom-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .custom-table td {
+            color:black;
+            background-color: #f5f5f5;
+        }
+        
+        .table-actions a {
+            margin-right: 10px;
+            color: #007BFF;
+        }
+        
     </style>   
 </head>
 <body>
@@ -65,9 +99,9 @@
                 <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
                 <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
-                <a href="{% url 'product' %}" class="nav-item nav-link active">Product</a>
+                <a href="{% url 'product' %}" class="nav-item nav-link ">Product</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                <a href="{% url 'displayproduct' %}" class="nav-item nav-link">Sell Product</a>
+                <a href="{% url 'displayproduct' %}" class="nav-item nav-link active">Sell Product</a>
 
                 {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'loggout' %}">Logout</a>
@@ -77,105 +111,42 @@
             </div>
         </div>
     </nav>
-  
-    <div class="container-fluid bg-primary py-5 bg-hero mb-5">
-        <div class="container py-5">
-            <div class="row justify-content-start">
-                <div class="col-lg-8 text-center text-lg-start">
-                    <h1 class="display-1 text-white mb-md-4">Our Products</h1>
-                    <a href="{% url 'index' %}" class="btn btn-primary py-md-3 px-md-5 me-3">Home</a>
-                    <a href="{% url 'product' %}" class="btn btn-secondary py-md-3 px-md-5">Products</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
                 <h6 class="text-primary text-uppercase">Products</h6>
-                <h1 class="display-5">Our Crops</h1>
+                <h1 class="display-5">Product Details</h1>
             </div>
+            <table class="custom-table">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Apply</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product_cost in product_costs %}
+                            <tr>
+                                <td>{{ forloop.counter }}
+                                <td>{{ product_cost.pname }}</td>
+                                <td>{{ product_cost.quantity }}</td>
+                                <td>{{ product_cost.price }}</td>
+                                <td class="table-actions">
+                                    <a href="{% url 'loginn' %}" class="btn btn-primary">Apply</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             <div class="owl-carousel product-carousel px-5">
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/banana.jpeg' %}" alt="">
-                        <h6 class="mb-3">Banana Plant</h6>  
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/rice.jpg' %}" alt="">
-                        <h6 class="mb-3">Rice Crop</h6>
-                        <h5 class="text-primary mb-0">  </h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/coconut.jpg' %}" alt="">
-                        <h6 class="mb-3">Organic Vegetable</h6>
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/potato.jpg' %}" alt="">
-                        <h6 class="mb-3">Potato</h6>
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="pb-5">
-                    <div class="product-item position-relative bg-white d-flex flex-column text-center">
-                        <img class="img-fluid mb-4" src="{% static 'img/peper.jpg' %}" alt="">
-                        <h6 class="mb-3">Pepper</h6>
-                        <h5 class="text-primary mb-0"></h5>
-                        <div class="btn-action d-flex justify-content-center">
-                            <a class="btn bg-primary py-2 px-3" href=""><i class="bi bi-cart text-white"></i></a>
-                            <a class="btn bg-secondary py-2 px-3" href=""><i class="bi bi-eye text-white"></i></a>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
-            {% comment %} <div class="row">
-                            {% for blog in blogs %}
-                            <div class="col-md-3">
-                                <div class="card custom-card">
-                                    <div class="doctor-img">
-                                        {% if blog.blogimage %}
-                                            <a class="avatar" href="#"><img alt="" src="{{ blog.blogimage.url }}"></a>
-                                        {% endif %}
-                                        <div class="doctor-img">
-                                            {% if blog.blogname %}
-                                                <h5 class="card-title">{{ blog.blogname }}</h5>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        </div>
-                   
-     {% endcomment %}
-    <!-- Products End -->
-    <!-- Footer Start -->
     <div class="container-fluid bg-footer bg-primary text-white mt-5">
         <div class="container">
             <div class="row gx-5">

@@ -87,6 +87,8 @@
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <a href="{% url 'product' %}" class="nav-item nav-link">Product</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                <a href="{% url 'displayproduct' %}" class="nav-item nav-link">Sell Product</a>
+
                 {% comment %} <a href="{% url 'crop' %}" class="nav-item nav-link">Crop</a> {% endcomment %}
                     {% if user.is_authenticated %}
                     <a class="nav-link" href="{% url 'loggout' %}">Logout</a>
