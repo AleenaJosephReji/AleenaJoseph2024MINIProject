@@ -86,10 +86,10 @@
         <label for="pname">Product Name:</label>
         <input type="text" class="form-control" name="pname" value="{{ productcost.pname }}" required>
     </div>
-    <div class="form-group">
+    {% comment %} <div class="form-group">
         <label for="quantity">Quantity:</label>
         <input type="text" class="form-control" name="quantity" value="{{ productcost.quantity }}" required>
-    </div>
+    </div> {% endcomment %}
     <div class="form-group">
         <label for="price">Price:</label>
         <input type="number" class="form-control" name="price" value="{{ productcost.price }}" required>

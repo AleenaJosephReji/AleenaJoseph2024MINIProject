@@ -125,7 +125,7 @@
                             <th>Product Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
-                            <th>Apply</th>
+                            {% comment %} <th>Apply</th> {% endcomment %}
                         </tr>
                     </thead>
                     <tbody>
@@ -135,9 +135,9 @@
                                 <td>{{ product_cost.pname }}</td>
                                 <td>{{ product_cost.quantity }}</td>
                                 <td>{{ product_cost.price }}</td>
-                                <td class="table-actions">
+                                {% comment %} <td class="table-actions">
                                     <a href="{% url 'loginn' %}" class="btn btn-primary">Apply</a>
-                                </td>
+                                </td> {% endcomment %}
                             </tr>
                         {% endfor %}
                     </tbody>

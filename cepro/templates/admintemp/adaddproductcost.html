@@ -191,11 +191,11 @@
                                 <input class="form-control" type="text" name="pname" oninput="validateProductName(this)">
                                 <small id="productNameError" class="form-text text-danger"></small>
                             </div>                            
-                            <div class="form-group">
+                            {% comment %} <div class="form-group">
                                 <label style="color: black;"><b>Quantity</b></label>
                                 <input class="form-control" type="text" name="quantity" oninput="validateQuantity(this)">
                                 <small id="quantityError" class="form-text text-danger"></small>
-                            </div>                                                       
+                            </div>                                                        {% endcomment %}
                             <div class="form-group">
                                 <label style="color:black;"><b>Price</b></label>
                                 <input type="number" class="form-control" id="price" name="price" step="0.01" oninput="validatePrice(this)">

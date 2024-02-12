@@ -2198,10 +2198,7 @@ def search_driver(request):
     return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
 
 def adproductcost(request):
-    # Retrieve all Productcost objects from the database
     product_costs = Productcost.objects.all()
-
-    # Pass the product_costs queryset to the template
     return render(request, 'admintemp/adproductcost.html', {'product_costs': product_costs})
 def adaddproductcost(request):
     if request.method == 'POST':

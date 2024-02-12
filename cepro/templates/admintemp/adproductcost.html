@@ -269,7 +269,7 @@
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>Product Name</th>
-                                                                <th>Quantity</th>
+                                                                {% comment %} <th>Quantity</th> {% endcomment %}
                                                                 <th>Price</th>
                                                                 <th>Actions</th>
                                                             </tr>
@@ -279,7 +279,7 @@
                                                                 <tr>
                                                                     <td>{{ forloop.counter }}
                                                                     <td>{{ product_cost.pname }}</td>
-                                                                    <td>{{ product_cost.quantity }}</td>
+                                                                    {% comment %} <td>{{ product_cost.quantity }}</td> {% endcomment %}
                                                                     <td>{{ product_cost.price }}</td>
                                                                     <td class="table-actions">
                                                                         <a href="{% url 'edit_product_cost' product_cost.id %}">Edit</a>
