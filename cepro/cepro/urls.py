@@ -22,6 +22,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from ceapp.views import ResetPasswordView, ChangePasswordView
 from django.contrib.auth import views as auth_views
+from django.contrib import admin
+from django.urls import path,include
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("allauth.urls")),
@@ -179,6 +185,7 @@ urlpatterns = [
     path('delete_product_cost/<product_cost_id>', views.delete_product_cost, name='delete_product_cost'),
     path('displayproduct', views.displayproduct, name='displayproduct'),
     path('sellproduct', views.sellproduct, name='sellproduct'),
+    path('accounts/', include('allauth.urls')),
 
 
 
