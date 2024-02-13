@@ -1912,33 +1912,8 @@ def addriver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
 
-def displaycrop(request):
-    farmer_profile = FarmerProfile.objects.get(user=request.user)
-    product_name = request.GET.get('product_name', '')
-    # wardno=ApplyCrop.objects.get(user=request.user)
-    if request.method == 'POST':
-        farmerName = request.POST.get('farmerName')
-        address = request.POST.get('address')
-        wardNo  = request.POST.get('wardno')
-        names = request.POST.getlist('name')  # Use getlist to retrieve multiple values
-        quantities = request.POST.getlist('quantity')
-        member =  Member.objects.get(wardno=wardNo)
 
-        for name, quantity in zip(names, quantities):
-            obj = Sell()
-            obj.farmerName = farmerName
-            obj.address = address
-            obj.wardNo = wardNo
-            obj.name = name
-            obj.quantity = quantity
-            obj.member = member
-            obj.user_id = request.user.id
-            obj.save()
-            
-
-    return render(request, 'displaycrop.html' , {'farmer_name': farmer_profile.first_name,'farmer_lname': farmer_profile.last_name ,'address':farmer_profile.address , 'wardNo':farmer_profile.ward, 'product_name': product_name})
-    # approved_crops = ApplyCrop.objects.filter(user=user, is_approvedd=ApplyCrop.APPROVED, is_given=ApplyCrop.GIVEN)
-    # return render(request, 'displaycrop.html', {'approved_crops': approved_crops})
+    
 def dapplied(request):
     products = Sell.objects.all()  # Retrieve all products from the Sell model
     return render(request, 'drivertemp/dapplied.html', {'products': products})
@@ -2000,7 +1975,6 @@ def dindex(request):
     return render(request,'drivertemp/dindex.html')
 def dleave(request):
     return render(request,'drivertemp/dleave.html')
-
 def deditprofile(request):
     
     # user = request.user
@@ -2063,11 +2037,7 @@ def dcalender(request):
 
 #       # Retrieve all products from the Sell model
 #     return render(request, 'membertemp/msell.html', {'products': products})
-def msell(request):
-    profile = Member.objects.get(user=request.user)
-    # Exclude products with is_accept equal to 'accept'
-    products = Sell.objects.filter(member=profile).exclude(is_accept='accept')
-    return render(request, 'membertemp/msell.html', {'products': products})
+
 def accept_certification(request, certification_id):
     certification = get_object_or_404(Sell, id=certification_id)
     if request.method == 'POST':
@@ -2086,10 +2056,6 @@ def remove_scertification(request, certification_id):
         certification.is_accept = Sell.REMOVE  # Set it to 'rejected'
         certification.save()
     return redirect('msellapprove')
-def msellapprove(request):
-    approved_products = Sell.objects.filter(is_accept='accept')
-    return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
-
 
 def edit_driver(request, driver_id):
     driver = get_object_or_404(Driver, id=driver_id)
@@ -2197,6 +2163,8 @@ def search_driver(request):
     
     return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
 
+
+#ProductCost
 def adproductcost(request):
     product_costs = Productcost.objects.all()
     return render(request, 'admintemp/adproductcost.html', {'product_costs': product_costs})
@@ -2238,10 +2206,68 @@ def delete_product_cost(request, product_cost_id):
     return render(request, 'admintemp/delete_product_cost.html', {'productcost': productcost})
 
 
-def displayproduct(request):
+def pricelist1(request):
     product_costs = Productcost.objects.all()
-    return render(request,'displayproduct.html', {'product_costs':product_costs })
+    return render(request,'pricelist1.html', {'product_costs':product_costs })
 
-def sellproduct(request):
+def pricelist2(request):
     product_costs = Productcost.objects.all()
-    return render(request, 'sellproduct.html', {'product_costs': product_costs})
+    return render(request, 'pricelist2.html', {'product_costs': product_costs})
+def sellcrop(request):
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+    product_name = request.GET.get('product_name', '')
+
+    if request.method == 'POST':
+        farmerName = request.POST.get('farmerName')
+        address = request.POST.get('address')
+        wardNo = request.POST.get('wardno')
+        name = request.POST.get('pname')  # Assuming you want to store the product name
+        quantity = request.POST.get('quantity')
+        member = Member.objects.get(wardno=wardNo)
+
+        sell_instance = Sell(
+            farmerName=farmerName,
+            address=address,
+            wardNo=wardNo,
+            name=name,
+            quantity=quantity,
+            member=member,
+            user=request.user,
+        )
+        sell_instance.save()
+    return render(request, 'sellcrop.html', {'farmer_name': farmer_profile.first_name, 'farmer_lname': farmer_profile.last_name,
+                                                 'address': farmer_profile.address, 'wardNo': farmer_profile.ward, 'product_name': product_name})
+def sellcrop2(request):
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+    product_name = request.GET.get('product_name', '')
+
+    if request.method == 'POST':
+        farmerName = request.POST.get('farmerName')
+        address = request.POST.get('address')
+        wardNo = request.POST.get('wardno')
+        name = request.POST.get('pname')  # Assuming you want to store the product name
+        quantity = request.POST.get('quantity')
+        member = Member.objects.get(wardno=wardNo)
+
+        sell_instance = Sell(
+            farmerName=farmerName,
+            address=address,
+            wardNo=wardNo,
+            name=name,
+            quantity=quantity,
+            member=member,
+            user=request.user,
+        )
+        sell_instance.save()
+    return render(request, 'sellcrop2.html', {'farmer_name': farmer_profile.first_name, 'farmer_lname': farmer_profile.last_name,
+                                               'address': farmer_profile.address, 'wardNo': farmer_profile.ward, 'product_name': product_name})
+
+def msell(request):
+    profile = Member.objects.get(user=request.user)
+    products = Sell.objects.filter(member=profile).exclude(is_accept='accept')
+    return render(request, 'membertemp/msell.html', {'products': products})
+
+def msellapprove(request):
+    approved_products = Sell.objects.filter(is_accept='accept')
+    return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
+

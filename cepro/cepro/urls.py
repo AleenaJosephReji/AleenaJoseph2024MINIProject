@@ -153,7 +153,7 @@ urlpatterns = [
     path('edit_attendance/<int:meeting_id>/', views.edit_attendance, name='edit_attendance'),
     path('addriver', views.addriver, name='addriver'),
     path('adproduct', views.adproduct, name='adproduct'),
-    path('displaycrop', views.displaycrop, name='displaycrop'),
+    path('sellcrop', views.sellcrop, name='sellcrop'),
 
     path('adadddriver', views.adadddriver, name='adadddriver'),
     path('edit_product/<product_id>', views.edit_product, name='edit_product'),
@@ -183,9 +183,10 @@ urlpatterns = [
     path('adaddproductcost', views.adaddproductcost, name='adaddproductcost'),
     path('edit_product_cost/<product_cost_id>', views.edit_product_cost, name='edit_product_cost'),
     path('delete_product_cost/<product_cost_id>', views.delete_product_cost, name='delete_product_cost'),
-    path('displayproduct', views.displayproduct, name='displayproduct'),
-    path('sellproduct', views.sellproduct, name='sellproduct'),
+    path('pricelist1', views.pricelist1, name='pricelist1'),
+    path('pricelist2', views.pricelist2, name='pricelist2'),
     path('accounts/', include('allauth.urls')),
+    path('sellcrop2', views.sellcrop2, name='sellcrop2'),
 
 
 

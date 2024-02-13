@@ -163,10 +163,10 @@
             background-color: #f5f5f5;
         }
         
-        .table-actions a {
+        {% comment %} .table-actions a {
             margin-right: 10px;
             color: #007BFF;
-        }
+        } {% endcomment %}
     </style>
 </head>
 <body>
@@ -183,7 +183,7 @@
                 <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-                <a href="{% url 'sellproduct' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Sell Product</a>
+                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
                 {% comment %} <li>
                     <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
                 </li> {% endcomment %}
@@ -229,14 +229,16 @@
                         <td>{{ product_cost.quantity }}</td>
                         <td>{{ product_cost.price }}</td>
                         <td class="table-actions">
-                            <a href="{% url 'displaycrop' %}?product_name={{ product_cost.pname }}" class="btn btn-primary">Apply</a>
+                            <a href="{% url 'sellcrop' %}?product_name={{ product_cost.pname }}" class="btn btn-primary">Sell</a>
                         </td>
                         
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-    
+        <div style="text-align: right; margin-top: 20px; margin-right:200px;margin-top:50px;">
+           <label style="font-size: 24px; color:red;">To sell other crop please click here </label> <a href="{% url 'sellcrop2' %}" class="btn btn-primary">Sell</a>
+        </div>
     
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

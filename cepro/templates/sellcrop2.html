@@ -9,8 +9,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            
+            {% comment %} background-color: #f2f2f2; {% endcomment %}
             margin: 0;
-           
             padding-top: 70px;
             {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
             background-size: cover;
@@ -23,22 +24,20 @@
             padding: 10px 0;
         }
         .container {
-            background-color: #b4f76d;
+            max-width: 800px;
             border: 1px solid black;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-            width: 1000px; /* Adjust the width as needed */
-            padding: 40px; /* Adjust the padding as needed */
-            margin-top: 30px;
         }
-        
-        
+
         h1 {
             text-align: center;
-            font-size: 28px;
-            color: #263A4F;
-            margin-bottom: 20px;
+            color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -88,40 +87,41 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .doctor-img {
-            text-align: center;
-        }
         
-        .avatar img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .profiles, .profilecontact {
-            background-color: #fff;
-            border: 1px solid brown;
+        .main {
+            width: 90%;
+            margin: 10px auto;
+            padding: 20px;
+            border: 1px solid black;
             border-radius: 5px;
-            padding: 50px;
-            padding-left:80px;
-            width:700px;
-            margin-left:130px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            transition: background-color 0.3s ease; 
+        }
+        .main:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
+        form {
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input,
+        select {
+            width: 100%;
+            padding: 15px; 
+            font-size: 16px; 
             margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-        
+            box-sizing: border-box;
         }
-        .profiles h4, .profilecontact h4 {
-            color: #263A4F;
-            font-size: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .profiles p, .profilecontact p {
-            font-size: 18px;
-            color: #333;
-            margin: 8px 0;
+
+        button {
+            background-color: green;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
         }
         .nav-hover:hover {
             background-color: green; /* Change to a light green color on hover */
@@ -163,11 +163,9 @@
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
             </button>
-            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
-                
+            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">                
                 {% if user.is_authenticated %}
                 <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
-
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
@@ -178,48 +176,104 @@
     <br><br>
 
     <div class="container">
-        <div class="row">       
-            <div class="col-md-8">
-                <div class="col-md-4">
-                    <div class="doctor-img" style="padding-left:350px;">
-                        <a class="avatar" href="#"><img alt="" src="{{ profile.fprofile_photo.url }}"></a>                        
-                    </div>
-                </div>
-                <h3 style="margin-left:330px; color:black;"><b>{{profile.first_name}}  {{  profile.last_name }}</b></h3>
-                <br>
-               <div class="profiles">
-                <h4 style="color:brown;"><b><u>Basic Informations</u></b></h4>
-                <p><strong>Email : </strong> {{ user.email }}</p>
-                {% comment %} <p><strong>Username:</strong> {{ farmer.username }}</p> {% endcomment %}
-                <p><strong>First Name : </strong> {{  profile.first_name }}</p>
-                <p><strong>Last Name : </strong> {{  profile.last_name }}</p>
-                <p><strong>Gender : </strong> {{  profile.gender }}</p>
-                <p><strong>Annual Income :</strong> {{  profile.annual_income }}</p>
-                <p><strong>Amount Of Land : </strong> {{  profile.land }}</p>
-                </div>
-                <div class="profilecontact">
-                <h4 style="color:brown;"><b><u>Contact Informations</u></b></h4>
-                <p><strong>Address : </strong> {{  profile.address }}</p>
-                <p><strong>House Number  :</strong> {{  profile.house_no }}</p>
-                {% comment %} <p><strong>Panchayath :</strong> {{  Erumely  }}</p> {% endcomment %}
-                <p><strong>Ward  : </strong> {{  profile.ward }}</p>
-                <p><strong>Pin Code  : </strong> {{  profile.pin_code }}</p>
-                <p><strong>Phone Number  : </strong> {{  profile.phone_number }}</p>
-                </div>
-                <a href="{% url 'ceditprofile' %}" class="btn btn-primary submit-btn">Edit Profile</a>
+        {% comment %} <h1 style="color:#3c733c;">Crop Details</h1> {% endcomment %}
+        <div class="main">  
+            <form method="post" action="">
+              {% csrf_token %}
+              <h2 style="text-align:center;">Apply </h2>
+              <h2 style="text-align:center;">Sell {{ product_name }}</h2>
+              <div class="col-md-6">
+                  <label for="farmerName" style="color:black;">Name</label>
+                  <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
+                  <small id="nameError" class="form-text text-danger"></small>
+              </div>   
+              <div class="col-md-6">
+                  <label for="farmerName" style="color:black;">Address</label>
+                  <input type="text" id="address" name="address" value="{{ address }}" required readonly>
+                  <small id="nameError" class="form-text text-danger"></small>
+              </div>  
+              <div class="col-md-6">
+                  <label for="farmerName" style="color:black;">WardNo</label>
+                  <input type="text" id="wardno" name="wardno"  value="{{ wardNo }}" required readonly>
+                  <small id="nameError" class="form-text text-danger"></small>
+              </div>  
+              <div class="col-md-6">
+                <label for="farmerName" style="color:black;">Product Name</label>
+                <input type="text" id="pname" name="pname" required>
+                <small id="nameError" class="form-text text-danger"></small>
             </div>
             
-        </div>
+              {% comment %} <label for="cropInput">Product Name:</label>
+                <input list="cropNames" name="name" id="cropInput">
+                <datalist id="cropNames">
+                    <option value="Mango">
+                    <option value="Rice">
+                    <option value="Pepper">
+                    <option value="Coconut">
+                    <option value="Tomato">
+                    <option value="Potato">
+                    <option value="Pea">
+                </datalist>
+                <small id="cropNameError" class="form-text text-danger"></small> {% endcomment %}
 
+              <label for="cropInput">Quantity:(in gm or kg)</label>
 
+              <input type="text" name="quantity" id="quantityInput">
+                <small id="quantityError" class="form-text text-danger"></small>
 
-
-
+              <div class="m-t-20 text-center">
+                  <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
+              </div>
+              
+            </form>
+          </div>
     </div>
-    
-    
-    
-    
+    <!-- Add the following script inside the head tag or at the end of the body tag -->
+<!-- Add the following script inside the head tag or at the end of the body tag -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the quantity input element
+        var quantityInput = document.getElementById('quantityInput');
+        var cropInput = document.getElementById('cropInput');
+
+        // Add an input event listener to the quantity input field
+        quantityInput.addEventListener('input', validateQuantity);
+
+        // Add an input event listener to the crop input field
+        cropInput.addEventListener('input', validateCropName);
+
+        function validateQuantity() {
+            var quantityValue = quantityInput.value;
+
+            if (!isValidQuantity(quantityValue)) {
+                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number.';
+                document.getElementById('createdriver').disabled = true;
+            } else {
+                document.getElementById('quantityError').innerText = '';
+                document.getElementById('createdriver').disabled = false;
+            }
+        }
+        function validateQuantity() {
+            var quantityValue = quantityInput.value;
+
+            if (!isValidQuantity(quantityValue)) {
+                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number (positive, up to 3 digits, with decimals).';
+                document.getElementById('createdriver').disabled = true;
+            } else {
+                document.getElementById('quantityError').innerText = '';
+                document.getElementById('createdriver').disabled = false;
+            }
+        }
+
+        function isValidQuantity(value) {
+            // Use a regular expression to check if the value is a positive number with up to 3 digits and decimals
+            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) >= 0;
+        }
+        
+        
+    });
+</script>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

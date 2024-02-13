@@ -80,7 +80,13 @@
             margin-right: 10px;
             color: #007BFF;
         }
-        
+        .apply-button {
+            {% comment %} position: absolute; {% endcomment %}
+            margin-top:-540px;
+            margin-left:1220px;
+            top: 20px;
+            left: 20px;
+        }
     </style>   
 </head>
 <body>
@@ -101,7 +107,7 @@
                 <a href="{% url 'service' %}" class="nav-item nav-link">Service</a>
                 <a href="{% url 'product' %}" class="nav-item nav-link ">Product</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                <a href="{% url 'displayproduct' %}" class="nav-item nav-link active">Sell Product</a>
+                <a href="{% url 'pricelist1' %}" class="nav-item nav-link active">Price List</a>
 
                 {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'loggout' %}">Logout</a>
@@ -114,8 +120,8 @@
     <div class="container-fluid py-5">
         <div class="container">
             <div class="mx-auto text-center mb-5" style="max-width: 500px;">
-                <h6 class="text-primary text-uppercase">Products</h6>
-                <h1 class="display-5">Product Details</h1>
+                <h6 class="text-primary text-uppercase"></h6>
+                <h1 class="display-5">Price Details</h1>
             </div>
             <table class="custom-table">
                 <table class="custom-table">
@@ -123,7 +129,7 @@
                         <tr>
                             <th>No</th>
                             <th>Product Name</th>
-                            <th>Quantity</th>
+                            {% comment %} <th>Quantity</th> {% endcomment %}
                             <th>Price</th>
                             {% comment %} <th>Apply</th> {% endcomment %}
                         </tr>
@@ -133,7 +139,7 @@
                             <tr>
                                 <td>{{ forloop.counter }}
                                 <td>{{ product_cost.pname }}</td>
-                                <td>{{ product_cost.quantity }}</td>
+                                {% comment %} <td>{{ product_cost.quantity }}</td> {% endcomment %}
                                 <td>{{ product_cost.price }}</td>
                                 {% comment %} <td class="table-actions">
                                     <a href="{% url 'loginn' %}" class="btn btn-primary">Apply</a>
@@ -142,7 +148,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            <div class="owl-carousel product-carousel px-5">
+                <a href="{% url 'loginn' %}" class="btn btn-primary apply-button">Apply</a>
+                <div class="owl-carousel product-carousel px-5">
                 
             </div>
         </div>
