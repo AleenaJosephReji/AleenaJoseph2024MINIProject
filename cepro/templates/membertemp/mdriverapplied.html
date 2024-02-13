@@ -133,14 +133,12 @@
             cursor: pointer;
             margin-top: 20px;
             }
-        
     </style>
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
-
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -196,18 +194,11 @@
                         <li >
                             <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-						{% comment %} <li>
-                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                       
                        <li>
                             <a href="{% url 'mfregistered' %}"><i class="fas fa-user fa-2x"></i><span>Registered Farmers</span></a>
                         </li> 
                         
-                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                        <li class="submenu green-background">
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li>
@@ -219,18 +210,11 @@
                                 <li class="active">
                                     <a href="{% url 'mdriverapplied' %}"><i class="fa fa-calendar-check-o"></i> <span>Applied Drivers</span></a>
                                 </li>
-                                {% comment %} <li>
-                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
-                                    </i> <span>Waiting List</span></a>
-                                </li>  {% endcomment %}
                             </ul>
                         </li>
                         <li>
                             <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
-                        {% comment %} <li>
-                            <a href="{% url 'mappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li> {% endcomment %}
                         <li>
                             <a href="{% url 'mapprove' %}"><i class="fas fa-check-circle"></i>  <span>Approved List</span></a>
                         </li>
@@ -243,8 +227,7 @@
                         </li> 
                         <li>
                             <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
-                        </li>   
-                       
+                        </li>                          
                     </ul>
                 </div>
             </div>
@@ -265,10 +248,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- approved_applications.html -->
                 <div class="container">
                     <h1><b>Applied Drivers</b></h1>
-                    
                     <table>
                         <thead>
                             <tr>
@@ -282,9 +263,6 @@
                                 <th style="color:black;"><b>Product Name</b></th>
                                 <th style="color:black;"><b>Quantity</b></th>
                                 <th style="color:black;"><b>Confirmation</b></th>
-
-
-                                <!-- Add more columns or actions as needed -->
                             </tr>
                         </thead>
                         <tbody>
@@ -309,15 +287,11 @@
                                             <p>Confirmed</p>
                                         {% endif %}
                                     </td>
-                                    
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                </div>
-                
-                
-                
+                </div>             
                         </div>
                     </div>
                 </div>

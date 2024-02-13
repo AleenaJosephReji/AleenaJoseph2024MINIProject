@@ -287,11 +287,12 @@
                         <thead>
                             <tr>
                                 <th style="color:black;"><b>No</b></th>
-                                <th style="color:black;"><b>Farmer Name</th>
-                                <th style="color:black;"><b>Address</th>
-                                <th style="color:black;"><b>Ward No</th>
-                                <th style="color:black;"><b>Product Name</th>
-                                <th style="color:black;"><b>Quantity</th>
+                                <th style="color:black;"><b>Farmer Name</b></th>
+                                <th style="color:black;"><b>Address</b></th>
+                                <th style="color:black;"><b>Ward No</b></th>
+                                <th style="color:black;"><b>Product Name</b></th>
+                                <th style="color:black;"><b>Quantity</b></th>
+                                <th style="color:black;"><b>Sell Date</b></th>
                                 {% comment %} <th>date</th> {% endcomment %}
                                 <th style="color:black;"><b>Accept</th>
                             </tr>
@@ -305,6 +306,7 @@
                                     <td style="color:black;">{{ product.wardNo }}</td>
                                     <td style="color:black;">{{ product.name }}</td>
                                     <td style="color:black;">{{ product.quantity }}</td>
+                                    <td style="color:black;">{{product.sell_date}}</td>
                                     {% comment %} <td style="color:black;">{{ product.crop_giventime|date:"F d, Y" }}</td> {% endcomment %}
 
                                     <td style="color:black;">

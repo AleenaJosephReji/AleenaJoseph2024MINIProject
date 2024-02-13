@@ -215,12 +215,17 @@
                     <option value="Pea">
                 </datalist>
                 <small id="cropNameError" class="form-text text-danger"></small> {% endcomment %}
-
-              <label for="cropInput">Quantity:(in kg)</label>
-
-              <input type="text" name="quantity" id="quantityInput">
-                <small id="quantityError" class="form-text text-danger"></small>
-
+                <div class="col-md-6">
+                    <label for="quantity" style="color:black;">Quantity</label>
+                    <input type="text" name="quantity" id="quantityInput">
+                    <small id="quantityError" class="form-text text-danger"></small>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Sell Date :</label>
+                            <input type="date" class="form-control datetimepicker" name="sell_date">
+                    </div>
+                </div>
               <div class="m-t-20 text-center">
                   <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
               </div>

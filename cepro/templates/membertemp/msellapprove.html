@@ -278,6 +278,7 @@
                                 <th style="color:black;"><b>Ward No</b></th>
                                 <th style="color:black;"><b>Product Name</b></th>
                                 <th style="color:black;"><b>Quantity</b></th>
+                                <th style="color:black;"><b>Sell Date</b></th>
                                 <th style="color:black;"><b>Actions</b></th>
                             </tr>
                         </thead>
@@ -290,6 +291,8 @@
                                     <td style="color:black;">{{ approved_product.wardNo }}</td>
                                     <td style="color:black;">{{ approved_product.name }}</td>
                                     <td style="color:black;">{{ approved_product.quantity }}</td>
+                                    <td style="color:black;">{{ approved_product.sell_date }}</td>
+
                                     <td style="color:black;">
                                         <form method="post" action="{% url 'remove_scertification' approved_product.id %}">
                                             {% csrf_token %}

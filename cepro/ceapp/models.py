@@ -392,16 +392,12 @@ class Sell(models.Model):
     REMOVE = 'remove'
     PENDING = 'pending'
 
-
-    
     APPROVAL_CHOICES = [
     (ACCEPT, 'Accept'),
     (REMOVE, 'Remove'),
     (PENDING, 'Pending'),
     
     ]
-
-   
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, blank=True, null=True)
     applied_drivers = models.ManyToManyField(Driver, related_name='applied_products', blank=True)
@@ -412,6 +408,7 @@ class Sell(models.Model):
     # farmer = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE, null=True,blank=True)
     name = models.CharField(max_length=100)
     quantity = models.CharField(max_length=100)
+    sell_date = models.DateField(null=True, blank=True)
     applied = models.DateTimeField(null=True,blank=True)
     giventime = models.DateTimeField(null=True,blank=True)
 
@@ -441,6 +438,7 @@ class Sellapply(models.Model):
             default=PENDING,
         )
     is_confirmed = models.BooleanField(default=False)
+    
 class Confirm(models.Model):
     CONFIRM = 'confirm'
     PENDING = 'pending'

@@ -2102,53 +2102,7 @@ def edit_driver(request, driver_id):
 
     return render(request, 'admintemp/edit_driver.html', {'driver': driver})
 
-def driverapply(request):
-    approved_products = Sell.objects.all()
-    
-    data = []  # List to store dictionaries containing product and is_apply status
 
-    for product in approved_products:
-        is_apply = 'pending'
-        if Sellapply.objects.filter(sell=product, user=request.user).exists():
-            is_apply = 'apply'
-        data.append({'product': product, 'is_apply': is_apply})
-
-    return render(request, 'drivertemp/driverapply.html', {'data': data})
-
-
-def apply_certification(request, certification_id):
-    print("something452")
-    certification = get_object_or_404(Sell, id=certification_id)
-    print(certification)
-    driver = Driver.objects.get(user=request.user)
-
-    if request.method == 'POST':
-  
-        Sellapply.objects.create(
-            user=request.user,
-            driver=driver,
-            sell=certification,
-            is_apply=Sellapply.APPLY,
-        )
-    return redirect('driverapply')
-def mdriverapplied(request):
-    profile = Member.objects.get(user=request.user)
-    # Filter sells related to the member
-    sells = Sell.objects.filter(member=profile)
-    # Get all Sellapply instances related to the sells, including the driver information
-    applies = Sellapply.objects.filter(sell__in=sells, is_apply='apply')
-
-    drivers = Driver.objects.filter(is_active=True)
-    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies, 'drivers': drivers})
-
-def confirmation(request, apply_id):
-    sell_apply = get_object_or_404(Sellapply, id=apply_id)
-    
-    if request.method == 'POST':
-        sell_apply.is_confirmed = True
-        sell_apply.save()
-
-    return redirect('mdriverapplied')  # Replace with your actual view name
 # def dispro(request):
 #     approved_products = Sell.objects.filter(is_accept='accept')
 #     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
@@ -2213,17 +2167,23 @@ def pricelist1(request):
 def pricelist2(request):
     product_costs = Productcost.objects.all()
     return render(request, 'pricelist2.html', {'product_costs': product_costs})
+
 def sellcrop(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     product_name = request.GET.get('product_name', '')
+    sell_date = None  # Initialize sell_date variable outside the if block
 
     if request.method == 'POST':
         farmerName = request.POST.get('farmerName')
         address = request.POST.get('address')
         wardNo = request.POST.get('wardno')
-        name = request.POST.get('pname')  # Assuming you want to store the product name
+        name = request.POST.get('pname')
         quantity = request.POST.get('quantity')
         member = Member.objects.get(wardno=wardNo)
+        sell_date_str = request.POST.get('sell_date')
+
+        if sell_date_str:  # Check if sell_date_str is not empty
+            sell_date = datetime.strptime(sell_date_str, '%Y-%m-%d').date()
 
         sell_instance = Sell(
             farmerName=farmerName,
@@ -2233,22 +2193,33 @@ def sellcrop(request):
             quantity=quantity,
             member=member,
             user=request.user,
+            sell_date=sell_date  # Assign sell_date directly
         )
         sell_instance.save()
-    return render(request, 'sellcrop.html', {'farmer_name': farmer_profile.first_name, 'farmer_lname': farmer_profile.last_name,
-                                                 'address': farmer_profile.address, 'wardNo': farmer_profile.ward, 'product_name': product_name})
+
+    return render(request, 'sellcrop.html', {
+        'farmer_name': farmer_profile.first_name,
+        'farmer_lname': farmer_profile.last_name,
+        'address': farmer_profile.address,
+        'wardNo': farmer_profile.ward,
+        'product_name': product_name,
+        'sell_date': sell_date  # Pass sell_date to the template
+    })
+
 def sellcrop2(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     product_name = request.GET.get('product_name', '')
-
+    sell_date = None
     if request.method == 'POST':
         farmerName = request.POST.get('farmerName')
         address = request.POST.get('address')
         wardNo = request.POST.get('wardno')
-        name = request.POST.get('pname')  # Assuming you want to store the product name
+        name = request.POST.get('pname')  
         quantity = request.POST.get('quantity')
         member = Member.objects.get(wardno=wardNo)
-
+        sell_date_str = request.POST.get('sell_date')
+        if sell_date_str:  
+            sell_date = datetime.strptime(sell_date_str, '%Y-%m-%d').date()
         sell_instance = Sell(
             farmerName=farmerName,
             address=address,
@@ -2257,10 +2228,12 @@ def sellcrop2(request):
             quantity=quantity,
             member=member,
             user=request.user,
+            sell_date=sell_date 
+
         )
         sell_instance.save()
     return render(request, 'sellcrop2.html', {'farmer_name': farmer_profile.first_name, 'farmer_lname': farmer_profile.last_name,
-                                               'address': farmer_profile.address, 'wardNo': farmer_profile.ward, 'product_name': product_name})
+                                               'address': farmer_profile.address, 'wardNo': farmer_profile.ward, 'product_name': product_name , 'sell_date': sell_date})
 
 def msell(request):
     profile = Member.objects.get(user=request.user)
@@ -2271,3 +2244,54 @@ def msellapprove(request):
     approved_products = Sell.objects.filter(is_accept='accept')
     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
 
+def driverapply(request):
+    approved_products = Sell.objects.filter(is_accept='accept')
+    data = []  # List to store dictionaries containing product, is_apply status, and confirmation status
+    for product in approved_products:
+        is_apply = 'pending'
+        is_confirmed = False
+
+        # Check if the driver has applied
+        if Sellapply.objects.filter(sell=product, user=request.user).exists():
+            is_apply = 'apply'
+
+            # Check if the driver's application is confirmed
+            sell_apply = Sellapply.objects.get(sell=product, user=request.user)
+            is_confirmed = sell_apply.is_confirmed
+
+        data.append({'product': product, 'is_apply': is_apply, 'is_confirmed': is_confirmed})
+    return render(request, 'drivertemp/driverapply.html', {'data': data})
+
+def apply_certification(request, certification_id):
+    print("something452")
+    certification = get_object_or_404(Sell, id=certification_id)
+    print(certification)
+    driver = Driver.objects.get(user=request.user)
+
+    if request.method == 'POST':
+  
+        Sellapply.objects.create(
+            user=request.user,
+            driver=driver,
+            sell=certification,
+            is_apply=Sellapply.APPLY,
+        )
+    return redirect('driverapply')
+    
+def mdriverapplied(request):
+    profile = Member.objects.get(user=request.user)
+    sells = Sell.objects.filter(member=profile)
+    # Get all Sellapply instances related to the sells, including the driver information
+    applies = Sellapply.objects.filter(sell__in=sells, is_apply='apply')
+
+    drivers = Driver.objects.filter(is_active=True)
+    return render(request, 'membertemp/mdriverapplied.html', {'applies': applies, 'drivers': drivers})
+
+def confirmation(request, apply_id):
+    sell_apply = get_object_or_404(Sellapply, id=apply_id)
+    
+    if request.method == 'POST':
+        sell_apply.is_confirmed = True
+        sell_apply.save()
+
+    return redirect('mdriverapplied')  # Replace with your actual view name

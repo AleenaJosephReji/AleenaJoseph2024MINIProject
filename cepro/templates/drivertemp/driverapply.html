@@ -196,20 +196,12 @@
                         <li >
                             <a href="{% url 'dindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-						{% comment %} <li>
-                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                       
                         <li class="active">
                             <a href="{% url 'driverapply' %}"><i class="fa fa-user"></i> <span>Apply</span></a>
                         </li>
                         <li>
                             <a href="{% url 'dcalender' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>   
-                       
                     </ul>
                 </div>
             </div>
@@ -230,10 +222,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- approved_applications.html -->
                 <div class="container">
-                    <h1><b>Apply to Collect</b></h1>
-                    
+                    <h1><b>Apply to Collect</b></h1>                  
                     <table>
                         <thead>
                             <tr>
@@ -243,9 +233,9 @@
                                 <th style="color:black;"><b>Ward No</b></th>
                                 <th style="color:black;"><b>Product Name</b></th>
                                 <th style="color:black;"><b>Quantity</b></th>
+                                <th style="color:black;"><b>Date To Collect</b></th>
                                 <th style="color:black;"><b>Actions</b></th>
                                 <th style="color:black;"><b>Confirmation</b></th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -257,6 +247,7 @@
                                     <td style="color:black;">{{ entry.product.wardNo }}</td>
                                     <td style="color:black;">{{ entry.product.name }}</td>
                                     <td style="color:black;">{{ entry.product.quantity }}</td>
+                                    <td style="color:black;">{{entry.product.sell_date }}</td>
                                     <td style="color:black;">
                                       
                                         {% if entry.is_apply == 'pending' %}
@@ -268,16 +259,19 @@
                                             <p>Applied</p>
                                         {% endif %}
                                     </td>
+                                    <td style="color:black;">
+                                        {% if entry.is_confirmed %}
+                                            <p>Confirmed</p>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
-
                         </tbody>
                     </table>
                 </div>
-                
-                        </div>
-                    </div>
                 </div>
+            </div>
+            </div>
             </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
@@ -288,7 +282,6 @@
             </div>
 		</div>
     </div>
-
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
