@@ -187,7 +187,8 @@ urlpatterns = [
     path('pricelist2', views.pricelist2, name='pricelist2'),
     path('accounts/', include('allauth.urls')),
     path('sellcrop2', views.sellcrop2, name='sellcrop2'),
-
+    path('dconfirmed', views.dconfirmed, name='dconfirmed'),
+    # path('mconfirmed', views.mconfirmed, name='mconfirmed'),
 
 
 

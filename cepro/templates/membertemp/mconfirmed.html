@@ -58,7 +58,7 @@
             } {% endcomment %}
     
             .container {
-                max-width: 900px;
+                max-width: 800px;
                 margin: 0 auto;
                 background-color: #fff;
                 padding: 20px;
@@ -79,31 +79,31 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-top: 20px;
+                margin: 20px auto;
+                background-color: white;
             }
-    
+            
             table, th, td {
-                border: 1px solid #ddd;
+                border: 1px solid grey;
             }
-    
+            
             th, td {
                 padding: 10px;
                 text-align: left;
             }
-    
+            
             th {
-                background-color: lightgreen;
+                background-color:lightgreen;
+                color: white;
             }
-    
-            .no-details {
-                text-align: center;
-                color: #777;
+            
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
             }
-    
-            .text-right {
-                text-align: right;
+            
+            tr:hover {
+                background-color: #e0e0e0;
             }
-    
             .btn-primary {
                 background-color: #007BFF;
                 color: #fff;
@@ -120,25 +120,14 @@
             .btn-primary:hover {
                 background-color: #0056b3;
             }
-            .apply-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            }
+            
     </style>
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
+
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -194,27 +183,41 @@
                         <li >
                             <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
+						{% comment %} <li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
+                        </li> {% endcomment %}
+                        {% comment %} <li>
+                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        </li> {% endcomment %}
+                       
                        <li>
                             <a href="{% url 'mfregistered' %}"><i class="fas fa-user fa-2x"></i><span>Registered Farmers</span></a>
                         </li> 
                         
-                        <li class="submenu green-background">
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;">
                                 <li>
                                     <a href="{% url 'msell' %}"><i class="fas fa-shopping-cart"></i><span>Sell Products</span></a>
                                 </li>
-                              <li>
+                              <li class="active">
                                     <a href="{% url 'msellapprove' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved</span></a>
                                 </li>
-                                <li class="active">
+                                <li>
                                     <a href="{% url 'mdriverapplied' %}"><i class="fa fa-calendar-check-o"></i> <span>Applied Drivers</span></a>
                                 </li>
+                                {% comment %} <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
+                                </li>  {% endcomment %}
                             </ul>
                         </li>
                         <li>
                             <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
+                        {% comment %} <li>
+                            <a href="{% url 'mappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li> {% endcomment %}
                         <li>
                             <a href="{% url 'mapprove' %}"><i class="fas fa-check-circle"></i>  <span>Approved List</span></a>
                         </li>
@@ -227,7 +230,8 @@
                         </li> 
                         <li>
                             <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
-                        </li>                          
+                        </li>   
+                       
                     </ul>
                 </div>
             </div>
@@ -248,52 +252,90 @@
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <h1><b>Applied Drivers</b></h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="color:black;"><b>No</b></th>
-                                <th style="color:black;"><b>Driver Name</b></th>
-                                <th style="color:black;"><b>Driver Ward</b></th>
-                                <th style="color:black;"><b>Driver Phone</b></th>
-                                <th style="color:black;"><b>Farmer Name</b></th>
-                                <th style="color:black;"><b>Farmer Address</b></th>
-                                <th style="color:black;"><b>Farmer Ward No</b></th>
-                                <th style="color:black;"><b>Product Name</b></th>
-                                <th style="color:black;"><b>Quantity</b></th>
-                                <th style="color:black;"><b>Date To Collect</b></th>
-                                <th style="color:black;"><b>Confirmation</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for apply in applies %}
-                                <tr>
-                                    <td style="color:black;">{{ forloop.counter }}</td>
-                                    <td style="color:black;">{{ apply.driver.name }}</td>
-                                    <td style="color:black;">{{ apply.driver.dwardno }}</td>
-                                    <td style="color:black;">{{ apply.driver.dphone }}</td>
-                                    <td style="color:black;">{{ apply.sell.farmerName }}</td>
-                                    <td style="color:black;">{{ apply.sell.address }}</td>
-                                    <td style="color:black;">{{ apply.sell.wardNo }}</td>
-                                    <td style="color:black;">{{ apply.sell.name }}</td>
-                                    <td style="color:black;">{{ apply.sell.quantity }}</td>
-                                    <td style="color:black;">{{apply.sell.sell_date }}</td>
-                                    <td style="color:black;">
-                                        {% if not apply.is_confirmed %}
-                                            <form method="post" action="{% url 'confirmation' apply.id %}">
-                                                {% csrf_token %}
-                                                <button class="btn btn-primary" type="submit">Confirm</button>
-                                            </form>
-                                        {% else %}
-                                            <p>Confirmed</p>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>             
+              <h4>Confirmed Details</h4>
+
+              <div class="container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th style="color:black;">Driver Name</th>
+                        <th style="color:black;">Driver Ward</th>
+                        <th style="color:black;">Driver Phone</th>
+                        <th style="color:black;">Farmer Name</th>
+                        <th style="color:black;">Farmer Address</th>
+                        <th style="color:black;">Farmer Ward No</th>
+                        <th style="color:black;">Product Name</th>
+                        <th style="color:black;">Quantity</th>
+                        <th style="color:black;">Date To Collect</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td style="color:black;">{{ confirmed_apply.driver.name }}</td>
+                    
+                   
+                        <td style="color:black;">{{ confirmed_apply.driver.dwardno }}</td>
+                    
+                    
+                        <td style="color:black;">{{ confirmed_apply.driver.dphone }}</td>
+                    
+                    
+                        <td style="color:black;">{{ confirmed_apply.sell.farmerName }}</td>
+                
+                    
+                        <td style="color:black;">{{ confirmed_apply.sell.address }}</td>
+                    
+                   
+                        <td style="color:black;">{{ confirmed_apply.sell.wardNo }}</td>
+                    
+                        <td style="color:black;">{{ confirmed_apply.sell.name }}</td>
+                   
+                        <td style="color:black;">{{ confirmed_apply.sell.quantity }}</td>
+                  
+                        <td style="color:black;">{{ confirmed_apply.sell.sell_date }}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    const input = $('#username');
+                    const roleFilter = $('#role-filter');
+                    const rows = $('.user-list tbody tr');
+                    const noUserMessage = $('#no-user-message');
+                    $('#search-button').on('click', filterUsers);
+                    roleFilter.on('change', filterUsers);
+                    function filterUsers() {
+                        const searchTerm = input.val().toLowerCase();
+                        const selectedRole = roleFilter.val();
+                        let found = false; // Flag to track if a matching user is found
+                        rows.each(function () {
+                            const username = $(this).find('td:nth-child(2)').text().toLowerCase();
+                            const role = $(this).find('td:nth-child(7)').text().toLowerCase();
+            
+                            // Check if the user matches the selected role (or if all roles are selected)
+                            if ((selectedRole === 'all' || role.includes(selectedRole)) &&
+                                (searchTerm.length === 0 || username.includes(searchTerm))) {
+                                $(this).css('display', 'table-row');
+                                found = true; // Matching user found
+                            } else {
+                                $(this).css('display', 'none');
+                            }
+                        });
+            
+                        // Show/hide "No such user" message
+                        if (found) {
+                            noUserMessage.css('display', 'none');
+                        } else {
+                            noUserMessage.css('display', 'block');
+                        }
+                    }
+                });
+
+                
+            </script>
+                            </table> 
                         </div>
                     </div>
                 </div>
@@ -307,7 +349,20 @@
             </div>
 		</div>
     </div>
-
+<script>
+    document.querySelectorAll(".apply-button").forEach(button => {
+        button.addEventListener("click", function() {
+            const rowId = this.closest("tr").getAttribute("data-row-id");
+            const isApproved = true;  // Modify this condition as needed
+            if (isApproved) {
+                const rowHtml = this.closest("tr").outerHTML;
+                const mapproveTable = document.getElementById("mapprove-table");
+                mapproveTable.innerHTML += rowHtml;
+            }
+            this.closest("tr").remove();
+        });
+    });
+</script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>

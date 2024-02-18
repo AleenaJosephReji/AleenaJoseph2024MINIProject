@@ -2192,7 +2192,7 @@ def sellcrop(request):
             name=name,
             quantity=quantity,
             member=member,
-            user=request.user,
+            # user=request.user,
             sell_date=sell_date  # Assign sell_date directly
         )
         sell_instance.save()
@@ -2227,7 +2227,7 @@ def sellcrop2(request):
             name=name,
             quantity=quantity,
             member=member,
-            user=request.user,
+            # user=request.user,
             sell_date=sell_date 
 
         )
@@ -2237,8 +2237,9 @@ def sellcrop2(request):
 
 def msell(request):
     profile = Member.objects.get(user=request.user)
-    products = Sell.objects.filter(member=profile).exclude(is_accept='accept')
-    return render(request, 'membertemp/msell.html', {'products': products})
+    today_date = timezone.now().date()
+    products = Sell.objects.filter(member=profile, is_accept='pending', sell_date__gte=today_date)
+    return render(request, 'membertemp/msell.html', {'products': products, 'today_date': today_date})
 
 def msellapprove(request):
     approved_products = Sell.objects.filter(is_accept='accept')
@@ -2247,6 +2248,8 @@ def msellapprove(request):
 def driverapply(request):
     approved_products = Sell.objects.filter(is_accept='accept')
     data = []  # List to store dictionaries containing product, is_apply status, and confirmation status
+    today_date = timezone.now().date()
+
     for product in approved_products:
         is_apply = 'pending'
         is_confirmed = False
@@ -2260,7 +2263,8 @@ def driverapply(request):
             is_confirmed = sell_apply.is_confirmed
 
         data.append({'product': product, 'is_apply': is_apply, 'is_confirmed': is_confirmed})
-    return render(request, 'drivertemp/driverapply.html', {'data': data})
+
+    return render(request, 'drivertemp/driverapply.html', {'data': data, 'today_date': today_date})
 
 def apply_certification(request, certification_id):
     print("something452")
@@ -2295,3 +2299,17 @@ def confirmation(request, apply_id):
         sell_apply.save()
 
     return redirect('mdriverapplied')  # Replace with your actual view name
+
+def dconfirmed(request):
+    user = request.user
+    profile = Driver.objects.get(user=user)
+    confirmed_data = Sellapply.objects.filter(is_confirmed=True,driver_id=profile.id)
+    return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
+
+# def mconfirmed(request):
+#     confirmed_apply = get_object_or_404(Sellapply, is_confirmed=True)
+#     return render(request, 'membertemp/mconfirmed.html', {'confirmed_apply': confirmed_apply})
+
+# def dconfirmed(request):
+#     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+#     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
