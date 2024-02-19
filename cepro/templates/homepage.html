@@ -153,12 +153,12 @@
                         
                         {% if user.is_authenticated %}
                         {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
+                        <a class="dropdown-item" href="{% url 'selldetails' %}">Account</a>
 
                         <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
                         {% endif %}
-                        {% comment %} <a class="dropdown-item" href="{% url 'displaycrop' %}">Account</a> {% endcomment %}
 
                     </div>
                 </div>

@@ -4,41 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crop Details</title>
+    <title>Sell Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-           
             padding-top: 70px;
-            {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
             background-size: cover;
             background-repeat: no-repeat; 
             background-attachment: fixed; 
-        
         }
-        .navbar {
-            background-color: #34AD54;
-            padding: 10px 0;
-        }
+
         .container {
-            background-color: #b4f76d;
-            border: 1px solid black;
-            border-radius: 5px;
+            max-width: 800px;
+            border: 1px solid white;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-            width: 1000px; /* Adjust the width as needed */
-            padding: 40px; /* Adjust the padding as needed */
-            margin-top: 30px;
+            border-radius: 5px;
         }
-        
-        
+
         h1 {
             text-align: center;
-            font-size: 28px;
-            color: #263A4F;
-            margin-bottom: 20px;
+            color: #333;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -47,9 +39,12 @@
         table, th, td {
             border: 1px solid #ddd;
         }
-        th{
-            background-color:#34AD54;
+
+        th {
+            background-color: #34AD54;
+            color: white;
         }
+
         th, td {
             padding: 12px;
             text-align: left;
@@ -62,115 +57,11 @@
         tr:hover {
             background-color: #ddd;
         }
-
-        /* Style for the "Apply" button */
-        .apply-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .apply-button-green {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 8px 16px; /* Adjust padding to make it smaller */
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 20px; /* Adjust font-size to make it smaller */
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .doctor-img {
-            text-align: center;
-        }
-        
-        .avatar img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .profiles, .profilecontact {
-            background-color: #fff;
-            border: 1px solid brown;
-            border-radius: 5px;
-            padding: 50px;
-            padding-left:80px;
-            width:700px;
-            margin-left:130px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-        
-        }
-        .profiles h4, .profilecontact h4 {
-            color: #263A4F;
-            font-size: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .profiles p, .profilecontact p {
-            font-size: 18px;
-            color: #333;
-            margin: 8px 0;
-        }
         .nav-hover:hover {
             background-color: green; /* Change to a light green color on hover */
             color: #fff; /* Change the text color on hover */
             transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
         }
-    
-        /* Optional: Add styling for the active state */
-        .nav-hover.active {
-            background-color: #555;
-            color: green;
-        }
-        .table-container {
-            width: 780px; 
-            margin-top: 20px;
-            margin-bottom: 20px; 
-        }
-        
-        .custom-table {
-            margin-left:400px;
-            width: 780px; 
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
-        }
-        
-        .custom-table th, .custom-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .custom-table th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .custom-table td {
-            color:black;
-            background-color: #f5f5f5;
-        }
-        .nav-hover:hover {
-            background-color: green; /* Change to a light green color on hover */
-            color: #fff; /* Change the text color on hover */
-            transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
-        }
-        {% comment %} .table-actions a {
-            margin-right: 10px;
-            color: #007BFF;
-        } {% endcomment %}
     </style>
 </head>
 <body>
@@ -187,7 +78,7 @@
                 <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-                <a href="{% url 'pricelist2' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
+                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
                 {% comment %} <li>
                     <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
                 </li> {% endcomment %}
@@ -200,12 +91,10 @@
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
             </button>
-            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
-                
+            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">                
                 {% if user.is_authenticated %}
                 {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'selldetails' %}">Account</a>
-
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
@@ -213,38 +102,67 @@
             </div>
         </div>
     </nav>
-    <br><br>
 
-    <table class="custom-table">
-        <table class="custom-table">
+    <div class="container mt-5">
+        <h1>Sell Details</h1>
+        
+        <table>
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>Name</th>
+                    <th>Address</th>
                     <th>Product Name</th>
                     <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Apply</th>
+                    <th>Sell Date</th>
+                    <th>Status</th>
+                    <th>Driver Name</th>
+                    <th>Driver Phone</th>
                 </tr>
             </thead>
             <tbody>
-                {% for product_cost in product_costs %}
+                {% for sell in sells %}
                     <tr>
                         <td>{{ forloop.counter }}
-                        <td>{{ product_cost.pname }}</td>
-                        <td>{{ product_cost.quantity }}</td>
-                        <td>{{ product_cost.price }}</td>
-                        <td class="table-actions">
-                            <a href="{% url 'sellcrop' %}?product_name={{ product_cost.pname }}" class="btn btn-primary">Sell</a>
-                        </td>
-                        
+                        <td>{{ sell.farmerName }}</td>
+                        <td>{{ sell.address }}</td>
+                        <td>{{ sell.name }}</td>
+                        <td>{{ sell.quantity }}</td>
+                        <td>{{ sell.sell_date }}</td>
+                        <td style="color: 
+                        {% if sell.is_accept == 'accept' %}
+                            green;
+                        {% elif sell.is_accept == 'remove' %}
+                            red;
+                        {% else %}
+                            black;
+                        {% endif %}">
+                        {% if sell.is_accept == 'accept' %}
+                            Approved
+                        {% elif sell.is_accept == 'remove' %}
+                            Rejected
+                        {% else %}
+                            please Wait
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if sell.sellapply_set.first.is_confirmed %}
+                            {{ sell.sellapply_set.first.driver.name }}
+                        {% else %}
+                            Not Confirmed
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if sell.sellapply_set.first.is_confirmed %}
+                            {{ sell.sellapply_set.first.driver.dphone }}
+                        {% else %}
+                        -
+                        {% endif %}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <div style="text-align: right; margin-top: 20px; margin-right:200px;margin-top:50px;">
-           <label style="font-size: 24px; color:red;">To sell other crop please click here </label> <a href="{% url 'sellcrop2' %}" class="btn btn-primary">Sell</a>
-        </div>
-    
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

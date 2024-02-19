@@ -89,7 +89,7 @@
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                        <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -99,7 +99,7 @@
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -159,6 +159,9 @@
                         </li> 
                         <li>
                             <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>

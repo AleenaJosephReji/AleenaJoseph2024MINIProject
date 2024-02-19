@@ -85,9 +85,9 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="#">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="#">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -95,7 +95,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="#">Edit Profile</a>
+                    {% comment %} <a class="dropdown-item" href="#">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
@@ -150,6 +150,9 @@
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
                         </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>

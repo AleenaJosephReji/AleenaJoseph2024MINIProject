@@ -166,7 +166,8 @@
             <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
                 
                 {% if user.is_authenticated %}
-                <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a>
+                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
+                <a class="dropdown-item" href="{% url 'selldetails' %}">Account</a>
 
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}

@@ -92,14 +92,14 @@
                         <span></span>
                     </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
                         </li>
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
@@ -149,8 +149,8 @@
                         <li>
                             <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
-                        <li>
-                            <a href="{% url 'adproductcost' %}"><i class="fas fa-truck"></i> <span>Product Cost</span></a>
+                        <li class="active">
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
@@ -197,10 +197,10 @@
                                 <small id="quantityError" class="form-text text-danger"></small>
                             </div>                                                        {% endcomment %}
                             <div class="form-group">
-                                <label style="color:black;"><b>Price</b></label>
+                                <label style="color: black;"><b>Price</b></label>
                                 <input type="number" class="form-control" id="price" name="price" step="0.01" oninput="validatePrice(this)">
                                 <small id="priceError" class="form-text text-danger"></small>
-                            </div>                           
+                            </div>                        
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createcrop">Add Product</button>
                             </div>
@@ -252,19 +252,18 @@
                 }
             }
 
-            function validatePrice(inputElement) {
-                var price = inputElement.value.trim();
-                var errorElement = document.getElementById('priceError');
+            function validatePrice(input) {
+                const priceError = document.getElementById('priceError');
+                const priceValue = parseFloat(input.value);
         
-                // Regular expression to check if the price is a positive decimal number
-                var validRegex = /^(?!-)[0-9]+(\.[0-9]+)?$/;
-        
-                if (!validRegex.test(price) || parseFloat(price) > 2500) {
-                    errorElement.innerText = 'Invalid price. Should be a positive number, not greater than 2500.';
-                    inputElement.classList.add('is-invalid');
+                // Check if the price is zero, negative, or greater than 2500
+                if (priceValue <= 0 || isNaN(priceValue) || priceValue > 2500) {
+                    // Display an error message
+                    priceError.textContent = 'Price should be greater than 0, not negative, and not exceed 2500.';
+                    // You may also disable the form submission or any other action here
                 } else {
-                    errorElement.innerText = '';
-                    inputElement.classList.remove('is-invalid');
+                    // Clear the error message if the input is valid
+                    priceError.textContent = '';
                 }
             }
     </script>

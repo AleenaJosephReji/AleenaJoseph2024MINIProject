@@ -189,7 +189,9 @@ urlpatterns = [
     path('sellcrop2', views.sellcrop2, name='sellcrop2'),
     path('dconfirmed', views.dconfirmed, name='dconfirmed'),
     # path('mconfirmed', views.mconfirmed, name='mconfirmed'),
+    path('selldetails', views.selldetails, name='selldetails'),
 
+    # path('selldetails', selldetails, name='selldetails'),
 
 
 

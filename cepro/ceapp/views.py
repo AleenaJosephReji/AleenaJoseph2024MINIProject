@@ -2139,13 +2139,11 @@ def edit_product_cost(request, product_cost_id):
     productcost = get_object_or_404(Productcost, id=product_cost_id)
     if request.method == 'POST':
         pname = request.POST.get('pname')
-        quantity = request.POST.get('quantity')
+        # quantity = request.POST.get('quantity')
         price = request.POST.get('price')
-
         productcost.pname = pname
-        productcost.quantity = quantity
+        # productcost.quantity = quantity
         productcost.price = price
-       
         productcost.save()
         return redirect('adproductcost')
     return render(request, 'admintemp/edit_product_cost.html', {'productcost': productcost})
@@ -2158,7 +2156,6 @@ def delete_product_cost(request, product_cost_id):
         request.session['delete pro'] = True
         return redirect('adproductcost')
     return render(request, 'admintemp/delete_product_cost.html', {'productcost': productcost})
-
 
 def pricelist1(request):
     product_costs = Productcost.objects.all()
@@ -2205,6 +2202,24 @@ def sellcrop(request):
         'product_name': product_name,
         'sell_date': sell_date  # Pass sell_date to the template
     })
+from django.shortcuts import render
+from .models import Sell
+
+def selldetails(request):
+    sells = Sell.objects.all().select_related('member', 'driver').prefetch_related('sellapply_set__driver')
+    return render(request, 'selldetails.html', {'sells': sells})
+
+
+from django.shortcuts import render
+from .models import Sell
+
+# def selldetails(request, sell_id):
+#     sell_instance = Sell.objects.get(id=sell_id)
+
+#     return render(request, 'selldetails.html', {
+#         'sell_instance': sell_instance,
+#     })
+
 
 def sellcrop2(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)

@@ -92,14 +92,14 @@
                         <span></span>
                     </a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -152,6 +152,9 @@
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
                         </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>

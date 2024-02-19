@@ -150,7 +150,7 @@
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -160,7 +160,7 @@
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -175,7 +175,7 @@
 						<li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
                         </li>
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
@@ -210,9 +210,10 @@
                         <li>
                             <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
-                        <li>
-                            <a href="{% url 'adproductcost' %}"><i class="fas fa-truck"></i> <span>Product Cost</span></a>
+                        <li class="active">
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
+                        
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
                         </li> {% endcomment %}
@@ -243,7 +244,7 @@
                             </div>
                         </div>
                         </div>
-                        <div class="row">
+                        {% comment %} <div class="row">
                             <div class="col-md-12">
                                 <form id="search-form" method="GET" action="{% url 'search_crop' %}">
                                     <div class="input-group">
@@ -255,7 +256,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div><br><br>
+                        </div><br><br> {% endcomment %}
 
 
                         <div class="row">

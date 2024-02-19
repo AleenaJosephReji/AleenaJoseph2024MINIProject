@@ -84,16 +84,20 @@
     {% csrf_token %}
     <div class="form-group">
         <label for="pname">Product Name:</label>
-        <input type="text" class="form-control" name="pname" value="{{ productcost.pname }}" required>
+        <input type="text" class="form-control" name="pname" id="pname" value="{{ productcost.pname }}" required>
+        <small id="pnameError" class="text-danger"></small>
     </div>
+    
     {% comment %} <div class="form-group">
         <label for="quantity">Quantity:</label>
         <input type="text" class="form-control" name="quantity" value="{{ productcost.quantity }}" required>
     </div> {% endcomment %}
     <div class="form-group">
         <label for="price">Price:</label>
-        <input type="number" class="form-control" name="price" value="{{ productcost.price }}" required>
+        <input type="number" class="form-control" name="price" id="price" value="{{ productcost.price }}" required oninput="validatePrice()">
+        <small id="priceError" class="text-danger"></small>
     </div>
+    
     <div class="m-t-20 text-center">
         <button class="btn btn-primary submit-btn">Save Changes</button>
     </div>
@@ -101,32 +105,40 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            var $meetingDateField = $("input[name='meeting_date']");
-            var $meetingTimeField = $("input[name='meeting_time']");
-            var $dateError = $("#date_error");
-            var $timeError = $("#time_error");
-            $meetingDateField.on('input', function() {
-                validateDate();
-            });
-
-            $meetingTimeField.on('input', function() {
-                validateTime();
-            });
-           
-            function validateTime() {
-                var selectedTime = $meetingTimeField.val();
-                var timeParts = selectedTime.split(":");
-                var hours = parseInt(timeParts[0]);
-                var minutes = parseInt(timeParts[1]);
-
-                if (hours < 10 || (hours === 10 && minutes < 0) || hours > 16 || (hours === 16 && minutes > 0)) {
-                    $timeError.text("Meeting time must be between 10:00 AM and 4:00 PM.");
-                } else {
-                    $timeError.text(""); // Clear error message
-                }
+        const pnameInput = document.getElementById('pname');
+        // Get the error element by its id
+        const pnameError = document.getElementById('pnameError');
+    
+        // Add an event listener for input changes
+        pnameInput.addEventListener('input', function () {
+            // Define a regular expression pattern for valid characters
+            const validCharactersPattern = /^[a-zA-Z0-9, ]*$/;
+    
+            // Check if the input value matches the pattern
+            if (!validCharactersPattern.test(pnameInput.value)) {
+                // Display an error message
+                pnameError.textContent = 'Only numbers, alphabets, spaces, and commas are allowed.';
+                // You may also disable the form submission or any other action here
+            } else {
+                // Clear the error message if the input is valid
+                pnameError.textContent = '';
             }
         });
+        function validatePrice() {
+            const priceInput = document.getElementById('price');
+            const priceError = document.getElementById('priceError');
+            const priceValue = parseFloat(priceInput.value);
+    
+            // Check if the price is zero, negative, or greater than 2500
+            if (priceValue <= 0 || isNaN(priceValue) || priceValue > 2500) {
+                // Display an error message
+                priceError.textContent = 'Price should be greater than 0, not negative, and not exceed 2500.';
+                // You may also disable the form submission or any other action here
+            } else {
+                // Clear the error message if the input is valid
+                priceError.textContent = '';
+            }
+        }
     </script>
 </body>
 </html>

@@ -141,7 +141,7 @@
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
@@ -151,7 +151,7 @@
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -218,6 +218,9 @@
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
                         </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
