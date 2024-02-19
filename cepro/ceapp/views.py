@@ -2206,9 +2206,9 @@ from django.shortcuts import render
 from .models import Sell
 
 def selldetails(request):
-    sells = Sell.objects.all().select_related('member', 'driver').prefetch_related('sellapply_set__driver')
+    current_farmer_profile = request.user.farmerprofile
+    sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}").select_related('member', 'driver').prefetch_related('sellapply_set__driver')
     return render(request, 'selldetails.html', {'sells': sells})
-
 
 from django.shortcuts import render
 from .models import Sell
@@ -2315,16 +2315,38 @@ def confirmation(request, apply_id):
 
     return redirect('mdriverapplied')  # Replace with your actual view name
 
+# def dconfirmed(request):
+#     user = request.user
+#     profile = Driver.objects.get(user=user)
+#     confirmed_data = Sellapply.objects.filter(is_confirmed=True,driver_id=profile.id)
+#     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
+
 def dconfirmed(request):
     user = request.user
     profile = Driver.objects.get(user=user)
-    confirmed_data = Sellapply.objects.filter(is_confirmed=True,driver_id=profile.id)
-    return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
+    confirmed_data = Sellapply.objects.filter(is_confirmed=True, driver_id=profile.id)
 
+    for entry in confirmed_data:
+        try:
+            product_cost = Productcost.objects.get(pname=entry.sell.name)
+            entry.total_cost = int(entry.sell.quantity) * product_cost.price
+        except Productcost.DoesNotExist:
+            entry.total_cost = "Add Amount"  # Set a message when the product is not found
+
+    return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
 # def mconfirmed(request):
 #     confirmed_apply = get_object_or_404(Sellapply, is_confirmed=True)
 #     return render(request, 'membertemp/mconfirmed.html', {'confirmed_apply': confirmed_apply})
 
-# def dconfirmed(request):
-#     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
-#     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
+def adselldetails(request):
+    confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+
+    for entry in confirmed_data:
+        try:
+            product_cost = Productcost.objects.get(pname=entry.sell.name)
+            entry.total_cost = int(entry.sell.quantity) * product_cost.price
+        except Productcost.DoesNotExist:
+            entry.total_cost = "Add Amount"  # Set a message when the product is not found
+
+    return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data})
+

@@ -190,8 +190,7 @@ urlpatterns = [
     path('dconfirmed', views.dconfirmed, name='dconfirmed'),
     # path('mconfirmed', views.mconfirmed, name='mconfirmed'),
     path('selldetails', views.selldetails, name='selldetails'),
-
-    # path('selldetails', selldetails, name='selldetails'),
+    path('adselldetails',views.adselldetails,name='adselldetails'),
 
 
 
