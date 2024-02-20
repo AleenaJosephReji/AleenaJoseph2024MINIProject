@@ -191,7 +191,7 @@ urlpatterns = [
     # path('mconfirmed', views.mconfirmed, name='mconfirmed'),
     path('selldetails', views.selldetails, name='selldetails'),
     path('adselldetails',views.adselldetails,name='adselldetails'),
-
+    path('update_total_cost/<int:entry_id>/', views.update_total_cost, name='update_total_cost'),
 
 
 

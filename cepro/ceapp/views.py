@@ -2165,10 +2165,18 @@ def pricelist2(request):
     product_costs = Productcost.objects.all()
     return render(request, 'pricelist2.html', {'product_costs': product_costs})
 
+from django.http import HttpResponseForbidden
+
+from django.shortcuts import render, HttpResponse
+from django.http import HttpResponseForbidden
+from .models import FarmerProfile, Member, Sell
+from datetime import datetime
+
 def sellcrop(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     product_name = request.GET.get('product_name', '')
     sell_date = None  # Initialize sell_date variable outside the if block
+    error_message = None  # Initialize error_message variable
 
     if request.method == 'POST':
         farmerName = request.POST.get('farmerName')
@@ -2182,17 +2190,28 @@ def sellcrop(request):
         if sell_date_str:  # Check if sell_date_str is not empty
             sell_date = datetime.strptime(sell_date_str, '%Y-%m-%d').date()
 
-        sell_instance = Sell(
-            farmerName=farmerName,
-            address=address,
-            wardNo=wardNo,
-            name=name,
-            quantity=quantity,
-            member=member,
-            # user=request.user,
-            sell_date=sell_date  # Assign sell_date directly
-        )
-        sell_instance.save()
+            # Check if the farmer has already applied for the same product and quantity on the same day
+            existing_sell = Sell.objects.filter(
+                farmerName=farmerName,
+                name=name,
+                quantity=quantity,
+                sell_date=sell_date
+            ).exists()
+
+            if existing_sell:
+                error_message = "You have already applied for the same product and quantity on the same day."
+
+            else:
+                sell_instance = Sell(
+                    farmerName=farmerName,
+                    address=address,
+                    wardNo=wardNo,
+                    name=name,
+                    quantity=quantity,
+                    member=member,
+                    sell_date=sell_date  # Assign sell_date directly
+                )
+                sell_instance.save()
 
     return render(request, 'sellcrop.html', {
         'farmer_name': farmer_profile.first_name,
@@ -2200,8 +2219,11 @@ def sellcrop(request):
         'address': farmer_profile.address,
         'wardNo': farmer_profile.ward,
         'product_name': product_name,
-        'sell_date': sell_date  # Pass sell_date to the template
+        'sell_date': sell_date,  # Pass sell_date to the template
+        'error_message': error_message  # Pass error_message to the template
     })
+
+
 from django.shortcuts import render
 from .models import Sell
 
@@ -2217,34 +2239,57 @@ from .models import Sell
 #     })
 
 
+from django.http import HttpResponseForbidden
 def sellcrop2(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     product_name = request.GET.get('product_name', '')
-    sell_date = None
+    sell_date = None  # Initialize sell_date variable outside the if block
+    error_message = None  # Initialize error_message variable
+
     if request.method == 'POST':
         farmerName = request.POST.get('farmerName')
         address = request.POST.get('address')
         wardNo = request.POST.get('wardno')
-        name = request.POST.get('pname')  
+        name = request.POST.get('pname')
         quantity = request.POST.get('quantity')
         member = Member.objects.get(wardno=wardNo)
         sell_date_str = request.POST.get('sell_date')
-        if sell_date_str:  
-            sell_date = datetime.strptime(sell_date_str, '%Y-%m-%d').date()
-        sell_instance = Sell(
-            farmerName=farmerName,
-            address=address,
-            wardNo=wardNo,
-            name=name,
-            quantity=quantity,
-            member=member,
-            # user=request.user,
-            sell_date=sell_date 
 
-        )
-        sell_instance.save()
-    return render(request, 'sellcrop2.html', {'farmer_name': farmer_profile.first_name, 'farmer_lname': farmer_profile.last_name,
-                                               'address': farmer_profile.address, 'wardNo': farmer_profile.ward, 'product_name': product_name , 'sell_date': sell_date})
+        if sell_date_str:  # Check if sell_date_str is not empty
+            sell_date = datetime.strptime(sell_date_str, '%Y-%m-%d').date()
+
+            # Check if the farmer has already applied for the same product and quantity on the same day
+            existing_sell = Sell.objects.filter(
+                farmerName=farmerName,
+                name=name,
+                quantity=quantity,
+                sell_date=sell_date
+            ).exists()
+
+            if existing_sell:
+                error_message = "You have already applied for the same product and quantity on the same day."
+
+            else:
+                sell_instance = Sell(
+                    farmerName=farmerName,
+                    address=address,
+                    wardNo=wardNo,
+                    name=name,
+                    quantity=quantity,
+                    member=member,
+                    sell_date=sell_date  # Assign sell_date directly
+                )
+                sell_instance.save()
+
+    return render(request, 'sellcrop2.html', {
+        'farmer_name': farmer_profile.first_name,
+        'farmer_lname': farmer_profile.last_name,
+        'address': farmer_profile.address,
+        'wardNo': farmer_profile.ward,
+        'product_name': product_name,
+        'sell_date': sell_date,  # Pass sell_date to the template
+        'error_message': error_message  # Pass error_message to the template
+    })
 
 def msell(request):
     profile = Member.objects.get(user=request.user)
@@ -2350,18 +2395,60 @@ def selldetails(request):
             sell.total_cost = int(sell.quantity) * product_cost.price
         except Productcost.DoesNotExist:
             sell.total_cost = "Add Amount"  # Set a message when the product is not found
-
+        sell_applies = Sellapply.objects.filter(sell=sell)
+        if sell_applies.exists():
+            sell.total_cost = sell_applies.first().total_cost
     return render(request, 'selldetails.html', {'sells': sells})
+
+# def adselldetails(request):
+#     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+
+#     for entry in confirmed_data:
+#         try:
+#             product_cost = Productcost.objects.get(pname=entry.sell.name)
+#             entry.total_cost = int(entry.sell.quantity) * product_cost.price
+#         except Productcost.DoesNotExist:
+#             entry.total_cost = "Add Amount"  # Set a message when the product is not found
+
+#     return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data})
+
+from django.shortcuts import render, redirect
+from .models import Sellapply
 
 def adselldetails(request):
     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+
+    if request.method == 'POST':
+        entry_id = request.POST.get('entry_id')
+        total_cost = request.POST.get('total_cost')
+
+        entry = Sellapply.objects.get(pk=entry_id)
+        entry.total_cost = total_cost
+        entry.save()
+
+        # Get the updated entry from the database
+        entry = Sellapply.objects.get(pk=entry_id)
+
+        return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'updated_entry': entry})
 
     for entry in confirmed_data:
         try:
             product_cost = Productcost.objects.get(pname=entry.sell.name)
             entry.total_cost = int(entry.sell.quantity) * product_cost.price
         except Productcost.DoesNotExist:
-            entry.total_cost = "Add Amount"  # Set a message when the product is not found
+            entry.total_cost = "Add Amount"
 
     return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data})
 
+def update_total_cost(request, entry_id):
+    if request.method == 'POST':
+        total_cost = request.POST.get('total_cost')
+
+        try:
+            entry = Sellapply.objects.get(pk=entry_id)
+            entry.total_cost = total_cost
+            entry.save()
+        except Sellapply.DoesNotExist:
+            pass  # Handle the case where the Sellapply entry is not found
+
+    return redirect('adselldetails')

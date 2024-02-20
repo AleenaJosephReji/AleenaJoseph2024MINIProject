@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Details</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: green;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            font-weight:bold;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .header-left 
+        {
+            {% comment %} background-color:green; {% endcomment %}
+            color:green;
+            font-size:24px;
+            font-weight:bold;
+            text-align: center;
+        }
+        h2{
+            color:brown;
+            font-size:18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-left">
+        <h1>CropElevate</h1>
+        <h3>Erumely Panchayath Crop Collection Report October 2023 </h3>
+
+        {% comment %} <a href="" class="logo">
+            <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+        </a> {% endcomment %}
+    </div>
+        <div class="container">
+        
+
+        <br><br>
+        <br>
+        {% comment %} <h1 style="color:black;">Report</h1> {% endcomment %}
+        
+        <!-- Button to generate the PDF report -->
+        {% comment %} <a href="{% url 'generate_pdfreport' %}" class="btn">Generate PDF Report</a> {% endcomment %}
+        
+        <!-- Agricultural Report Details section -->
+        <!-- Agricultural Report Details section -->
+{% for application in applications %}
+<div class="details">
+    <h2 style="margin-left:60px; color:black; font-weight:bold;">{{ application.cname }}</h2>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>Farmer Name</th>
+            <th>Address</th>
+            <th>Contact No</th>
+            <th>Ward No</th>
+            <th>Annual Income</th>
+            <th>Land</th>
+            <th>Crop Count</th>
+            <th>Date</th>
+        </tr>
+        {% comment %} {% for application in applications %} {% endcomment %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ application.farmerName }}</td>
+    <td>{{ application.address }}</td>
+    <td>{{ application.contactNo }}</td>
+    <td>{{ application.wardNo }}</td>
+    <td>{{ application.AnnualIncome }}</td>
+    <td>{{ application.land }}</td>
+    <td>
+        {% if application.land > 100 %}
+            60
+        {% elif application.land >= 50 and application.land < 100 %}
+            40
+        {% else %}
+            20
+        {% endif %}
+    </td>
+    <td>{{ application.crop_giventime }}</td>
+</tr>
+    </table>
+</div>
+{% comment %} {% endfor %} {% endcomment %}
+{% endfor %}
+
+    </div>
+</body>
+</html>

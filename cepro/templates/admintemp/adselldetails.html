@@ -94,7 +94,6 @@
 		<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
 </head>
-
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -191,7 +190,6 @@
                         <li>
                             <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
-                        
                         <li>
                             <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Sell</span></a>
                         </li>
@@ -239,7 +237,6 @@
                                 <th style="color:white;"><b>Quantity</b></th>
                                 <th style="color:white;"><b>Date To Collect</b></th>
                                 <th style="color:white;"><b>Total Cost</b></th>
-                                <!-- Add any other fields you want to display -->
                             </tr>
                         </thead>
                         <tbody>
@@ -254,18 +251,29 @@
                                     <td style="color:black;">{{ entry.sell.sell_date }}</td>
                                     <td style="color:black;">
                                         {% if entry.total_cost == "Add Amount" %}
-                                            <input type="text" id="totalCostInput_{{ entry.id }}" placeholder="Enter Total Cost">
-                                            <button onclick="updateTotalCost('{{ entry.id }}', '{{ entry.sell.name }}')">Update</button>
-                                            <span id="enteredValue_{{ entry.id }}"></span>
+                                            <form method="post" action="{% url 'update_total_cost' entry.id %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                                                <input type="text" name="total_cost" id="totalCostInput_{{ entry.id }}" placeholder="Enter Total Cost">
+                                                <button type="submit">Update</button>
+                                            </form>
                                         {% else %}
-                                            <span id="totalCost_{{ entry.id }}">{{ entry.total_cost }}</span>
+                                            <span id="totalCost_{{ entry.id }}">
+                                                {% if entry.total_cost %}
+                                                    {{ entry.total_cost }}
+                                                {% else %}
+                                                    <!-- Add a default value or message if total_cost is not available -->
+                                                    N/A
+                                                {% endif %}
+                                            </span>
                                         {% endif %}
-                                    </td>                               <!-- Add any other fields you want to display -->
+                                    </td>
+
+            
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
-                    
+                    </table>           
                 </div>
                 </div>
             </div>
@@ -282,37 +290,6 @@
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script>
-        function updateTotalCost(entryId, productName) {
-            var totalCostInput = document.getElementById('totalCostInput_' + entryId);
-            var enteredValueSpan = document.getElementById('enteredValue_' + entryId);
-            var totalCostSpan = document.getElementById('totalCost_' + entryId);
-    
-            // Get the value entered in the input field
-            var updatedTotalCost = totalCostInput.value;
-    
-            // Display the entered value dynamically
-            enteredValueSpan.innerText = 'Price: ' + updatedTotalCost;
-    
-            // Store the entered value in localStorage
-            localStorage.setItem(productName, updatedTotalCost);
-    
-            // Send the updated total cost to the server (you may use AJAX for this)
-    
-            // Update the total cost span with the new value
-            totalCostSpan.innerText = updatedTotalCost;
-        }
-    
-        // Retrieve stored values on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            {% for entry in confirmed_data %}
-                var storedValue = localStorage.getItem('{{ entry.sell.name }}');
-                if (storedValue) {
-                    document.getElementById('totalCostInput_{{ entry.id }}').value = storedValue;
-                    document.getElementById('enteredValue_{{ entry.id }}').innerText = 'Price: ' + storedValue;
-                    document.getElementById('totalCost_{{ entry.id }}').innerText = storedValue;
-                }
-            {% endfor %}
-        });
         
     </script>
     
