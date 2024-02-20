@@ -118,6 +118,7 @@
                     <th>Status</th>
                     <th>Driver Name</th>
                     <th>Driver Phone</th>
+                    <th>Total Amount</th>
                     <th>Download</th>
                 </tr>
             </thead>
@@ -159,13 +160,53 @@
                         {% else %}
                         -
                         {% endif %}</td>
+                        <td style="color:black;">
+                            {% if sell.total_cost == "Add Amount" %}
+                                <span id="enteredValue_{{ sell.id }}"></span>
+                            {% else %}
+                                <span id="totalCost_{{ sell.id }}">{{ sell.total_cost }}</span>
+                            {% endif %}
+                        </td>            
                         <td></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
+    <script>
+        function updateTotalCost(entryId, productName) {
+            var totalCostInput = document.getElementById('totalCostInput_' + entryId);
+            var enteredValueSpan = document.getElementById('enteredValue_' + entryId);
+            var totalCostSpan = document.getElementById('totalCost_' + entryId);
+    
+            // Get the value entered in the input field
+            var updatedTotalCost = totalCostInput.value;
+    
+            // Display the entered value dynamically
+            enteredValueSpan.innerText = 'Entered Value: ' + updatedTotalCost;
+    
+            // Store the entered value in localStorage
+            localStorage.setItem(productName, updatedTotalCost);
+    
+            // Send the updated total cost to the server (you may use AJAX for this)
+    
+            // Update the total cost span with the new value
+            totalCostSpan.innerText = updatedTotalCost;
+        }
+    
+        // Retrieve stored values on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            {% for entry in confirmed_data %}
+                var storedValue = localStorage.getItem('{{ entry.sell.name }}');
+                if (storedValue) {
+                    document.getElementById('totalCostInput_{{ entry.id }}').value = storedValue;
+                    document.getElementById('enteredValue_{{ entry.id }}').innerText = 'Entered Value: ' + storedValue;
+                    document.getElementById('totalCost_{{ entry.id }}').innerText = storedValue;
+                }
+            {% endfor %}
+        });
+        
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

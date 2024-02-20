@@ -192,8 +192,8 @@
                             <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
                         
-                        <li class="active">
-                            <a href="{% url 'adselldetails' %}"><i class="fas fa-dollar-sign"></i> <span>Sell</span></a>
+                        <li>
+                            <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Sell</span></a>
                         </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
@@ -231,14 +231,14 @@
                     <table>
                         <thead>
                             <tr>
-                                <th style="color:black;"><b>No</b></th>
-                                <th style="color:black;"><b>Farmer Name</b></th>
-                                <th style="color:black;"><b>Address</b></th>
-                                <th style="color:black;"><b>Ward No</b></th>
-                                <th style="color:black;"><b>Product Name</b></th>
-                                <th style="color:black;"><b>Quantity</b></th>
-                                <th style="color:black;"><b>Date To Collect</b></th>
-                                <th style="color:black;"><b>Total Cost</b></th>
+                                <th style="color:white;"><b>No</b></th>
+                                <th style="color:white;"><b>Farmer Name</b></th>
+                                <th style="color:white;"><b>Address</b></th>
+                                <th style="color:white;"><b>Ward No</b></th>
+                                <th style="color:white;"><b>Product Name</b></th>
+                                <th style="color:white;"><b>Quantity</b></th>
+                                <th style="color:white;"><b>Date To Collect</b></th>
+                                <th style="color:white;"><b>Total Cost</b></th>
                                 <!-- Add any other fields you want to display -->
                             </tr>
                         </thead>
@@ -255,11 +255,12 @@
                                     <td style="color:black;">
                                         {% if entry.total_cost == "Add Amount" %}
                                             <input type="text" id="totalCostInput_{{ entry.id }}" placeholder="Enter Total Cost">
-                                            <button onclick="updateTotalCost('{{ entry.id }}')">Update</button>
+                                            <button onclick="updateTotalCost('{{ entry.id }}', '{{ entry.sell.name }}')">Update</button>
+                                            <span id="enteredValue_{{ entry.id }}"></span>
                                         {% else %}
-                                            {{ entry.total_cost }}
+                                            <span id="totalCost_{{ entry.id }}">{{ entry.total_cost }}</span>
                                         {% endif %}
-                                    </td>                                 <!-- Add any other fields you want to display -->
+                                    </td>                               <!-- Add any other fields you want to display -->
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -281,30 +282,38 @@
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script>
-        function updateTotalCost(entryId) {
+        function updateTotalCost(entryId, productName) {
             var totalCostInput = document.getElementById('totalCostInput_' + entryId);
-            var totalCostValue = totalCostInput.value;
+            var enteredValueSpan = document.getElementById('enteredValue_' + entryId);
+            var totalCostSpan = document.getElementById('totalCost_' + entryId);
     
-            // Make an AJAX request to update the total cost
-            fetch('/update_total_cost/' + entryId + '/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token for security
-                },
-                body: 'total_cost=' + encodeURIComponent(totalCostValue),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    totalCostInput.value = '';  // Clear the input field
-                    totalCostInput.placeholder = data.total_cost;  // Update the placeholder with the new total cost
-                } else {
-                    console.error('Failed to update total cost');
-                }
-            })
-            .catch(error => console.error('Error:', error));
+            // Get the value entered in the input field
+            var updatedTotalCost = totalCostInput.value;
+    
+            // Display the entered value dynamically
+            enteredValueSpan.innerText = 'Price: ' + updatedTotalCost;
+    
+            // Store the entered value in localStorage
+            localStorage.setItem(productName, updatedTotalCost);
+    
+            // Send the updated total cost to the server (you may use AJAX for this)
+    
+            // Update the total cost span with the new value
+            totalCostSpan.innerText = updatedTotalCost;
         }
+    
+        // Retrieve stored values on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            {% for entry in confirmed_data %}
+                var storedValue = localStorage.getItem('{{ entry.sell.name }}');
+                if (storedValue) {
+                    document.getElementById('totalCostInput_{{ entry.id }}').value = storedValue;
+                    document.getElementById('enteredValue_{{ entry.id }}').innerText = 'Price: ' + storedValue;
+                    document.getElementById('totalCost_{{ entry.id }}').innerText = storedValue;
+                }
+            {% endfor %}
+        });
+        
     </script>
     
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>

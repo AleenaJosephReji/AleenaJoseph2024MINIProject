@@ -264,7 +264,7 @@
             var quantityValue = quantityInput.value;
 
             if (!isValidQuantity(quantityValue)) {
-                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number (positive, up to 3 digits, with decimals).';
+                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number';
                 document.getElementById('createdriver').disabled = true;
             } else {
                 document.getElementById('quantityError').innerText = '';
@@ -274,7 +274,7 @@
 
         function isValidQuantity(value) {
             // Use a regular expression to check if the value is a positive number with up to 3 digits and decimals
-            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) >= 0;
+            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) > 0;
         }
         
         

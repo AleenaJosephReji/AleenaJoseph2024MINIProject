@@ -2205,10 +2205,6 @@ def sellcrop(request):
 from django.shortcuts import render
 from .models import Sell
 
-def selldetails(request):
-    current_farmer_profile = request.user.farmerprofile
-    sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}").select_related('member', 'driver').prefetch_related('sellapply_set__driver')
-    return render(request, 'selldetails.html', {'sells': sells})
 
 from django.shortcuts import render
 from .models import Sell
@@ -2337,6 +2333,25 @@ def dconfirmed(request):
 # def mconfirmed(request):
 #     confirmed_apply = get_object_or_404(Sellapply, is_confirmed=True)
 #     return render(request, 'membertemp/mconfirmed.html', {'confirmed_apply': confirmed_apply})
+# def selldetails(request):
+#     current_farmer_profile = request.user.farmerprofile
+#     sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}").select_related('member', 'driver').prefetch_related('sellapply_set__driver')
+#     return render(request, 'selldetails.html', {'sells': sells})
+from django.db.models import F, ExpressionWrapper, FloatField
+
+def selldetails(request):
+    current_farmer_profile = request.user.farmerprofile
+    sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}") \
+                        .select_related('member', 'driver')
+
+    for sell in sells:
+        try:
+            product_cost = Productcost.objects.get(pname=sell.name)
+            sell.total_cost = int(sell.quantity) * product_cost.price
+        except Productcost.DoesNotExist:
+            sell.total_cost = "Add Amount"  # Set a message when the product is not found
+
+    return render(request, 'selldetails.html', {'sells': sells})
 
 def adselldetails(request):
     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
