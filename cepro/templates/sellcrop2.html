@@ -224,7 +224,8 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>Sell Date :</label>
-                            <input type="date" class="form-control datetimepicker" name="sell_date">
+                        <input type="date" class="form-control datetimepicker" name="sell_date" id="sellDate">
+                        <small id="sellDateError" class="text-danger"></small>
                     </div>
                 </div>
               <div class="m-t-20 text-center">
@@ -234,8 +235,7 @@
             </form>
           </div>
     </div>
-    <!-- Add the following script inside the head tag or at the end of the body tag -->
-<!-- Add the following script inside the head tag or at the end of the body tag -->
+ 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Get the quantity input element
@@ -248,36 +248,52 @@
         // Add an input event listener to the crop input field
         cropInput.addEventListener('input', validateCropName);
 
-        function validateQuantity() {
-            var quantityValue = quantityInput.value;
-
-            if (!isValidQuantity(quantityValue)) {
-                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number.';
-                document.getElementById('createdriver').disabled = true;
-            } else {
-                document.getElementById('quantityError').innerText = '';
-                document.getElementById('createdriver').disabled = false;
+       
+            
+            function validateQuantity() {
+                var quantityValue = quantityInput.value;
+    
+                if (!isValidQuantity(quantityValue)) {
+                    document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number';
+                    document.getElementById('createdriver').disabled = true;
+                } else {
+                    document.getElementById('quantityError').innerText = '';
+                    document.getElementById('createdriver').disabled = false;
+                }
             }
-        }
-        function validateQuantity() {
-            var quantityValue = quantityInput.value;
-
-            if (!isValidQuantity(quantityValue)) {
-                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number';
-                document.getElementById('createdriver').disabled = true;
-            } else {
-                document.getElementById('quantityError').innerText = '';
-                document.getElementById('createdriver').disabled = false;
+    
+            function isValidQuantity(value) {
+                // Use a regular expression to check if the value is a positive number with up to 3 digits and decimals
+                return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) > 0 && parseFloat(value) <= 50;
             }
-        }
+            
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the date input element
+            var sellDateInput = document.getElementById('sellDate');
+            // Get the error message element
+            var sellDateError = document.getElementById('sellDateError');
+    
+            // Add an event listener for input changes
+            sellDateInput.addEventListener('input', function () {
+                // Get the selected date value
+                var selectedDate = new Date(this.value);
+    
+                // Get today's date
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for accurate comparison
+    
+                // Check if the selected date is less than today's date
+                if (selectedDate < today) {
+                    sellDateError.textContent = 'Sell date must be greater than or equal to today.';
+                    this.setCustomValidity('Sell date must be greater than or equal to today.');
+                } else {
+                    sellDateError.textContent = '';
+                    this.setCustomValidity('');
+                }
+            });
+        });
 
-        function isValidQuantity(value) {
-            // Use a regular expression to check if the value is a positive number with up to 3 digits and decimals
-            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) > 0;
-        }
-        
-        
-    });
 </script>
 
 

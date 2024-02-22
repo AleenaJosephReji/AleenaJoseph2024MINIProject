@@ -254,17 +254,7 @@
         // Add an input event listener to the crop input field
         cropInput.addEventListener('input', validateCropName);
 
-        function validateQuantity() {
-            var quantityValue = quantityInput.value;
-
-            if (!isValidQuantity(quantityValue)) {
-                document.getElementById('quantityError').innerText = 'Invalid quantity. Please enter a valid number.';
-                document.getElementById('createdriver').disabled = true;
-            } else {
-                document.getElementById('quantityError').innerText = '';
-                document.getElementById('createdriver').disabled = false;
-            }
-        }
+        
         function validateQuantity() {
             var quantityValue = quantityInput.value;
 
@@ -279,9 +269,8 @@
 
         function isValidQuantity(value) {
             // Use a regular expression to check if the value is a positive number with up to 3 digits and decimals
-            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) > 0;
+            return /^\d+(\.\d{1,2})?$/.test(value) && parseFloat(value) > 0 && parseFloat(value) <= 50;
         }
-        
         
     });
     document.addEventListener('DOMContentLoaded', function () {

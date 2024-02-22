@@ -2375,6 +2375,18 @@ def dconfirmed(request):
             entry.total_cost = "Add Amount"  # Set a message when the product is not found
 
     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
+
+
+    
+def collected(request, collection_id):
+    collection = get_object_or_404(Sellapply, id=collection_id)
+    
+    if request.method == 'POST':
+        collection.is_collected = True
+        collection.save()
+
+    return redirect('dconfirmed')  # Replace with your actual view name
+
 # def mconfirmed(request):
 #     confirmed_apply = get_object_or_404(Sellapply, is_confirmed=True)
 #     return render(request, 'membertemp/mconfirmed.html', {'confirmed_apply': confirmed_apply})
@@ -2452,3 +2464,62 @@ def update_total_cost(request, entry_id):
             pass  # Handle the case where the Sellapply entry is not found
 
     return redirect('adselldetails')
+
+
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.shortcuts import get_object_or_404
+from xhtml2pdf import pisa  # Ensure you have xhtml2pdf installed
+
+def generate_pdf_bill(request, sell_id):
+    sell = get_object_or_404(Sell, id=sell_id)
+    sellapply = sell.sellapply_set.first()  # Assuming a related name is set in Sell model
+
+    if not sellapply:
+        return HttpResponse('Sellapply not found for this Sell.')
+
+    template_path = 'admintemp/generate_pdf_bill.html'
+    context = {'sell': sell, 'sellapply': sellapply}
+    
+    # Create a Django response object, specifying content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="bill_{sell.id}.pdf"'
+
+    # find the template and render it.
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    # if error then show some funny view
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    
+    return response
+
+def adgenerate_pdf_bill(request, sell_id):
+    sell = get_object_or_404(Sell, id=sell_id)
+    sellapply = sell.sellapply_set.first()
+
+    if not sellapply:
+        return HttpResponse('Sellapply not found for this Sell.')
+
+    template_path = 'admintemp/generate_pdf_bill.html'  # Change the template name
+    context = {'sell': sell, 'sellapply': sellapply}
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="bill_{sell.id}.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    
+    return response

@@ -88,6 +88,20 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        td button {
+            background-color: transparent;
+            border: none;
+            color: #007bff; 
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        td button i {
+            margin-right: 5px;
+        }
     </style> 
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -232,11 +246,16 @@
                                 <th style="color:white;"><b>No</b></th>
                                 <th style="color:white;"><b>Farmer Name</b></th>
                                 <th style="color:white;"><b>Address</b></th>
+                                {% comment %} <th style="color:white;"><b>Approved Member</b></th> {% endcomment %}
                                 <th style="color:white;"><b>Ward No</b></th>
                                 <th style="color:white;"><b>Product Name</b></th>
                                 <th style="color:white;"><b>Quantity</b></th>
                                 <th style="color:white;"><b>Date To Collect</b></th>
+                                <th style="color:white;"><b>Driver Name</b></th>
+                                <th style="color:white;"><b>Driver Phone</b></th>
+                                <th style="color:white;"><b>Collected</b></th>                     
                                 <th style="color:white;"><b>Total Cost</b></th>
+                                <th style="color:white;"><b>Download</b></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -245,10 +264,39 @@
                                     <td style="color:black;">{{ forloop.counter }}</td>
                                     <td style="color:black;">{{ entry.sell.farmerName }}</td>
                                     <td style="color:black;">{{ entry.sell.address }}</td>
+                                    {% comment %} <td>
+                                        {% if entry.is_accept == 'accept' %}
+                                            {{ entry.user.name }}
+                                        {% else %}
+                                            Not Confirmed
+                                        {% endif %}
+                                    </td> {% endcomment %}
                                     <td style="color:black;">{{ entry.sell.wardNo }}</td>
                                     <td style="color:black;">{{ entry.sell.name }}</td>
                                     <td style="color:black;">{{ entry.sell.quantity }}</td>
                                     <td style="color:black;">{{ entry.sell.sell_date }}</td>
+
+                                    <td>
+                                        {% if entry.is_confirmed %}
+                                            {{ entry.driver.name }}
+                                        {% else %}
+                                            Not Confirmed
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if entry.is_confirmed %}
+                                            {{ entry.driver.dphone }}
+                                        {% else %}
+                                            Not Confirmed
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if entry.is_collected %}
+                                            Collected
+                                        {% else %}
+                                            Not Collected
+                                        {% endif %}
+                                    </td>                                    
                                     <td style="color:black;">
                                         {% if entry.total_cost == "Add Amount" %}
                                             <form method="post" action="{% url 'update_total_cost' entry.id %}">
@@ -268,8 +316,16 @@
                                             </span>
                                         {% endif %}
                                     </td>
-
-            
+                                    <td>
+                                        {% if entry.is_confirmed and entry.is_collected %}
+                                            <form action="{% url 'adgenerate_pdf_bill' entry.sell.id %}" method="post" target="_blank">
+                                                {% csrf_token %}
+                                                <button type="submit"><i class="fas fa-download"></i></button>
+                                            </form>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sell Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +19,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             border: 1px solid white;
             margin: 0 auto;
             background-color: #fff;
@@ -62,6 +64,20 @@
             color: #fff; /* Change the text color on hover */
             transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
         }
+        td button {
+            background-color: transparent;
+            border: none;
+            color: #007bff; 
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        td button i {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -105,7 +121,6 @@
 
     <div class="container mt-5">
         <h1>Sell Details</h1>
-        
         <table>
             <thead>
                 <tr>
@@ -118,6 +133,7 @@
                     <th>Status</th>
                     <th>Driver Name</th>
                     <th>Driver Phone</th>
+                    <th>Collected</th>
                     <th>Total Amount</th>
                     <th>Download</th>
                 </tr>
@@ -160,6 +176,15 @@
                         {% else %}
                         -
                         {% endif %}</td>
+
+
+                        <td>
+                            {% if sell.sellapply_set.first.is_collected %}
+                                Collected
+                            {% else %}
+                                Not Collected
+                            {% endif %}
+                        </td>
                         <td style="color:black;">
                             {% if sell.total_cost == "Add Amount" %}
                                 <span id="enteredValue_{{ sell.id }}"></span>
@@ -167,7 +192,16 @@
                                 <span id="totalCost_{{ sell.id }}">{{ sell.total_cost }}</span>
                             {% endif %}
                         </td>            
-                        <td></td>
+                        <td>
+                            {% if sell.is_accept == 'accept' and sell.sellapply_set.first.is_confirmed and sell.sellapply_set.first.is_collected %}
+                                <form action="{% url 'generate_pdf_bill' sell.id %}" method="post" target="_blank">
+                                    {% csrf_token %}
+                                    <button type="submit"><i class="fas fa-download"></i></button>
+                                </form>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

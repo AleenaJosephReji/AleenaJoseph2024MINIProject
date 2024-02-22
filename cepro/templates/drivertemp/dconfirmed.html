@@ -238,6 +238,7 @@
                                 <th style="color:black;"><b>Quantity</b></th>
                                 <th style="color:black;"><b>Date To Collect</b></th>
                                 <th style="color:black;"><b>Total Cost</b></th>
+                                <th style="color:black;"><b>Collected </b></th>
                                 <!-- Add any other fields you want to display -->
                             </tr>
                         </thead>
@@ -251,7 +252,18 @@
                                     <td style="color:black;">{{ entry.sell.name }}</td>
                                     <td style="color:black;">{{ entry.sell.quantity }}</td>
                                     <td style="color:black;">{{ entry.sell.sell_date }}</td>
-                                    <td style="color:black;">{{ entry.total_cost }}</td>                                                 
+                                    <td style="color:black;">{{ entry.total_cost }}</td>   
+                                    <td style="color:black;">
+                                        {% if not entry.is_collected %}
+                                            <form method="post" action="{% url 'collected' entry.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-primary" type="submit">Collected</button>
+                                            </form>
+                                        {% else %}
+                                            <p>Collected</p>
+                                        {% endif %}
+                                    </td>
+                                                                             
                                      <!-- Add any other fields you want to display -->
                                 </tr>
                             {% endfor %}
