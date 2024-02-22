@@ -2298,8 +2298,10 @@ def msell(request):
     return render(request, 'membertemp/msell.html', {'products': products, 'today_date': today_date})
 
 def msellapprove(request):
+    today_date = timezone.now().date()
+
     approved_products = Sell.objects.filter(is_accept='accept')
-    return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products})
+    return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products ,'today_date':today_date})
 
 def driverapply(request):
     approved_products = Sell.objects.filter(is_accept='accept')
@@ -2370,7 +2372,7 @@ def dconfirmed(request):
     for entry in confirmed_data:
         try:
             product_cost = Productcost.objects.get(pname=entry.sell.name)
-            entry.total_cost = int(entry.sell.quantity) * product_cost.price
+            entry.total_cost = float(entry.sell.quantity) * product_cost.price
         except Productcost.DoesNotExist:
             entry.total_cost = "Add Amount"  # Set a message when the product is not found
 
@@ -2404,7 +2406,7 @@ def selldetails(request):
     for sell in sells:
         try:
             product_cost = Productcost.objects.get(pname=sell.name)
-            sell.total_cost = int(sell.quantity) * product_cost.price
+            sell.total_cost = float(sell.quantity) * product_cost.price
         except Productcost.DoesNotExist:
             sell.total_cost = "Add Amount"  # Set a message when the product is not found
         sell_applies = Sellapply.objects.filter(sell=sell)
@@ -2446,7 +2448,7 @@ def adselldetails(request):
     for entry in confirmed_data:
         try:
             product_cost = Productcost.objects.get(pname=entry.sell.name)
-            entry.total_cost = int(entry.sell.quantity) * product_cost.price
+            entry.total_cost = float(entry.sell.quantity) * product_cost.price
         except Productcost.DoesNotExist:
             entry.total_cost = "Add Amount"
 

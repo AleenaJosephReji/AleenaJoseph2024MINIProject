@@ -311,7 +311,7 @@
 
                                     <td style="color:black;">
                                         {% if product.is_accept == 'pending' %}
-                                            {% if product.sell_date >= today_date %}
+                                            {% if product.sell_date > today_date %}
                                                 <form method="post" action="{% url 'accept_certification' product.id %}">
                                                     {% csrf_token %}
                                                     <button class="btn btn-success approve-btn" type="submit">Approve</button>

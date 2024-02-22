@@ -140,7 +140,7 @@
     <div class="main-wrapper">
         <div class="header">
 			<div class="header-left">
-				<a href="{% url 'adindex' %}" class="logo">
+				<a href="{% url 'dindex' %}" class="logo">
 					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
 				</a>
 			</div>
@@ -200,6 +200,9 @@
                         </li>
                         <li>
                             <a href="{% url 'driverapply' %}"><i class="fa fa-user"></i> <span>Apply</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'dconfirmed' %}"><i class="fa fa-user"></i> <span>confirm</span></a>
                         </li>
 						{% comment %} <li>
                             <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>

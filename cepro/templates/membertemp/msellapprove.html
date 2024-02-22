@@ -292,13 +292,22 @@
                                     <td style="color:black;">{{ approved_product.name }}</td>
                                     <td style="color:black;">{{ approved_product.quantity }}</td>
                                     <td style="color:black;">{{ approved_product.sell_date }}</td>
-
                                     <td style="color:black;">
+                                        {% if approved_product.sell_date > today_date %}
+                                            <form method="post" action="{% url 'remove_scertification' approved_product.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-danger reject-btn" type="submit">Reject</button>
+                                            </form>
+                                        {% else %}
+                                            <p style="color: green;">Approved</p>
+                                        {% endif %}
+                                    </td>
+                                    {% comment %} <td style="color:black;">
                                         <form method="post" action="{% url 'remove_scertification' approved_product.id %}">
                                             {% csrf_token %}
                                             <button class="btn btn-danger reject-btn" type="submit">Reject</button>
                                         </form>
-                                    </td>
+                                    </td> {% endcomment %}
                                 </tr>
                             {% endfor %}
                         </tbody>
