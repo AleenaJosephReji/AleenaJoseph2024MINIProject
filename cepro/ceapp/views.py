@@ -2607,7 +2607,7 @@ from django.shortcuts import render
 from .models import Sell, Productcost, Sellapply
 from django.shortcuts import render
 from .models import FarmerProfile, Sell, Productcost, Sellapply
-
+# views.py
 def adaccount(request):
     all_farmer_profiles = FarmerProfile.objects.all()
 
@@ -2642,13 +2642,11 @@ def adaccount(request):
             total_amounts[farmer_profile] = total_amount
 
     return render(request, 'admintemp/adaccount.html', {'total_amounts': total_amounts})
-
-# def update_payment_status(request, entry_id):
-#     entry = get_object_or_404(Sellapply, id=entry_id)
+def pay_entry(request, entry_id):
+    entry = get_object_or_404(Sellapply, id=entry_id)
     
-#     if request.method == 'POST':
-#         entry.is_paid = True
-#         entry.save()
+    if request.method == 'POST':
+        entry.is_amount = True
+        entry.save()
 
-#     return redirect('adselldetails') 
-
+    return redirect('adselldetails') 

@@ -255,7 +255,7 @@
                                 <th style="color:white;"><b>Driver Phone</b></th>
                                 <th style="color:white;"><b>Collected</b></th>                     
                                 <th style="color:white;"><b>Total Cost</b></th>
-                                {% comment %} <th style="color:white;"></b>Pay</b></th> {% endcomment %}
+                                <th style="color:white;"></b>Pay</b></th>
                                 <th style="color:white;"><b>Download</b></th>
                             </tr>
                         </thead>
@@ -319,16 +319,16 @@
                                             </span>
                                         {% endif %}
                                     </td>
-                                    {% comment %} <td style="color:black;">
-                                        {% if not entry.is_paid %}
-                                            <form method="post" action="{% url 'update_payment_status' entry.id %}">
+                                    <td style="color:black;">
+                                        {% if not entry.is_amount %}
+                                            <form method="post" action="{% url 'pay_entry' entry.id %}">
                                                 {% csrf_token %}
                                                 <button class="btn btn-primary" type="submit">Pay</button>
                                             </form>
                                         {% else %}
                                             <p>Paid</p>
                                         {% endif %}
-                                    </td>                                     {% endcomment %}
+                                    </td>                                    
                                     <td>
                                         {% if entry.is_confirmed and entry.is_collected %}
                                             <form action="{% url 'adgenerate_pdf_bill' entry.sell.id %}" method="post" target="_blank">
