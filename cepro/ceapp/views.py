@@ -2605,11 +2605,13 @@ def account(request):
 
 from django.shortcuts import render
 from .models import Sell, Productcost, Sellapply
+from django.shortcuts import render
+from .models import FarmerProfile, Sell, Productcost, Sellapply
 
 def adaccount(request):
-    all_farmer_profiles = FarmerProfile.objects.all()  # Assuming you have a model named FarmerProfile
+    all_farmer_profiles = FarmerProfile.objects.all()
 
-    total_amounts = {}  # Initialize a dictionary to store total amounts for each farmer
+    total_amounts = {}
 
     for farmer_profile in all_farmer_profiles:
         sells = Sell.objects.filter(
@@ -2622,21 +2624,31 @@ def adaccount(request):
             sellapply__is_collected=True
         )
 
-        total_amount = 0  # Initialize total amount variable for each farmer
+        total_amount = 0
 
         for sell in accepted_sells:
             try:
                 product_cost = Productcost.objects.get(pname=sell.name)
                 sell.total_cost = float(sell.quantity) * product_cost.price
-                total_amount += sell.total_cost  # Add each sell's total cost to the total amount
+                total_amount += sell.total_cost
 
-                # Include total_cost from Sellapply model if it's not None
                 total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
                 total_amount += total_cost_sellapply
             except Productcost.DoesNotExist:
-                sell.total_cost = 0  # Set to 0 when the product is not found
+                sell.total_cost = 0
 
-        total_amounts[farmer_profile] = total_amount  # Store the total amount for each farmer in the dictionary
+        # Check if the farmer has at least one collected sell
+        if accepted_sells.exists():
+            total_amounts[farmer_profile] = total_amount
 
     return render(request, 'admintemp/adaccount.html', {'total_amounts': total_amounts})
+
+# def update_payment_status(request, entry_id):
+#     entry = get_object_or_404(Sellapply, id=entry_id)
+    
+#     if request.method == 'POST':
+#         entry.is_paid = True
+#         entry.save()
+
+#     return redirect('adselldetails') 
 

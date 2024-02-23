@@ -1,18 +1,302 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
+
+<!-- schedule23:20-->
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Total Amount</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
+    <title>CropElevate</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+    <style>
+        .header
+        {
+            background-color:green;
+        }
+        .header .header-left 
+        {
+            background-color:green;
+        }
+        .sidebar
+        {
+            background-color:green;
+        }
+        .sidebar-menu li a {
+            color:white;
+        }
+        .sidebar-menu li a:hover {
+            color: white;
+        }
+        .sidebar-menu li.active a {
+            color: green;
+            background-color: #f3f3f3;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .details {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            color:black;
+        }
+
+        th {
+            background-color: green;
+            color: white;
+        }
+
+        .no-details {
+            text-align: center;
+            color: #777;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .btn-primary {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style> 
 </head>
+
 <body>
-    <div class="container mt-5">
-        <h1>Total Amount of Accepted, Confirmed, and Collected Sells for Each Farmer</h1>
-        
-        {% for farmer_profile, total_amount in total_amounts.items %}
-            <p>{{ farmer_profile.first_name }} {{ farmer_profile.last_name }} Total Amount: ${{ total_amount }}</p>
-        {% endfor %}
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="{% url 'adindex' %}" class="logo">
+					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li> {% endcomment %}
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+							<span class="status online"></span></span>
+                        {% comment %} <span>Admin</span> {% endcomment %}
+                    </a>
+					<div class="dropdown-menu">
+						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
+						{% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
+						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
+                    {% comment %} <a class="dropdown-item" href="">Edit Profile</a> {% endcomment %}
+                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title" style="color:#c9edbe; font-weight:bold;">Admin</li>
+                        <li>
+                            <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+						<li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
+                        </li>
+                        
+                        <li>
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
+                        </li>
+                       
+
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fas fa-exclamation-circle"></i>
+
+                                    </i> <span>Pending</span></a>
+                                </li>
+                                <li class="active">
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
+                                </li>
+                            </ul>
+                        </li>    
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                                </li>
+                            </ul>
+                        </li>    
+                        <li>
+                            <a href="{% url 'addriver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
+                        </li>
+                        {% comment %} <li>
+                            <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
+                        </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Sell</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            </i> <span>Report</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
+                            </i>
+                                <span>Calendar</span></a>
+                        </li>    
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="padding-left: 250px; padding-top: 100px;">
+            <h1>Account</h1>
+
+            {% comment %} <input type="text" id="search-input" placeholder="Enter Crop Name">
+            <button onclick="searchTable()">Search</button> {% endcomment %}
+            <table class="details">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Farmer Name</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for farmer_profile, total_amount in total_amounts.items %}
+                    <tr>
+                        <td>{{ forloop.counter }}
+                        <td>{{ farmer_profile.first_name }} {{ farmer_profile.last_name }}</td>
+                        <td>{{ total_amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+            </div>
+            <div class="notification-box">
+                <div class="msg-sidebar notifications msg-noti">
+                    <div class="topnav-dropdown-header">
+                        <span>Messages</span>
+                    </div>
+                    <div class="drop-scroll msg-list-scroll" id="msg_list">
+                        <ul class="list-box">
+                        </ul>
+                    </div>
+                    {% comment %} <div class="topnav-dropdown-footer">
+                        <a href="chat.html">See all messages</a>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+		</div>
     </div>
+    <div class="sidebar-overlay" data-reff=""></div>
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search-input");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".details table");
+            tr = table.getElementsByTagName("tr");
+        
+            for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the table header row
+                td = tr[i].getElementsByTagName("td")[1];  // Assuming the crop name is in the second column (index 1)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        </script>
+        
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
+
+
+<!-- schedule23:21-->
 </html>

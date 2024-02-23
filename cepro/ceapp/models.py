@@ -440,6 +440,7 @@ class Sellapply(models.Model):
     is_confirmed = models.BooleanField(default=False)
     total_cost = models.IntegerField(null=True, blank=True)
     is_collected = models.BooleanField(default=False)
+    is_paid = models.BooleanField(default=False)
 class Confirm(models.Model):
     CONFIRM = 'confirm'
     PENDING = 'pending'

@@ -196,6 +196,7 @@ urlpatterns = [
     path('collected/<int:collection_id>/', views.collected, name='collected'),
     path('adaccount', views.adaccount, name='adaccount'),
     path('account', views.account, name='account'),
+    # path('update_payment_status/<int:entry_id>/', views.update_payment_status, name='update_payment_status'),
 
     path('adgenerate_pdf_bill/<int:sell_id>/', views.adgenerate_pdf_bill, name='adgenerate_pdf_bill'),
 
