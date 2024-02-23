@@ -299,12 +299,14 @@
                                     </td>                                    
                                     <td style="color:black;">
                                         {% if entry.total_cost == "Add Amount" %}
-                                            <form method="post" action="{% url 'update_total_cost' entry.id %}">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="entry_id" value="{{ entry.id }}">
-                                                <input type="text" name="total_cost" id="totalCostInput_{{ entry.id }}" placeholder="Enter Total Cost">
-                                                <button type="submit">Update</button>
-                                            </form>
+                                        <form method="post" action="{% url 'update_total_cost' entry.id %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                                            <input type="text" name="total_cost" id="totalCostInput_{{ entry.id }}" placeholder="Enter Total Cost" oninput="validateTotalCost(this)">
+                                            <span id="validationMessage_{{ entry.id }}" style="color: red;"></span>
+                                            <button type="submit">Update</button>
+                                        </form>
+                                        
                                         {% else %}
                                             <span id="totalCost_{{ entry.id }}">
                                                 {% if entry.total_cost %}
@@ -346,7 +348,21 @@
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script>
-        
+        function validateTotalCost(input) {
+            var inputValue = input.value.trim();
+            var validationMessageElement = document.getElementById("validationMessage_" + input.id.split('_')[1]);
+    
+            // Use regex to match positive decimal numbers
+            var regex = /^\d+(\.\d{1,2})?$/;
+    
+            if (regex.test(inputValue) && parseFloat(inputValue) > 0) {
+                // Valid input
+                validationMessageElement.textContent = "";
+            } else {
+                // Invalid input
+                validationMessageElement.textContent = "Please enter a valid positive number with up to two decimal places.";
+            }
+        }
     </script>
     
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>

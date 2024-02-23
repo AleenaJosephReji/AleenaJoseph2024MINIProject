@@ -35,8 +35,8 @@
         
         h1 {
             text-align: center;
-            font-size: 36px;
-            color: green;
+            font-size: 28px;
+            color: #263A4F;
             margin-bottom: 20px;
         }
         table {
@@ -134,44 +134,6 @@
             background-color: #555;
             color: green;
         }
-        .table-container {
-            width: 780px; 
-            margin-top: 20px;
-            margin-bottom: 20px; 
-        }
-        
-        .custom-table {
-            margin: 0 auto; /* Center the table horizontally */
-            width: 780px;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
-        }
-    
-        
-        .custom-table th, .custom-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .custom-table th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .custom-table td {
-            color:black;
-            background-color: #f5f5f5;
-        }
-        .nav-hover:hover {
-            background-color: green; /* Change to a light green color on hover */
-            color: #fff; /* Change the text color on hover */
-            transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
-        }
-        {% comment %} .table-actions a {
-            margin-right: 10px;
-            color: #007BFF;
-        } {% endcomment %}
     </style>
 </head>
 <body>
@@ -187,8 +149,8 @@
                 <a href="{% url 'homepage' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px; color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
                 <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
-                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-                <a href="{% url 'pricelist2' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
                 {% comment %} <li>
                     <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
                 </li> {% endcomment %}
@@ -215,40 +177,20 @@
         </div>
     </nav>
     <br><br>
-    <h1>Price List</h1>
-    <table class="custom-table">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Product Name</th>
-                    {% comment %} <th>Quantity</th> {% endcomment %}
-                    <th>Price</th>
-                    <th>Apply</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product_cost in product_costs %}
-                    <tr>
-                        <td>{{ forloop.counter }}
-                        <td>{{ product_cost.pname }}</td>
-                        {% comment %} <td>{{ product_cost.quantity }}</td> {% endcomment %}
-                        <td>{{ product_cost.price }}</td>
-                        <td class="table-actions">
-                            <a href="{% url 'sellcrop' %}?product_name={{ product_cost.pname }}" class="btn btn-primary">Sell</a>
-                        </td>
-                        
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <div style="text-align: center; margin-top: 20px;">
-            <label style="font-size: 24px; color:red;">To sell other crops, please click here:</label>
-            <a href="{% url 'sellcrop2' %}" class="btn btn-primary">Sell</a>
+    <div class="container mt-5">
+        <h1>Total Amount</h1>
+        <p>Total Amount: ${{ total_amount }}</p>
+    </div>
+    {% comment %} <div class="container">
+        <div class="row">       
+          
+                   
+            
         </div>
-        {% comment %} <div style="text-align: right; margin-top: 20px; margin-right:200px;margin-top:50px;">
-           <label style="font-size: 24px; color:red;">To sell other crop please click here </label> <a href="{% url 'sellcrop2' %}" class="btn btn-primary">Sell</a>
-        </div> {% endcomment %}
+    </div> {% endcomment %}
+    
+    
+    
     
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -256,3 +198,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+

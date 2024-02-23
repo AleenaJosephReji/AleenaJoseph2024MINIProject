@@ -2525,3 +2525,118 @@ def adgenerate_pdf_bill(request, sell_id):
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     
     return response
+
+
+from django.db.models import Sum
+# def adaccount(request):
+#     filtered_data = Sellapply.objects.filter(
+#         is_confirmed=True,
+#         is_collected=True,
+#         is_apply='apply',
+#         sell__is_accept='accept'
+#     )
+
+#     # Aggregate total cost for each farmer using the related Sell model
+#     farmer_totals = Sellapply.objects.filter(is_confirmed=True).values('sell__farmerName').annotate(total_amount=Sum('total_cost'))
+
+#     return render(request, 'admintemp/adaccount.html', {'farmer_totals': farmer_totals, 'filtered_data': filtered_data})
+
+# def adaccount(request):
+#     farmers_total_cost = Sellapply.objects.filter(is_confirmed=True).values('sell__farmerName').annotate(total_cost=Sum('total_cost'))
+
+#     return render(request, 'admintemp/adaccount.html', {'farmers_total_cost': farmers_total_cost})
+
+
+
+# def account(request):
+#     current_farmer_profile = request.user.farmerprofile
+#     sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}") \
+#                         .select_related('member', 'driver')
+
+#     total_amount = 0  # Initialize total amount variable
+
+#     for sell in sells:
+#         try:
+#             product_cost = Productcost.objects.get(pname=sell.name)
+#             sell.total_cost = float(sell.quantity) * product_cost.price
+#             total_amount += sell.total_cost  # Add each sell's total cost to the total amount
+#         except Productcost.DoesNotExist:
+#             sell.total_cost = 0  # Set to 0 when the product is not found
+
+#     return render(request, 'account.html', {'total_amount': total_amount})
+# from django.shortcuts import render
+
+
+
+
+from django.shortcuts import render
+from .models import Sell, Productcost, Sellapply
+
+def account(request):
+    current_farmer_profile = request.user.farmerprofile
+
+    # Filter sells based on farmerName
+    sells = Sell.objects.filter(
+        farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+    ).select_related('member', 'driver')
+
+    accepted_sells = sells.filter(
+        is_accept='accept',
+        sellapply__is_confirmed=True,
+        sellapply__is_collected=True
+    )
+
+    total_amount = 0  # Initialize total amount variable
+
+    for sell in accepted_sells:
+        try:
+            product_cost = Productcost.objects.get(pname=sell.name)
+            sell.total_cost = float(sell.quantity) * product_cost.price
+            total_amount += sell.total_cost  # Add each sell's total cost to the total amount
+
+            # Include total_cost from Sellapply model if it's not None
+            total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+            total_amount += total_cost_sellapply
+        except Productcost.DoesNotExist:
+            sell.total_cost = 0  # Set to 0 when the product is not found
+
+    return render(request, 'account.html', {'total_amount': total_amount, 'accepted_sells': accepted_sells})
+
+
+from django.shortcuts import render
+from .models import Sell, Productcost, Sellapply
+
+def adaccount(request):
+    all_farmer_profiles = FarmerProfile.objects.all()  # Assuming you have a model named FarmerProfile
+
+    total_amounts = {}  # Initialize a dictionary to store total amounts for each farmer
+
+    for farmer_profile in all_farmer_profiles:
+        sells = Sell.objects.filter(
+            farmerName=f"{farmer_profile.first_name} {farmer_profile.last_name}"
+        ).select_related('member', 'driver')
+
+        accepted_sells = sells.filter(
+            is_accept='accept',
+            sellapply__is_confirmed=True,
+            sellapply__is_collected=True
+        )
+
+        total_amount = 0  # Initialize total amount variable for each farmer
+
+        for sell in accepted_sells:
+            try:
+                product_cost = Productcost.objects.get(pname=sell.name)
+                sell.total_cost = float(sell.quantity) * product_cost.price
+                total_amount += sell.total_cost  # Add each sell's total cost to the total amount
+
+                # Include total_cost from Sellapply model if it's not None
+                total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+                total_amount += total_cost_sellapply
+            except Productcost.DoesNotExist:
+                sell.total_cost = 0  # Set to 0 when the product is not found
+
+        total_amounts[farmer_profile] = total_amount  # Store the total amount for each farmer in the dictionary
+
+    return render(request, 'admintemp/adaccount.html', {'total_amounts': total_amounts})
+

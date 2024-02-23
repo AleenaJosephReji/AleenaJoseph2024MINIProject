@@ -194,6 +194,8 @@ urlpatterns = [
     path('update_total_cost/<int:entry_id>/', views.update_total_cost, name='update_total_cost'),
     path('generate_pdf_bill/<int:sell_id>/', views.generate_pdf_bill, name='generate_pdf_bill'),
     path('collected/<int:collection_id>/', views.collected, name='collected'),
+    path('adaccount', views.adaccount, name='adaccount'),
+    path('account', views.account, name='account'),
 
     path('adgenerate_pdf_bill/<int:sell_id>/', views.adgenerate_pdf_bill, name='adgenerate_pdf_bill'),
 

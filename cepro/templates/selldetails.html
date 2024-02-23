@@ -100,7 +100,6 @@
                 </li> {% endcomment %}
             </ul>
         </div>
-
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
@@ -118,15 +117,14 @@
             </div>
         </div>
     </nav>
-
     <div class="container mt-5">
         <h1>Sell Details</h1>
         <table>
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Address</th>
+                    {% comment %} <th>Name</th>
+                    <th>Address</th> {% endcomment %}
                     <th>Product Name</th>
                     <th>Quantity</th>
                     <th>Sell Date</th>
@@ -142,8 +140,8 @@
                 {% for sell in sells %}
                     <tr>
                         <td>{{ forloop.counter }}
-                        <td>{{ sell.farmerName }}</td>
-                        <td>{{ sell.address }}</td>
+                        {% comment %} <td>{{ sell.farmerName }}</td>
+                        <td>{{ sell.address }}</td> {% endcomment %}
                         <td>{{ sell.name }}</td>
                         <td>{{ sell.quantity }}</td>
                         <td>{{ sell.sell_date }}</td>
@@ -176,8 +174,6 @@
                         {% else %}
                         -
                         {% endif %}</td>
-
-
                         <td>
                             {% if sell.sellapply_set.first.is_collected %}
                                 Collected
