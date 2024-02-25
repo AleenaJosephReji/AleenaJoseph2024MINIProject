@@ -232,6 +232,7 @@
                         <th>No</th>
                         <th>Farmer Name</th>
                         <th>Total Amount</th>
+                        <th>Paid Amount</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -240,7 +241,7 @@
                         <td>{{ forloop.counter }}
                         <td>{{ farmer_profile.first_name }} {{ farmer_profile.last_name }}</td>
                         <td>{{ total_amount }}</td>
-                    </tr>
+                        <td>{{ entry.paid_amount }}</td>                    </tr>
                     {% endfor %}
                 </tbody>
             </table>

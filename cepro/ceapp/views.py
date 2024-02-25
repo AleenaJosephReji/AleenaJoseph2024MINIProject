@@ -2429,30 +2429,30 @@ def selldetails(request):
 from django.shortcuts import render, redirect
 from .models import Sellapply
 
-def adselldetails(request):
-    confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+# def adselldetails(request):
+#     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
 
-    if request.method == 'POST':
-        entry_id = request.POST.get('entry_id')
-        total_cost = request.POST.get('total_cost')
+#     if request.method == 'POST':
+#         entry_id = request.POST.get('entry_id')
+#         total_cost = request.POST.get('total_cost')
 
-        entry = Sellapply.objects.get(pk=entry_id)
-        entry.total_cost = total_cost
-        entry.save()
+#         entry = Sellapply.objects.get(pk=entry_id)
+#         entry.total_cost = total_cost
+#         entry.save()
 
-        # Get the updated entry from the database
-        entry = Sellapply.objects.get(pk=entry_id)
+#         # Get the updated entry from the database
+#         entry = Sellapply.objects.get(pk=entry_id)
 
-        return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'updated_entry': entry})
+#         return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'updated_entry': entry})
 
-    for entry in confirmed_data:
-        try:
-            product_cost = Productcost.objects.get(pname=entry.sell.name)
-            entry.total_cost = float(entry.sell.quantity) * product_cost.price
-        except Productcost.DoesNotExist:
-            entry.total_cost = "Add Amount"
+#     for entry in confirmed_data:
+#         try:
+#             product_cost = Productcost.objects.get(pname=entry.sell.name)
+#             entry.total_cost = float(entry.sell.quantity) * product_cost.price
+#         except Productcost.DoesNotExist:
+#             entry.total_cost = "Add Amount"
 
-    return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data})
+#     return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data})
 
 def update_total_cost(request, entry_id):
     if request.method == 'POST':
@@ -2642,11 +2642,54 @@ def adaccount(request):
             total_amounts[farmer_profile] = total_amount
 
     return render(request, 'admintemp/adaccount.html', {'total_amounts': total_amounts})
+# def pay_entry(request, entry_id):
+#     entry = get_object_or_404(Sellapply, id=entry_id)
+    
+#     if request.method == 'POST':
+#         entry.is_amount = True
+#         entry.save()
+
+#     return redirect('adselldetails') 
+
+def adselldetails(request):
+    confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+    total_paid_amount_by_user = {}  # Initialize dictionary to store total paid amount for each user
+    total_paid_amount = 0  # Initialize total paid amount variable
+
+    if request.method == 'POST':
+        entry_id = request.POST.get('entry_id')
+        total_cost = request.POST.get('total_cost')
+
+        entry = Sellapply.objects.get(pk=entry_id)
+        entry.total_cost = total_cost
+        entry.save()
+
+        # Get the updated entry from the database
+        entry = Sellapply.objects.get(pk=entry_id)
+
+        return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'total_paid_amount_by_user': total_paid_amount_by_user, 'total_paid_amount': total_paid_amount, 'updated_entry': entry})
+
+    for entry in confirmed_data:
+        try:
+            product_cost = Productcost.objects.get(pname=entry.sell.name)
+            entry.total_cost = float(entry.sell.quantity) * product_cost.price
+        except Productcost.DoesNotExist:
+            entry.total_cost = "Add Amount"
+
+        if entry.is_amount:
+            # Update total paid amount for each user
+            user_name = entry.sell.farmerName
+            total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+
+            # Update total paid amount
+            total_paid_amount += entry.total_cost
+
+    return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'total_paid_amount_by_user': total_paid_amount_by_user, 'total_paid_amount': total_paid_amount})
 def pay_entry(request, entry_id):
     entry = get_object_or_404(Sellapply, id=entry_id)
-    
+
     if request.method == 'POST':
         entry.is_amount = True
         entry.save()
 
-    return redirect('adselldetails') 
+    return redirect('adselldetails')
