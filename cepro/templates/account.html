@@ -23,7 +23,7 @@
             padding: 10px 0;
         }
         .container {
-            background-color: #b4f76d;
+            {% comment %} background-color: #b4f76d; {% endcomment %}
             border: 1px solid black;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
@@ -177,10 +177,55 @@
         </div>
     </nav>
     <br><br>
-    <div class="container mt-5">
+    {% comment %} <div class="container mt-5">
         <h1>Total Amount</h1>
         <p>Total Amount: ${{ total_amount }}</p>
-    </div>
+    
+        <h2>Total Paid Amount by User</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Total Paid Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_name, amount in total_paid_amount_by_user.items %}
+                    <tr>
+                        <td>{{ user_name }}</td>
+                        <td>{{ amount }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div> {% endcomment %}
+    <div class="container mt-5">
+    <h1>Total Paid Amounts</h1>
+    <h1>Total Amount</h1>
+    <p>{{ total_amount }}</p>
+    
+<table border="1">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>User Name</th>
+            <th>Total Paid Amount</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user_name, total_paid_amount, balance in balance_list %}
+            <tr>
+                <td>{{ forloop.counter }}
+                <td>{{ user_name }}</td>
+                <td>{{ total_paid_amount }}</td>
+                <td>{{ balance|default:"-" }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+    
     {% comment %} <div class="container">
         <div class="row">       
           

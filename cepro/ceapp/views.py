@@ -2572,10 +2572,132 @@ from django.db.models import Sum
 from django.shortcuts import render
 from .models import Sell, Productcost, Sellapply
 
+# def account(request):
+#     current_farmer_profile = request.user.farmerprofile
+
+#     # Filter sells based on farmerName
+#     sells = Sell.objects.filter(
+#         farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+#     ).select_related('member', 'driver')
+
+#     accepted_sells = sells.filter(
+#         is_accept='accept',
+#         sellapply__is_confirmed=True,
+#         sellapply__is_collected=True
+#     )
+
+#     total_amount = 0  # Initialize total amount variable
+
+#     for sell in accepted_sells:
+#         try:
+#             product_cost = Productcost.objects.get(pname=sell.name)
+#             sell.total_cost = float(sell.quantity) * product_cost.price
+#             total_amount += sell.total_cost  # Add each sell's total cost to the total amount
+
+#             # Include total_cost from Sellapply model if it's not None
+#             total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+#             total_amount += total_cost_sellapply
+#         except Productcost.DoesNotExist:
+#             sell.total_cost = 0  # Set to 0 when the product is not found
+
+#     return render(request, 'account.html', {'total_amount': total_amount, 'accepted_sells': accepted_sells})
+
+from django.shortcuts import render
+
+# def account(request):
+#     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
+#     total_paid_amount_by_user = {}  
+#     total_paid_amount = 0  
+
+#     for entry in confirmed_data:
+#         try:
+#             product_cost = Productcost.objects.get(pname=entry.sell.name)
+#             entry.total_cost = float(entry.sell.quantity) * product_cost.price
+#         except Productcost.DoesNotExist:
+#             entry.total_cost = "Add Amount"
+
+#         if entry.is_amount:
+#             user_name = entry.sell.farmerName
+#             total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+#             total_paid_amount += entry.total_cost
+
+#     return render(request, 'account.html', {'total_paid_amount_by_user': total_paid_amount_by_user})
+
+
+from django.shortcuts import render
+from .models import Sellapply, Productcost, Sell
+from django.shortcuts import get_object_or_404
+
+# def account(request):
+#     current_farmer_profile = request.user.farmerprofile
+
+#     confirmed_data = Sellapply.objects.filter(
+#         is_confirmed=True,
+#         sell__farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+#     )
+#     total_paid_amount_by_user = {}
+#     total_paid_amount = 0
+
+#     for entry in confirmed_data:
+#         try:
+#             product_cost = Productcost.objects.get(pname=entry.sell.name)
+#             entry.total_cost = float(entry.sell.quantity) * product_cost.price
+#         except Productcost.DoesNotExist:
+#             entry.total_cost = "Add Amount"
+
+#         if entry.is_amount:
+#             user_name = entry.sell.farmerName
+#             total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+#             total_paid_amount += entry.total_cost
+
+#     sells = Sell.objects.filter(
+#         farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+#     ).select_related('member', 'driver')
+
+#     accepted_sells = sells.filter(
+#         is_accept='accept',
+#         sellapply__is_confirmed=True,
+#         sellapply__is_collected=True
+#     )
+
+#     total_amount = 0
+
+#     for sell in accepted_sells:
+#         try:
+#             product_cost = Productcost.objects.get(pname=sell.name)
+#             sell.total_cost = float(sell.quantity) * product_cost.price
+#             total_amount += sell.total_cost
+
+#             total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+#             total_amount += total_cost_sellapply
+#         except Productcost.DoesNotExist:
+#             sell.total_cost = 0
+
+#     return render(request, 'account.html', {'total_paid_amount_by_user': total_paid_amount_by_user, 'total_amount': total_amount})
+
+
 def account(request):
     current_farmer_profile = request.user.farmerprofile
 
-    # Filter sells based on farmerName
+    confirmed_data = Sellapply.objects.filter(
+        is_confirmed=True,
+        sell__farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+    )
+    total_paid_amount_by_user = {}
+    total_paid_amount = 0
+
+    for entry in confirmed_data:
+        try:
+            product_cost = Productcost.objects.get(pname=entry.sell.name)
+            entry.total_cost = float(entry.sell.quantity) * product_cost.price
+        except Productcost.DoesNotExist:
+            entry.total_cost = "Add Amount"
+
+        if entry.is_amount:
+            user_name = entry.sell.farmerName
+            total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+            total_paid_amount += entry.total_cost
+
     sells = Sell.objects.filter(
         farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
     ).select_related('member', 'driver')
@@ -2586,62 +2708,64 @@ def account(request):
         sellapply__is_collected=True
     )
 
-    total_amount = 0  # Initialize total amount variable
+    total_amount = 0
 
     for sell in accepted_sells:
         try:
             product_cost = Productcost.objects.get(pname=sell.name)
             sell.total_cost = float(sell.quantity) * product_cost.price
-            total_amount += sell.total_cost  # Add each sell's total cost to the total amount
+            total_amount += sell.total_cost
 
-            # Include total_cost from Sellapply model if it's not None
             total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
             total_amount += total_cost_sellapply
         except Productcost.DoesNotExist:
-            sell.total_cost = 0  # Set to 0 when the product is not found
+            sell.total_cost = 0
 
-    return render(request, 'account.html', {'total_amount': total_amount, 'accepted_sells': accepted_sells})
+    # Calculate balance for each user
+    balance_list = [(user_name, total_paid_amount_by_user.get(user_name, 0), total_amount - total_paid_amount_by_user.get(user_name, 0)) for user_name in total_paid_amount_by_user]
 
+    return render(request, 'account.html', {'balance_list': balance_list, 'total_amount': total_amount})
 
 from django.shortcuts import render
 from .models import Sell, Productcost, Sellapply
 from django.shortcuts import render
 from .models import FarmerProfile, Sell, Productcost, Sellapply
-# views.py
-def adaccount(request):
-    all_farmer_profiles = FarmerProfile.objects.all()
+# # views.py
+# def adaccount(request):
+#     all_farmer_profiles = FarmerProfile.objects.all()
 
-    total_amounts = {}
+#     total_amounts = {}
 
-    for farmer_profile in all_farmer_profiles:
-        sells = Sell.objects.filter(
-            farmerName=f"{farmer_profile.first_name} {farmer_profile.last_name}"
-        ).select_related('member', 'driver')
+#     for farmer_profile in all_farmer_profiles:
+#         sells = Sell.objects.filter(
+#             farmerName=f"{farmer_profile.first_name} {farmer_profile.last_name}"
+#         ).select_related('member', 'driver')
 
-        accepted_sells = sells.filter(
-            is_accept='accept',
-            sellapply__is_confirmed=True,
-            sellapply__is_collected=True
-        )
+#         accepted_sells = sells.filter(
+#             is_accept='accept',
+#             sellapply__is_confirmed=True,
+#             sellapply__is_collected=True
+#         )
 
-        total_amount = 0
+#         total_amount = 0
 
-        for sell in accepted_sells:
-            try:
-                product_cost = Productcost.objects.get(pname=sell.name)
-                sell.total_cost = float(sell.quantity) * product_cost.price
-                total_amount += sell.total_cost
+#         for sell in accepted_sells:
+#             try:
+#                 product_cost = Productcost.objects.get(pname=sell.name)
+#                 sell.total_cost = float(sell.quantity) * product_cost.price
+#                 total_amount += sell.total_cost
 
-                total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
-                total_amount += total_cost_sellapply
-            except Productcost.DoesNotExist:
-                sell.total_cost = 0
+#                 total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+#                 total_amount += total_cost_sellapply
+#             except Productcost.DoesNotExist:
+#                 sell.total_cost = 0
 
-        # Check if the farmer has at least one collected sell
-        if accepted_sells.exists():
-            total_amounts[farmer_profile] = total_amount
+#         # Check if the farmer has at least one collected sell
+#         if accepted_sells.exists():
+#             total_amounts[farmer_profile] = total_amount
 
-    return render(request, 'admintemp/adaccount.html', {'total_amounts': total_amounts})
+#     return render(request, 'admintemp/adaccount.html', {'total_amounts': total_amounts})
+
 # def pay_entry(request, entry_id):
 #     entry = get_object_or_404(Sellapply, id=entry_id)
     
