@@ -116,9 +116,10 @@
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="menu-title" style="color:#c9edbe; font-weight:bold;">Admin</li>
-                        <li class="active">
+                        {% comment %} <li class="active">
                             <a href="{% url 'adaccount' %}"><i class="fa fa-dashboard"></i> <span>Account</span></a>
-                        </li>
+                        </li> {% endcomment %}
+                       
                         <li class="active">
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
@@ -175,7 +176,9 @@
                         <li>
                             <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Sell</span></a>
                         </li>
-                        
+                        <li>
+                            <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
+                        </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
