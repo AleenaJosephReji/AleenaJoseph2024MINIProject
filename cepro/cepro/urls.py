@@ -151,11 +151,11 @@ urlpatterns = [
 
 
     path('edit_attendance/<int:meeting_id>/', views.edit_attendance, name='edit_attendance'),
-    path('addriver', views.addriver, name='addriver'),
+    # path('addriver', views.addriver, name='addriver'),
     path('adproduct', views.adproduct, name='adproduct'),
     path('sellcrop', views.sellcrop, name='sellcrop'),
 
-    path('adadddriver', views.adadddriver, name='adadddriver'),
+    # path('adadddriver', views.adadddriver, name='adadddriver'),
     path('edit_product/<product_id>', views.edit_product, name='edit_product'),
     path('delete_product/<product_id>', views.delete_product, name='delete_product'),
     path('adservice', views.adservice, name='adservice'),
@@ -200,6 +200,8 @@ urlpatterns = [
     path('pay_entry/<int:entry_id>/', views.pay_entry, name='pay_entry'),
     path('adgenerate_pdf_bill/<int:sell_id>/', views.adgenerate_pdf_bill, name='adgenerate_pdf_bill'),
     path('all_accounts', views.all_accounts, name='all_accounts'),
+    path('driver', views.driver, name='driver'),
+    path('adddriver', views.adddriver, name='adddriver'),
 
 
 

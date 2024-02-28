@@ -1868,49 +1868,49 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import CustomUser, Driver
 
-def adadddriver(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        dage = request.POST.get('dage')
-        dgender = request.POST.get('dgender', 'Default Gender')
-        daddress = request.POST.get('daddress')
-        ddis = request.POST.get('ddis', 'Default District')
-        dtaluk = request.POST.get('dtaluk', 'Default Taluk')
-        dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')
-        dwardno = request.POST.get('dwardno')
-        dpin = request.POST.get('dpin')
-        dphone = request.POST.get('dphone')
-        dlisence = request.POST.get('dlisence')
-        ddate = request.POST.get('ddate')
-        dbio = request.POST.get('dbio')
-        profile_photo = request.FILES.get('profile_photo')
+# def adadddriver(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         dage = request.POST.get('dage')
+#         dgender = request.POST.get('dgender', 'Default Gender')
+#         daddress = request.POST.get('daddress')
+#         ddis = request.POST.get('ddis', 'Default District')
+#         dtaluk = request.POST.get('dtaluk', 'Default Taluk')
+#         dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')
+#         dwardno = request.POST.get('dwardno')
+#         dpin = request.POST.get('dpin')
+#         dphone = request.POST.get('dphone')
+#         dlisence = request.POST.get('dlisence')
+#         ddate = request.POST.get('ddate')
+#         dbio = request.POST.get('dbio')
+#         profile_photo = request.FILES.get('profile_photo')
 
-        role = CustomUser.DRIVER
-        print(role)
+#         role = CustomUser.DRIVER
+#         print(role)
 
-        if CustomUser.objects.filter(email=email, role=CustomUser.DRIVER).exists():
-            messages.info(request, 'Email already exists')
-            return redirect('adadddriver')
-        else:
-            user = CustomUser.objects.create_user(email=email, password=password, name=name)
-            user.role = CustomUser.DRIVER
-            user.save()
+#         if CustomUser.objects.filter(email=email, role=CustomUser.DRIVER).exists():
+#             messages.info(request, 'Email already exists')
+#             return redirect('adadddriver')
+#         else:
+#             user = CustomUser.objects.create_user(email=email, password=password, name=name)
+#             user.role = CustomUser.DRIVER
+#             user.save()
 
-            dri = Driver.objects.create(
-                user=user, name=name, email=email, dgender=dgender, daddress=daddress, dage=dage, ddis=ddis,
-                dtaluk=dtaluk, dPanchayat=dpanchayat, dwardno=dwardno, dpin=dpin, dphone=dphone,
-                dbio=dbio, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
-            )
+#             dri = Driver.objects.create(
+#                 user=user, name=name, email=email, dgender=dgender, daddress=daddress, dage=dage, ddis=ddis,
+#                 dtaluk=dtaluk, dPanchayat=dpanchayat, dwardno=dwardno, dpin=dpin, dphone=dphone,
+#                 dbio=dbio, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
+#             )
 
-            return redirect('addriver')
-    else:
-        return render(request, 'admintemp/adadddriver.html')
+#             return redirect('addriver')
+#     else:
+#         return render(request, 'admintemp/adadddriver.html')
 
-def addriver(request):
-    drivers = Driver.objects.filter(is_active=True)
-    return render(request, 'admintemp/addriver.html', {'drivers': drivers})
+# def addriver(request):
+#     drivers = Driver.objects.filter(is_active=True)
+#     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
 
 
     
@@ -2890,3 +2890,53 @@ def all_accounts(request):
         })
 
     return render(request, 'admintemp/all_accounts.html', {'all_farmers': all_farmers})
+
+
+
+
+
+
+def adddriver(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        dage = request.POST.get('dage')
+        dgender = request.POST.get('dgender', 'Default Gender')
+        daddress = request.POST.get('daddress')
+        ddis = request.POST.get('ddis', 'Default District')
+        dtaluk = request.POST.get('dtaluk', 'Default Taluk')
+        dpanchayat = request.POST.get('dpanchayat', 'Default Panchayat')
+        dwardno = request.POST.get('dwardno')
+        dpin = request.POST.get('dpin')
+        dphone = request.POST.get('dphone')
+        dlisence = request.POST.get('dlisence')
+        ddate = request.POST.get('ddate')
+        dbio = request.POST.get('dbio')
+        profile_photo = request.FILES.get('profile_photo')
+
+        role = CustomUser.DRIVER
+        print(role)
+
+        if CustomUser.objects.filter(email=email, role=CustomUser.DRIVER).exists():
+            messages.info(request, 'Email already exists')
+            return redirect('adddriver')
+        else:
+            user = CustomUser.objects.create_user(email=email, password=password, name=name)
+            user.role = CustomUser.DRIVER
+            user.save()
+
+            dri = Driver.objects.create(
+                user=user, name=name, email=email, dgender=dgender, daddress=daddress, dage=dage, ddis=ddis,
+                dtaluk=dtaluk, dPanchayat=dpanchayat, dwardno=dwardno, dpin=dpin, dphone=dphone,
+                dbio=dbio, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
+            )
+
+            return redirect('driver')
+    else:
+        return render(request, 'admintemp/adddriver.html')
+
+def driver(request):
+    drivers = Driver.objects.filter(is_active=True)
+    return render(request, 'admintemp/driver.html', {'drivers': drivers})
+
