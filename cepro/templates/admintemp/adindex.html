@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         .header
         {
@@ -78,19 +80,17 @@
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                {% comment %} <li class="nav-item dropdown d-none d-sm-block">                    <div class="dropdown-menu notifications">
-                        <div class="topnav-dropdown-header">
-                            <span>Notifications</span>
-                        </div>
-                        <div class="drop-scroll">
-                            <ul class="notification-list">
-                            </ul>
-                        </div> 
+                <li class="nav-item dropdown">
+                    <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
+                        <i class="mdi mdi-bell">fg</i>
+                        <span class="count"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" id="notificationDropdownContent">
+                        <h6 class="p-3 mb-0">Notifications</h6>
+                        <div class="dropdown-divider"></div>
+                        <!-- Notifications will be dynamically added here -->
                     </div>
                 </li>
-                <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
-                </li> {% endcomment %}
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img">
@@ -292,6 +292,86 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+          var notificationDropdownContent = $("#notificationDropdownContent");
+          var notificationsLoaded = false;
+      
+          // Function to load notifications asynchronously
+          function loadNotifications() {
+            $.get("{% url 'notifications' %}", function (data) {
+              $("#notificationDropdown .count").text(data.notification_count);
+      
+              // Clear existing notifications
+              notificationDropdownContent.empty();
+      
+              if (data.notifications.length === 0) {
+                // If there are no notifications, hide the notification section
+                notificationDropdownContent.hide();
+              } else {
+                // If there are notifications, show the notification section and add new notifications
+                notificationDropdownContent.show();
+      
+                for (var i = 0; i < data.notifications.length; i++) {
+                  var notification = data.notifications[i];
+                  var notificationHtml = `
+                    <a class="dropdown-item preview-item" data-notification-id="${notification.id}">
+                      <div class="preview-item-content custom-max-width" style="max-width: 200px; /* Set the maximum width as needed */
+                        white-space: nowrap;
+                        overflow: auto;
+                        text-overflow: ellipsis;">
+                        <p class="preview-subject mb-1">${notification.title}</p>
+                        <p class="text-muted mb-1">${notification.message}</p>
+                      </div>
+                    </a>
+                    <div class="dropdown-divider"></div>`;
+                  notificationDropdownContent.append(notificationHtml);
+                }
+      
+                // Attach click event to mark notifications as read
+                notificationDropdownContent.find(".preview-item").click(function () {
+                  var notificationId = $(this).data("notification-id");
+                  // Show a confirmation dialog
+                  var confirmed = confirm("Mark as read?");
+                  if (confirmed) {
+                    // Mark the notification as read
+                    markNotificationAsRead(notificationId);
+                  }
+                });
+              }
+            });
+          }
+      
+          // Function to mark notification as read
+          function markNotificationAsRead(notificationId) {
+            $.ajax({
+              type: 'POST',
+              url: '{% url "mark_notification_as_read" %}',
+              data: {
+                'notification_id': notificationId,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              success: function (response) {
+                // Reload notifications after marking as read
+                loadNotifications();
+              },
+              error: function (error) {
+                console.error('Error marking notification as read:', error);
+              }
+            });
+          }
+      
+          // Toggle visibility of notifications dropdown when clicking on the notifications icon
+          $("#notificationDropdown").click(function () {
+            if (!notificationsLoaded) {
+              // Load notifications only if they haven't been loaded before
+              loadNotifications();
+              notificationsLoaded = true;
+            }
+            notificationDropdownContent.toggle();
+          });
+        });
+      </script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>

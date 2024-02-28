@@ -8,7 +8,7 @@ from .models import Crop
 from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
-from .models import FarmerProfile,Sellapply
+from .models import FarmerProfile,Sellapply,Notification
 from .models import Driver
 from .models import SecretaryProfile
 from .models import *
@@ -175,6 +175,10 @@ def adindex(request):
     crops = Crop.objects.all()
     approval = ApplyCrop.objects.all()
     approval_count = approval.count()
+    # message = "A user has reviewed your store"
+    #     Notification.objects.create(
+    #         user=seller.user, title="Review Added", message=message, is_read=False
+    #     )
     context = {'me': me, 'me_count': me_count,'c':c, 'c_count':c_count,'crops': crops ,'approval':approval,'approval_count':approval_count}
     return render(request, 'admintemp/adindex.html', context)
 
@@ -1883,6 +1887,8 @@ from .models import CustomUser, Driver
 #         dpin = request.POST.get('dpin')
 #         dphone = request.POST.get('dphone')
 #         dlisence = request.POST.get('dlisence')
+#         dvehicle = request.POST.get('dvehicle')
+#         dvehicletype = request.POST.get('dvehicletype')
 #         ddate = request.POST.get('ddate')
 #         dbio = request.POST.get('dbio')
 #         profile_photo = request.FILES.get('profile_photo')
@@ -1901,7 +1907,7 @@ from .models import CustomUser, Driver
 #             dri = Driver.objects.create(
 #                 user=user, name=name, email=email, dgender=dgender, daddress=daddress, dage=dage, ddis=ddis,
 #                 dtaluk=dtaluk, dPanchayat=dpanchayat, dwardno=dwardno, dpin=dpin, dphone=dphone,
-#                 dbio=dbio, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
+#                 dbio=dbio,dvehicle=dvehicle,dvehicletype=dvehicletype, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
 #             )
 
 #             return redirect('addriver')
@@ -1911,7 +1917,6 @@ from .models import CustomUser, Driver
 # def addriver(request):
 #     drivers = Driver.objects.filter(is_active=True)
 #     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
-
 
     
 def dapplied(request):
@@ -2101,6 +2106,19 @@ def edit_driver(request, driver_id):
         return redirect('addriver')
 
     return render(request, 'admintemp/edit_driver.html', {'driver': driver})
+
+def delete_driver(request, driver_id):
+    driver = get_object_or_404(Driver, id=driver_id)
+
+    if request.method == 'POST':
+        # Delete the member object
+        driver.is_active = False
+        driver.save()
+        request.session['delete driver'] = True
+        # Redirect to a page after deleting the member (e.g., member list)
+        return redirect('driver')
+
+    return render(request, 'admintemp/delete_driver.html', {'driver': driver})
 
 
 # def dispro(request):
@@ -2345,6 +2363,14 @@ def mdriverapplied(request):
     sells = Sell.objects.filter(member=profile)
     # Get all Sellapply instances related to the sells, including the driver information
     applies = Sellapply.objects.filter(sell__in=sells, is_apply='apply')
+
+    for sellapply in applies:
+        if Sellapply.objects.filter(
+            sell__sell_date=sellapply.sell.sell_date,
+            sell__name=sellapply.sell.name,
+            is_confirmed=True
+        ).exists():
+            sellapply.is_confirm = Sellapply.CONFIRM
 
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'membertemp/mdriverapplied.html', {'applies': applies, 'drivers': drivers})
@@ -2911,6 +2937,8 @@ def adddriver(request):
         dpin = request.POST.get('dpin')
         dphone = request.POST.get('dphone')
         dlisence = request.POST.get('dlisence')
+        dvehicletype = request.POST.get('dvehicletype')
+        dvehicle = request.POST.get('dvehicle')
         ddate = request.POST.get('ddate')
         dbio = request.POST.get('dbio')
         profile_photo = request.FILES.get('profile_photo')
@@ -2929,7 +2957,7 @@ def adddriver(request):
             dri = Driver.objects.create(
                 user=user, name=name, email=email, dgender=dgender, daddress=daddress, dage=dage, ddis=ddis,
                 dtaluk=dtaluk, dPanchayat=dpanchayat, dwardno=dwardno, dpin=dpin, dphone=dphone,
-                dbio=dbio, dlisence=dlisence, ddate=ddate, profile_photo=profile_photo
+                dbio=dbio, dlisence=dlisence,dvehicle=dvehicle, dvehicletype=dvehicletype,ddate=ddate, profile_photo=profile_photo
             )
 
             return redirect('driver')
@@ -2940,3 +2968,23 @@ def driver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/driver.html', {'drivers': drivers})
 
+# def mleave(request):
+#     return render(request,'membertemp/mleave.html')
+@login_required
+def mark_notification_as_read(request):
+    if request.method == 'POST':
+        notification_id = request.POST.get('notification_id')
+        Notification.objects.filter(id=notification_id).update(is_read=True)
+    return JsonResponse({'status': 'success'})
+
+@login_required
+def notifications(request):
+    user = request.user
+    notifications = Notification.objects.filter(user=user, is_read=False)
+
+    context = {
+        'notifications': [{'id': n.id, 'title': n.title, 'message': n.message} for n in notifications],
+        'notification_count': notifications.count()
+    }
+
+    return JsonResponse(context)

@@ -145,7 +145,7 @@
                             </ul>
                         </li>    
                         <li class="active">
-                            <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Driversssss</span></a>
+                            <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
@@ -208,7 +208,7 @@
                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                      <a class="dropdown-item" href=" {% url 'edit_driver' driver.id %}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                     {% comment %} <a class="dropdown-item" href=" {% url 'delete_member' member.id %}"><i class="fa fa-pencil m-r-5"></i> Delete</a> {% endcomment %}
+                                     <a class="dropdown-item" href=" {% url 'delete_driver' driver.id %}"><i class="fa fa-pencil m-r-5"></i> Delete</a>
                                 </div>
                             </div>
                             <h4 class="doctor-name text-ellipsis"><a href="profile.html"> {{ driver.name }}</a></h4>
@@ -227,8 +227,9 @@
                                 <p class="card-text" style="color:black;"><b>Postal: </b>{{ driver.dpin }}</p>
                                 <p class="card-text" style="color:black;"><b>Phone: </b>{{ driver.dphone }}</p>
                                 <p class="card-text" style="color:black;"><b>Lisence: </b>{{ driver.dlisence }}</p>
+                                <p class="card-text" style="color:black;"><b>Vehicle Name: </b>{{ driver.dvehicle }}</p>
+                                <p class="card-text" style="color:black;"><b>Vehicle Type: </b>{{ driver.dvehicletype }}</p>
                                 <p class="card-text" style="color:black;"><b>Lisence Date: </b>{{ driver.ddate }}</p>
-
                                 <p class="card-text" style="color:black;"><b>Bio: </b>{{ driver.dbio }}</p>
                             </div>
                         </div>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
@@ -336,44 +337,7 @@
                             </i>
                                 <span>Calendar</span></a>
                         </li>
-                        {% comment %} <li class="menu-title">Extras</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="login.html"> Login </a></li>
-                                <li><a href="register.html"> Register </a></li>
-                                <li><a href="forgot-password.html"> Forgot Password </a></li>
-                                <li><a href="change-password2.html"> Change Password </a></li>
-                                <li><a href="lock-screen.html"> Lock Screen </a></li>
-                                <li><a href="profile.html"> Profile </a></li>
-                                <li><a href="gallery.html"> Gallery </a></li>
-                                <li><a href="error-404.html">404 Error </a></li>
-                                <li><a href="error-500.html">500 Error </a></li>
-                                <li><a href="blank-page.html"> Blank Page </a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul style="display: none;">
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"><span>Level 1</span></a>
-                                </li>
-                            </ul>
-                        </li> {% endcomment %}
+                       
                     </ul>
                 </div>
             </div>
@@ -472,7 +436,86 @@
 
 
     </script>
-    
+    <script>
+        $(document).ready(function () {
+          var notificationDropdownContent = $("#notificationDropdownContent");
+          var notificationsLoaded = false;
+      
+          // Function to load notifications asynchronously
+          function loadNotifications() {
+            $.get("{% url 'notifications' %}", function (data) {
+              $("#notificationDropdown .count").text(data.notification_count);
+      
+              // Clear existing notifications
+              notificationDropdownContent.empty();
+      
+              if (data.notifications.length === 0) {
+                // If there are no notifications, hide the notification section
+                notificationDropdownContent.hide();
+              } else {
+                // If there are notifications, show the notification section and add new notifications
+                notificationDropdownContent.show();
+      
+                for (var i = 0; i < data.notifications.length; i++) {
+                  var notification = data.notifications[i];
+                  var notificationHtml = `
+                    <a class="dropdown-item preview-item" data-notification-id="${notification.id}">
+                      <div class="preview-item-content custom-max-width" style="max-width: 200px; /* Set the maximum width as needed */
+                        white-space: nowrap;
+                        overflow: auto;
+                        text-overflow: ellipsis;">
+                        <p class="preview-subject mb-1">${notification.title}</p>
+                        <p class="text-muted mb-1">${notification.message}</p>
+                      </div>
+                    </a>
+                    <div class="dropdown-divider"></div>`;
+                  notificationDropdownContent.append(notificationHtml);
+                }
+      
+                // Attach click event to mark notifications as read
+                notificationDropdownContent.find(".preview-item").click(function () {
+                  var notificationId = $(this).data("notification-id");
+                  // Show a confirmation dialog
+                  var confirmed = confirm("Mark as read?");
+                  if (confirmed) {
+                    // Mark the notification as read
+                    markNotificationAsRead(notificationId);
+                  }
+                });
+              }
+            });
+          }
+      
+          // Function to mark notification as read
+          function markNotificationAsRead(notificationId) {
+            $.ajax({
+              type: 'POST',
+              url: '{% url "mark_notification_as_read" %}',
+              data: {
+                'notification_id': notificationId,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              success: function (response) {
+                // Reload notifications after marking as read
+                loadNotifications();
+              },
+              error: function (error) {
+                console.error('Error marking notification as read:', error);
+              }
+            });
+          }
+      
+          // Toggle visibility of notifications dropdown when clicking on the notifications icon
+          $("#notificationDropdown").click(function () {
+            if (!notificationsLoaded) {
+              // Load notifications only if they haven't been loaded before
+              loadNotifications();
+              notificationsLoaded = true;
+            }
+            notificationDropdownContent.toggle();
+          });
+        });
+      </script>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>

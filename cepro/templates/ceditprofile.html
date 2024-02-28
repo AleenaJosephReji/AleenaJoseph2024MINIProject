@@ -146,9 +146,7 @@
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
-                {% comment %} <li>
-                    <a class="nav-link" href="{% url 'application' %}" style="padding-left:80%; color:white;">Application</a>
-                </li> {% endcomment %}
+                <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  color:white; font-size:20px;">Sales Tracker</a>
             </ul>
         </div>
 
@@ -162,8 +160,7 @@
                 
                 {% if user.is_authenticated %}
                 {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
-                <a class="dropdown-item" href="{% url 'selldetails' %}">Account</a>
-
+                <a class="dropdown-item" href="{% url 'account' %}">Account</a>
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>

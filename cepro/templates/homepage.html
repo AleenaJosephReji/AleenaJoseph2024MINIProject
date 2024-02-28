@@ -111,8 +111,8 @@
                 <a href="{% url 'crop' %}" class="nav-item nav-link " style="margin-left: 60px;color:white;">Notice</a>
                 <a href="{% url 'ceditprofile' %}" class="nav-item nav-link " style="margin-left: 60px; color:white;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link " style="margin-left: 60px; color:white;">My Profile</a>
-                {% comment %} <a href="{% url 'displaycrop' %}"class="nav-item nav-link " style="margin-left: 60px; color:white;">Sell</a> {% endcomment %}
                 <a href="{% url 'pricelist2' %}"class="nav-item nav-link " style="margin-left: 60px; color:white;">Price List</a>
+                <a href="{% url 'selldetails' %}"class="nav-item nav-link " style="margin-left: 60px; color:white;">Sales Tracker</a>
 
                 {% comment %} <a href="{% url 'dispro' %}"class="nav-item nav-link active" style="margin-left: 60px;">Sell</a> {% endcomment %}
 
@@ -153,9 +153,8 @@
                         
                         {% if user.is_authenticated %}
                         {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
-                        <a class="dropdown-item" href="{% url 'selldetails' %}">Account</a>
-                        <a class="dropdown-item" href="{% url 'account' %}">new</a>
-
+                        {% comment %} <a class="dropdown-item" href="{% url 'selldetails' %}">Account</a> {% endcomment %}
+                        <a class="dropdown-item" href="{% url 'account' %}">Account</a>
                         <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>

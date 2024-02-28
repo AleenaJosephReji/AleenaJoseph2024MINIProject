@@ -188,7 +188,7 @@
                     <div class="col-md-12">
                         <form id="search-form" method="GET" action="{% url 'search_driver' %}">
                             <div class="input-group">
-                                <a href="{% url 'addriver' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
+                                <a href="{% url 'adadddriver' %}" class="btn btn-secondary" style="margin-left:40px;"><i class="fa fa-arrow-left"></i></a>&ensp;&ensp;&ensp;&ensp;
                                 <input type="text" class="form-control custom-search-input" name="drivername" placeholder="Search By Driver Name">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary custom-search-btn" type="submit"><i class="fa fa-search"></i></button>
@@ -227,6 +227,9 @@
                                 <p class="card-text" style="color:black;"><b>Postal: </b>{{ driver.dpin }}</p>
                                 <p class="card-text" style="color:black;"><b>Phone: </b>{{ driver.dphone }}</p>
                                 <p class="card-text" style="color:black;"><b>Lisence: </b>{{ driver.dlisence }}</p>
+                                <p class="card-text" style="color:black;"><b>Vehicle Name: </b>{{ driver.dvehicle }}</p>
+                                <p class="card-text" style="color:black;"><b>Vehicle Type: </b>{{ driver.dvehicletype }}</p>
+
                                 <p class="card-text" style="color:black;"><b>Lisence Date: </b>{{ driver.ddate }}</p>
 
                                 <p class="card-text" style="color:black;"><b>Bio: </b>{{ driver.dbio }}</p>

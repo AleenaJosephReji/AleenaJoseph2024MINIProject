@@ -151,10 +151,10 @@ urlpatterns = [
 
 
     path('edit_attendance/<int:meeting_id>/', views.edit_attendance, name='edit_attendance'),
-    # path('addriver', views.addriver, name='addriver'),
+   
     path('adproduct', views.adproduct, name='adproduct'),
     path('sellcrop', views.sellcrop, name='sellcrop'),
-
+    # path('addriver', views.addriver, name='addriver'),
     # path('adadddriver', views.adadddriver, name='adadddriver'),
     path('edit_product/<product_id>', views.edit_product, name='edit_product'),
     path('delete_product/<product_id>', views.delete_product, name='delete_product'),
@@ -173,6 +173,7 @@ urlpatterns = [
     path('remove_scertification/<int:certification_id>/', views.remove_scertification, name='remove_scertification'),
     path('dleave',views.dleave,name='dleave'),
     path('edit_driver/<int:driver_id>/', views.edit_driver, name='edit_driver'),
+    path('delete_driver/<int:driver_id>/', views.delete_driver, name='delete_driver'),
     path('driverapply',views.driverapply,name='driverapply'),
     path('apply_certification/<int:certification_id>/', views.apply_certification, name='apply_certification'),
     path('mdriverapplied',views.mdriverapplied,name='mdriverapplied'),
@@ -202,6 +203,7 @@ urlpatterns = [
     path('all_accounts', views.all_accounts, name='all_accounts'),
     path('driver', views.driver, name='driver'),
     path('adddriver', views.adddriver, name='adddriver'),
+    # path('mleave', views.mleave, name='mleave'),
 
 
 
@@ -218,6 +220,8 @@ urlpatterns = [
          name='password_reset_complete'),
 
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
+    path('notifications', views.notifications, name='notifications'),
+    path('mark_notification_as_read', views.mark_notification_as_read, name='mark_notification_as_read'),
 
 ]
 

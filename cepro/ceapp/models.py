@@ -370,6 +370,9 @@ class Driver(models.Model):
     dlisence = models.CharField(max_length=255, null=True, blank=True)
     ddate = models.CharField(max_length=100,null=True, blank=True)
     dbio=models.TextField()
+    dvehicle = models.CharField(max_length=255, null=True, blank=True)
+    dvehicletype = models.CharField(max_length=255, null=True, blank=True)
+
     profile_photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
     damob = models.IntegerField(max_length=100,null=True, blank=True)
     daemail = models.CharField(max_length=255, null=True, blank=True)
@@ -428,6 +431,15 @@ class Sellapply(models.Model):
     (PENDING, 'Pending'),
 
     ]
+
+    CONFIRM = 'confirm'
+    PENDING = 'pending'
+
+    CONFIRM_CHOICES = [
+    (CONFIRM ,'Confirm'),
+    (PENDING, 'Pending'),
+
+    ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     sell = models.ForeignKey(Sell, on_delete=models.CASCADE, blank=True, null=True)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, blank=True, null=True)  # Add this field
@@ -437,12 +449,18 @@ class Sellapply(models.Model):
             choices=APPLY_CHOICES,
             default=PENDING,
         )
+    is_confirm = models.CharField(
+            max_length=10,
+            choices=CONFIRM_CHOICES,
+            default=PENDING,
+        )
     is_confirmed = models.BooleanField(default=False)
     total_cost = models.IntegerField(null=True, blank=True)
     is_collected = models.BooleanField(default=False)
     # is_paidd = models.BooleanField(default=True)
     is_amount = models.BooleanField(default=False)
     paid_amount = models.IntegerField(default=0)
+
 
 class Confirm(models.Model):
     CONFIRM = 'confirm'
@@ -467,3 +485,13 @@ class Productcost(models.Model):
     quantity = models.CharField(max_length=100)
     price = models.IntegerField(max_length=100,null=True, blank=True)
     # serviceimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
+    title = models.CharField(max_length=200,blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    def _str_(self):
+        return self.title
