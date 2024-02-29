@@ -2400,10 +2400,12 @@ def dconfirmed(request):
             product_cost = Productcost.objects.get(pname=entry.sell.name)
             entry.total_cost = float(entry.sell.quantity) * product_cost.price
         except Productcost.DoesNotExist:
-            entry.total_cost = "Add Amount"  # Set a message when the product is not found
+            entry.total_cost = 0  # Set a default value when the product is not found
+
+        # Save the updated entry to persist changes in the database
+        entry.save()
 
     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
-
 
     
 def collected(request, collection_id):
