@@ -36,6 +36,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
 
     <!-- Template Stylesheet -->
     {% comment %} <link href="{% static 'css/style.css' %}" rel="stylesheet"> {% endcomment %}
@@ -141,6 +142,31 @@
                 {% comment %} <a href="{% url 'contact' %}" class="nav-item nav-link">Book Crop</a>
                 <a href="{% url 'crop' %}" class="nav-item nav-link">Crop</a> {% endcomment %}
                 {% comment %} <a href="{% url 'fnotifications' %}" class="nav-item nav-link">Notifications</a> {% endcomment %}
+
+                
+    <li class="nav-item dropdown">
+        <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
+            <i class="mdi mdi-bell"></i>
+            <span class="count">{{ notification_count }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" id="notificationDropdownContent">
+            <h6 class="p-3 mb-0">Notifications</h6>
+            <div class="dropdown-divider"></div>
+            {% for notification in notifications %}
+                <a class="dropdown-item">
+                    <div class="preview-thumbnail">
+                        <div class="preview-icon bg-success">
+                            <i class="mdi mdi-alert-circle-outline mx-0"></i>
+                        </div>
+                    </div>
+                    <div class="preview-item-content">
+                        <p class="preview-subject font-weight-medium">{{ notification.title }}</p>
+                        <p class="font-weight-light small-text">{{ notification.message }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </li>
 
                 {% comment %} <a href="{% url 'notification' %}" class="nav-item nav-link">Notification</a> {% endcomment %}
                 <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
@@ -777,15 +803,92 @@
 
 
     <!-- JavaScript Libraries -->
-
-    <script>
         <script>
             // JavaScript to toggle the dropdown menu
             $(document).ready(function() {
                 $('.dropdown-toggle').dropdown();
             });
+
+            $(document).ready(function () {
+                var notificationDropdownContent = $("#notificationDropdownContent");
+                var notificationsLoaded = false;
+            
+                // Function to load notifications asynchronously
+                function loadNotifications() {
+                  $.get("{% url 'notifications' %}", function (data) {
+                    $("#notificationDropdown .count").text(data.notification_count);
+            
+                    // Clear existing notifications
+                    notificationDropdownContent.empty();
+            
+                    if (data.notifications.length === 0) {
+                      // If there are no notifications, hide the notification section
+                      notificationDropdownContent.hide();
+                    } else {
+                      // If there are notifications, show the notification section and add new notifications
+                      notificationDropdownContent.show();
+            
+                      for (var i = 0; i < data.notifications.length; i++) {
+                        var notification = data.notifications[i];
+                        var notificationHtml = `
+                          <a class="dropdown-item preview-item" data-notification-id="${notification.id}">
+                            <div class="preview-item-content custom-max-width" style="max-width: 200px; /* Set the maximum width as needed */
+                              white-space: nowrap;
+                              overflow: auto;
+                              text-overflow: ellipsis;">
+                              <p class="preview-subject mb-1">${notification.title}</p>
+                              <p class="text-muted mb-1">${notification.message}</p>
+                            </div>
+                          </a>
+                          <div class="dropdown-divider"></div>`;
+                        notificationDropdownContent.append(notificationHtml);
+                      }
+            
+                      // Attach click event to mark notifications as read
+                      notificationDropdownContent.find(".preview-item").click(function () {
+                        var notificationId = $(this).data("notification-id");
+                        // Show a confirmation dialog
+                        var confirmed = confirm("Mark as read?");
+                        if (confirmed) {
+                          // Mark the notification as read
+                          markNotificationAsRead(notificationId);
+                        }
+                      });
+                    }
+                  });
+                }
+            
+                // Function to mark notification as read
+                function markNotificationAsRead(notificationId) {
+                  $.ajax({
+                    type: 'POST',
+                    url: '{% url "mark_notification_as_read" %}',
+                    data: {
+                      'notification_id': notificationId,
+                      csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                      // Reload notifications after marking as read
+                      loadNotifications();
+                    },
+                    error: function (error) {
+                      console.error('Error marking notification as read:', error);
+                    }
+                  });
+                }
+            
+                // Toggle visibility of notifications dropdown when clicking on the notifications icon
+                $("#notificationDropdown").click(function () {
+                  if (!notificationsLoaded) {
+                    // Load notifications only if they haven't been loaded before
+                    loadNotifications();
+                    notificationsLoaded = true;
+                  }
+                  notificationDropdownContent.toggle();
+                });
+              });
             </script>
-    </script>
+
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -725,6 +725,7 @@ def adcrop(request):
 #     return render(request, 'admintemp/adaddcrop.html')
 
 from django.db.models import Max
+
 def adaddcrop(request):
     if request.method == 'POST':
         cname = request.POST.get('cname')
@@ -734,34 +735,25 @@ def adaddcrop(request):
         count = request.POST.get('count')
         crop_photo = request.FILES.get('crop_photo')
 
-
-        # available = request.POST.get('available')
-        # notavail = request.POST.get('notavailable')
-        
-        # Determine the availability based on user input
-        # if available == 'Available':
-        #     avail = True
-        #     notavail = False
-        # else:
-        #     avail = False
-        #     notavail = True
-
-        # Create a new Crop instance with the provided data
         existing_crop = Crop.objects.filter(Namec=cname).first()
         if existing_crop:
             messages.error(request, f'A crop with the name "{cname}" already exists.')
             return redirect('adaddcrop')
-        new_crop = Crop(Namec=cname, des=cdescription, start_date = start_date ,end_date = end_date, count=count, crop_photo=crop_photo ,current=True)
+
+        new_crop = Crop(Namec=cname, des=cdescription, start_date=start_date, end_date=end_date, count=count,
+                        crop_photo=crop_photo, current=True)
         new_crop.save()
 
         # Set current to False for all other crops
         Crop.objects.exclude(id=new_crop.id).update(current=False)
 
-        # Redirect to the appropriate page after adding the new crop
+        # Create a notification for the user
+        message = f'A new crop "{cname}" has been added.'
+        Notification.objects.create(user=request.user, title="New Crop Added", message=message, is_read=False)
+
         return redirect('adcrop')
 
     return render(request, 'admintemp/adaddcrop.html')
-
 
 # def adaddcrop(request):
 #     if request.method == 'POST':
@@ -1930,7 +1922,15 @@ def homepage(request):
     services = Service.objects.filter(is_active=True)
 
     profile = FarmerProfile.objects.get(user=user)
-    return render(request,'homepage.html',{'profile':profile,'blogs' : blogs , 'services' :services})
+
+    # Check if there are new crops added and create a notification only once
+    if Crop.objects.filter(current=True).exists() and not Notification.objects.filter(user=user, title="New Crop Added").exists():
+        message = "A new crop has been added."
+        Notification.objects.create(
+            user=user, title="New Crop Added", message=message, is_read=False
+        )
+
+    return render(request, 'homepage.html', {'profile': profile, 'blogs': blogs, 'services': services})
 
 #service
 
