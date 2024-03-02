@@ -203,7 +203,7 @@ urlpatterns = [
     path('all_accounts', views.all_accounts, name='all_accounts'),
     path('driver', views.driver, name='driver'),
     path('adddriver', views.adddriver, name='adddriver'),
-    # path('mleave', views.mleave, name='mleave'),
+    path('mleave', views.mleave, name='mleave'),
 
 
 

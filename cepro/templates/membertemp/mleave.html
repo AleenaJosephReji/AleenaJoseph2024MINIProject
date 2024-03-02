@@ -230,33 +230,38 @@
                         <h4 class="page-title"></h4>
                     </div>
                     <div class="container">
-                        <h1>Absent Meetings</h1>
-                        <table>
-                            <thead>
+                        <div class="details">
+                            <h1>Absent Members Details</h1>
+                            <table>
                                 <tr>
                                     <th>No</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Venue</th>
+                                    <th>Name</th>
+                                    <th>Meeting Date</th>
+                                    <th>Meeting Time</th>
+                                    <th>Meeting Venue</th>
+                                    <th>Action</th> <!-- Add a new column for the "Apply Leave" button -->
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {% for meeting in absent_meetings %}
+                                {% for absent_member in absent_members %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
-                                        <td>{{ meeting.meeting_date }}</td>
-                                        <td>{{ meeting.meeting_time }}</td>
-                                        <td>{{ meeting.meeting_venue }}</td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="4">No meetings with absent attendees.</td>
+                                        <td>{{ absent_member.member.Name }}</td>
+                                        <td>{{ absent_member.meeting.meeting_date }}</td>
+                                        <td>{{ absent_member.meeting.meeting_time }}</td>
+                                        <td>{{ absent_member.meeting.meeting_venue }}</td>
+                                        <td>
+                                            <form action="{% url 'apply_leave' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="absent_member_id" value="{{ absent_member.id }}">
+                                                <button type="submit">Apply Leave</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 {% endfor %}
-                            </tbody>
-                        </table>
+                            </table>
+                        </div>
                     </div>
-
+                    
+                        
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">

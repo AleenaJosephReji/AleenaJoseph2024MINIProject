@@ -8,7 +8,7 @@ from .models import Crop
 from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
-from .models import FarmerProfile,Sellapply,Notification
+from .models import FarmerProfile,Sellapply,Notification,Mleave
 from .models import Driver
 from .models import SecretaryProfile
 from .models import *
@@ -2969,9 +2969,16 @@ def adddriver(request):
 def driver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/driver.html', {'drivers': drivers})
+def mleave(request):
+    today = date.today()
+    profile = Member.objects.get(user=request.user)
+    absent_members = WardAttendance.objects.filter(member=profile, is_present='absent')
 
-# def mleave(request):
-#     return render(request,'membertemp/mleave.html')
+    for absent_member in absent_members:
+        print(f"Meeting Date: {absent_member.meeting_date}")
+
+    return render(request, 'membertemp/mleave.html', {'absent_members': absent_members, 'today': today})
+
 @login_required
 def mark_notification_as_read(request):
     if request.method == 'POST':

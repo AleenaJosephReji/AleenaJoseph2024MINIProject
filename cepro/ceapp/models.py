@@ -281,6 +281,7 @@ class Meeting(models.Model):
     def __str__(self):
         return f"Meeting on {self.meeting_date} at {self.meeting_time}"
 
+
 class Attendance(models.Model):
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,null=True)
@@ -305,13 +306,21 @@ class WardAttendance(models.Model):
     # ward_name = models.CharField(max_length=50)
     # is_present = models.BooleanField(default=False)
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE,null=True)
-    meeting_date = models.DateField(null=True, blank=True)            
+    meeting_date = models.DateField(null=True, blank=True)     
+    reason = models.TextField(max_length=100,null=True,blank=True)
+       
     is_present = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
         default=PRESENT,
     )
 
+class Mleave(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE,null=True)
+    wardattendance = models.ForeignKey(WardAttendance, on_delete=models.CASCADE,null=True)
+
+    reason = models.TextField(max_length=100,null=True,blank=True)
 
 class SecretaryProfile(models.Model):
     
