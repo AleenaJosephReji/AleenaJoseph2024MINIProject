@@ -204,7 +204,8 @@ urlpatterns = [
     path('driver', views.driver, name='driver'),
     path('adddriver', views.adddriver, name='adddriver'),
     path('mleave', views.mleave, name='mleave'),
-
+    path('apply_leave/<int:absent_member_id>/', views.apply_leave, name='apply_leave'),
+    path('process_leave_application/', views.process_leave_application, name='process_leave_application'),
 
 
 

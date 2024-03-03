@@ -76,7 +76,7 @@
         
         th {
             background-color:lightgreen;
-            color: white;
+            color: black;
         }
         
         tr:nth-child(even) {
@@ -188,13 +188,14 @@
                                 <li>
                                     <a href="{% url 'mdriverapplied' %}"><i class="fa fa-calendar-check-o"></i> <span>Applied Drivers</span></a>
                                 </li>
+                                
                                 {% comment %} <li>
                                     <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
                                     </i> <span>Waiting List</span></a>
                                 </li>  {% endcomment %}
                             </ul>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
                         {% comment %} <li>
@@ -210,6 +211,9 @@
                         <li>
                             <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
                         </li> 
+                        <li class="active">
+                            <a href="{% url 'mleave' %}"><i class="fas fa-users fa-2x"></i> <span>Apply Leave</span></a>
+                        </li> 
                         {% comment %} <li>
                             <a href="{% url 'mleave' %}"><i class="fas fa-users fa-2x"></i> <span>Apply Leave</span></a>
                         </li>  {% endcomment %}
@@ -223,43 +227,44 @@
         </div>
         <div class="page-wrapper">
             <br>
-            <div class="content">
-                <h1 style="color:black; font-weight:bold;"> Apply Leave </h1>
-                <div class="row">
-                    <div class="col-sm-5 col-5">
-                        <h4 class="page-title"></h4>
-                    </div>
-                    <div class="container">
-                        <div class="details">
-                            <h1>Absent Members Details</h1>
-                            <table>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Name</th>
-                                    <th>Meeting Date</th>
-                                    <th>Meeting Time</th>
-                                    <th>Meeting Venue</th>
-                                    <th>Action</th> <!-- Add a new column for the "Apply Leave" button -->
-                                </tr>
-                                {% for absent_member in absent_members %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ absent_member.member.Name }}</td>
-                                        <td>{{ absent_member.meeting.meeting_date }}</td>
-                                        <td>{{ absent_member.meeting.meeting_time }}</td>
-                                        <td>{{ absent_member.meeting.meeting_venue }}</td>
-                                        <td>
-                                            <form action="{% url 'apply_leave' %}" method="post">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="absent_member_id" value="{{ absent_member.id }}">
-                                                <button type="submit">Apply Leave</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
+            <div class="container">
+                <div class="details">
+                    <h1 style="color:black;">Attendance Details</h1>
+                    <table>
+                        <tr>
+                            <th><b>No</b></th>
+                            <th><b>Name</th>
+                            <th><b>Meeting Date</b></th>
+                            <th><b>Meeting Time</b></th>
+                            <th><b>Meeting Venue</b></th>
+                            <th><b>Apply Leave</b></th>
+                            <th><b>Status</b></th> <!-- Add a new column for the "Apply Leave" button -->
+                        </tr>
+                        {% for absent_member in absent_members %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ absent_member.member.Name }}</td>
+                                <td>{{ absent_member.meeting.meeting_date }}</td>
+                                <td>{{ absent_member.meeting.meeting_time }}</td>
+                                <td>{{ absent_member.meeting.meeting_venue }}</td>
+                                <td>
+                                    {% if absent_member.leave_applied %}
+                                        Leave Applied for reason {{  absent_member.reason }}
+                                    {% else %}
+                                        <form action="{% url 'apply_leave' absent_member.id %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="absent_member_id" value="{{ absent_member.id }}">
+                                            <button type="submit">Apply Leave</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            
                     
                         
             <div class="notification-box">

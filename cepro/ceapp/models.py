@@ -302,19 +302,32 @@ class WardAttendance(models.Model):
     
    
     ]
+    PENDING = 'pending'
+    GRANT = 'grant'
+   
+    GRANT_CHOICES = [
+    (PENDING, 'pending'),
+    (GRANT, 'grant'),
+    
+   
+    ]
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
     # ward_name = models.CharField(max_length=50)
     # is_present = models.BooleanField(default=False)
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE,null=True)
     meeting_date = models.DateField(null=True, blank=True)     
     reason = models.TextField(max_length=100,null=True,blank=True)
-       
+    leave_applied = models.BooleanField(default=False)     
     is_present = models.CharField(
         max_length=10,
         choices=APPROVAL_CHOICES,
         default=PRESENT,
     )
-
+    is_grant = models.CharField(
+        max_length=10,
+        choices=GRANT_CHOICES,
+        default=PENDING,
+    )
 class Mleave(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE,null=True)
@@ -469,6 +482,7 @@ class Sellapply(models.Model):
     # is_paidd = models.BooleanField(default=True)
     is_amount = models.BooleanField(default=False)
     paid_amount = models.IntegerField(default=0)
+    total_amount = models.IntegerField(null=True, blank=True)
 
 
 class Confirm(models.Model):

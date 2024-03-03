@@ -2975,9 +2975,34 @@ def mleave(request):
     absent_members = WardAttendance.objects.filter(member=profile, is_present='absent')
 
     for absent_member in absent_members:
-        print(f"Meeting Date: {absent_member.meeting_date}")
+        # Debugging information
+        print(f"Member: {absent_member.member.Name}, Leave Applied: {absent_member.leave_applied}")
 
     return render(request, 'membertemp/mleave.html', {'absent_members': absent_members, 'today': today})
+
+def apply_leave(request, absent_member_id):
+    absent_member = get_object_or_404(WardAttendance, id=absent_member_id)
+
+    return render(request, 'membertemp/apply_leave.html', {'absent_member': absent_member})
+
+def process_leave_application(request):
+    if request.method == 'POST':
+        absent_member_id = request.POST.get('absent_member_id')
+        reason = request.POST.get('reason')
+
+        # Get the absent_member instance
+        absent_member = get_object_or_404(WardAttendance, id=absent_member_id)
+
+        # Update the reason field and set leave_applied to True
+        absent_member.reason = reason
+        absent_member.leave_applied = True
+        absent_member.save()
+
+        # Add more logic based on your application requirements
+
+        return redirect('mleave')  # Redirect back to the main leave page
+
+    return render(request, 'membertemp/mleave.html')  # Redirect to mleave page if the request method is not POST
 
 @login_required
 def mark_notification_as_read(request):
