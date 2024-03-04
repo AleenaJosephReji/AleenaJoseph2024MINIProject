@@ -413,6 +413,7 @@ def delete_member(request, member_id):
 def fmyprofile(request):
     profile = FarmerProfile.objects.get(user=request.user)
     context = {'profile': profile}
+    
     return render(request, 'fmyprofile.html', context)
 
 def ceditprofile(request):
@@ -2366,6 +2367,7 @@ def mdriverapplied(request):
 
     for sellapply in applies:
         if Sellapply.objects.filter(
+            sell__farmerName=sellapply.sell.farmerName,
             sell__sell_date=sellapply.sell.sell_date,
             sell__name=sellapply.sell.name,
             is_confirmed=True
@@ -2969,6 +2971,8 @@ def adddriver(request):
 def driver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/driver.html', {'drivers': drivers})
+
+
 def mleave(request):
     today = date.today()
     profile = Member.objects.get(user=request.user)
@@ -3003,6 +3007,17 @@ def process_leave_application(request):
         return redirect('mleave')  # Redirect back to the main leave page
 
     return render(request, 'membertemp/mleave.html')  # Redirect to mleave page if the request method is not POST
+# views.py
+def grant_certification(request, absent_member_id):
+    absent_member = get_object_or_404(WardAttendance, id=absent_member_id)
+    if request.method == 'POST':
+        absent_member.is_grant = WardAttendance.GRANT  # Set it to 'grant'
+        absent_member.save()
+    return redirect('admleaveapply')
+
+def admleaveapply(request):
+    absent_members = WardAttendance.objects.filter(leave_applied=True)
+    return render(request, 'admintemp/admleaveapply.html', {'absent_members': absent_members})
 
 @login_required
 def mark_notification_as_read(request):

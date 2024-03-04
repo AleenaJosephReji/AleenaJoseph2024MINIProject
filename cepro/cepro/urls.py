@@ -206,6 +206,8 @@ urlpatterns = [
     path('mleave', views.mleave, name='mleave'),
     path('apply_leave/<int:absent_member_id>/', views.apply_leave, name='apply_leave'),
     path('process_leave_application/', views.process_leave_application, name='process_leave_application'),
+    path('admleaveapply', views.admleaveapply, name='admleaveapply'),
+    path('grant_certification/<int:absent_member_id>/', views.grant_certification, name='grant_certification'),
 
 
 

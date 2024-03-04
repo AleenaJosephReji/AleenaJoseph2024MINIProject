@@ -68,7 +68,10 @@
         table, th, td {
             border: 1px solid grey;
         }
-        
+        td
+        {
+            color:black;
+        }
         th, td {
             padding: 10px;
             text-align: left;
@@ -258,7 +261,17 @@
                                         </form>
                                     {% endif %}
                                 </td>
-                                <td></td>
+                                <td>
+                                    {% if absent_member.leave_applied %}
+                                        {% if absent_member.is_grant == 'grant' %}
+                                             Approved
+                                        {% else %}
+                                            Pending
+                                        {% endif %}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
