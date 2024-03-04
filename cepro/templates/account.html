@@ -226,29 +226,30 @@
     </div> {% endcomment %}
     <h1>Account</h1>
     <div class="container mt-5">
-    
-    <h2>Total Amount :  {{ total_amount }}</h2>    
-            <table border="1">
-                <thead>
+        <h2>Total Amount: {{ total_instance.total_amount|default:"-" }}</h2>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>User Name</th>
+                    <th>Total collected Amount</th>
+                    <th>Balance To Collect</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_name, total_paid_amount, balance in balance_list %}
                     <tr>
-                        <th>No</th>
-                        <th>User Name</th>
-                        <th>Total collected Amount</th>
-                        <th>Balance To Collect</th>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ user_name }}</td>
+                        <td>{{ total_paid_amount }}</td>
+                        <td>{{ balance|default:"-" }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for user_name, total_paid_amount, balance in balance_list %}
-                        <tr>
-                            <td>{{ forloop.counter }}
-                            <td>{{ user_name }}</td>
-                            <td>{{ total_paid_amount }}</td>
-                            <td>{{ balance|default:"-" }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-</div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
     
     {% comment %} <div class="container">
         <div class="row">       

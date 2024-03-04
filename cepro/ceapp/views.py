@@ -2755,28 +2755,30 @@ from django.shortcuts import get_object_or_404
 #             sell.total_cost = 0
 
 #     return render(request, 'account.html', {'total_paid_amount_by_user': total_paid_amount_by_user, 'total_amount': total_amount})
-
-
+from decimal import Decimal
 def account(request):
     current_farmer_profile = request.user.farmerprofile
+
+    # Fetch the Total instance for the current user
+    total_instance = Total.objects.filter(user=request.user).first()
 
     confirmed_data = Sellapply.objects.filter(
         is_confirmed=True,
         sell__farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
     )
     total_paid_amount_by_user = {}
-    total_paid_amount = 0
+    total_paid_amount = Decimal('0')
 
     for entry in confirmed_data:
         try:
             product_cost = Productcost.objects.get(pname=entry.sell.name)
-            entry.total_cost = float(entry.sell.quantity) * product_cost.price
+            entry.total_cost = Decimal(entry.sell.quantity) * Decimal(product_cost.price)
         except Productcost.DoesNotExist:
-            entry.total_cost = "Add Amount"
+            entry.total_cost = Decimal('0')
 
         if entry.is_amount:
             user_name = entry.sell.farmerName
-            total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+            total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, Decimal('0')) + entry.total_cost
             total_paid_amount += entry.total_cost
 
     sells = Sell.objects.filter(
@@ -2789,23 +2791,23 @@ def account(request):
         sellapply__is_collected=True
     )
 
-    total_amount = 0
+    total_amount = Decimal('0')
 
     for sell in accepted_sells:
         try:
             product_cost = Productcost.objects.get(pname=sell.name)
-            sell.total_cost = float(sell.quantity) * product_cost.price
+            sell.total_cost = Decimal(sell.quantity) * Decimal(product_cost.price)
             total_amount += sell.total_cost
 
-            total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+            total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else Decimal('0')
             total_amount += total_cost_sellapply
         except Productcost.DoesNotExist:
-            sell.total_cost = 0
+            sell.total_cost = Decimal('0')
 
     # Calculate balance for each user
-    balance_list = [(user_name, total_paid_amount_by_user.get(user_name, 0), total_amount - total_paid_amount_by_user.get(user_name, 0)) for user_name in total_paid_amount_by_user]
+    balance_list = [(user_name, total_paid_amount_by_user.get(user_name, Decimal('0')), total_amount - total_paid_amount_by_user.get(user_name, Decimal('0'))) for user_name in total_paid_amount_by_user]
 
-    return render(request, 'account.html', {'balance_list': balance_list, 'total_amount': total_amount})
+    return render(request, 'account.html', {'balance_list': balance_list, 'total_amount': total_amount, 'total_instance': total_instance})
 
 from django.shortcuts import render
 from .models import Sell, Productcost, Sellapply
@@ -2854,6 +2856,7 @@ from .models import FarmerProfile, Sell, Productcost, Sellapply
 #         entry.save()
 
 #     return redirect('adselldetails') 
+from .models import Total
 
 def adselldetails(request):
     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
@@ -2870,6 +2873,12 @@ def adselldetails(request):
 
         # Get the updated entry from the database
         entry = Sellapply.objects.get(pk=entry_id)
+
+        # Update the paid_amount field in the Total model
+        user_name = entry.sell.farmerName
+        total_obj, created = Total.objects.get_or_create(user=user_name)
+        total_obj.paid_amount += entry.total_cost
+        total_obj.save()
 
         return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'total_paid_amount_by_user': total_paid_amount_by_user, 'total_paid_amount': total_paid_amount, 'updated_entry': entry})
 
@@ -2889,6 +2898,8 @@ def adselldetails(request):
             total_paid_amount += entry.total_cost
 
     return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data, 'total_paid_amount_by_user': total_paid_amount_by_user, 'total_paid_amount': total_paid_amount})
+from django.shortcuts import get_object_or_404
+
 def pay_entry(request, entry_id):
     entry = get_object_or_404(Sellapply, id=entry_id)
 
@@ -2896,7 +2907,22 @@ def pay_entry(request, entry_id):
         entry.is_amount = True
         entry.save()
 
+        # Update Total model's paid_amount for the corresponding user (farmerName)
+        user = entry.user
+        farmer_name = entry.sell.farmerName
+        total_instance, created = Total.objects.get_or_create(user=user, farmerName=farmer_name)
+
+        # Assuming the paid_amount is the same as total_cost, you may adjust this based on your logic
+        total_instance.paid_amount += entry.total_cost
+        total_instance.save()
+
+        # Update the balance field, handle the case where total_amount is None
+        total_instance.balance = (total_instance.total_amount or Decimal('0')) - total_instance.paid_amount
+        total_instance.save()
+
     return redirect('adselldetails')
+
+
 from django.shortcuts import render
 from .models import Sellapply, Productcost, Sell
 
@@ -2975,6 +3001,10 @@ from .models import Sellapply, Productcost, Sell
 
 from decimal import Decimal  # Import the Decimal type
 
+from decimal import Decimal
+from django.shortcuts import render, get_object_or_404
+from .models import FarmerProfile, Sellapply, Productcost, Sell, Total
+from django.db.models import Sum
 
 def all_accounts(request):
     all_farmers = []
@@ -3007,9 +3037,10 @@ def all_accounts(request):
                 total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, Decimal('0')) + entry.total_cost
                 total_paid_amount += entry.total_cost
 
-        # Fetch total_amount from the Total model
+        # Fetch total_amount and paid_amount from the Total model
         total_entry = Total.objects.filter(user=current_farmer_profile.user).first()
         total_amount_from_total_model = total_entry.total_amount if total_entry else Decimal('0')
+        paid_amount_from_total_model = total_entry.paid_amount if total_entry else Decimal('0')
 
         sells = Sell.objects.filter(
             farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
@@ -3039,10 +3070,15 @@ def all_accounts(request):
             for user_name in total_paid_amount_by_user
         ]
 
+        # Calculate the balance here and include it in the context
+        balance = total_amount_from_total_model - paid_amount_from_total_model
+
         all_farmers.append({
             'farmer_profile': current_farmer_profile,
             'balance_list': balance_list,
-            'total_amount': total_amount_from_total_model  # Include total_amount from Total model
+            'total_amount': total_amount_from_total_model,  # Include total_amount from Total model
+            'paid_amount': paid_amount_from_total_model,  # Include paid_amount from Total model
+            'balance': balance,  # Include the calculated balance
         })
 
     return render(request, 'admintemp/all_accounts.html', {'all_farmers': all_farmers})

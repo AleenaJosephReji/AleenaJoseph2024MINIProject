@@ -250,8 +250,7 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ user_name }}</td>
                                 <td>{{ total_paid_amount }}</td>
-                                <td>{{ balance|default:"-" }}</td>
-                            </tr>
+                                <td>{{ farmer.balance|default:"-"|floatformat:2 }}</td>                            </tr>
                         {% endfor %}
                         <tr>
                             <td colspan="2"></td>
