@@ -234,7 +234,7 @@
                     <th>No</th>
                     <th>User Name</th>
                     <th>Total collected Amount</th>
-                    <th>Balance To Collect</th>
+                    {% comment %} <th>Balance To Collect</th> {% endcomment %}
                 </tr>
             </thead>
             <tbody>
@@ -243,7 +243,7 @@
                         <td>{{ forloop.counter }}</td>
                         <td>{{ user_name }}</td>
                         <td>{{ total_paid_amount }}</td>
-                        <td>{{ balance|default:"-" }}</td>
+                        {% comment %} <td>{{ balance }}</td>                     {% endcomment %}
                     </tr>
                 {% endfor %}
             </tbody>

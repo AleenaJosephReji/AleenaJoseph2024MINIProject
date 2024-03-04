@@ -51,6 +51,12 @@
             color:#88a60f;
             background-color: #f3f3f3;
         }
+        .new{
+            margin-left:90px;
+            margin-right:800px;
+            text-align:center
+            padding-left:6px;
+        }
     </style>
     {% comment %} <style>
         body{
@@ -169,7 +175,7 @@
                             <a href="{% url 'mmeeting' %}"><i class="fas fa-users fa-2x"></i> <span>Meetings</span></a>
                         </li> 
                         <li>
-                            <a href="{% url 'mleave' %}"><i class="fas fa-users fa-2x"></i> <span>Apply Leave</span></a>
+                            <a href="{% url 'mleave' %}"><i class="fa fa-calendar-minus-o"></i>  <span>Apply Leave</span></a>
                         </li> 
                         <li>
                             <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
@@ -182,7 +188,15 @@
             </div>
         </div>
         <div class="page-wrapper">
-            <div class="content">
+            <div class="content">                
+                <div class="new" style="text-align: center; display: flex; align-items: center; color:black;">
+                    <div class="dash-widget">
+                        <div class="dash-widget-info text-right">
+                            <h3>Welcome!!</h3>
+                            <h3>{{user.name }}</h3>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                         <div class="dash-widget">

@@ -193,6 +193,9 @@
                                 <li>
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
+                                <li>
+                                    <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
+                                </li>
                             </ul>
                         </li>    
                         <li>
@@ -390,6 +393,7 @@
 {% endfor %} {% endcomment %}
 
 <!-- Add this block of code to display total_paid_amount for all users -->
+
 {% for user_name, amount in total_paid_amount_by_user.items %}
     <tr>
         <td colspan="11" style="text-align: right;"><b>Total Paid Amount for {{ user_name }}:</b></td>

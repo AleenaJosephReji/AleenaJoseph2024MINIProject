@@ -1978,7 +1978,15 @@ def delete_service(request, service_id):
 
 
 def dindex(request):
-    return render(request,'drivertemp/dindex.html')
+    user = request.user
+    profile = Driver.objects.get(user=user)
+    confirmed = Sellapply.objects.filter(is_confirmed=True,user_id=profile.user_id)
+    confirmed_count = confirmed.count()
+    collected = Sellapply.objects.filter(is_collected=True,user_id=profile.user_id)
+    collected_count = collected.count()
+    applied = Sellapply.objects.filter(is_apply='apply',user_id=profile.user_id)
+    applied_count = applied.count()
+    return render(request,'drivertemp/dindex.html',{'confirmed':confirmed,'confirmed_count':confirmed_count,'collected':collected,'collected_count':collected_count,'applied':applied,'applied_count':applied_count})
 def dleave(request):
     return render(request,'drivertemp/dleave.html')
 def deditprofile(request):
@@ -2756,6 +2764,7 @@ from django.shortcuts import get_object_or_404
 
 #     return render(request, 'account.html', {'total_paid_amount_by_user': total_paid_amount_by_user, 'total_amount': total_amount})
 from decimal import Decimal
+
 def account(request):
     current_farmer_profile = request.user.farmerprofile
 
@@ -3196,23 +3205,3 @@ def notifications(request):
     }
 
     return JsonResponse(context)
-
-
-
-from django.shortcuts import render
-from django.contrib.auth.models import User
-
-
-def all_users_total_amount(request):
-    all_users = CustomUser.objects.filter(groups__name='farmer')  # Use CustomUser instead of User
-    user_total_amounts = []
-
-    for user in all_users:
-        update_total_amount(user)  # Ensure total_amount is up-to-date
-        user_data = {
-            'username': user.username,
-            'total_amount': user.farmerprofile.total_amount
-        }
-        user_total_amounts.append(user_data)
-
-    return render(request, 'admintemp/all_users_total_amount.html', {'user_total_amounts': user_total_amounts})

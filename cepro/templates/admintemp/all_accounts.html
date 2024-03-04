@@ -194,6 +194,9 @@
                                 <li>
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
+                                <li>
+                                    <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
+                                </li>
                             </ul>
                         </li>    
                         <li>
@@ -241,7 +244,7 @@
                             <th>No</th>
                             <th>User Name</th>
                             <th>Total Paid Amount</th>
-                            <th>Balance</th>
+                            {% comment %} <th>Balance</th> {% endcomment %}
                         </tr>
                     </thead>
                     <tbody>
@@ -250,10 +253,11 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ user_name }}</td>
                                 <td>{{ total_paid_amount }}</td>
-                                <td>{{ farmer.balance|default:"-"|floatformat:2 }}</td>                            </tr>
+                                {% comment %} <td>{{ balance|default:"-" }}</td> {% endcomment %}
+                            </tr>
                         {% endfor %}
                         <tr>
-                            <td colspan="2"></td>
+                            <td></td>
                             <td>Total Amount:</td>
                             <td>{{ farmer.total_amount }}</td>
                         </tr>
