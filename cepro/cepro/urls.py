@@ -208,7 +208,7 @@ urlpatterns = [
     path('process_leave_application/', views.process_leave_application, name='process_leave_application'),
     path('admleaveapply', views.admleaveapply, name='admleaveapply'),
     path('grant_certification/<int:absent_member_id>/', views.grant_certification, name='grant_certification'),
-
+    path('all_users_total_amount', views.all_users_total_amount, name='all_users_total_amount'),
 
 
 

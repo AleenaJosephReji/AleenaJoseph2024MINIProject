@@ -2428,6 +2428,49 @@ def collected(request, collection_id):
 #     return render(request, 'selldetails.html', {'sells': sells})
 from django.db.models import F, ExpressionWrapper, FloatField
 
+# def selldetails(request):
+#     current_farmer_profile = request.user.farmerprofile
+#     sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}") \
+#                         .select_related('member', 'driver')
+
+#     for sell in sells:
+#         try:
+#             product_cost = Productcost.objects.get(pname=sell.name)
+#             sell.total_cost = float(sell.quantity) * product_cost.price
+#         except Productcost.DoesNotExist:
+#             sell.total_cost = "Add Amount"  # Set a message when the product is not found
+#         sell_applies = Sellapply.objects.filter(sell=sell)
+#         if sell_applies.exists():
+#             sell.total_cost = sell_applies.first().total_cost
+#     return render(request, 'selldetails.html', {'sells': sells})
+
+def update_total_amount(user):
+    sells = Sell.objects.filter(farmerName=f"{user.farmerprofile.first_name} {user.farmerprofile.last_name}")
+    total_amount = 0
+
+    for sell in sells:
+        try:
+            product_cost = Productcost.objects.get(pname=sell.name)
+            sell.total_cost = float(sell.quantity) * product_cost.price
+            sell.save()
+
+            sell_applies = Sellapply.objects.filter(sell=sell)
+            if sell_applies.exists():
+                for apply in sell_applies:
+                    total_cost = apply.total_cost if apply.total_cost is not None else 0
+                    total_amount += total_cost
+        except Productcost.DoesNotExist:
+            sell.total_cost = 0
+
+    user.farmerprofile.total_amount = total_amount
+    user.farmerprofile.save()
+
+    # Create or update Total model entry for the user
+    total_entry, created = Total.objects.get_or_create(user=user)
+    total_entry.farmerName = f"{user.farmerprofile.first_name} {user.farmerprofile.last_name}"
+    total_entry.total_amount = total_amount
+    total_entry.save()
+
 def selldetails(request):
     current_farmer_profile = request.user.farmerprofile
     sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}") \
@@ -2437,12 +2480,20 @@ def selldetails(request):
         try:
             product_cost = Productcost.objects.get(pname=sell.name)
             sell.total_cost = float(sell.quantity) * product_cost.price
+            sell.save()
+
+            sell_applies = Sellapply.objects.filter(sell=sell)
+            if sell_applies.exists():
+                sell.total_cost = sell_applies.first().total_cost
+                sell.save()
         except Productcost.DoesNotExist:
-            sell.total_cost = "Add Amount"  # Set a message when the product is not found
-        sell_applies = Sellapply.objects.filter(sell=sell)
-        if sell_applies.exists():
-            sell.total_cost = sell_applies.first().total_cost
+            sell.total_cost = 0
+
+    # Update the total_amount for the current user
+    update_total_amount(request.user)
+
     return render(request, 'selldetails.html', {'sells': sells})
+
 
 # def adselldetails(request):
 #     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
@@ -2850,13 +2901,86 @@ from django.shortcuts import render
 from .models import Sellapply, Productcost, Sell
 
 
+# def all_accounts(request):
+#     all_farmers = []
+
+#     for farmer_profile in FarmerProfile.objects.all():  # Assuming FarmerProfile is your model for farmer profiles
+#         current_farmer_profile = farmer_profile
+
+#         # Filtering Sellapply data based on specified conditions
+#         confirmed_data = Sellapply.objects.filter(
+#             is_confirmed=True,
+#             is_collected=True,
+#             is_apply='apply',
+#             sell__is_accept='accept',
+#             sell__farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+#         )
+
+#         # If there are no confirmed_data, skip to the next farmer
+#         if not confirmed_data.exists():
+#             continue
+
+#         total_paid_amount_by_user = {}
+#         total_paid_amount = 0
+
+#         for entry in confirmed_data:
+#             try:
+#                 product_cost = Productcost.objects.get(pname=entry.sell.name)
+#                 entry.total_cost = float(entry.sell.quantity) * product_cost.price
+#             except Productcost.DoesNotExist:
+#                 entry.total_cost = "Add Amount"
+
+#             if entry.is_amount:
+#                 user_name = entry.sell.farmerName
+#                 total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+#                 total_paid_amount += entry.total_cost
+
+#         sells = Sell.objects.filter(
+#             farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+#         ).select_related('member', 'driver')
+
+#         accepted_sells = sells.filter(
+#             is_accept='accept',
+#             sellapply__is_confirmed=True,
+#             sellapply__is_collected=True
+#         )
+
+#         total_amount = 0
+
+#         for sell in accepted_sells:
+#             try:
+#                 product_cost = Productcost.objects.get(pname=sell.name)
+#                 sell.total_cost = float(sell.quantity) * product_cost.price
+#                 total_amount += sell.total_cost
+
+#                 total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+#                 total_amount += total_cost_sellapply
+#             except Productcost.DoesNotExist:
+#                 sell.total_cost = 0
+
+#         # Calculate balance for each user
+#         balance_list = [
+#             (user_name, total_paid_amount_by_user.get(user_name, 0), total_amount - total_paid_amount_by_user.get(user_name, 0))
+#             for user_name in total_paid_amount_by_user
+#         ]
+
+#         all_farmers.append({
+#             'farmer_profile': current_farmer_profile,
+#             'balance_list': balance_list,
+#             'total_amount': total_amount
+#         })
+
+#     return render(request, 'admintemp/all_accounts.html', {'all_farmers': all_farmers})
+
+
+from decimal import Decimal  # Import the Decimal type
+
+
 def all_accounts(request):
     all_farmers = []
 
-    for farmer_profile in FarmerProfile.objects.all():  # Assuming FarmerProfile is your model for farmer profiles
+    for farmer_profile in FarmerProfile.objects.all():
         current_farmer_profile = farmer_profile
-
-        # Filtering Sellapply data based on specified conditions
         confirmed_data = Sellapply.objects.filter(
             is_confirmed=True,
             is_collected=True,
@@ -2865,24 +2989,27 @@ def all_accounts(request):
             sell__farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
         )
 
-        # If there are no confirmed_data, skip to the next farmer
         if not confirmed_data.exists():
             continue
 
         total_paid_amount_by_user = {}
-        total_paid_amount = 0
+        total_paid_amount = Decimal('0')  # Initialize total_paid_amount as Decimal
 
         for entry in confirmed_data:
             try:
                 product_cost = Productcost.objects.get(pname=entry.sell.name)
-                entry.total_cost = float(entry.sell.quantity) * product_cost.price
+                entry.total_cost = Decimal(entry.sell.quantity) * Decimal(product_cost.price)
             except Productcost.DoesNotExist:
-                entry.total_cost = "Add Amount"
+                entry.total_cost = Decimal(0)
 
             if entry.is_amount:
                 user_name = entry.sell.farmerName
-                total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, 0) + entry.total_cost
+                total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, Decimal('0')) + entry.total_cost
                 total_paid_amount += entry.total_cost
+
+        # Fetch total_amount from the Total model
+        total_entry = Total.objects.filter(user=current_farmer_profile.user).first()
+        total_amount_from_total_model = total_entry.total_amount if total_entry else Decimal('0')
 
         sells = Sell.objects.filter(
             farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
@@ -2894,35 +3021,31 @@ def all_accounts(request):
             sellapply__is_collected=True
         )
 
-        total_amount = 0
+        total_amount = Decimal('0')  # Initialize total_amount as Decimal
 
         for sell in accepted_sells:
             try:
                 product_cost = Productcost.objects.get(pname=sell.name)
-                sell.total_cost = float(sell.quantity) * product_cost.price
+                sell.total_cost = Decimal(sell.quantity) * Decimal(product_cost.price)
                 total_amount += sell.total_cost
 
-                total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else 0
+                total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else Decimal('0')
                 total_amount += total_cost_sellapply
             except Productcost.DoesNotExist:
-                sell.total_cost = 0
+                sell.total_cost = Decimal('0')
 
-        # Calculate balance for each user
         balance_list = [
-            (user_name, total_paid_amount_by_user.get(user_name, 0), total_amount - total_paid_amount_by_user.get(user_name, 0))
+            (user_name, total_paid_amount_by_user.get(user_name, Decimal('0')), total_amount - total_paid_amount_by_user.get(user_name, Decimal('0')))
             for user_name in total_paid_amount_by_user
         ]
 
         all_farmers.append({
             'farmer_profile': current_farmer_profile,
             'balance_list': balance_list,
-            'total_amount': total_amount
+            'total_amount': total_amount_from_total_model  # Include total_amount from Total model
         })
 
     return render(request, 'admintemp/all_accounts.html', {'all_farmers': all_farmers})
-
-
-
 
 
 
@@ -3037,3 +3160,23 @@ def notifications(request):
     }
 
     return JsonResponse(context)
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.models import User
+
+
+def all_users_total_amount(request):
+    all_users = CustomUser.objects.filter(groups__name='farmer')  # Use CustomUser instead of User
+    user_total_amounts = []
+
+    for user in all_users:
+        update_total_amount(user)  # Ensure total_amount is up-to-date
+        user_data = {
+            'username': user.username,
+            'total_amount': user.farmerprofile.total_amount
+        }
+        user_total_amounts.append(user_data)
+
+    return render(request, 'admintemp/all_users_total_amount.html', {'user_total_amounts': user_total_amounts})

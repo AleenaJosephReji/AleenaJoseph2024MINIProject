@@ -477,14 +477,19 @@ class Sellapply(models.Model):
             default=PENDING,
         )
     is_confirmed = models.BooleanField(default=False)
-    total_cost = models.IntegerField(null=True, blank=True)
+    # total_cost = models.IntegerField(null=True, blank=True)
+    total_cost = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
     is_collected = models.BooleanField(default=False)
     # is_paidd = models.BooleanField(default=True)
     is_amount = models.BooleanField(default=False)
     paid_amount = models.IntegerField(default=0)
     total_amount = models.IntegerField(null=True, blank=True)
-
-
+class Total(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    farmerName = models.CharField(max_length=100, null=True, blank=True)
+    total_amount = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
+    balance = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
+    paid_amount = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2, default=0)
 class Confirm(models.Model):
     CONFIRM = 'confirm'
     PENDING = 'pending'

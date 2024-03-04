@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Users Total Amount</title>
+</head>
+<body>
+    <h1>All Users Total Amount</h1>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <th>Total Amount</th>
+        </tr>
+        {% for user_data in user_total_amounts %}
+            <tr>
+                <td>{{ user_data.username }}</td>
+                <td>{{ user_data.total_amount }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
