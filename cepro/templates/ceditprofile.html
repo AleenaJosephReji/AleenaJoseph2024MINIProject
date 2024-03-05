@@ -143,40 +143,37 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <a href="{% url 'homepage' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px; color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
-                <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; color:white; font-size:20px;">Notice</a>
-                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link active" style="margin-left: 80px;  color:white; font-size:20px;">Edit Profile</a>
-                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">My Profile</a>
-                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  color:white; font-size:20px;">Price List</a>
-                <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  color:white; font-size:20px;">Sales Tracker</a>
-              <!-- Add this code to your ceditprofile.html template -->
-<li class="nav-item dropdown">
-    <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
-        <i class="mdi mdi-bell"></i>
-        <span class="count">{{ notification_count }}</span>
-    </a>
-    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" id="notificationDropdownContent">
-        <h6 class="p-3 mb-0">Notifications</h6>
-        <div class="dropdown-divider"></div>
-        {% for notification in notifications %}
-            <a class="dropdown-item">
-                <div class="preview-thumbnail">
-                    <div class="preview-icon bg-success">
-                        <i class="mdi mdi-alert-circle-outline mx-0"></i>
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 60px;margin-top:5px;color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
+                <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Notice</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
+                <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
+                        <i class="mdi mdi-bell"></i>
+                        <span class="count">{{ notification_count }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" id="notificationDropdownContent">
+                        <h6 class="p-3 mb-0">Notifications</h6>
+                        <div class="dropdown-divider"></div>
+                        {% for notification in notifications %}
+                            <a class="dropdown-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="mdi mdi-alert-circle-outline mx-0"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject font-weight-medium">{{ notification.title }}</p>
+                                    <p class="font-weight-light small-text">{{ notification.message }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
                     </div>
-                </div>
-                <div class="preview-item-content">
-                    <p class="preview-subject font-weight-medium">{{ notification.title }}</p>
-                    <p class="font-weight-light small-text">{{ notification.message }}</p>
-                </div>
-            </a>
-        {% endfor %}
-    </div>
-</li>
-
+                </li>
             </ul>
         </div>
-          
       
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
@@ -184,11 +181,10 @@
                 <i class="fa fa-user" aria-hidden="true"></i>
                 <span>{{ user.name }}</span>
             </button>
-            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
-                
+            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">                
                 {% if user.is_authenticated %}
-                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'account' %}">Account</a>
+                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>

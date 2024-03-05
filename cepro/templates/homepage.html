@@ -67,7 +67,16 @@
             padding: 40px; /* Adjust the padding as needed */
             margin-top: 30px;
         }
-       
+       .new{
+        background-color: #dded77;
+        border: 1px solid black;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+        width: 1500px; /* Adjust the width as needed */
+        {% comment %} padding: 40px; /* Adjust the padding as needed */ {% endcomment %}
+        margin-top: 30px;
+        {% comment %} margin-left:100px; {% endcomment %}
+       }
        
         .avatar img {
             width: 80px;
@@ -125,12 +134,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 85px;margin-top:5px;color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 70px;margin-top:5px;color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
                 <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Notice</a>
-                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
-                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
-                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 80px; margin-top:5px;color:white; font-size:20px;">Price List</a>
-                <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
+                <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
                 
     <li class="nav-item dropdown">
         <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
@@ -723,7 +732,7 @@
 
     <!-- Footer Start -->
     <div class="container-fluid bg-footer bg-primary text-white mt-5">
-        <div class="container">
+        <div class="new">
             <div class="row gx-5">
                 <div class="col-lg-8 col-md-6">
                     <div class="row gx-5">
