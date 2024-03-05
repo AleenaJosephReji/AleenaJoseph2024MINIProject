@@ -1931,8 +1931,11 @@ def homepage(request):
             user=user, title="New Crop Added", message=message, is_read=False
         )
 
-    return render(request, 'homepage.html', {'profile': profile, 'blogs': blogs, 'services': services})
+    # Get success message from Django messages framework
+    success_message = messages.get_messages(request)
+    messages_to_display = [message.message for message in success_message if message.level == messages.SUCCESS]
 
+    return render(request, 'homepage.html', {'profile': profile, 'blogs': blogs, 'services': services,'success_message':messages_to_display})
 #service
 
 def service(request):
@@ -2198,12 +2201,16 @@ from django.shortcuts import render, HttpResponse
 from django.http import HttpResponseForbidden
 from .models import FarmerProfile, Member, Sell
 from datetime import datetime
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import FarmerProfile, Member, Sell
+from datetime import datetime
 
 def sellcrop(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     product_name = request.GET.get('product_name', '')
-    sell_date = None  # Initialize sell_date variable outside the if block
-    error_message = None  # Initialize error_message variable
+    sell_date = None
+    error_message = None
 
     if request.method == 'POST':
         farmerName = request.POST.get('farmerName')
@@ -2214,10 +2221,9 @@ def sellcrop(request):
         member = Member.objects.get(wardno=wardNo)
         sell_date_str = request.POST.get('sell_date')
 
-        if sell_date_str:  # Check if sell_date_str is not empty
+        if sell_date_str:
             sell_date = datetime.strptime(sell_date_str, '%Y-%m-%d').date()
 
-            # Check if the farmer has already applied for the same product and quantity on the same day
             existing_sell = Sell.objects.filter(
                 farmerName=farmerName,
                 name=name,
@@ -2227,7 +2233,6 @@ def sellcrop(request):
 
             if existing_sell:
                 error_message = "You have already applied for the same product and quantity on the same day."
-
             else:
                 sell_instance = Sell(
                     farmerName=farmerName,
@@ -2236,9 +2241,15 @@ def sellcrop(request):
                     name=name,
                     quantity=quantity,
                     member=member,
-                    sell_date=sell_date  # Assign sell_date directly
+                    sell_date=sell_date
                 )
                 sell_instance.save()
+
+                # Add success message
+                messages.success(request, "You have successfully applied to sell the Product.")
+
+                # Redirect to homepage
+                return redirect('homepage')
 
     return render(request, 'sellcrop.html', {
         'farmer_name': farmer_profile.first_name,
@@ -2246,8 +2257,8 @@ def sellcrop(request):
         'address': farmer_profile.address,
         'wardNo': farmer_profile.ward,
         'product_name': product_name,
-        'sell_date': sell_date,  # Pass sell_date to the template
-        'error_message': error_message  # Pass error_message to the template
+        'sell_date': sell_date,
+        'error_message': error_message
     })
 
 
@@ -2325,9 +2336,11 @@ def msell(request):
     return render(request, 'membertemp/msell.html', {'products': products, 'today_date': today_date})
 
 def msellapprove(request):
+    profile = Member.objects.get(user=request.user)
+
     today_date = timezone.now().date()
 
-    approved_products = Sell.objects.filter(is_accept='accept')
+    approved_products = Sell.objects.filter(member=profile,is_accept='accept')
     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products ,'today_date':today_date})
 
 def driverapply(request):

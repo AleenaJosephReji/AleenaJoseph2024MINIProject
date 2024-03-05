@@ -190,6 +190,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">                
                 {% if user.is_authenticated %}
+                <a class="dropdown-item" href="{% url 'account' %}">Account</a>
                 {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
@@ -263,6 +264,7 @@
         {{ error_message }}
     </div>
 {% endif %}
+
     </div>
     <!-- Add the following script inside the head tag or at the end of the body tag -->
 <!-- Add the following script inside the head tag or at the end of the body tag -->
