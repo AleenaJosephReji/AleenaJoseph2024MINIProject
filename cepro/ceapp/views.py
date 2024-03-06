@@ -8,7 +8,7 @@ from .models import Crop
 from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
-from .models import FarmerProfile,Sellapply,Notification,Mleave,Machinery
+from .models import FarmerProfile,Sellapply,Notification,Mleave,Machinery,ApplicationMachinery
 from .models import Driver
 from .models import SecretaryProfile
 from .models import *
@@ -3251,43 +3251,42 @@ from .models import Machinery, FarmerProfile
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 
+from django.shortcuts import render
+
 @login_required
 def machinery(request):
-    # Assuming you have a one-to-one relationship between CustomUser and FarmerProfile
     farmer_profile = FarmerProfile.objects.get(user=request.user)
+    machinery = Machinery.objects.filter(is_active=True)
+
+    return render(request, 'machinery.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib import messages
+def mapply(request):
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        selected_machine_id = request.POST.get('selected_machine')
+        apply_date = request.POST.get('apply_date')
+
+        if selected_machine_id and apply_date:
+            machine = Machinery.objects.get(pk=selected_machine_id)
+
+            # Create a new application and associate it with the machine
+            application = ApplicationMachinery.objects.create(
+                machine=machine,
+                apply_date=apply_date,
+                farmer_name=f"{farmer_profile.first_name} {farmer_profile.last_name}",
+                applied_by=farmer_profile
+            )
+
+            messages.success(request, 'Application submitted successfully!')
+            return redirect('mapply')  # Redirect to the same page after submission
 
     machinery = Machinery.objects.filter(is_active=True)
 
-    # Calculate available date for each machine
-    for machine in machinery:
-        if machine.apply_date and machine.days:
-            machine.available_date = machine.apply_date + timedelta(days=machine.days)
-        else:
-            machine.available_date = None
-
-    return render(request, 'machinery.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
-
-@login_required
-def submit_machinery_date(request):
-    if request.method == 'POST':
-        for machine in Machinery.objects.all():
-            mname = request.POST.get(f'mname_{machine.id}')
-            date_value = request.POST.get(f'date_{machine.id}')
-            
-            # Get the current user's farmer profile
-            farmer_profile = FarmerProfile.objects.get(user=request.user)
-
-            # Use filter instead of get to handle multiple objects
-            machines = Machinery.objects.filter(mname=mname)
-
-            # Loop through machines and update apply_date and farmerName for each
-            for machine in machines:
-                machine.apply_date = date_value
-                machine.farmerName = f"{farmer_profile.first_name} {farmer_profile.last_name}"
-                machine.save()
-
-    return redirect('machinery')
-
+    return render(request, 'mapply.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
 @login_required
 def mark_notification_as_read(request):
     if request.method == 'POST':

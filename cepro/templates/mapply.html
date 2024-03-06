@@ -199,64 +199,28 @@
     </nav>
     <br><br>
 
-    <div class="container">
-        {% comment %} <h1 style="color:#3c733c;">Crop Details</h1> {% endcomment %}
-        <div class="main">  
-            <form method="post" action="">
-              {% csrf_token %}
-              {% comment %} <h2 style="text-align:center;">Apply </h2> {% endcomment %}
-              <h2 style="text-align:center;">Sell {{ product_name }}</h2>
-              <div class="col-md-6">
-                  <label for="farmerName" style="color:black;">Name</label>
-                  <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }} {{ farmer_lname }}" required readonly>
-                  <small id="nameError" class="form-text text-danger"></small>
-              </div>   
-              <div class="col-md-6">
-                  <label for="farmerName" style="color:black;">Address</label>
-                  <input type="text" id="address" name="address" value="{{ address }}" required readonly>
-                  <small id="nameError" class="form-text text-danger"></small>
-              </div>  
-              <div class="col-md-6">
-                  <label for="farmerName" style="color:black;">WardNo</label>
-                  <input type="text" id="wardno" name="wardno"  value="{{ wardNo }}" required readonly>
-                  <small id="nameError" class="form-text text-danger"></small>
-              </div>  
-              <div class="col-md-6">
-                <label for="farmerName" style="color:black;">Product Name</label>
-                <input type="text" id="pname" name="pname" value="{{ product_name }}" required readonly>
-                <small id="nameError" class="form-text text-danger"></small>
-            </div>
-            
-              {% comment %} <label for="cropInput">Product Name:</label>
-                <input list="cropNames" name="name" id="cropInput">
-                <datalist id="cropNames">
-                    <option value="Mango">
-                    <option value="Rice">
-                    <option value="Pepper">
-                    <option value="Coconut">
-                    <option value="Tomato">
-                    <option value="Potato">
-                    <option value="Pea">
-                </datalist>
-                <small id="cropNameError" class="form-text text-danger"></small> {% endcomment %}
-                <div class="col-md-6">
-                    <label for="quantity" style="color:black;">Quantity</label>
-                    <input type="text" name="quantity" id="quantityInput">
-                    <small id="quantityError" class="form-text text-danger"></small>
+    <!-- apply_machine.html -->
+    <div class="container mt-5">
+        <h3>{{ farmer_name }}</h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            {% for machine in machinery %}
+                <div class="machinery-item">
+                    <h2><b>{{ machine.mname }}</b></h2>
+                    <p><strong>Name:</strong> {{ farmer_name }}</p>
+                    <p><strong>Available Days:</strong> {{ machine.days }}</p>
+                    <p><strong>Count:</strong> {{ machine.count }}</p>
+                    <p><strong>Price:</strong> {{ machine.price }}</p>
+                    <label for="apply_date"><b>Apply Date:</b>{{machine.apply_date}}</label>
+                    <input type="date" name="apply_date" required>
+                    <input type="hidden" name="selected_machine" value="{{ machine.id }}">                   
+                    <button type="submit" class="btn btn-primary">Apply</button>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label>Sell Date :</label>
-                        <input type="date" class="form-control datetimepicker" name="sell_date" id="sellDate">
-                        <small id="sellDateError" class="text-danger"></small>
-                    </div>
-                </div>
-              <div class="m-t-20 text-center">
-                  <button type="submit" class="btn btn-primary submit-btn" id="createdriver">Sell</button>
-              </div>
-              
-            </form>
-          </div>
+            {% endfor %}
+        </form>
+    </div>
+    
+    
           {% if error_message %}
     <div class="alert alert-danger" role="alert">
         {{ error_message }}

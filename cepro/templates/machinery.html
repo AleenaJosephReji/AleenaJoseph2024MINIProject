@@ -217,21 +217,20 @@
     <br><br>
     <h1>Account</h1>
    <!-- ... Your existing HTML code ... -->
-   <div class="container mt-5">
-    <form method="post" action="{% url 'submit_machinery_date' %}">
+   {% comment %} <div class="container mt-5">
         {% csrf_token %}
         {% for machine in machinery %}
         <div class="machinery-item">
         <h2><b>{{ machine.mname }}</b></h2>
         <p><strong>Available Days:</strong> {{ machine.days }}</p>
         <p><strong>Count:</strong> {{ machine.count }}</p>
-        {% comment %} <div class="col-md-6">
+        <div class="col-md-6">
             <label for="farmerName" style="color:black;">Name</label>
             <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }}" required readonly>
             <small id="nameError" class="form-text text-danger"></small>
-        </div> {% endcomment %}
+        </div>
         <p><strong>Price:</strong> {{ machine.price }}</p>
-        {% comment %} <p><strong>Apply Date:</strong> {{ machine.apply_date }}</p>
+        <p><strong>Apply Date:</strong> {{ machine.apply_date }}</p>
         {% if machine.available_date %}
             <p><strong>Available Date:</strong> {{ machine.available_date }}</p>
         {% else %}
@@ -239,14 +238,31 @@
         {% endif %}
         <label for="date_{{ machine.id }}">Select Date:</label>
         <input type="date" id="date_{{ machine.id }}" name="date_{{ machine.id }}" class="form-control">
-        <input type="hidden" name="mname_{{ machine.id }}" value="{{ machine.mname }}"> {% endcomment %}
+        <input type="hidden" name="mname_{{ machine.id }}" value="{{ machine.mname }}">
         <button type="submit" class="btn btn-primary">Apply</button>
 
     </div>
 {% endfor %}
-
+</div>     {% endcomment %}
+<div class="container mt-5">
+    <form method="post" action="{% url 'mapply' %}">
+        {% csrf_token %}
+        {% for machine in machinery %}
+            <div class="machinery-item">
+                <h2><b>{{ machine.mname }}</b></h2>
+                <p><strong>Available Days:</strong> {{ machine.days }}</p>
+                <p><strong>Count:</strong> {{ machine.count }}</p>
+                <p><strong>Price:</strong> {{ machine.price }}</p>
+                <input type="hidden" name="mname" value="{{ machine.mname }}">
+                <input type="hidden" name="price" value="{{ machine.price }}">
+                <input type="hidden" name="apply_date" value="{{ machine.apply_date }}">
+                <input type="hidden" name="farmerName" value="{{ machine.farmerName }}">
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+        {% endfor %}
     </form>
-</div>    
+</div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

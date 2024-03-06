@@ -516,6 +516,8 @@ class Productcost(models.Model):
     is_active = models.BooleanField(default=True)
 
 class Machinery(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+
     mname = models.CharField(max_length=100)
     count = models.IntegerField(max_length=100,null=True, blank=True)
     price = models.IntegerField(max_length=100,null=True, blank=True)
@@ -526,6 +528,13 @@ class Machinery(models.Model):
     apply_date = models.DateField(null=True, blank=True)
     farmerName = models.CharField(max_length=100,null=True, blank=True)
     applied_by = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE, related_name='applied_machines', null=True, blank=True)
+
+class ApplicationMachinery(models.Model):
+    machine = models.ForeignKey(Machinery, on_delete=models.CASCADE, related_name='machine_applications')
+    apply_date = models.DateField(null=True, blank=True)
+    farmer_name = models.CharField(max_length=100, null=True, blank=True)
+    applied_by = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE)
+    available = models.IntegerField(max_length=100,null=True, blank=True)
 
 
 class MachineryApply(models.Model):
