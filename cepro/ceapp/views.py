@@ -8,7 +8,7 @@ from .models import Crop
 from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
-from .models import FarmerProfile,Sellapply,Notification,Mleave
+from .models import FarmerProfile,Sellapply,Notification,Mleave,Machinery
 from .models import Driver
 from .models import SecretaryProfile
 from .models import *
@@ -2150,7 +2150,7 @@ def search_driver(request):
 
 #ProductCost
 def adproductcost(request):
-    product_costs = Productcost.objects.all()
+    product_costs = Productcost.objects.filter(is_active=True)
     return render(request, 'admintemp/adproductcost.html', {'product_costs': product_costs})
 def adaddproductcost(request):
     if request.method == 'POST':
@@ -3199,6 +3199,94 @@ def grant_certification(request, absent_member_id):
 def admleaveapply(request):
     absent_members = WardAttendance.objects.filter(leave_applied=True)
     return render(request, 'admintemp/admleaveapply.html', {'absent_members': absent_members})
+
+def adaddmachinery(request):
+    if request.method == 'POST':
+        mname = request.POST.get('mname')
+        count = request.POST.get('count')  # Change this line
+        days = request.POST.get('days')  # Change this line
+
+        price = request.POST.get('price')
+
+        obj = Machinery()
+        obj.mname = mname
+        obj.count = count
+        obj.price = price
+        obj.days = days
+        obj.save()
+        return redirect('admachinery') 
+    return render(request, 'admintemp/adaddmachinery.html')
+
+def admachinery(request):
+    machinery = Machinery.objects.filter(is_active=True)
+    return render(request, 'admintemp/admachinery.html', {'machinery': machinery})
+
+def edit_machinery(request, machineries_id):
+    machinery = get_object_or_404(Machinery, id=machineries_id)
+    if request.method == 'POST':
+        mname = request.POST.get('mname')
+        count = request.POST.get('count')
+        price = request.POST.get('price')
+        machinery.mname = mname
+        machinery.count = count
+        machinery.price = price
+        machinery.save()
+        return redirect('admachinery')
+    return render(request, 'admintemp/edit_machinery.html', {'machinery': machinery})
+
+def delete_machinery(request, machineries_id):
+    machinery = get_object_or_404(Machinery, id=machineries_id)
+
+    if request.method == 'POST':
+        # Delete the member object
+        machinery.is_active = False
+        machinery.save()
+        request.session['delete mem'] = True
+        # Redirect to a page after deleting the member (e.g., member list)
+        return redirect('admachinery')
+
+    return render(request, 'admintemp/delete_machinery.html', {'machinery': machinery})
+from django.shortcuts import render, redirect
+from .models import Machinery, FarmerProfile
+from datetime import timedelta
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def machinery(request):
+    # Assuming you have a one-to-one relationship between CustomUser and FarmerProfile
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+
+    machinery = Machinery.objects.filter(is_active=True)
+
+    # Calculate available date for each machine
+    for machine in machinery:
+        if machine.apply_date and machine.days:
+            machine.available_date = machine.apply_date + timedelta(days=machine.days)
+        else:
+            machine.available_date = None
+
+    return render(request, 'machinery.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
+
+@login_required
+def submit_machinery_date(request):
+    if request.method == 'POST':
+        for machine in Machinery.objects.all():
+            mname = request.POST.get(f'mname_{machine.id}')
+            date_value = request.POST.get(f'date_{machine.id}')
+            
+            # Get the current user's farmer profile
+            farmer_profile = FarmerProfile.objects.get(user=request.user)
+
+            # Use filter instead of get to handle multiple objects
+            machines = Machinery.objects.filter(mname=mname)
+
+            # Loop through machines and update apply_date and farmerName for each
+            for machine in machines:
+                machine.apply_date = date_value
+                machine.farmerName = f"{farmer_profile.first_name} {farmer_profile.last_name}"
+                machine.save()
+
+    return redirect('machinery')
 
 @login_required
 def mark_notification_as_read(request):

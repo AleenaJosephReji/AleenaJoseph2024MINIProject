@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>CropElevate</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  
+    <style>
+            .header
+            {
+                background-color:green;
+            }
+            .header .header-left 
+            {
+                background-color:green;
+            }
+            .green-background {
+                background-color: green; /* Set the background color to green */
+            }
+            {% comment %} .sidebar{
+                background-color: green;
+            } {% endcomment %}
+            .sidebar
+            {
+                background-color:green;
+            }
+            .sidebar-menu li a {
+                color:white;
+            }
+            .sidebar-menu li a:hover {
+                color: white;
+            }
+            .sidebar-menu li.active a {
+                color: green;
+                background-color: #f3f3f3;
+            }
+          
+        .error-messages {
+            color: red;
+            font-size:28px;
+        }
+    </style> 
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="{% url 'adindex' %}" class="logo">
+					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                </li> {% endcomment %}
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+							<span class="status online"></span></span>
+                        <span></span>
+                    </a>
+					<div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title" style="color:#661414; font-weight:bold;"><h4><b>Admin</b></h4></li>
+                        <li>
+                            <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+						<li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
+                        </li>
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fas fa-exclamation-circle"></i>
+
+                                    </i> <span>Pending</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
+                                </li>
+                            </ul>
+                        </li>    
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
+                                </li>
+                            </ul>
+                        </li>   
+                        <li>
+                            <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
+                        </li>
+                        {% comment %} <li>
+                            <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
+                        </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            </i> <span>Report</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
+                            </i>
+                                <span>Calendar</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        {% if messages %}
+                        <ul class="messages error-messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Machinery</b></i></u></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <form method="POST" action="" autocomplete="off"  enctype="multipart/form-data">
+                            {% csrf_token %}        
+                            <div class="form-group">
+                                <label style="color:black;"><b>Machinery Name</b></label>
+                                <input class="form-control" type="text" name="mname">
+                                <small id="productNameError" class="form-text text-danger"></small>
+                            </div>                            
+                            <div class="form-group">
+                                <label style="color: black;"><b>Count</b></label>
+                                <input class="form-control" type="text" name="count">
+                                <small id="quantityError" class="form-text text-danger"></small>
+                            </div>                                                       
+                            <div class="form-group">
+                                <label style="color: black;"><b>Price</b></label>
+                                <input type="number" class="form-control" id="price" name="price">
+                                <small id="priceError" class="form-text text-danger"></small>
+                            </div>         
+                            <div class="form-group">
+                                <label style="color: black;"><b>Number of Days</b></label>
+                                <input type="number" class="form-control" id="days" name="days">
+                                <small id="priceError" class="form-text text-danger"></small>
+                            </div>                
+                            <div class="m-t-20 text-center">
+                                <button class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createcrop">Add Machinery</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+			<div class="notification-box">
+                <div class="msg-sidebar notifications msg-noti">
+                    <div class="topnav-dropdown-header">
+                        <span>Messages</span>
+                    </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-overlay" data-reff=""></div>
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+</body>
+</html>

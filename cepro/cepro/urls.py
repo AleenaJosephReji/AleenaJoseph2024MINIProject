@@ -208,6 +208,12 @@ urlpatterns = [
     path('process_leave_application/', views.process_leave_application, name='process_leave_application'),
     path('admleaveapply', views.admleaveapply, name='admleaveapply'),
     path('grant_certification/<int:absent_member_id>/', views.grant_certification, name='grant_certification'),
+    path('adaddmachinery', views.adaddmachinery, name='adaddmachinery'),
+    path('admachinery', views.admachinery, name='admachinery'),
+    path('edit_machinery/<int:machineries_id>/', views.edit_machinery, name='edit_machinery'),
+    path('delete_machinery/<machineries_id>', views.delete_machinery, name='delete_machinery'),
+    path('machinery', views.machinery, name='machinery'),
+    path('submit_machinery_date', views.submit_machinery_date, name='submit_machinery_date'),
 
 
 
