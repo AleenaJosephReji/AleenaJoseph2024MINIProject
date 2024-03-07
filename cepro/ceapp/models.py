@@ -542,11 +542,15 @@ class Productcost(models.Model):
 # class MachineryApply(models.Model):
     # machinery = models.ForeignKey(Machinery, on_delete=models.CASCADE, blank=True, null=True)  # Add this field
 class AddMachinery(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    farmer_profile = models.ForeignKey('FarmerProfile', on_delete=models.CASCADE, blank=True, null=True)
     machinery_photo = models.ImageField(upload_to='machinery_photos/')
     mname = models.CharField(max_length=255)
     count = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     days = models.IntegerField()
+    apply_date = models.DateField(null=True, blank=True)
+
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

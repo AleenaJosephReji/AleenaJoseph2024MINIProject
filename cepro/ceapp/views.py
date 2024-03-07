@@ -3274,12 +3274,50 @@ from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render
 
-# @login_required
 # def machinery(request):
-#     farmer_profile = FarmerProfile.objects.get(user=request.user)
-#     machinery = Machinery.objects.filter(is_active=True)
+#     machineries = AddMachinery.objects.filter(is_active = True)
+#     return render(request, 'machinery.html', {'machineries': machineries})
+from django.shortcuts import render, redirect
+from .models import AddMachinery
+from django.shortcuts import render, redirect
+from .models import FarmerProfile, AddMachinery
+from datetime import timedelta
 
-#     return render(request, 'machinery.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
+def machinery(request):
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+    
+    if request.method == 'POST':
+        # Assuming you are handling the form submission here
+        mname = request.POST.get('mname')
+        price = request.POST.get('price')
+        apply_date = request.POST.get('apply_date')
+        farmer_name = request.POST.get('farmerName')
+        days = int(request.POST.get('days', 0))  # Assuming days is an integer field in your form
+
+        machinery_instance, created = AddMachinery.objects.update_or_create(
+            mname=mname,
+            defaults={
+                'price': price,
+                'apply_date': apply_date,
+                'farmerName': farmer_name,
+                'days': days,
+            }
+        )
+
+        # You can redirect to a success page or render a confirmation message
+        return redirect('machinery')
+
+    else:
+        machineries = AddMachinery.objects.filter(is_active=True)
+        for machinery in machineries:
+            # Calculate and add end_date to each machinery instance in the context
+            machinery.end_date = machinery.apply_date + timedelta(days=machinery.days) if machinery.apply_date and machinery.days else None
+
+        return render(request, 'machinery.html', {'machineries': machineries, 'farmer_profile': farmer_profile})
+
+# def mapply(request):
+#     machineries = AddMachinery.objects.filter(is_active = True)
+#     return render(request, 'mapply.html', {'machineries': machineries})
 
 # def mapply(request):
 #     farmer_profile = FarmerProfile.objects.get(user=request.user)
