@@ -8,7 +8,7 @@ from .models import Crop
 from .models import Product
 from .models import ApplyCrop
 from .models import CustomUser
-from .models import FarmerProfile,Sellapply,Notification,Mleave,Machinery,ApplicationMachinery
+from .models import FarmerProfile,Sellapply,Notification,Mleave
 from .models import Driver
 from .models import SecretaryProfile
 from .models import *
@@ -3200,42 +3200,62 @@ def admleaveapply(request):
     absent_members = WardAttendance.objects.filter(leave_applied=True)
     return render(request, 'admintemp/admleaveapply.html', {'absent_members': absent_members})
 
+# def adaddmachinery(request):
+    # views.py
+from .models import AddMachinery
+
 def adaddmachinery(request):
     if request.method == 'POST':
+        machinery_photo = request.FILES.get('machinery_photo')
         mname = request.POST.get('mname')
-        count = request.POST.get('count')  # Change this line
-        days = request.POST.get('days')  # Change this line
-
+        count = request.POST.get('count')
         price = request.POST.get('price')
+        days = request.POST.get('days')
 
-        obj = Machinery()
-        obj.mname = mname
-        obj.count = count
-        obj.price = price
-        obj.days = days
-        obj.save()
-        return redirect('admachinery') 
+        # Validate and save the data
+        if machinery_photo and mname and count and price and days:
+            machinery = AddMachinery(
+                machinery_photo=machinery_photo,
+                mname=mname,
+                count=count,
+                price=price,
+                days=days
+            )
+            machinery.save()
+            return redirect('admachinery')  # Redirect to a success page or wherever you want
+
     return render(request, 'admintemp/adaddmachinery.html')
 
 def admachinery(request):
-    machinery = Machinery.objects.filter(is_active=True)
-    return render(request, 'admintemp/admachinery.html', {'machinery': machinery})
-
+    machineries = AddMachinery.objects.filter(is_active = True)
+    return render(request, 'admintemp/admachinery.html', {'machineries': machineries})
 def edit_machinery(request, machineries_id):
-    machinery = get_object_or_404(Machinery, id=machineries_id)
+    machinery = get_object_or_404(AddMachinery, id=machineries_id)
+
     if request.method == 'POST':
         mname = request.POST.get('mname')
         count = request.POST.get('count')
         price = request.POST.get('price')
+        days = request.POST.get('days')
+        machinery_photo = request.FILES.get('machinery_photo')
+
+        # Update other fields
         machinery.mname = mname
-        machinery.count = count
         machinery.price = price
+        machinery.days = days
+        machinery.count = count
+
+        # Update machinery_photo only if a new file is provided
+        if machinery_photo:
+            machinery.machinery_photo = machinery_photo
+
         machinery.save()
         return redirect('admachinery')
+
     return render(request, 'admintemp/edit_machinery.html', {'machinery': machinery})
 
 def delete_machinery(request, machineries_id):
-    machinery = get_object_or_404(Machinery, id=machineries_id)
+    machinery = get_object_or_404(AddMachinery, id=machineries_id)
 
     if request.method == 'POST':
         # Delete the member object
@@ -3247,46 +3267,44 @@ def delete_machinery(request, machineries_id):
 
     return render(request, 'admintemp/delete_machinery.html', {'machinery': machinery})
 from django.shortcuts import render, redirect
-from .models import Machinery, FarmerProfile
+# 
+# from .models import Machinery, FarmerProfile
 from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render
 
-@login_required
-def machinery(request):
-    farmer_profile = FarmerProfile.objects.get(user=request.user)
-    machinery = Machinery.objects.filter(is_active=True)
+# @login_required
+# def machinery(request):
+#     farmer_profile = FarmerProfile.objects.get(user=request.user)
+#     machinery = Machinery.objects.filter(is_active=True)
 
-    return render(request, 'machinery.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.contrib import messages
-def mapply(request):
-    farmer_profile = FarmerProfile.objects.get(user=request.user)
+#     return render(request, 'machinery.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
 
-    if request.method == 'POST':
-        selected_machine_id = request.POST.get('selected_machine')
-        apply_date = request.POST.get('apply_date')
+# def mapply(request):
+#     farmer_profile = FarmerProfile.objects.get(user=request.user)
 
-        if selected_machine_id and apply_date:
-            machine = Machinery.objects.get(pk=selected_machine_id)
+#     if request.method == 'POST':
+#         selected_machine_id = request.POST.get('selected_machine')
+#         apply_date = request.POST.get('apply_date')
 
-            # Create a new application and associate it with the machine
-            application = ApplicationMachinery.objects.create(
-                machine=machine,
-                apply_date=apply_date,
-                farmer_name=f"{farmer_profile.first_name} {farmer_profile.last_name}",
-                applied_by=farmer_profile
-            )
+#         if selected_machine_id and apply_date:
+#             machine = Machinery.objects.get(pk=selected_machine_id)
 
-            messages.success(request, 'Application submitted successfully!')
-            return redirect('mapply')  # Redirect to the same page after submission
+#             # Create a new application and associate it with the machine
+#             application = ApplicationMachinery.objects.create(
+#                 machine=machine,
+#                 apply_date=apply_date,
+#                 farmer_name=f"{farmer_profile.first_name} {farmer_profile.last_name}",
+#                 applied_by=farmer_profile
+#             )
 
-    machinery = Machinery.objects.filter(is_active=True)
+#             messages.success(request, 'Application submitted successfully!')
+#             return redirect('mapply')  # Redirect to the same page after submission
 
-    return render(request, 'mapply.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
+#     machinery = Machinery.objects.filter(is_active=True)
+
+#     return render(request, 'mapply.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
 @login_required
 def mark_notification_as_read(request):
     if request.method == 'POST':

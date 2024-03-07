@@ -515,31 +515,42 @@ class Productcost(models.Model):
     # serviceimage =  models.ImageField(upload_to='blog/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
-class Machinery(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+# class Machinery(models.Model):
+#     # user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
 
-    mname = models.CharField(max_length=100)
-    count = models.IntegerField(max_length=100,null=True, blank=True)
-    price = models.IntegerField(max_length=100,null=True, blank=True)
-    is_active = models.BooleanField(default=True)
-    days = models.IntegerField(max_length=100,null=True, blank=True)
+#     mname = models.CharField(max_length=100)
+#     count = models.IntegerField(max_length=100,null=True, blank=True)
+#     price = models.IntegerField(max_length=100,null=True, blank=True)
+#     is_active = models.BooleanField(default=True)
+#     days = models.IntegerField(max_length=100,null=True, blank=True)
     
-    available = models.IntegerField(max_length=100,null=True, blank=True)
-    apply_date = models.DateField(null=True, blank=True)
-    farmerName = models.CharField(max_length=100,null=True, blank=True)
-    applied_by = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE, related_name='applied_machines', null=True, blank=True)
-
-class ApplicationMachinery(models.Model):
-    machine = models.ForeignKey(Machinery, on_delete=models.CASCADE, related_name='machine_applications')
-    apply_date = models.DateField(null=True, blank=True)
-    farmer_name = models.CharField(max_length=100, null=True, blank=True)
-    applied_by = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE)
-    available = models.IntegerField(max_length=100,null=True, blank=True)
+#     available = models.IntegerField(max_length=100,null=True, blank=True)
+#     apply_date = models.DateField(null=True, blank=True)
+#     farmerName = models.CharField(max_length=100,null=True, blank=True)
+#     # applied_by = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE, related_name='applied_machines', null=True, blank=True)
+#     machinery_photo = models.ImageField(upload_to='crop_photos/', blank=True, null=True)
 
 
-class MachineryApply(models.Model):
-    machinery = models.ForeignKey(Machinery, on_delete=models.CASCADE, blank=True, null=True)  # Add this field
+# class ApplicationMachinery(models.Model):
+#     # machine = models.ForeignKey(Machinery, on_delete=models.CASCADE, related_name='machine_applications')
+#     apply_date = models.DateField(null=True, blank=True)
+#     farmer_name = models.CharField(max_length=100, null=True, blank=True)
+#     applied_by = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE)
+#     available = models.IntegerField(max_length=100,null=True, blank=True)
 
+
+# class MachineryApply(models.Model):
+    # machinery = models.ForeignKey(Machinery, on_delete=models.CASCADE, blank=True, null=True)  # Add this field
+class AddMachinery(models.Model):
+    machinery_photo = models.ImageField(upload_to='machinery_photos/')
+    mname = models.CharField(max_length=255)
+    count = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    days = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.mname
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=200,blank=True, null=True)

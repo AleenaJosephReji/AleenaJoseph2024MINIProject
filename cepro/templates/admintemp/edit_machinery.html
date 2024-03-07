@@ -80,6 +80,12 @@
     <h1>Edit Details</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <div class="col-sm-6">
+        <div class="form-group">
+           <label>machinery Photo</label>
+               <input type="file" class="form-control" name="machinery_photo" value="{{ machinery.machinery_photo }}" >
+       </div>
+   </div>
     <div class="form-group">
         <label for="pname">Machinery Name:</label>
         <input type="text" class="form-control" name="mname" id="mname" value="{{ machinery.mname }}" required>
@@ -95,7 +101,11 @@
         <input type="number" class="form-control" name="price" id="price" value="{{ machinery.price }}">
         <small id="priceError" class="text-danger"></small>
     </div>
-    
+    <div class="form-group">
+        <label style="color: black;"><b>Number of Days</b></label>
+        <input type="number" class="form-control" id="days" name="days" value="{{ machinery.days }}">
+        <small id="daysError" class="form-text text-danger"></small>
+    </div>
     <div class="m-t-20 text-center">
         <button class="btn btn-primary submit-btn">Save Changes</button>
     </div>

@@ -275,6 +275,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
+                                                                <th>Machinery Photo</th>
                                                                 <th>Machinery Name</th>
                                                                 <th>Count</th>
                                                                 <th>Price</th>
@@ -283,17 +284,27 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for machineries in machinery %}
+                                                            {% for machinery in machineries %}
                                                                 <tr>
-                                                                    <td>{{ forloop.counter }}
-                                                                    <td>{{ machineries.mname }}</td>
-                                                                    <td>{{ machineries.count }}</td>
-                                                                    <td>{{ machineries.price }}</td>
-                                                                    <td>{{ machineries.days }}</td>
-
+                                                                    <td>{{ forloop.counter }}</td>
+                                                                    <td>
+                                                                        {% if machinery.machinery_photo %}
+                                                                            <a class="avatar" href="#"><img alt="" src="{{ machinery.machinery_photo.url }}"></a>
+                                                                        {% else %}
+                                                                            <!-- Handle the case where there is no file associated with machinery_photo -->
+                                                                            No Photo Available
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>{{ machinery.mname }}</td>
+                                                                    <td>{{ machinery.count }}</td>
+                                                                    <td>{{ machinery.price }}</td>
+                                                                    <td>{{ machinery.days }}</td>
+                                        
                                                                     <td class="table-actions">
-                                                                        <a href="{% url 'edit_machinery' machineries.id %}">Edit</a>
-                                                                        <a href="{% url 'delete_machinery' machineries.id %}">Delete</a>
+                                                                        <a href="{% url 'edit_machinery' machinery.id %}">Edit</a>
+                                                                        <a href="{% url 'delete_machinery' machinery.id %}">Delete</a>
+
+                                                                        <!-- Add a link or button for delete if needed -->
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
