@@ -3283,41 +3283,63 @@ from django.shortcuts import render, redirect
 from .models import FarmerProfile, AddMachinery
 from datetime import timedelta
 
-def machinery(request):
-    farmer_profile = FarmerProfile.objects.get(user=request.user)
+# def machinery(request):
+#     farmer_profile = FarmerProfile.objects.get(user=request.user)
     
+#     if request.method == 'POST':
+#         # Assuming you are handling the form submission here
+#         mname = request.POST.get('mname')
+#         price = request.POST.get('price')
+#         apply_date = request.POST.get('apply_date')
+#         farmer_name = request.POST.get('farmerName')
+#         days = int(request.POST.get('days', 0))  # Assuming days is an integer field in your form
+
+#         machinery_instance, created = AddMachinery.objects.update_or_create(
+#             mname=mname,
+#             defaults={
+#                 'price': price,
+#                 'apply_date': apply_date,
+#                 'farmerName': farmer_name,
+#                 'days': days,
+#             }
+#         )
+
+#         # You can redirect to a success page or render a confirmation message
+#         return redirect('machinery')
+
+#     else:
+#         machineries = AddMachinery.objects.filter(is_active=True)
+#         for machinery in machineries:
+#             # Calculate and add end_date to each machinery instance in the context
+#             machinery.end_date = machinery.apply_date + timedelta(days=machinery.days) if machinery.apply_date and machinery.days else None
+
+#         return render(request, 'machinery.html', {'machineries': machineries, 'farmer_profile': farmer_profile})
+
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+def machinery(request):
+    machineries = AddMachinery.objects.filter(is_active=True)
+
     if request.method == 'POST':
-        # Assuming you are handling the form submission here
-        mname = request.POST.get('mname')
-        price = request.POST.get('price')
-        apply_date = request.POST.get('apply_date')
-        farmer_name = request.POST.get('farmerName')
-        days = int(request.POST.get('days', 0))  # Assuming days is an integer field in your form
+        machinery_id = request.POST.get('machinery_id')
+        machinery = get_object_or_404(AddMachinery, id=machinery_id)
 
-        machinery_instance, created = AddMachinery.objects.update_or_create(
-            mname=mname,
-            defaults={
-                'price': price,
-                'apply_date': apply_date,
-                'farmerName': farmer_name,
-                'days': days,
-            }
-        )
+        # Assuming the current user is the applying farmer
+        farmer_profile = FarmerProfile.objects.get(user=request.user)
 
-        # You can redirect to a success page or render a confirmation message
-        return redirect('machinery')
+        # Update AddMachinery model fields with FarmerProfile data
+        machinery.farmer_profile = farmer_profile
+        machinery.farmerName = farmer_profile.first_name
+        machinery.address = farmer_profile.address
+        machinery.wardNo = farmer_profile.ward
+        machinery.save()
 
-    else:
-        machineries = AddMachinery.objects.filter(is_active=True)
-        for machinery in machineries:
-            # Calculate and add end_date to each machinery instance in the context
-            machinery.end_date = machinery.apply_date + timedelta(days=machinery.days) if machinery.apply_date and machinery.days else None
+        # Redirect to the same page after applying to prevent form resubmission
+        return HttpResponseRedirect(reverse('machinery'))
 
-        return render(request, 'machinery.html', {'machineries': machineries, 'farmer_profile': farmer_profile})
+    return render(request, 'machinery.html', {'machineries': machineries})
 
-# def mapply(request):
-#     machineries = AddMachinery.objects.filter(is_active = True)
-#     return render(request, 'mapply.html', {'machineries': machineries})
 
 # def mapply(request):
 #     farmer_profile = FarmerProfile.objects.get(user=request.user)

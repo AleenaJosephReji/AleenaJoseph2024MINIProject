@@ -246,30 +246,28 @@
 </div>     {% endcomment %}
 <div class="container mt-5">
     <form method="post" action="">
-        <h2><b>Welcome, {{ farmer_profile.first_name }}</b></h2>
         {% csrf_token %}
         {% for machinery in machineries %}
             <div class="machinery-item">
                 <h2><b>{{ machinery.mname }}</b></h2>
-                <p><strong>Available Days:</strong> {{ machinery.days }}</p>
+                <p><strong>Image:</strong>
+                {% if machinery.machinery_photo %}
+                    <a class="avatar" href="#"><img alt="" src="{{ machinery.machinery_photo.url }}"></a>
+                {% else %}
+                    <!-- Handle the case where there is no file associated with machinery_photo -->
+                    No Photo Available
+                {% endif %}
+                </p>
                 <p><strong>Count:</strong> {{ machinery.count }}</p>
                 <p><strong>Price:</strong> {{ machinery.price }}</p>
-                <p><strong>Apply Date:</strong> {{ machinery.apply_date|date:'Y-m-d' }}</p>
-                <p><strong>End Date:</strong> {{ machinery.end_date|default:"Not available" }}</p>
-                
-                <input type="hidden" name="mname" value="{{ machinery.mname }}">
-                <input type="hidden" name="price" value="{{ machinery.price }}">
-                <input type="hidden" name="apply_date" value="{{ machinery.apply_date }}">
-                <input type="hidden" name="farmerName" value="{{ machinery.farmerName }}">
-                
-                <label for="new_apply_date"><b>New Apply Date:</b></label>
-                <input type="date" name="apply_date" value="{{ machinery.apply_date|date:'Y-m-d' }}" required>
-                
+
+                <input type="hidden" name="machinery_id" value="{{ machinery.id }}">
                 <button type="submit" class="btn btn-primary">Apply</button>
             </div>
         {% endfor %}
     </form>
 </div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

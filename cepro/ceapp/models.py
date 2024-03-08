@@ -546,15 +546,16 @@ class AddMachinery(models.Model):
     farmer_profile = models.ForeignKey('FarmerProfile', on_delete=models.CASCADE, blank=True, null=True)
     machinery_photo = models.ImageField(upload_to='machinery_photos/')
     mname = models.CharField(max_length=255)
-    count = models.IntegerField()
+    count = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     days = models.IntegerField()
     apply_date = models.DateField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.mname
+    farmerName = models.CharField(max_length=100,null=True, blank=True)
+    address = models .CharField(max_length=100,null=True,blank=True)
+    wardNo = models .CharField(max_length=100,null=True,blank=True)
+    
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=200,blank=True, null=True)
