@@ -214,7 +214,7 @@ urlpatterns = [
     path('delete_machinery/<machineries_id>', views.delete_machinery, name='delete_machinery'),
     path('machinery', views.machinery, name='machinery'),
     # path('submit_machinery_date', views.submit_machinery_date, name='submit_machinery_date'),
-    # path('mapply', views.mapply, name='mapply'),
+    path('mapply/<int:machinery_id>/', views.mapply, name='mapply'),
     # path('success_page', views.success_page, name='success_page'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),

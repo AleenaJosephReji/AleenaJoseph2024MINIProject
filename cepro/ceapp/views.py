@@ -3318,53 +3318,161 @@ from datetime import timedelta
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import AddMachinery, FarmerProfile
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import AddMachinery, MachineryApplication
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
+from .models import AddMachinery, MachineryApplication
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
+from datetime import timedelta
+from .models import AddMachinery, MachineryApplication
+from datetime import datetime, timedelta
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
+from .models import AddMachinery, MachineryApplication
+from django.shortcuts import get_object_or_404
+
+from django.shortcuts import render, get_object_or_404, reverse
+from django.http import HttpResponseRedirect
+from datetime import datetime, timedelta
+from .models import AddMachinery, MachineryApplication
+from django.shortcuts import render, get_object_or_404, reverse
+from django.http import HttpResponseRedirect
+from datetime import datetime, timedelta
+from .models import AddMachinery, MachineryApplication
+
 def machinery(request):
     machineries = AddMachinery.objects.filter(is_active=True)
+    # applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)
 
-    if request.method == 'POST':
-        machinery_id = request.POST.get('machinery_id')
-        machinery = get_object_or_404(AddMachinery, id=machinery_id)
+    # if request.method == 'POST':
+    #     machinery_id = request.POST.get('machinery_id')
+    #     machinery = get_object_or_404(AddMachinery, id=machinery_id)
 
-        # Assuming the current user is the applying farmer
-        farmer_profile = FarmerProfile.objects.get(user=request.user)
+    #     # Assuming the current user is the applying farmer
+    #     farmer_profile = FarmerProfile.objects.get(user=request.user)
 
-        # Update AddMachinery model fields with FarmerProfile data
-        machinery.farmer_profile = farmer_profile
-        machinery.farmerName = farmer_profile.first_name
-        machinery.address = farmer_profile.address
-        machinery.wardNo = farmer_profile.ward
-        machinery.save()
+    #     # Get apply_date and acount from the form data
+    #     apply_date = request.POST.get('apply_date')
+    #     acount = int(request.POST.get('acount'))
 
-        # Redirect to the same page after applying to prevent form resubmission
-        return HttpResponseRedirect(reverse('machinery'))
+    #     # Convert apply_date to a datetime object
+    #     apply_date = datetime.strptime(apply_date, '%Y-%m-%d').date()
+
+    #     # Calculate total_days
+    #     total_days = apply_date + timedelta(days=machinery.days)
+
+    #     # Create a new application with apply_date, total_days, and acount
+    #     application = MachineryApplication.objects.create(
+    #         machinery=machinery,
+    #         farmer_profile=farmer_profile,
+    #         farmerName=farmer_profile.first_name,
+    #         address=farmer_profile.address,
+    #         wardNo=farmer_profile.ward,
+    #         apply_date=apply_date,
+    #         total_days=total_days,
+    #         acount=acount,
+    #         Tcount=machinery.count - acount  # Subtract acount from the count
+    #     )
+
+    #     # Redirect to the same page after applying to prevent form resubmission
+    #     return HttpResponseRedirect(reverse('machinery'))
 
     return render(request, 'machinery.html', {'machineries': machineries})
 
+from django.shortcuts import render, get_object_or_404
+from .models import AddMachinery
+from django.shortcuts import render, get_object_or_404
+from .models import AddMachinery
 
-# def mapply(request):
-#     farmer_profile = FarmerProfile.objects.get(user=request.user)
+# def mapply(request, machinery_id):
+#     machinery = get_object_or_404(AddMachinery, id=machinery_id)
+
+#     return render(request, 'mapply.html', {'machinery': machinery})
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, reverse
+from .models import AddMachinery, MachineryApplication
+
+def mapply(request, machinery_id):
+    machinery = get_object_or_404(AddMachinery, id=machinery_id)
+    applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)
+
+    if request.method == 'POST':
+        # Assuming the current user is the applying farmer
+        farmer_profile = FarmerProfile.objects.get(user=request.user)
+
+        # Get apply_date and acount from the form data
+        apply_date = request.POST.get('apply_date')
+        acount = int(request.POST.get('acount'))
+
+        # Convert apply_date to a datetime object
+        apply_date = datetime.strptime(apply_date, '%Y-%m-%d').date()
+
+        # Calculate total_days
+        total_days = apply_date + timedelta(days=machinery.days)
+
+        # Create a new application with apply_date, total_days, and acount
+        application = MachineryApplication.objects.create(
+            machinery=machinery,
+            farmer_profile=farmer_profile,
+            farmerName=farmer_profile.first_name,
+            address=farmer_profile.address,
+            wardNo=farmer_profile.ward,
+            apply_date=apply_date,
+            total_days=total_days,
+            acount=acount,
+            Tcount=machinery.count - acount  # Subtract acount from the count
+        )
+
+        # Redirect to the same page after applying to prevent form resubmission
+        return HttpResponseRedirect(reverse('mapply', kwargs={'machinery_id': machinery_id}))
+
+    return render(request, 'mapply.html', {'machinery': machinery, 'applications': applications})
+
+# def mapply(request,machinery_id):
+#     machinery = get_object_or_404(AddMachinery, id=machinery_id)
+#     applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)
 
 #     if request.method == 'POST':
-#         selected_machine_id = request.POST.get('selected_machine')
+#         machinery_id = request.POST.get('machinery_id')
+#         machinery = get_object_or_404(AddMachinery, id=machinery_id)
+
+#         # Assuming the current user is the applying farmer
+#         farmer_profile = FarmerProfile.objects.get(user=request.user)
+
+#         # Get apply_date and acount from the form data
 #         apply_date = request.POST.get('apply_date')
+#         acount = int(request.POST.get('acount'))
 
-#         if selected_machine_id and apply_date:
-#             machine = Machinery.objects.get(pk=selected_machine_id)
+#         # Convert apply_date to a datetime object
+#         apply_date = datetime.strptime(apply_date, '%Y-%m-%d').date()
 
-#             # Create a new application and associate it with the machine
-#             application = ApplicationMachinery.objects.create(
-#                 machine=machine,
-#                 apply_date=apply_date,
-#                 farmer_name=f"{farmer_profile.first_name} {farmer_profile.last_name}",
-#                 applied_by=farmer_profile
-#             )
+#         # Calculate total_days
+#         total_days = apply_date + timedelta(days=machinery.days)
 
-#             messages.success(request, 'Application submitted successfully!')
-#             return redirect('mapply')  # Redirect to the same page after submission
+#         # Create a new application with apply_date, total_days, and acount
+#         application = MachineryApplication.objects.create(
+#             machinery=machinery,
+#             farmer_profile=farmer_profile,
+#             farmerName=farmer_profile.first_name,
+#             address=farmer_profile.address,
+#             wardNo=farmer_profile.ward,
+#             apply_date=apply_date,
+#             total_days=total_days,
+#             acount=acount,
+#             Tcount=machinery.count - acount  # Subtract acount from the count
+#         )
 
-#     machinery = Machinery.objects.filter(is_active=True)
+#         # Redirect to the same page after applying to prevent form resubmission
+#         return HttpResponseRedirect(reverse('mapply'))
 
-#     return render(request, 'mapply.html', {'machinery': machinery, 'farmer_name': f"{farmer_profile.first_name} {farmer_profile.last_name}"})
+#     return render(request, 'mapply.html', {'machinery': machinery, 'applications': applications})
+
 @login_required
 def mark_notification_as_read(request):
     if request.method == 'POST':

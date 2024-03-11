@@ -555,7 +555,18 @@ class AddMachinery(models.Model):
     farmerName = models.CharField(max_length=100,null=True, blank=True)
     address = models .CharField(max_length=100,null=True,blank=True)
     wardNo = models .CharField(max_length=100,null=True,blank=True)
-    
+class MachineryApplication(models.Model):
+    machinery = models.ForeignKey(AddMachinery, on_delete=models.CASCADE, related_name='applications')
+    farmer_profile = models.ForeignKey('FarmerProfile', on_delete=models.CASCADE)
+    farmerName = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=100, null=True, blank=True)
+    wardNo = models.CharField(max_length=100, null=True, blank=True)
+    apply_date = models.DateField(null=True, blank=True)
+    total_days = models.DateField(null=True, blank=True)
+    acount = models.IntegerField(default=0)
+    Tcount = models.IntegerField(default=0)
+
+
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=200,blank=True, null=True)

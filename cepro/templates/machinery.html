@@ -247,26 +247,45 @@
 <div class="container mt-5">
     <form method="post" action="">
         {% csrf_token %}
-        {% for machinery in machineries %}
-            <div class="machinery-item">
-                <h2><b>{{ machinery.mname }}</b></h2>
-                <p><strong>Image:</strong>
-                {% if machinery.machinery_photo %}
-                    <a class="avatar" href="#"><img alt="" src="{{ machinery.machinery_photo.url }}"></a>
-                {% else %}
-                    <!-- Handle the case where there is no file associated with machinery_photo -->
-                    No Photo Available
-                {% endif %}
-                </p>
-                <p><strong>Count:</strong> {{ machinery.count }}</p>
-                <p><strong>Price:</strong> {{ machinery.price }}</p>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No</th>
 
-                <input type="hidden" name="machinery_id" value="{{ machinery.id }}">
-                <button type="submit" class="btn btn-primary">Apply</button>
-            </div>
-        {% endfor %}
+                    <th>Machinery Name</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for machinery in machineries %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ machinery.mname }}</td>
+                        <td>
+                            {% if machinery.machinery_photo %}
+                                <a class="avatar" href="#"><img alt="" src="{{ machinery.machinery_photo.url }}"></a>
+                            {% else %}
+                                No Photo Available
+                            {% endif %}
+                        </td>
+                        <td>{{ machinery.price }}</td>
+                        {% comment %} <td>
+                            <input type="date" name="apply_date_{{ machinery.id }}" id="apply_date_{{ machinery.id }}" required>
+                        </td> {% endcomment %}
+                        <!-- Add additional columns for other machinery details -->
+                        <td>
+                            <a href="{% url 'mapply' machinery.id %}" class="btn btn-primary">Apply</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </form>
 </div>
+
 
 
 

@@ -198,26 +198,111 @@
         </div>
     </nav>
     <br><br>
-    <div class="container mt-5">
-        <h3>{{ farmer_name }}</h3>
+    {% comment %} <div class="container mt-5">
         <form method="post" action="">
-            {% csrf_token %}
-            {% for machine in machinery %}
+            {% csrf_token %}        
+            {% for machinery in machineries %}
                 <div class="machinery-item">
-                    <h2><b>{{ machine.mname }}</b></h2>
-                    <p><strong>Name:</strong> {{ farmer_name }}</p>
-                    <p><strong>Available Days:</strong> {{ machine.days }}</p>
-                    <p><strong>Count:</strong> {{ machine.count }}</p>
-                    <p><strong>Price:</strong> {{ machine.price }}</p>
-                    <label for="apply_date"><b>Apply Date:</b>{{machine.apply_date}}</label>
-                    <input type="date" name="apply_date" required>
-                    <input type="hidden" name="selected_machine" value="{{ machine.id }}">                   
-                    <button type="submit" class="btn btn-primary">Apply</button>
+                    <h2><b>{{ machinery.mname }}</b></h2>                
+                    <p><strong>Image:</strong>
+                        {% if machinery.machinery_photo %}
+                            <a class="avatar" href="#"><img alt="" src="{{ machinery.machinery_photo.url }}"></a>
+                        {% else %}
+                            <!-- Handle the case where there is no file associated with machinery_photo -->
+                            No Photo Available
+                        {% endif %}
+                    </p>
+                    <p><strong>Price:</strong> {{ machinery.price }}</p>
+                    <label for="acount">Account:</label>
+                    <input type="number" name="acount_{{ machinery.id }}" id="acount_{{ machinery.id }}" required>
+                    <!-- Display total_days if it exists -->
+                    {% for application in applications %}
+                        {% if application.farmer_profile.user == request.user and application.machinery == machinery %}
+                            <p>Application Date: {{ application.apply_date }}</p>
+                            <p>Total Days: {{ application.total_days }}</p>
+                            <p>Account: {{ application.acount }}</p>
+                            <!-- Add other application details as needed -->
+                        {% endif %}
+                    {% endfor %}            
+                    <!-- Add the date input field -->
+                    <label for="apply_date_{{ machinery.id }}">Apply Date:</label>
+                    <input type="date" name="apply_date_{{ machinery.id }}" id="apply_date_{{ machinery.id }}" required>
+    
+                    <input type="hidden" name="machinery_id_{{ machinery.id }}" value="{{ machinery.id }}">
+                    <button type="submit" name="apply_button_{{ machinery.id }}" class="btn btn-primary">Apply</button>
                 </div>
             {% endfor %}
         </form>
     </div>
-    
+     {% endcomment %}
+    <!-- mapply.html -->
+<!-- mapply.html -->
+<!-- mapply.html -->
+<!-- mapply.html -->
+<!-- mapply.html -->
+<div class="container mt-5">
+    <h2>Machinery Application Details</h2>
+    <div class="machinery-details">
+        <div>
+            <strong>Machinery Name:</strong> {{ machinery.mname }}
+        </div>
+        <div>
+            <strong>Image:</strong>
+            {% if machinery.machinery_photo %}
+                <img alt="" src="{{ machinery.machinery_photo.url }}">
+            {% else %}
+                No Photo Available
+            {% endif %}
+        </div>
+        <div>
+            <strong>Price:</strong> {{ machinery.price }}
+        </div>
+        <div>
+            <strong>Apply Date:</strong> 
+            <!-- Display apply_date from the first application (if exists) -->
+            {% if applications %}
+                {{ applications.0.apply_date }}
+            {% else %}
+                No applications yet
+            {% endif %}
+        </div>
+        
+        <!-- Display applied farmer details -->
+        {% if applications %}
+            <h3>Applied Farmer Details:</h3>
+            <ul>
+                {% for application in applications %}
+                    <li>
+                        <strong>Farmer Name:</strong> {{ application.farmerName }}<br>
+                        <strong>Address:</strong> {{ application.address }}<br>
+                        <strong>Ward No:</strong> {{ application.wardNo }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No applications yet</p>
+        {% endif %}
+        <!-- Add additional divs for other machinery details -->
+    </div>
+
+    <!-- Apply button form -->
+    <form method="post" action="{% url 'mapply' machinery.id %}">
+        {% csrf_token %}
+        <div class="mt-3">
+            <label for="apply_date">Apply Date:</label>
+            <input type="date" name="apply_date" id="apply_date" required>
+        </div>
+        <div class="mt-3">
+            <label for="acount">Count:</label>
+            <input type="number" name="acount" id="acount" min="1" max="{{ machinery.count }}" required>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </div>
+    </form>
+    <!-- Add additional details or buttons as needed -->
+</div>
+
     
           {% if error_message %}
     <div class="alert alert-danger" role="alert">
