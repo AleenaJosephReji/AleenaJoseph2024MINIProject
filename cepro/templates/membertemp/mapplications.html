@@ -1,17 +1,16 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 
-
+<!-- departments23:21-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
-    <title>CropElevate Member</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -51,18 +50,52 @@
             color:#88a60f;
             background-color: #f3f3f3;
         }
-        .new{
-            margin-left:90px;
-            margin-right:800px;
-            text-align:center
-            padding-left:6px;
+        h1 {
+            {% comment %} background-color: #3498db; {% endcomment %}
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: white;
+        }
+        
+        table, th, td {
+            border: 1px solid grey;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color:lightgreen;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+        .content
+        {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 2.7);
+            border-radius: 5px;
         }
     </style>
-    {% comment %} <style>
-        body{
-            background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145));
-        }
-    </style> {% endcomment %}
     <!--[if lt IE 9]>
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
@@ -77,12 +110,9 @@
 					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
 				</a>
 			</div>
-            
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
-            
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                
                 {% comment %} <li class="nav-item dropdown d-none d-sm-block">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                     <div class="dropdown-menu notifications">
@@ -92,45 +122,47 @@
                         <div class="drop-scroll">
                             <ul class="notification-list">
                             </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
                     </div>
-                </li>
-                <li class="nav-item dropdown d-none d-sm-block">
+                </li> {% endcomment %}
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                 </li> {% endcomment %}
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img">
                             <span>{{ user.name }}</span>
-                          
-							<img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="24" alt="Admin">
-							<span class="status online"></span>
-						</span>
-						{% comment %} <span>Admin</span> {% endcomment %}
+                            <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+							<span class="status online"></span></span>
+                        {% comment %} <span>Admin</span> {% endcomment %}
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>  {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a>
-						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
+						<a class="dropdown-item" href="#">Edit Profile</a>
+						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
+						<a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-right">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
+                    <a class="dropdown-item" href="#">Edit Profile</a>
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
                 </div>
             </div>
         </div>
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
-                    
                     <ul>
                         <li class="menu-title" style="color:black; font-weight:bold;"><h3><b>Member</b></h3></li>
-                        <li class="active">
+                        <li >
                             <a href="{% url 'mindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
 						{% comment %} <li>
@@ -156,9 +188,13 @@
                                 <li>
                                     <a href="{% url 'mdriverapplied' %}"><i class="fa fa-calendar-check-o"></i> <span>Applied Drivers</span></a>
                                 </li>
+                                {% comment %} <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
+                                </li>  {% endcomment %}
                             </ul>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="{% url 'mcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops</span></a>
                         </li>
                         {% comment %} <li>
@@ -176,85 +212,92 @@
                         </li> 
                         <li>
                             <a href="{% url 'mleave' %}"><i class="fa fa-calendar-minus-o"></i>  <span>Apply Leave</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'mmachinery' %}"><i class="fas fa-user fa-2x"></i><span>Machinery List</span></a>
-                        </li>  
-                        <li>
-                            <a href="{% url 'mapplications' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
-                        </li>   
+                        </li> 
                         <li>
                             <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>   
-                        {% comment %} <li>
-                            <a href="{% url 'mconfirmed' %}"><i class="fas fa-users fa-2x"></i> <span>Confirmed Details</span></a>
-                        </li> {% endcomment %}
+                       
                     </ul>
                 </div>
             </div>
         </div>
         <div class="page-wrapper">
-            <div class="content">   
-                <h2 style="color:black;">Member</h2>             
-                <div class="new" style="text-align: center; margin-left:5px;display:flex; align-items: center; color:black;">
-                    <div class="dash-widget">
-                        <div class="dash-widget-info text-right">
-                            <h3>Welcome!!</h3>
-                            <h3>{{user.name }}</h3>
-                        </div>
-                    </div>
-                </div>
+            <br>
+            <div class="content">
+                <h1 style="color:black; font-weight:bold;">Crops List</h1>
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-                            <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3>{{fe_count}}</h3>
-                                <span class="widget-title2">Farmers <i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
+                    <div class="col-sm-5 col-5">
+                        <h4 class="page-title"></h4>
                     </div>
+    
+                    <table style="color:black;">
+                        <thead>
+                            <tr>
+                                <th>Machinery Name</th>
+                                <th>Machinery Photo</th>
+                                <th>Price</th>
+                                <th>Farmer Name</th>
+                                <th>Address</th>
+                                <th>Ward No</th>
+                                <th>Apply Date</th>
+                                <th>Total Days</th>
+                                <th>Count</th>
+                                <th>Total Count</th>
+                                <th>File Upload</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications %}
+                            <tr>
+                                <td>{{ application.machinery.mname }}</td>
+                                <td>
+                                    {% if application.machinery.machinery_photo %}
+                                        <img src="{{ application.machinery.machinery_photo.url }}" alt="Machinery Photo" style="max-width: 100px;">
+                                    {% else %}
+                                        No Photo Available
+                                    {% endif %}
+                                </td>
+                                <td>{{ application.machinery.price }}</td>
+                                <td>{{ application.farmerName }}</td>
+                                <td>{{ application.address }}</td>
+                                <td>{{ application.wardNo }}</td>
+                                <td>{{ application.apply_date }}</td>
+                                <td>{{ application.total_days }}</td>
+                                <td>{{ application.acount }}</td>
+                                <td>{{ application.Tcount }}</td>
+                                <td>
+                                    {% if application.file_upload %}
+                                    <a href="{{ application.file_upload.url }}" target="_blank">Download File</a>
+                                    {% else %}
+                                    No File
+                                    {% endif %}
+                                </td>                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-                            <span class="dash-widget-bg3"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3>{{approve_count}}</h3>
-                                <span class="widget-title3">Approved <i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-                        <div class="dash-widget">
-                            <span class="dash-widget-bg4"><i class="fa fa-user-o" aria-hidden="true"></i></span>
-                            <div class="dash-widget-info text-right">
-                                <h3>{{pendings_count}}</h3>
-                                <span class="widget-title4">Waiting<i class="fa fa-check" aria-hidden="true"></i></span>
-                            </div>
-                        </div>
+               
+            <div class="notification-box">
+                <div class="msg-sidebar notifications msg-noti">
+                    <div class="topnav-dropdown-header">
+                        <span>Messages</span>
                     </div>
                    
                 </div>
-				
-                    
             </div>
-            
-                </div>
-            </div>
-        </div>
+			
+		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
-    <script src="{% static 'assets/js/Chart.bundle.js' %}"></script>
-    <script src="{% static 'assets/js/chart.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
-
 </body>
 
 
-
+<!-- departments23:21-->
 </html>

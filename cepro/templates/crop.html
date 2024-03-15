@@ -169,10 +169,13 @@
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Apply</th>
+                    <th>Approval By member</th>
+                    <th>Approval By Secretary</th>
+                    <th>Collection Of Samplings</th>
+
                 </tr>
             </thead>
             <tbody>
-                
                 {% for crop in crops %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
@@ -211,15 +214,52 @@
                             <button type="label" class="btn btn-danger" disabled>Apply</label>
                         {% endif %}
                     </td>
-                    
+                    <td>
+                        {% for certification in existing_certifications %}
+                            {% if certification.crop_id.id == crop.id %}
+                                {% if certification.is_approved == 'pending' %}
+                                    <p class="certification-message">You Have Applied For The crop.</p>
+                                {% elif certification.is_approved == 'approved' %}
+                                    <p class="certification-message">Your Application Is Approved By The Member.</p>
+                                {% elif certification.is_approved == 'rejected' %}
+                                    <p class="certification-message">Your Application is Rejected.</p>
+                                {% elif certification.is_approved == 'waiting' %}
+                                    <p class="certification-message">You Are In The Waiting List.</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for certification in existing_certifications %}
+                            {% if certification.crop_id.id == crop.id %}
+                                {% if certification.is_approvedd == 'approved' %}
+                                    <p class="certification-message">Your Application Is Approved By The Panchayath Secretary.</p>
+                                {% elif certification.is_approvedd == 'waiting' %}
+                                    <p class="certification-message">You Are in the Waiting list by Panchayath Secretarys.</p>
+                                {% else %}
+                                    <p> Please Wait </p> 
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for certification in existing_certifications %}
+                            {% if certification.crop_id.id == crop.id %}
+                                {% if certification.is_given == 'given' %}
+                                    <p class="certification-message">You Can Collect The Crop From The Panchayath</p>
+                                {% elif certification.is_given == 'notgiven' %}
+                                    <p class="certification-message">Crop Samplings Is Not Allocated to you at this time</p>
+                                {% else %}
+                                    <p> Please Wait </p> 
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
-    
-    
     <script>
         // JavaScript to toggle the dropdown menu
         $(document).ready(function() {

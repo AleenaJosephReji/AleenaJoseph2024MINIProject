@@ -855,16 +855,32 @@ def mcrop(request):
 
 
 
+# def crop(request):
+#     user = request.user
+#     profile = FarmerProfile.objects.get(user=user)
+#     today = date.today()
+#     # Retrieve the currently added crop
+#     # current_crop = Crop.objects.filter(current=True).first()
+#     crops = Crop.objects.all() 
+#     # for crop in crops:
+#     #     print(f"Today: {today}, Start Date: {crop.start_date}, End Date: {crop.end_date}")
+#     return render(request, 'crop.html', {'crops': crops , 'today': today ,'profile' : profile})
+
 def crop(request):
     user = request.user
     profile = FarmerProfile.objects.get(user=user)
     today = date.today()
-    # Retrieve the currently added crop
-    # current_crop = Crop.objects.filter(current=True).first()
-    crops = Crop.objects.all() 
-    # for crop in crops:
-    #     print(f"Today: {today}, Start Date: {crop.start_date}, End Date: {crop.end_date}")
-    return render(request, 'crop.html', {'crops': crops , 'today': today ,'profile' : profile})
+    crops = Crop.objects.all()
+    
+    existing_certifications = ApplyCrop.objects.filter(user=user)
+    
+    return render(request, 'crop.html', {
+        'crops': crops,
+        'today': today,
+        'profile': profile,
+        'existing_certifications': existing_certifications
+    })
+
 #application for crops 
 
 
@@ -3384,39 +3400,61 @@ def machinery(request):
 
     return render(request, 'machinery.html', {'machineries': machineries})
 
-from django.shortcuts import render, get_object_or_404
-from .models import AddMachinery
-from django.shortcuts import render, get_object_or_404
-from .models import AddMachinery
-
-# def mapply(request, machinery_id):
-#     machinery = get_object_or_404(AddMachinery, id=machinery_id)
-
-#     return render(request, 'mapply.html', {'machinery': machinery})
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, reverse
 from .models import AddMachinery, MachineryApplication
 
+from django.shortcuts import render, get_object_or_404, reverse
+from django.http import HttpResponseRedirect
+from .models import AddMachinery, MachineryApplication, FarmerProfile
+from datetime import datetime, timedelta
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from datetime import datetime, timedelta
+from .models import AddMachinery, MachineryApplication, FarmerProfile
+from datetime import datetime, timedelta
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import AddMachinery, FarmerProfile, MachineryApplication
+from django.db import transaction
+@transaction.atomic
 def mapply(request, machinery_id):
     machinery = get_object_or_404(AddMachinery, id=machinery_id)
-    applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)
+    farmer_profile = FarmerProfile.objects.get(user=request.user)
+    applications = MachineryApplication.objects.filter(farmer_profile=farmer_profile, machinery=machinery)
+    
+    total_count_instance = MachineryTcount.objects.first()
+    if not total_count_instance:
+        total_count_instance = MachineryTcount.objects.create(count=machinery.count)
 
+    Tcount = total_count_instance.count
+
+    # Fetch the latest application if any
+    latest_application = applications.order_by('-apply_date').first()
+    if latest_application:
+        Tcount = latest_application.Tcount
+    
     if request.method == 'POST':
-        # Assuming the current user is the applying farmer
-        farmer_profile = FarmerProfile.objects.get(user=request.user)
-
-        # Get apply_date and acount from the form data
         apply_date = request.POST.get('apply_date')
         acount = int(request.POST.get('acount'))
-
-        # Convert apply_date to a datetime object
+        file_upload = request.FILES.get('file_upload')  # Get the uploaded file
+        
         apply_date = datetime.strptime(apply_date, '%Y-%m-%d').date()
-
-        # Calculate total_days
         total_days = apply_date + timedelta(days=machinery.days)
+        
+        # Calculate the total price based on the account count
+        total_price = machinery.price * acount
+        
+        Tcount -= acount  # Update Tcount
+        
+        # Update the total count
+        total_count_instance.count = Tcount
+        total_count_instance.save()
 
-        # Create a new application with apply_date, total_days, and acount
+        # Create a new MachineryApplication instance
         application = MachineryApplication.objects.create(
             machinery=machinery,
             farmer_profile=farmer_profile,
@@ -3426,13 +3464,24 @@ def mapply(request, machinery_id):
             apply_date=apply_date,
             total_days=total_days,
             acount=acount,
-            Tcount=machinery.count - acount  # Subtract acount from the count
+            Tcount=Tcount,
+            file_upload=file_upload,  # Save the uploaded file
+            total_price=total_price  # Save the calculated total price
         )
-
+        
         # Redirect to the same page after applying to prevent form resubmission
         return HttpResponseRedirect(reverse('mapply', kwargs={'machinery_id': machinery_id}))
 
-    return render(request, 'mapply.html', {'machinery': machinery, 'applications': applications})
+    return render(request, 'mapply.html', {'machinery': machinery, 'applications': applications, 'farmer_profile': farmer_profile})
+
+def mmachinery(request):
+    machineries = AddMachinery.objects.filter(is_active=True)
+    return render(request, 'membertemp/mmachinery.html', {'machineries': machineries})
+def mapplications(request):
+    user = request.user
+    profile = Member.objects.get(user=user)
+    applications = MachineryApplication.objects.filter(wardNo=profile.wardno)
+    return render(request, 'membertemp/mapplications.html', {'applications': applications})
 
 # def mapply(request,machinery_id):
 #     machinery = get_object_or_404(AddMachinery, id=machinery_id)

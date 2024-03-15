@@ -12,7 +12,7 @@ from .models import Attendance
 from .models import Driver
 from .models import Service
 from .models import WardAttendance
-from .models import Sell,Sellapply,Confirm,Productcost,Notification,Mleave,Total,AddMachinery,MachineryApplication
+from .models import Sell,Sellapply,Confirm,Productcost,Notification,Mleave,Total,AddMachinery,MachineryApplication,MachineryTcount
 # from .models import Machinery,ApplicationMachinery
 
 # from .models import Notification
@@ -43,5 +43,7 @@ admin.site.register(AddMachinery)
 admin.site.register(MachineryApplication)
 
 admin.site.register(Confirm)
+admin.site.register(MachineryTcount)
+
 
 # admin.site.register(Notification)

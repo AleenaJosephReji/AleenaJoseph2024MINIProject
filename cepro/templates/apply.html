@@ -145,8 +145,8 @@
     <div class="container">
         {% if existing_certification %}
             {% if existing_certification.is_approved == 'pending' %}
-                <p class="certification-message">You Have Applied For The crop.</p>
-            {% elif existing_certification.is_approved == 'approved' %}
+                <p class="certification-message">You Have Alredy  Applied For The crop.</p>
+            {% comment %} {% elif existing_certification.is_approved == 'approved' %}
                 <p class="certification-message">Your Application Is Approved By The Member.</p>
             {% elif existing_certification.is_approved == 'rejected' %}
                 <p class="certification-message">Your Application is Rejected.</p>
@@ -167,7 +167,7 @@
             {% elif existing_certification.is_given == 'notgiven' %}
             <p class="certification-message">Crop Samplings Is Not Allocated to you at this time</p>
             {% else %}
-            <p> Please Wait </p> 
+            <p> Please Wait </p>  {% endcomment %}
             {% endif %}
 
         {% else %}

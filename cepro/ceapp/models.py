@@ -565,8 +565,12 @@ class MachineryApplication(models.Model):
     total_days = models.DateField(null=True, blank=True)
     acount = models.IntegerField(default=0)
     Tcount = models.IntegerField(default=0)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # New field for total price
+    file_upload = models.FileField(upload_to='uploads/', null=True, blank=True)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
 
-
+class MachineryTcount(models.Model):
+    count = models.IntegerField(default=0)
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
     title = models.CharField(max_length=200,blank=True, null=True)

@@ -242,11 +242,16 @@
 <!-- mapply.html -->
 <div class="container mt-5">
     <h2>Machinery Application Details</h2>
+    <div style="font-size:24px;">
+        <strong>Farmer Name:</strong> {{ farmer_profile.first_name }}<br>
+        <strong>Address:</strong> {{ farmer_profile.address }}<br>
+        <strong>Ward No:</strong> {{ farmer_profile.ward }}
+    </div>
     <div class="machinery-details">
-        <div>
+        <div style="font-size:24px;">
             <strong>Machinery Name:</strong> {{ machinery.mname }}
         </div>
-        <div>
+        <div style="font-size:24px;">
             <strong>Image:</strong>
             {% if machinery.machinery_photo %}
                 <img alt="" src="{{ machinery.machinery_photo.url }}">
@@ -254,10 +259,10 @@
                 No Photo Available
             {% endif %}
         </div>
-        <div>
+        <div style="font-size:24px;">
             <strong>Price:</strong> {{ machinery.price }}
         </div>
-        <div>
+        <div style="font-size:24px;">
             <strong>Apply Date:</strong> 
             <!-- Display apply_date from the first application (if exists) -->
             {% if applications %}
@@ -266,35 +271,20 @@
                 No applications yet
             {% endif %}
         </div>
-        
-        <!-- Display applied farmer details -->
-        {% if applications %}
-            <h3>Applied Farmer Details:</h3>
-            <ul>
-                {% for application in applications %}
-                    <li>
-                        <strong>Farmer Name:</strong> {{ application.farmerName }}<br>
-                        <strong>Address:</strong> {{ application.address }}<br>
-                        <strong>Ward No:</strong> {{ application.wardNo }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No applications yet</p>
-        {% endif %}
-        <!-- Add additional divs for other machinery details -->
     </div>
-
-    <!-- Apply button form -->
-    <form method="post" action="{% url 'mapply' machinery.id %}">
+    <form method="post" action="{% url 'mapply' machinery.id %}" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="mt-3">
-            <label for="apply_date">Apply Date:</label>
-            <input type="date" name="apply_date" id="apply_date" required>
+        <div style="font-size:24px;">
+            <label for="apply_date"><b>Apply Date:</b></label>
+            <input type="date" name="apply_date" id="apply_date" value="{% if applications %}{{ applications.0.apply_date }}{% endif %}" required>
         </div>
-        <div class="mt-3">
-            <label for="acount">Count:</label>
+        <div style="font-size:24px;">
+            <label for="acount"><b>Count:</b></label>
             <input type="number" name="acount" id="acount" min="1" max="{{ machinery.count }}" required>
+        </div>
+        <div style="font-size:24px;">
+            <label for="file_upload" style="color:black;"><b>Upload id proof</b></label>
+            <input type="file" name="file_upload" id="file_upload">
         </div>
         <div class="mt-3">
             <button type="submit" class="btn btn-primary">Apply</button>

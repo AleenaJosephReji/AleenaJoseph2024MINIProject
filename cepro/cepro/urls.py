@@ -215,6 +215,9 @@ urlpatterns = [
     path('machinery', views.machinery, name='machinery'),
     # path('submit_machinery_date', views.submit_machinery_date, name='submit_machinery_date'),
     path('mapply/<int:machinery_id>/', views.mapply, name='mapply'),
+    path('mmachinery', views.mmachinery, name='mmachinery'),
+    path('mapplications', views.mapplications, name='mapplications'),
+
     # path('success_page', views.success_page, name='success_page'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
