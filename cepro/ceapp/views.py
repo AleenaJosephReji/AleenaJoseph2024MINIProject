@@ -3420,17 +3420,19 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import AddMachinery, FarmerProfile, MachineryApplication
 from django.db import transaction
+from django.db.models import F
+from django.utils import timezone
+
 @transaction.atomic
 def mapply(request, machinery_id):
     machinery = get_object_or_404(AddMachinery, id=machinery_id)
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     applications = MachineryApplication.objects.filter(farmer_profile=farmer_profile, machinery=machinery)
     
-    total_count_instance = MachineryTcount.objects.first()
-    if not total_count_instance:
-        total_count_instance = MachineryTcount.objects.create(count=machinery.count)
-
-    Tcount = total_count_instance.count
+    # Get or create MachineryTcount instance based on mname
+    tcount_instance, created = MachineryTcount.objects.get_or_create(mname=machinery.mname, defaults={'count': machinery.count})
+    
+    Tcount = tcount_instance.count
 
     # Fetch the latest application if any
     latest_application = applications.order_by('-apply_date').first()
@@ -3448,13 +3450,14 @@ def mapply(request, machinery_id):
         # Calculate the total price based on the account count
         total_price = machinery.price * acount
         
-        Tcount -= acount  # Update Tcount
+        # Calculate updated Tcount value
+        updated_Tcount = Tcount - acount
         
-        # Update the total count
-        total_count_instance.count = Tcount
-        total_count_instance.save()
-
-        # Create a new MachineryApplication instance
+        # Update the total count in MachineryTcount using F() expression
+        tcount_instance.count = F('count') - acount
+        tcount_instance.save()
+        
+        # Create a new MachineryApplication instance with updated Tcount
         application = MachineryApplication.objects.create(
             machinery=machinery,
             farmer_profile=farmer_profile,
@@ -3464,10 +3467,16 @@ def mapply(request, machinery_id):
             apply_date=apply_date,
             total_days=total_days,
             acount=acount,
-            Tcount=Tcount,
+            Tcount=updated_Tcount,  # Use updated_Tcount here
             file_upload=file_upload,  # Save the uploaded file
             total_price=total_price  # Save the calculated total price
         )
+
+        # Check if total_days is today's date
+        if total_days == timezone.now().date():
+            # Increase Tcount based on acount
+            tcount_instance.count = F('count') + acount
+            tcount_instance.save()
         
         # Redirect to the same page after applying to prevent form resubmission
         return HttpResponseRedirect(reverse('mapply', kwargs={'machinery_id': machinery_id}))
@@ -3482,7 +3491,14 @@ def mapplications(request):
     profile = Member.objects.get(user=user)
     applications = MachineryApplication.objects.filter(wardNo=profile.wardno)
     return render(request, 'membertemp/mapplications.html', {'applications': applications})
+from django.shortcuts import render
+from .models import MachineryApplication
 
+def applied_machineries(request):
+    # Fetch applied machinery details for the logged-in user
+    applied_machineries = MachineryApplication.objects.filter(farmer_profile=request.user.farmerprofile)
+
+    return render(request, 'applied_machineries.html', {'applied_machineries': applied_machineries})
 # def mapply(request,machinery_id):
 #     machinery = get_object_or_404(AddMachinery, id=machinery_id)
 #     applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)

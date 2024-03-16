@@ -570,6 +570,7 @@ class MachineryApplication(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, blank=True, null=True)
 
 class MachineryTcount(models.Model):
+    mname = models.CharField(max_length=255)
     count = models.IntegerField(default=0)
 class Notification(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,blank=True, null=True)

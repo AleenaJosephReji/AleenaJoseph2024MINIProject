@@ -57,6 +57,60 @@
             text-align:center
             padding-left:6px;
         }
+
+        #google_translate_element .skiptranslate{
+            display: inline !important;
+    
+        }
+        .goog-te-gadget{
+            color: transparent !important;
+        }
+        /* Dark Theme for the select dropdown */
+        .goog-te-combo {
+            padding: 8px; /* Add padding for spacing */
+            font-size: 14px; /* Set font size */
+            border: 1px solid #666; /* Dark border */
+            border-radius: 4px; /* Add rounded corners */
+            background-color: #333; /* Dark background color */
+            color: #fff; /* Light text color */
+        }
+    
+        /* Style the select dropdown when it's hovered */
+        .goog-te-combo:hover {
+            border-color: #999; /* Darker border color on hover */
+        }
+    
+        /* Style the select dropdown when it's focused (clicked) */
+        .goog-te-combo:focus {
+            outline: none; /* Remove the default focus outline */
+            border-color: #007bff; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow on focus */
+        }
+    
+        /* Style the dropdown arrow */
+        .goog-te-combo-arrow {
+            font-size: 12px; /* Adjust arrow size */
+            color: #fff; /* Light arrow color */
+        }
+    
+        /* Style the dropdown options */
+        .goog-te-menu-value {
+            font-size: 14px; /* Set font size for options */
+            color: #fff; /* Light text color for options */
+            background-color: #333; /* Dark background color for options */
+        }
+    
+        /* Style the dropdown options on hover */
+        .goog-te-menu-value:hover {
+            background-color: #007bff; /* Change background color on hover */
+            color: #fff; /* Light text color on hover */
+        }
+         
+            .language-selector {
+                display: inline-block;
+                margin-left: 10px; /* Adjust margin as needed */
+            }
+         
     </style>
     {% comment %} <style>
         body{
@@ -124,6 +178,7 @@
                 </div>
             </div>
         </div>
+       
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -193,8 +248,13 @@
                 </div>
             </div>
         </div>
+        
         <div class="page-wrapper">
             <div class="content">   
+                <div class="language-selector">
+                    <span>Select Language: </span>
+                    <div id="google_translate_element"></div>
+                </div>
                 <h2 style="color:black;">Member</h2>             
                 <div class="new" style="text-align: center; margin-left:5px;display:flex; align-items: center; color:black;">
                     <div class="dash-widget">
@@ -252,7 +312,13 @@
     <script src="{% static 'assets/js/Chart.bundle.js' %}"></script>
     <script src="{% static 'assets/js/chart.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
-
+    <script type="text/javascript"> 
+		function googleTranslateElementInit() 
+		{
+			new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+		}
+	</script>
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 

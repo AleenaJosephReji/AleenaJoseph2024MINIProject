@@ -7,6 +7,7 @@
     <title>Crop Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
         body {
@@ -111,6 +112,8 @@
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
+                <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
@@ -137,7 +140,7 @@
             </ul>
         </div>
           
-      
+        
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">

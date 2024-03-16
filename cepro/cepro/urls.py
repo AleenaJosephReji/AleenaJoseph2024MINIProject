@@ -217,6 +217,7 @@ urlpatterns = [
     path('mapply/<int:machinery_id>/', views.mapply, name='mapply'),
     path('mmachinery', views.mmachinery, name='mmachinery'),
     path('mapplications', views.mapplications, name='mapplications'),
+    path('applied_machineries', views.applied_machineries, name='applied_machineries'),
 
     # path('success_page', views.success_page, name='success_page'),
 

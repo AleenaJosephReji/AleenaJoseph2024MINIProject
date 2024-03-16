@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crop Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
 
     <style>
@@ -144,6 +145,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
         <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="" style="margin-top:10px; margin-left:70px;">
+
         <h2 style="color:#0d4859; padding-left:20px; font-weight:bold; margin-top:10px;" >CropElevate</h2>
         {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -157,6 +159,8 @@
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
+                <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
@@ -183,7 +187,7 @@
             </ul>
         </div>
           
-      
+        
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">

@@ -213,7 +213,7 @@
                         <li>
                             <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
                         <li>
@@ -224,6 +224,9 @@
                         </li> {% endcomment %}
                         <li>
                             <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="{% url 'admachinery' %}"><i class="fas fa-cogs"></i> <span>Machinery</span></a>
                         </li>
                         <li>
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
@@ -245,10 +248,10 @@
                     <div class="content">
                         <div class="row">
                             <div class="col-sm-5 col-5">
-                                <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="croplist"><b><i><u>Product Details</b></i></u></h4>
+                                <h4 class="page-title" style="font-size:27px; color:#3c733c;" id="croplist"><b><i><u>Machinery Details</b></i></u></h4>
                             </div>
                             <div class="col-sm-7 col-7 text-right m-b-30">
-                                <a href="{% url 'adaddmachinery' %}" class="btn btn-primary btn-rounded" style="background-color: green; color: white;" id="addcro"><i class="fa fa-plus"></i> Add Product Details</a>
+                                <a href="{% url 'adaddmachinery' %}" class="btn btn-primary btn-rounded" style="background-color: green; color: white;" id="addcro"><i class="fa fa-plus"></i> Add Machinery Details</a>
                             </div>
                         </div>
                         </div>

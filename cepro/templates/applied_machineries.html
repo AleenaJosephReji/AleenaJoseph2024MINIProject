@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;           
+            {% comment %} background-color: #f2f2f2; {% endcomment %}
+            margin: 0;
+            padding-top: 70px;
+            {% comment %} background-image: url('{% static 'img/rice.jpg' %}'); {% endcomment %}
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        
+        }
+        .navbar {
+            background-color: #34AD54;
+            padding: 10px 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th{
+            background-color:#34AD54;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for the "Apply" button */
+        .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .apply-button-green {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 8px 16px; /* Adjust padding to make it smaller */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px; /* Adjust font-size to make it smaller */
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .nav-hover:hover {
+            background-color: green; /* Change to a light green color on hover */
+            color: #fff; /* Change the text color on hover */
+            transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
+        }
+        #google_translate_element .skiptranslate{
+			display: inline !important;
+	
+		}
+		.goog-te-gadget{
+			color: transparent !important;
+		}
+		/* Dark Theme for the select dropdown */
+		.goog-te-combo {
+			padding: 8px; /* Add padding for spacing */
+			font-size: 14px; /* Set font size */
+			border: 1px solid #666; /* Dark border */
+			border-radius: 4px; /* Add rounded corners */
+			background-color: #333; /* Dark background color */
+			color: #fff; /* Light text color */
+		}
+	
+		/* Style the select dropdown when it's hovered */
+		.goog-te-combo:hover {
+			border-color: #999; /* Darker border color on hover */
+		}
+	
+		/* Style the select dropdown when it's focused (clicked) */
+		.goog-te-combo:focus {
+			outline: none; /* Remove the default focus outline */
+			border-color: #007bff; /* Change border color on focus */
+			box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow on focus */
+		}
+	
+		/* Style the dropdown arrow */
+		.goog-te-combo-arrow {
+			font-size: 12px; /* Adjust arrow size */
+			color: #fff; /* Light arrow color */
+		}
+	
+		/* Style the dropdown options */
+		.goog-te-menu-value {
+			font-size: 14px; /* Set font size for options */
+			color: #fff; /* Light text color for options */
+			background-color: #333; /* Dark background color for options */
+		}
+	
+		/* Style the dropdown options on hover */
+		.goog-te-menu-value:hover {
+			background-color: #007bff; /* Change background color on hover */
+			color: #fff; /* Light text color on hover */
+		}
+		 
+			.language-selector {
+				display: inline-block;
+				margin-left: 10px; /* Adjust margin as needed */
+			}
+    </style>
+</head>
+<body>
+
+    <div class="language-selector">
+        <span>Select Language: </span>
+        <div id="google_translate_element"></div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
+        <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="" style="margin-top:10px; margin-left:70px;">
+
+        <h2 style="color:#0d4859; padding-left:20px; font-weight:bold; margin-top:10px;" >CropElevate</h2>
+        {% comment %} <a class="navbar-brand" href="#">CropElevate</a> {% endcomment %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 70px;margin-top:5px;color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
+                <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Notice</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
+                <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
+                <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
+                <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
+                        <i class="mdi mdi-bell"></i>
+                        <span class="count">{{ notification_count }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" id="notificationDropdownContent">
+                        <h6 class="p-3 mb-0">Notifications</h6>
+                        <div class="dropdown-divider"></div>
+                        {% for notification in notifications %}
+                            <a class="dropdown-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="mdi mdi-alert-circle-outline mx-0"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject font-weight-medium">{{ notification.title }}</p>
+                                    <p class="font-weight-light small-text">{{ notification.message }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </li>
+            </ul>
+        </div>
+          
+        
+        <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
+            {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                <span>{{ user.name }}</span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
+                
+                {% if user.is_authenticated %}
+                {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
+                <a class="dropdown-item" href="{% url 'account' %}">Account</a>
+                <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
+                {% else %}
+                <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <br><br>
+    <div class="container">
+    <h1>Applied Machineries</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Machinery Name</th>
+                {% comment %} <th>Farmer Name</th>
+                <th>Address</th>
+                <th>Ward No</th> {% endcomment %}
+                <th>Apply Date</th>
+                <th>Available Till</th>
+                <th>Count</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for machinery in applied_machineries %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ machinery.machinery.mname }}</td>
+                    {% comment %} <td>{{ machinery.farmerName }}</td>
+                    <td>{{ machinery.address }}</td>
+                    <td>{{ machinery.wardNo }}</td> {% endcomment %}
+                    <td>{{ machinery.apply_date }}</td>
+                    <td>{{ machinery.total_days }}</td>
+                    <td>{{ machinery.acount }}</td>
+                    <td>{{ machinery.total_price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript"> 
+    function googleTranslateElementInit() {
+new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+
+</body>
+</html>

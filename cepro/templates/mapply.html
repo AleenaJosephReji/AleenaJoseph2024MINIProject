@@ -154,7 +154,8 @@
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
-    <li class="nav-item dropdown">
+                <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a>
+                <li class="nav-item dropdown">
         <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
             <i class="mdi mdi-bell"></i>
             <span class="count">{{ notification_count }}</span>
@@ -241,64 +242,104 @@
 <!-- mapply.html -->
 <!-- mapply.html -->
 <div class="container mt-5">
-    <h2>Machinery Application Details</h2>
-    <div style="font-size:24px;">
-        <strong>Farmer Name:</strong> {{ farmer_profile.first_name }}<br>
-        <strong>Address:</strong> {{ farmer_profile.address }}<br>
-        <strong>Ward No:</strong> {{ farmer_profile.ward }}
+    <h2 class="text-center mb-4">Machinery Application Details</h2>
+    <div class="text-center mb-4">
+        {% if machinery.machinery_photo %}
+            <img src="{{ machinery.machinery_photo.url }}" alt="{{ machinery.mname }}" class="img-fluid mb-3" style="max-height: 300px;">
+        {% else %}
+            <p>No Photo Available</p>
+        {% endif %}
+        <h2 class="text-primary">{{ machinery.mname }}</h2>
     </div>
-    <div class="machinery-details">
-        <div style="font-size:24px;">
-            <strong>Machinery Name:</strong> {{ machinery.mname }}
-        </div>
-        <div style="font-size:24px;">
-            <strong>Image:</strong>
-            {% if machinery.machinery_photo %}
-                <img alt="" src="{{ machinery.machinery_photo.url }}">
-            {% else %}
-                No Photo Available
-            {% endif %}
-        </div>
-        <div style="font-size:24px;">
-            <strong>Price:</strong> {{ machinery.price }}
-        </div>
-        <div style="font-size:24px;">
-            <strong>Apply Date:</strong> 
-            <!-- Display apply_date from the first application (if exists) -->
-            {% if applications %}
-                {{ applications.0.apply_date }}
-            {% else %}
-                No applications yet
-            {% endif %}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="text-primary">Farmer Information</h4>
+                    <p><strong>Farmer Name:</strong> {{ farmer_profile.first_name }}</p>
+                    <p><strong>Address:</strong> {{ farmer_profile.address }}</p>
+                    <p><strong>Ward No:</strong> {{ farmer_profile.ward }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="text-primary">Machinery Details</h4>
+                    <p><strong>Machinery Name:</strong> {{ machinery.mname }}</p>
+                    <p><strong>Price:</strong> {{ machinery.price }}</p>
+                </div>
+            </div>
         </div>
     </div>
-    <form method="post" action="{% url 'mapply' machinery.id %}" enctype="multipart/form-data">
+    <form method="post" action="{% url 'mapply' machinery.id %}" enctype="multipart/form-data" class="mt-4" id="mapply-form">
         {% csrf_token %}
-        <div style="font-size:24px;">
+        <!-- Your form inputs and elements here -->
+        <div class="form-group">
             <label for="apply_date"><b>Apply Date:</b></label>
-            <input type="date" name="apply_date" id="apply_date" value="{% if applications %}{{ applications.0.apply_date }}{% endif %}" required>
+            <input type="date" class="form-control" name="apply_date" id="apply_date" value="{% if applications %}{{ applications.0.apply_date }}{% endif %}" required>
+            <small id="apply_date_error" class="text-danger"></small> <!-- Error message container -->
         </div>
-        <div style="font-size:24px;">
+        <div class="form-group">
             <label for="acount"><b>Count:</b></label>
-            <input type="number" name="acount" id="acount" min="1" max="{{ machinery.count }}" required>
+            <input type="number" class="form-control" name="acount" id="acount" min="1" max="{{ machinery.count }}" required>
+            <small id="acount_error" class="text-danger"></small> <!-- Error message container -->
         </div>
-        <div style="font-size:24px;">
-            <label for="file_upload" style="color:black;"><b>Upload id proof</b></label>
-            <input type="file" name="file_upload" id="file_upload">
+        <div class="form-group">
+            <label for="file_upload"><b>Upload ID Proof:</b></label>
+            <input type="file" class="form-control-file" name="file_upload" id="file_upload" required>
         </div>
-        <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Apply</button>
-        </div>
+        <button type="submit" class="btn btn-primary">Apply</button>
     </form>
-    <!-- Add additional details or buttons as needed -->
 </div>
+<script>
+    document.getElementById('mapply-form').addEventListener('submit', function(event) {
+        const applyDateInput = document.getElementById('apply_date');
+        const applyDateValue = new Date(applyDateInput.value);
+        const today = new Date();
 
-    
-          {% if error_message %}
-    <div class="alert alert-danger" role="alert">
-        {{ error_message }}
-    </div>
-{% endif %}
+        if (applyDateValue <= today) {
+            event.preventDefault(); // Prevent form submission
+            document.getElementById('apply_date_error').innerText = 'Apply Date should be greater than today.';
+        } else {
+            document.getElementById('apply_date_error').innerText = ''; // Clear error message
+        }
+
+        const acountInput = document.getElementById('acount');
+        const acountValue = parseInt(acountInput.value);
+
+        if (acountValue !== 1 && acountValue !== 2) {
+            event.preventDefault(); // Prevent form submission
+            document.getElementById('acount_error').innerText = 'Count should be 1 or 2.';
+        } else {
+            document.getElementById('acount_error').innerText = ''; // Clear error message
+        }
+    });
+
+    // Add event listener to apply_date input for real-time validation
+    document.getElementById('apply_date').addEventListener('input', function() {
+        const applyDateInput = document.getElementById('apply_date');
+        const applyDateValue = new Date(applyDateInput.value);
+        const today = new Date();
+        const applyDateError = document.getElementById('apply_date_error');
+
+        if (applyDateValue <= today) {
+            applyDateError.innerText = 'Apply Date should be greater than today.';
+        } else {
+            applyDateError.innerText = ''; // Clear error message
+        }
+    });
+
+    // Add event listener to acount input for real-time validation
+    document.getElementById('acount').addEventListener('input', function() {
+        const acountInput = document.getElementById('acount');
+        const acountValue = parseInt(acountInput.value);
+        const acountError = document.getElementById('acount_error');
+
+        if (acountValue !== 1 && acountValue !== 2) {
+            acountError.innerText = 'Count should be 1 or 2.';
+        } else {
+            acountError.innerText = ''; // Clear error message
+        }
+    });
+</script>
+
 
     </div>
     <!-- Add the following script inside the head tag or at the end of the body tag -->
