@@ -218,8 +218,9 @@ urlpatterns = [
     path('mmachinery', views.mmachinery, name='mmachinery'),
     path('mapplications', views.mapplications, name='mapplications'),
     path('applied_machineries', views.applied_machineries, name='applied_machineries'),
-
+    path('generate_pdf_all_accounts', views.generate_pdf_all_accounts, name='generate_pdf_all_accounts'),
     # path('success_page', views.success_page, name='success_page'),
+    # path('confirm_machinery', views.confirm_machinery, name='confirm_machinery'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
 
@@ -234,7 +235,6 @@ urlpatterns = [
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
     path('notifications', views.notifications, name='notifications'),
     path('mark_notification_as_read', views.mark_notification_as_read, name='mark_notification_as_read'),
-
 ]
 
 if settings.DEBUG:

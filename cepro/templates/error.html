@@ -216,79 +216,15 @@
         </div>
     </nav>
     <br><br>
-    <h1>Machinery List</h1>
-
-
-   <!-- ... Your existing HTML code ... -->
-   {% comment %} <div class="container mt-5">
-        {% csrf_token %}
-        {% for machine in machinery %}
-        <div class="machinery-item">
-        <h2><b>{{ machine.mname }}</b></h2>
-        <p><strong>Available Days:</strong> {{ machine.days }}</p>
-        <p><strong>Count:</strong> {{ machine.count }}</p>
-        <div class="col-md-6">
-            <label for="farmerName" style="color:black;">Name</label>
-            <input type="text" id="farmerName" name="farmerName" value="{{ farmer_name }}" required readonly>
-            <small id="nameError" class="form-text text-danger"></small>
-        </div>
-        <p><strong>Price:</strong> {{ machine.price }}</p>
-        <p><strong>Apply Date:</strong> {{ machine.apply_date }}</p>
-        {% if machine.available_date %}
-            <p><strong>Available Date:</strong> {{ machine.available_date }}</p>
-        {% else %}
-            <p><strong>Available Date:</strong> Not available</p>
-        {% endif %}
-        <label for="date_{{ machine.id }}">Select Date:</label>
-        <input type="date" id="date_{{ machine.id }}" name="date_{{ machine.id }}" class="form-control">
-        <input type="hidden" name="mname_{{ machine.id }}" value="{{ machine.mname }}">
-        <button type="submit" class="btn btn-primary">Apply</button>
-
+    <p>{{ message }}</p>
+    {% if total_days %}
+        <p>Total Days: {{ total_days }}</p>
+    {% endif %}
     </div>
-{% endfor %}
-</div>     {% endcomment %}
-<div class="container mt-5">
-    <a href="{% url 'applied_machineries' %}" class="btn btn-primary mb-3">Applied Machineries</a>
-    <form method="post" action="">
-        {% csrf_token %}        
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Machinery Name</th>
-                    <th>Image</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for machinery in machineries %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ machinery.mname }}</td>
-                        <td>
-                            {% if machinery.machinery_photo %}
-                                <a class="avatar" href="#"><img alt="" src="{{ machinery.machinery_photo.url }}"></a>
-                            {% else %}
-                                No Photo Available
-                            {% endif %}
-                        </td>
-                        <td>{{ machinery.price }}</td>
-                        {% comment %} <td>
-                            <input type="date" name="apply_date_{{ machinery.id }}" id="apply_date_{{ machinery.id }}" required>
-                        </td> {% endcomment %}
-                        <!-- Add additional columns for other machinery details -->
-                        <td>
-                            <a href="{% url 'mapply' machinery.id %}" class="btn btn-primary">Apply</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </form>
-</div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+

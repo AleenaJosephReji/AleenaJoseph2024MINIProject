@@ -3122,6 +3122,103 @@ def all_accounts(request):
     return render(request, 'admintemp/all_accounts.html', {'all_farmers': all_farmers})
 
 
+def generate_pdf_all_accounts(request):
+    all_farmers = []
+
+    for farmer_profile in FarmerProfile.objects.all():
+        current_farmer_profile = farmer_profile
+        confirmed_data = Sellapply.objects.filter(
+            is_confirmed=True,
+            is_collected=True,
+            is_apply='apply',
+            sell__is_accept='accept',
+            sell__farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+        )
+
+        if not confirmed_data.exists():
+            continue
+
+        total_paid_amount_by_user = {}
+        total_paid_amount = Decimal('0')  # Initialize total_paid_amount as Decimal
+
+        for entry in confirmed_data:
+            try:
+                product_cost = Productcost.objects.get(pname=entry.sell.name)
+                entry.total_cost = Decimal(entry.sell.quantity) * Decimal(product_cost.price)
+            except Productcost.DoesNotExist:
+                entry.total_cost = Decimal(0)
+
+            if entry.is_amount:
+                user_name = entry.sell.farmerName
+                total_paid_amount_by_user[user_name] = total_paid_amount_by_user.get(user_name, Decimal('0')) + entry.total_cost
+                total_paid_amount += entry.total_cost
+
+        # Fetch total_amount and paid_amount from the Total model
+        total_entry = Total.objects.filter(user=current_farmer_profile.user).first()
+        total_amount_from_total_model = total_entry.total_amount if total_entry else Decimal('0')
+        paid_amount_from_total_model = total_entry.paid_amount if total_entry else Decimal('0')
+
+        sells = Sell.objects.filter(
+            farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}"
+        ).select_related('member', 'driver')
+
+        accepted_sells = sells.filter(
+            is_accept='accept',
+            sellapply__is_confirmed=True,
+            sellapply__is_collected=True
+        )
+
+        total_amount = Decimal('0')  # Initialize total_amount as Decimal
+
+        for sell in accepted_sells:
+            try:
+                product_cost = Productcost.objects.get(pname=sell.name)
+                sell.total_cost = Decimal(sell.quantity) * Decimal(product_cost.price)
+                total_amount += sell.total_cost
+
+                total_cost_sellapply = sell.sellapply_set.first().total_cost if sell.sellapply_set.exists() and sell.sellapply_set.first().total_cost is not None else Decimal('0')
+                total_amount += total_cost_sellapply
+            except Productcost.DoesNotExist:
+                sell.total_cost = Decimal('0')
+
+        balance_list = [
+            (user_name, total_paid_amount_by_user.get(user_name, Decimal('0')), total_amount - total_paid_amount_by_user.get(user_name, Decimal('0')))
+            for user_name in total_paid_amount_by_user
+        ]
+
+        # Calculate the balance here and include it in the context
+        balance = total_amount_from_total_model - paid_amount_from_total_model
+
+        all_farmers.append({
+            'farmer_profile': current_farmer_profile,
+            'balance_list': balance_list,
+            'total_amount': total_amount_from_total_model,  # Include total_amount from Total model
+            'paid_amount': paid_amount_from_total_model,  # Include paid_amount from Total model
+            'balance': balance,  # Include the calculated balance
+        })
+
+    context = {'all_farmers': all_farmers}
+
+    # Render the HTML template to a string
+    template = get_template('admintemp/generate_pdf_all_accounts.html')
+    html = template.render(context)
+
+    # Create a PDF file
+    result_file = BytesIO()
+    pisa_status = pisa.CreatePDF(html, dest=result_file)
+
+    # Check if PDF creation was successful
+    if pisa_status.err:
+        return HttpResponse('Error creating PDF: %s' % pisa_status.err)
+
+    # Get the PDF content from the BytesIO buffer
+    pdf_content = result_file.getvalue()
+
+    # Set the HTTP response with PDF content
+    response = HttpResponse(pdf_content, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="payment_details.pdf"'
+
+    return response
 
 def adddriver(request):
     if request.method == 'POST':
@@ -3422,23 +3519,30 @@ from .models import AddMachinery, FarmerProfile, MachineryApplication
 from django.db import transaction
 from django.db.models import F
 from django.utils import timezone
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.db.models import F
+from django.utils import timezone
+from django.db import transaction
+from .models import AddMachinery, FarmerProfile, MachineryApplication, MachineryTcount
+from datetime import datetime, timedelta
 @transaction.atomic
 def mapply(request, machinery_id):
     machinery = get_object_or_404(AddMachinery, id=machinery_id)
     farmer_profile = FarmerProfile.objects.get(user=request.user)
-    applications = MachineryApplication.objects.filter(farmer_profile=farmer_profile, machinery=machinery)
     
-    # Get or create MachineryTcount instance based on mname
-    tcount_instance, created = MachineryTcount.objects.get_or_create(mname=machinery.mname, defaults={'count': machinery.count})
+    # Check if the farmer has already applied for this machinery and if the total_days have passed
+    previous_application = MachineryApplication.objects.filter(
+        farmer_profile=farmer_profile,
+        machinery=machinery,
+        total_days__gte=timezone.now().date()  # Check if total_days is greater than or equal to today
+    ).first()
     
-    Tcount = tcount_instance.count
+    if previous_application:
+        # Redirect or show an error message indicating that the farmer cannot apply again yet
+        return render(request, 'error.html', {'message': "You cannot apply for this machinery until the previous application's total_days have passed.", 'total_days': previous_application.total_days})
 
-    # Fetch the latest application if any
-    latest_application = applications.order_by('-apply_date').first()
-    if latest_application:
-        Tcount = latest_application.Tcount
-    
     if request.method == 'POST':
         apply_date = request.POST.get('apply_date')
         acount = int(request.POST.get('acount'))
@@ -3449,6 +3553,11 @@ def mapply(request, machinery_id):
         
         # Calculate the total price based on the account count
         total_price = machinery.price * acount
+        
+        # Get or create MachineryTcount instance based on mname
+        tcount_instance, created = MachineryTcount.objects.get_or_create(mname=machinery.mname, defaults={'count': machinery.count})
+        
+        Tcount = tcount_instance.count
         
         # Calculate updated Tcount value
         updated_Tcount = Tcount - acount
@@ -3481,7 +3590,7 @@ def mapply(request, machinery_id):
         # Redirect to the same page after applying to prevent form resubmission
         return HttpResponseRedirect(reverse('mapply', kwargs={'machinery_id': machinery_id}))
 
-    return render(request, 'mapply.html', {'machinery': machinery, 'applications': applications, 'farmer_profile': farmer_profile})
+    return render(request, 'mapply.html', {'machinery': machinery, 'farmer_profile': farmer_profile})
 
 def mmachinery(request):
     machineries = AddMachinery.objects.filter(is_active=True)
@@ -3499,6 +3608,24 @@ def applied_machineries(request):
     applied_machineries = MachineryApplication.objects.filter(farmer_profile=request.user.farmerprofile)
 
     return render(request, 'applied_machineries.html', {'applied_machineries': applied_machineries})
+from django.shortcuts import render
+from .models import AddMachinery, MachineryApplication, FarmerProfile
+
+# def confirm_machinery(request):
+#     # Assuming you have the necessary data available in the context
+#     machinery_id = request.POST.get('machinery_id')  # Assuming you pass machinery_id in the form
+#     machinery = AddMachinery.objects.get(id=machinery_id)
+#     farmer_profile = FarmerProfile.objects.get(user=request.user)
+#     applications = MachineryApplication.objects.filter(farmer_profile=farmer_profile, machinery=machinery)
+
+#     context = {
+#         'machinery': machinery,
+#         'applications': applications,
+#         'farmer_profile': farmer_profile,
+#     }
+
+#     return render(request, 'confirm_machinery.html', context)
+
 # def mapply(request,machinery_id):
 #     machinery = get_object_or_404(AddMachinery, id=machinery_id)
 #     applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)

@@ -270,7 +270,6 @@
     </div>
     <form method="post" action="{% url 'mapply' machinery.id %}" enctype="multipart/form-data" class="mt-4" id="mapply-form">
         {% csrf_token %}
-        <!-- Your form inputs and elements here -->
         <div class="form-group">
             <label for="apply_date"><b>Apply Date:</b></label>
             <input type="date" class="form-control" name="apply_date" id="apply_date" value="{% if applications %}{{ applications.0.apply_date }}{% endif %}" required>
@@ -282,13 +281,23 @@
             <small id="acount_error" class="text-danger"></small> <!-- Error message container -->
         </div>
         <div class="form-group">
+            <label for="total_price"><b>Total Price:</b></label>
+            <input type="text" class="form-control" name="total_price" id="total_price" readonly>
+        </div>
+        <div class="form-group">
             <label for="file_upload"><b>Upload ID Proof:</b></label>
             <input type="file" class="form-control-file" name="file_upload" id="file_upload" required>
         </div>
-        <button type="submit" class="btn btn-primary">Apply</button>
+        <button type="submit" class="btn btn-primary">Apply</button> 
     </form>
 </div>
 <script>
+    document.getElementById('acount').addEventListener('input', function() {
+        var acount = parseInt(this.value);
+        var price = {{ machinery.price }};
+        var total_price = acount * price;
+        document.getElementById('total_price').value = total_price.toFixed(2); // Format to two decimal places
+    });
     document.getElementById('mapply-form').addEventListener('submit', function(event) {
         const applyDateInput = document.getElementById('apply_date');
         const applyDateValue = new Date(applyDateInput.value);

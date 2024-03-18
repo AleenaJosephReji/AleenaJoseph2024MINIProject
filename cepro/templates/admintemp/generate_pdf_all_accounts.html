@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Details</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: green;
+            padding: 20px;
+            background-color: white; /* Change background color to white */
+        }
+
+        h3 {
+            color: green;
+            background-color: white; /* Change background color to white */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            font-weight: bold;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Add spacing between tables */
+        .table-container {
+            margin-top: 20px;
+        }
+
+        /* Add space above the first table */
+        .table-container:first-child {
+            margin-top: 0;
+        }
+
+        .header-left {
+            color: green;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h2 {
+            color: brown;
+            font-size: 18px;
+        }
+
+        /* Set minimum width for table columns */
+        th, td {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-left">
+        <h1>CropElevate</h1>
+        <h3>Erumely Panchayath Payment Details</h3>
+        <h3>Payment Details Of Farmers</h3>
+    </div>
+    <div class="container">
+        {% for farmer in all_farmers %}
+        <div class="details table-container">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Total Paid Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_name, total_paid_amount, balance in farmer.balance_list %}
+                    <tr>
+                        <td>{{ user_name }}</td>
+                        <td>{{ total_paid_amount }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                      
+                        <td>Total Amount:</td>
+                        <td>{{ farmer.total_amount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

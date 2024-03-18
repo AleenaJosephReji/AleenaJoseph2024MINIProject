@@ -234,10 +234,11 @@
         </div>
         <div class="container" style="padding-left: 250px; padding-top: 100px;">
             <h1>Payment Details</h1>
-
+                <a href="{% url 'generate_pdf_all_accounts' %}" target="_blank">
+                    <button>Generate PDF</button>
+                </a>
             {% comment %} <input type="text" id="search-input" placeholder="Enter Crop Name">
             <button onclick="searchTable()">Search</button> {% endcomment %}
-
             <div class="details">
                 {% for farmer in all_farmers %}
                 {% comment %} <h2>{{ farmer.farmer_profile.first_name }} {{ farmer.farmer_profile.last_name }} Account Details</h2> {% endcomment %}
