@@ -93,66 +93,9 @@
             color: #fff; /* Change the text color on hover */
             transition: background-color 0.3s, color 0.3s; /* Add smooth transition effect */
         }
-        #google_translate_element .skiptranslate{
-			display: inline !important;
-	
-		}
-		.goog-te-gadget{
-			color: transparent !important;
-		}
-		/* Dark Theme for the select dropdown */
-		.goog-te-combo {
-			padding: 8px; /* Add padding for spacing */
-			font-size: 14px; /* Set font size */
-			border: 1px solid #666; /* Dark border */
-			border-radius: 4px; /* Add rounded corners */
-			background-color: #333; /* Dark background color */
-			color: #fff; /* Light text color */
-		}
-	
-		/* Style the select dropdown when it's hovered */
-		.goog-te-combo:hover {
-			border-color: #999; /* Darker border color on hover */
-		}
-	
-		/* Style the select dropdown when it's focused (clicked) */
-		.goog-te-combo:focus {
-			outline: none; /* Remove the default focus outline */
-			border-color: #007bff; /* Change border color on focus */
-			box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow on focus */
-		}
-	
-		/* Style the dropdown arrow */
-		.goog-te-combo-arrow {
-			font-size: 12px; /* Adjust arrow size */
-			color: #fff; /* Light arrow color */
-		}
-	
-		/* Style the dropdown options */
-		.goog-te-menu-value {
-			font-size: 14px; /* Set font size for options */
-			color: #fff; /* Light text color for options */
-			background-color: #333; /* Dark background color for options */
-		}
-	
-		/* Style the dropdown options on hover */
-		.goog-te-menu-value:hover {
-			background-color: #007bff; /* Change background color on hover */
-			color: #fff; /* Light text color on hover */
-		}
-		 
-			.language-selector {
-				display: inline-block;
-				margin-left: 10px; /* Adjust margin as needed */
-			}
     </style>
 </head>
 <body>
-
-    <div class="language-selector">
-        <span>Select Language: </span>
-        <div id="google_translate_element"></div>
-    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-success fixed-top">
         <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt="" style="margin-top:10px; margin-left:70px;">
 
@@ -164,19 +107,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 70px;margin-top:5px;color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle nav-hover" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">
-                        Notice
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a href="{% url 'crop' %}" class="dropdown-item">Crop Details</a>
-                        <a href="{% url 'applied_crops' %}" class="dropdown-item">Applied Crops</a>
-                    </div>
-                </li>                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
+                <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Notice</a>
+                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
                 <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
@@ -224,49 +161,164 @@
     </nav>
     <br><br>
     <div class="container">
-    <h1>Applied Machineries</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Machinery Name</th>
-                {% comment %} <th>Farmer Name</th>
-                <th>Address</th>
-                <th>Ward No</th> {% endcomment %}
-                <th>Apply Date</th>
-                <th>Available Till</th>
-                <th>Count</th>
-                <th>Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for machinery in applied_machineries %}
+        <h1 style="color:#3c733c;">Applied Crop Details</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Crop Name</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Approval By Member</th>
+                    <th>Approval By Secretary</th>
+                    <th>Collection Of Samplings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for certification in existing_certifications %}
+                {% with crop=certification.crop_id %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ machinery.machinery.mname }}</td>
-                    {% comment %} <td>{{ machinery.farmerName }}</td>
-                    <td>{{ machinery.address }}</td>
-                    <td>{{ machinery.wardNo }}</td> {% endcomment %}
-                    <td>{{ machinery.apply_date }}</td>
-                    <td>{{ machinery.total_days }}</td>
-                    <td>{{ machinery.acount }}</td>
-                    <td>{{ machinery.total_price }}</td>
+                    <td>{{ crop.Namec }}</td>
+                    <td>{{ crop.des }}</td>
+                    <td>
+                        {% if crop.start_date <= today and crop.end_date >= today %}
+                            {{ crop.start_date }}
+                        {% else %}
+                            <span class="text-danger">{{ crop.start_date }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if crop.start_date <= today and crop.end_date >= today %}
+                            {{ crop.end_date }}
+                        {% else %}
+                            <span class="text-danger">{{ crop.end_date }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if certification.is_approved == 'pending' %}
+                            <p class="certification-message">You Have Applied For The Crop.</p>
+                        {% elif certification.is_approved == 'approved' %}
+                            <p class="certification-message">Your Application Is Approved By The Member.</p>
+                        {% elif certification.is_approved == 'rejected' %}
+                            <p class="certification-message">Your Application is Rejected.</p>
+                        {% elif certification.is_approved == 'waiting' %}
+                            <p class="certification-message">You Are In The Waiting List.</p>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if certification.is_approvedd == 'approved' %}
+                            <p class="certification-message">Your Application Is Approved By The Panchayath Secretary.</p>
+                        {% elif certification.is_approvedd == 'waiting' %}
+                            <p class="certification-message">You Are in the Waiting list by Panchayath Secretarys.</p>
+                        {% else %}
+                            <p> Please Wait </p> 
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if certification.is_given == 'given' %}
+                            <p class="certification-message">You Can Collect The Crop From The Panchayath</p>
+                        {% elif certification.is_given == 'notgiven' %}
+                            <p class="certification-message">Crop Samplings Is Not Allocated to you at this time</p>
+                        {% else %}
+                            <p> Please Wait </p> 
+                        {% endif %}
+                    </td>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<script type="text/javascript"> 
-    function googleTranslateElementInit() {
-new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-}
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                {% endwith %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        // JavaScript to toggle the dropdown menu
+        $(document).ready(function() {
+            $('.dropdown-toggle').dropdown();
+        });
 
+        $(document).ready(function () {
+            var notificationDropdownContent = $("#notificationDropdownContent");
+            var notificationsLoaded = false;
+        
+            // Function to load notifications asynchronously
+            function loadNotifications() {
+              $.get("{% url 'notifications' %}", function (data) {
+                $("#notificationDropdown .count").text(data.notification_count);
+        
+                // Clear existing notifications
+                notificationDropdownContent.empty();
+        
+                if (data.notifications.length === 0) {
+                  // If there are no notifications, hide the notification section
+                  notificationDropdownContent.hide();
+                } else {
+                  // If there are notifications, show the notification section and add new notifications
+                  notificationDropdownContent.show();
+        
+                  for (var i = 0; i < data.notifications.length; i++) {
+                    var notification = data.notifications[i];
+                    var notificationHtml = `
+                      <a class="dropdown-item preview-item" data-notification-id="${notification.id}">
+                        <div class="preview-item-content custom-max-width" style="max-width: 200px; /* Set the maximum width as needed */
+                          white-space: nowrap;
+                          overflow: auto;
+                          text-overflow: ellipsis;">
+                          <p class="preview-subject mb-1">${notification.title}</p>
+                          <p class="text-muted mb-1">${notification.message}</p>
+                        </div>
+                      </a>
+                      <div class="dropdown-divider"></div>`;
+                    notificationDropdownContent.append(notificationHtml);
+                  }
+        
+                  // Attach click event to mark notifications as read
+                  notificationDropdownContent.find(".preview-item").click(function () {
+                    var notificationId = $(this).data("notification-id");
+                    // Show a confirmation dialog
+                    var confirmed = confirm("Mark as read?");
+                    if (confirmed) {
+                      // Mark the notification as read
+                      markNotificationAsRead(notificationId);
+                    }
+                  });
+                }
+              });
+            }
+        
+            // Function to mark notification as read
+            function markNotificationAsRead(notificationId) {
+              $.ajax({
+                type: 'POST',
+                url: '{% url "mark_notification_as_read" %}',
+                data: {
+                  'notification_id': notificationId,
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                  // Reload notifications after marking as read
+                  loadNotifications();
+                },
+                error: function (error) {
+                  console.error('Error marking notification as read:', error);
+                }
+              });
+            }
+        
+            // Toggle visibility of notifications dropdown when clicking on the notifications icon
+            $("#notificationDropdown").click(function () {
+              if (!notificationsLoaded) {
+                // Load notifications only if they haven't been loaded before
+                loadNotifications();
+                notificationsLoaded = true;
+              }
+              notificationDropdownContent.toggle();
+            });
+          });
+        </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-
 </body>
 </html>

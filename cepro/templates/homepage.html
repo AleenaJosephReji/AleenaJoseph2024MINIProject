@@ -192,8 +192,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <a href="{% url 'homepage' %}" class="nav-item nav-link active" style="margin-left: 70px;margin-top:5px;color:white; font-size:20px;">Home</a>                {% comment %} <a href="{% url 'application' %}" class="nav-item nav-link active" style="margin-left: 60px; color:white; font-size:20px;">Apply Crop</a> {% endcomment %}
-                <a href="{% url 'crop' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Notice</a>
-                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-hover" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">
+                        Notice
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a href="{% url 'crop' %}" class="dropdown-item">Crop Details</a>
+                        <a href="{% url 'applied_crops' %}" class="dropdown-item">Applied Crops</a>
+                    </div>
+                </li>                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
@@ -224,11 +231,11 @@
                 </li>
             </ul>
         </div>
+       
         <div class="language-selector">
-			<span>Select Language: </span>
-			<div id="google_translate_element"></div>
-		</div>
-        
+            <span>Select Language: </span>
+            <div id="google_translate_element"></div>
+        </div>
         <div class="dropdown"style="float: left; margin-left:300px; margin-top:20px; margin-right:40px;" >
             {% comment %} <img class="rounded-circle" src="{{ profile.fprofile_photo.url }}"width="35" height="35"> {% endcomment %}
             <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #c1d18a; color:black; font-weight:bold;">
@@ -268,7 +275,9 @@
                 <div class="carousel-item active">
                     <img class="w-100" src="{% static 'img/carousel-5.jpg' %}" alt="Image">
                     <div class="carousel-caption top-0 bottom-0 start-0 end-0 d-flex flex-column align-items-center justify-content-center">
+                        
                         <div class="text-start p-5" style="max-width: 900px;">
+                           
                             <h3 class="text-black">Farm For a better tomorrow</h3>
                             <h1 class="display-1 text-black mb-md-4">Organic Vegetables For Healthy Life</h1>
                             <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Explore</a>

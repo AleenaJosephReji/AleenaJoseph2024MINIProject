@@ -179,19 +179,19 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Machinery</b></i></u></h4>
+                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Add Machinery For Rent</b></i></u></h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <form method="POST" action="" autocomplete="off"  enctype="multipart/form-data">
                             {% csrf_token %}        
-                            <div class="col-sm-6">
+                            {% comment %} <div class="col-sm-6"> {% endcomment %}
                                 <div class="form-group">
                                    <label style="color:black;"><b>Machinery Photo</b></label>
                                        <input type="file" class="form-control" name="machinery_photo">
                                </div>
-                           </div>
+                           {% comment %} </div> {% endcomment %}
                             <div class="form-group">
                                 <label style="color:black;"><b>Machinery Name</b></label>
                                 <input class="form-control" type="text" name="mname">

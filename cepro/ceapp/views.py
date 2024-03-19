@@ -950,9 +950,34 @@ def apply(request,crop_id):
      
     })
     
+# def applied_crops(request):
+#     user = request.user
+#     today = date.today()
+#     crops = Crop.objects.all()
+    
+#     existing_certifications = ApplyCrop.objects.filter(user=user)
+    
+#     return render(request, 'applied_crops.html', {
+#         'crops': crops,
+#         'today': today,
+#         'existing_certifications': existing_certifications
+#     })
 
-
-
+def applied_crops(request):
+    user = request.user
+    today = date.today()
+    
+    # Filter applied crops for the current user
+    applied_crops_ids = ApplyCrop.objects.filter(user=user).values_list('crop_id', flat=True)
+    applied_crops = Crop.objects.filter(id__in=applied_crops_ids)
+    
+    existing_certifications = ApplyCrop.objects.filter(user=user)
+    
+    return render(request, 'applied_crops.html', {
+        'applied_crops': applied_crops,
+        'today': today,
+        'existing_certifications': existing_certifications
+    })
 # @login_required
 # def apply(request):
 #     existing_certification = ApplyCrop.objects.filter(user=request.user).first()
@@ -2163,7 +2188,6 @@ def search_driver(request):
     
     return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
 
-
 #ProductCost
 def adproductcost(request):
     product_costs = Productcost.objects.filter(is_active=True)
@@ -2171,12 +2195,12 @@ def adproductcost(request):
 def adaddproductcost(request):
     if request.method == 'POST':
         pname = request.POST.get('pname')
-        quantity = request.POST.get('quantity')  # Change this line
+        # quantity = request.POST.get('quantity')  # Change this line
         price = request.POST.get('price')
 
         obj = Productcost()
         obj.pname = pname
-        obj.quantity = quantity
+        # obj.quantity = quantity
         obj.price = price
         obj.save()
         return redirect('adproductcost') 

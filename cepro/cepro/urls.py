@@ -221,6 +221,7 @@ urlpatterns = [
     path('generate_pdf_all_accounts', views.generate_pdf_all_accounts, name='generate_pdf_all_accounts'),
     # path('success_page', views.success_page, name='success_page'),
     # path('confirm_machinery', views.confirm_machinery, name='confirm_machinery'),
+    path('applied_crops', views.applied_crops, name='applied_crops'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
 
