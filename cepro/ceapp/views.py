@@ -3611,8 +3611,8 @@ def mapply(request, machinery_id):
             tcount_instance.count = F('count') + acount
             tcount_instance.save()
         
-        # Redirect to the same page after applying to prevent form resubmission
-        return HttpResponseRedirect(reverse('mapply', kwargs={'machinery_id': machinery_id}))
+        # Redirect to the confirmation page with machinery and application IDs
+        return redirect('confirm_machinery', machinery_id=machinery_id, application_id=application.id)
 
     return render(request, 'mapply.html', {'machinery': machinery, 'farmer_profile': farmer_profile})
 
@@ -3632,24 +3632,24 @@ def applied_machineries(request):
     applied_machineries = MachineryApplication.objects.filter(farmer_profile=request.user.farmerprofile)
 
     return render(request, 'applied_machineries.html', {'applied_machineries': applied_machineries})
-from django.shortcuts import render
-from .models import AddMachinery, MachineryApplication, FarmerProfile
 
 # def confirm_machinery(request):
-#     # Assuming you have the necessary data available in the context
-#     machinery_id = request.POST.get('machinery_id')  # Assuming you pass machinery_id in the form
-#     machinery = AddMachinery.objects.get(id=machinery_id)
-#     farmer_profile = FarmerProfile.objects.get(user=request.user)
-#     applications = MachineryApplication.objects.filter(farmer_profile=farmer_profile, machinery=machinery)
-
+#     # Retrieve the latest MachineryApplication instance
+#     latest_application = MachineryApplication.objects.latest('id')
+    
 #     context = {
-#         'machinery': machinery,
-#         'applications': applications,
-#         'farmer_profile': farmer_profile,
+#         'farmer_profile': latest_application.farmer_profile,
+#         'machinery': latest_application.machinery,
+#         'acount': latest_application.acount,
+#         'total_price': latest_application.total_price,
 #     }
-
+    
 #     return render(request, 'confirm_machinery.html', context)
+def confirm_machinery(request, machinery_id, application_id):
+    machinery = get_object_or_404(AddMachinery, id=machinery_id)
+    application = get_object_or_404(MachineryApplication, id=application_id)
 
+    return render(request, 'confirm_machinery.html', {'machinery': machinery, 'application': application})
 # def mapply(request,machinery_id):
 #     machinery = get_object_or_404(AddMachinery, id=machinery_id)
 #     applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)

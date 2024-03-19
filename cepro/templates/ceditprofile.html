@@ -238,22 +238,20 @@
                             <div class="profile-basic">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label style="color:black;"><b>First Name  </b></label>
-                                        <div class="form-group form-focus"> 
-                                            {% comment %} <label class="focus-label">First Name</label> {% endcomment %}
-                                            {% comment %} <input type="text" class="form-control floating" value="" name="first_name"> {% endcomment %}
+                                        <label style="color:black;"><b>First Name</b></label>
+                                        <div class="form-group form-focus">
                                             <input type="text" class="form-control floating" value="{{ profile.first_name }}" name="first_name" id="first_name" style="border-radius:10px;">
-                                            <small id="firstNameError" class="form-text text-danger"></small></div>
+                                            <small id="firstNameError" class="form-text text-danger"></small>
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label style="color:black;"><b>Last Name</b></label>
-                                        <div class="form-group form-focus"> 
-                                            {% comment %} <label class="focus-label">Last Name</label> {% endcomment %}
-                                            {% comment %} <input type="text" placeholder="last" class="form-control floating" value="" name="last_name"> {% endcomment %}
-                                           <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name" style="border-radius:10px;">
-                                           <small id="lastNameError" class="form-text text-danger"></small>
+                                        <div class="form-group form-focus">
+                                            <input type="text" placeholder="last" class="form-control floating" value="{{ profile.last_name }}" name="last_name" id="last_name" style="border-radius:10px;">
+                                            <small id="lastNameError" class="form-text text-danger"></small>
                                         </div>
                                     </div>
+                                    
                                     {% comment %} <div class="col-md-6">
                                         <label>Birth Date </label>
                                         <div class="form-group form-focus"> 
@@ -263,10 +261,8 @@
                                  </div>      {% endcomment %}
                                     <div class="col-md-6">
                                         <label style="color:black;"><b>Email</b></label>
-                                        <div class="form-group form-focus"> 
-                                            
-                                            {% comment %} <input type="text" class="form-control floating" value="{{ user.email }} " name="email"> {% endcomment %}
-                                            <input type="text" class="form-control floating" value="{{ profile.email }}" name="email"style="border-radius:10px;">
+                                        <div class="form-group form-focus">
+                                        <input type="text" class="form-control floating" value="{{ profile.email }}" name="email"style="border-radius:10px;"readonly>
                                         </div>
                                     </div>
 
@@ -295,8 +291,9 @@
                                                 <small id="annualIncomeError" class="form-text text-danger"></small>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-6">
-                                            <label style="color:black;"><b>Amount of land  (in cent )</b></label>
+                                            <label style="color:black;"><b>Amount of land (in cent)</b></label>
                                             <div class="form-group form-focus">
                                                 <input type="text" class="form-control floating" value="{{ profile.land }}" name="land" id="land" style="border-radius:10px;">
                                                 <small id="landError" class="form-text text-danger"></small>
@@ -321,9 +318,8 @@
                         <div class="col-md-6">
                             <label style="color:black;"><b>House Number</b></label>
                             <div class="form-group form-focus">
-                                <input type="number" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no" style="border-radius:10px;">
+                                <input type="text" class="form-control floating" value="{{ profile.house_no }}" name="house_no" id="house_no" style="border-radius:10px;">
                                 <small id="houseNoError" class="form-text text-danger"></small>
-
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -385,6 +381,80 @@
     </div>
     </div>
     <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstNameInput = document.getElementById('first_name');
+            const lastNameInput = document.getElementById('last_name');
+            const firstNameError = document.getElementById('firstNameError');
+            const lastNameError = document.getElementById('lastNameError');
+    
+            firstNameInput.addEventListener('input', () => {
+                const firstNameValue = firstNameInput.value.trim();
+                if (!isValidName(firstNameValue)) {
+                    firstNameError.textContent = 'First name should only contain letters and no spaces.';
+                } else {
+                    firstNameError.textContent = '';
+                }
+            });
+    
+            lastNameInput.addEventListener('input', () => {
+                const lastNameValue = lastNameInput.value.trim();
+                if (!isValidName(lastNameValue)) {
+                    lastNameError.textContent = 'Last name should only contain letters and no spaces.';
+                } else {
+                    lastNameError.textContent = '';
+                }
+            });
+    
+            function isValidName(name) {
+                const nameRegex = /^[A-Za-z]+$/;
+                return nameRegex.test(name);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const annualIncomeInput = document.getElementById('annual_income');
+            const annualIncomeError = document.getElementById('annualIncomeError');
+    
+            annualIncomeInput.addEventListener('input', () => {
+                const annualIncomeValue = parseFloat(annualIncomeInput.value);
+                if (isNaN(annualIncomeValue) || annualIncomeValue <= 0) {
+                    annualIncomeError.textContent = 'Annual income should be a positive non-zero number.';
+                } else if (annualIncomeValue > 700000) {
+                    annualIncomeError.textContent = 'Annual income should not exceed 700000.';
+                } else {
+                    annualIncomeError.textContent = '';
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const landInput = document.getElementById('land');
+            const landError = document.getElementById('landError');
+    
+            landInput.addEventListener('input', () => {
+                const landValue = parseFloat(landInput.value);
+                if (isNaN(landValue) || landValue <= 0) {
+                    landError.textContent = 'Amount of land should be a non-zero, non-negative number.';
+                } else {
+                    landError.textContent = '';
+                }
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const houseNoInput = document.getElementById("house_no");
+            const houseNoError = document.getElementById("houseNoError");
+    
+            houseNoInput.addEventListener("input", function () {
+                const inputValue = houseNoInput.value.trim();
+                if (!inputValue.match(/^[1-9][0-9]{3}$/)) {
+                    houseNoError.textContent = "House number should be a valid 4-digit number without leading zeros.";
+                } else {
+                    houseNoError.textContent = "";
+                }
+            });
+        });
+        // Add event listener to validate house number on input change
         // JavaScript to toggle the dropdown menu
         $(document).ready(function() {
             $('.dropdown-toggle').dropdown();
