@@ -220,7 +220,8 @@ urlpatterns = [
     path('applied_machineries', views.applied_machineries, name='applied_machineries'),
     path('generate_pdf_all_accounts', views.generate_pdf_all_accounts, name='generate_pdf_all_accounts'),
     # path('success_page', views.success_page, name='success_page'),
-    path('confirm_machinery/<int:machinery_id>/<int:application_id>/', views.confirm_machinery, name='confirm_machinery'),    
+    path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
+    path('payment/<int:machinery_id>/<int:application_id>/',views.payment,name='payment'),   
     path('applied_crops', views.applied_crops, name='applied_crops'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),

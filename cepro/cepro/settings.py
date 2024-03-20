@@ -154,3 +154,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL='ceapp.CustomUser'
 LOGIN_REDIRECT_UTL ="/"
 LOGOUT_REDIRECT_UTL = "/"
+
+RAZOR_KEY_ID = 'rzp_test_CHp6Ntazfu0zMF'
+RAZOR_KEY_SECRET = 'WsGrW8mFvhwavOA4X6nLKR9z'

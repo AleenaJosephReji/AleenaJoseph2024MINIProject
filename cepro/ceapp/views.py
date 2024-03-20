@@ -15,7 +15,9 @@ from .models import *
 from django.core.files.storage import FileSystemStorage
 from datetime import date
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
+from django.views.decorators.cache import never_cache
 
 # Create your views here.
 
@@ -409,13 +411,14 @@ def delete_member(request, member_id):
 
 # def cprofile(request):
 #     return render(request, 'cprofile.html')
-
+@login_required
 def fmyprofile(request):
     profile = FarmerProfile.objects.get(user=request.user)
     context = {'profile': profile}
     
     return render(request, 'fmyprofile.html', context)
-
+@never_cache
+@login_required
 def ceditprofile(request):
     
     user = request.user
@@ -1956,7 +1959,6 @@ from .models import CustomUser, Driver
 def dapplied(request):
     products = Sell.objects.all()  # Retrieve all products from the Sell model
     return render(request, 'drivertemp/dapplied.html', {'products': products})
-from django.contrib.auth.decorators import login_required
 @login_required
 def homepage(request):
     user = request.user
@@ -3612,7 +3614,7 @@ def mapply(request, machinery_id):
             tcount_instance.save()
         
         # Redirect to the confirmation page with machinery and application IDs
-        return redirect('confirm_machinery', machinery_id=machinery_id, application_id=application.id)
+        return redirect('payment', machinery_id=machinery_id, application_id=application.id)
 
     return render(request, 'mapply.html', {'machinery': machinery, 'farmer_profile': farmer_profile})
 
@@ -3645,11 +3647,7 @@ def applied_machineries(request):
 #     }
     
 #     return render(request, 'confirm_machinery.html', context)
-def confirm_machinery(request, machinery_id, application_id):
-    machinery = get_object_or_404(AddMachinery, id=machinery_id)
-    application = get_object_or_404(MachineryApplication, id=application_id)
 
-    return render(request, 'confirm_machinery.html', {'machinery': machinery, 'application': application})
 # def mapply(request,machinery_id):
 #     machinery = get_object_or_404(AddMachinery, id=machinery_id)
 #     applications = MachineryApplication.objects.filter(farmer_profile__user=request.user)
@@ -3707,3 +3705,100 @@ def notifications(request):
     }
 
     return JsonResponse(context)
+
+
+from django.shortcuts import render
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest
+from .models import Payment, MachineryApplication
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from decimal import Decimal
+from .models import Payment, MachineryApplication
+from razorpay.errors import SignatureVerificationError
+
+
+razorpay_client = razorpay.Client(
+    auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+
+
+def payment(request, machinery_id, application_id):
+    # Retrieve machinery and application objects
+    machinery = get_object_or_404(AddMachinery, id=machinery_id)
+    application = get_object_or_404(MachineryApplication, id=application_id)
+
+    # Create a Razorpay Order
+    currency = 'INR'
+    amount = float(application.total_price) * 100  # Convert to float and then to paise
+    razorpay_order = razorpay_client.order.create(dict(
+        amount=amount,
+        currency=currency,
+        payment_capture='0'
+    ))
+
+    # Create a Payment object for tracking
+    payment = Payment.objects.create(
+        user=request.user,
+        razorpay_order_id=razorpay_order['id'],
+        payment_id="",
+        amount=float(application.total_price),  # Convert to float
+        currency=currency,
+        payment_status=Payment.PaymentStatusChoices.PENDING,
+        MachineryApplication=application
+    )
+
+    # Prepare context for rendering the confirmation page
+    context = {
+        'user': request.user,
+        'razorpay_order_id': razorpay_order['id'],
+        'razorpay_merchant_key': settings.RAZOR_KEY_ID,
+        'razorpay_amount': amount,
+        'currency': currency,
+        'amount': float(application.total_price) / 100,  # Convert to float
+        'callback_url': '/paymenthandler/',
+        'machinery': machinery,
+        'application': application,
+    }
+
+    return render(request, 'confirm_machinery.html', context)
+
+@csrf_exempt
+def paymenthandler(request):
+    if request.method == "POST":
+        payment_id = request.POST.get('razorpay_payment_id', '')
+        razorpay_order_id = request.POST.get('razorpay_order_id', '')
+        signature = request.POST.get('razorpay_signature', '')
+        params_dict = {
+            'razorpay_order_id': razorpay_order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+        }
+
+        # Verify the payment signature
+        result = razorpay_client.utility.verify_payment_signature(params_dict)
+        payment = Payment.objects.get(razorpay_order_id=razorpay_order_id)
+
+        if result:
+            amount = int(float(payment.amount) * 100)  # Convert to float and then to paise
+            # Capture the payment
+            razorpay_client.payment.capture(payment_id, amount)
+
+            # Update the order with payment ID and change status to "Successful"
+            payment.payment_id = payment_id
+            payment.payment_status = Payment.PaymentStatusChoices.SUCCESSFUL
+            payment.save()
+
+            # Render success page on successful capture of payment
+            return render(request, 'homepage.html')
+        else:
+            # If signature verification fails
+            payment.payment_status = Payment.PaymentStatusChoices.FAILED
+            payment.save()
+            return render(request, 'paymentfail.html', {'error': 'Signature verification failed'})
+    else:
+        return HttpResponseBadRequest('Only POST requests are allowed')

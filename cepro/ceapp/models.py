@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.utils import timezone
 # from .CustomUser import CustomUser  # Assuming CustomUser is in the same app
 
 # from ceapp.CustomUser import CustomUser  # Replace "myapp" with the actual app name
@@ -550,7 +551,6 @@ class AddMachinery(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     days = models.IntegerField()
     apply_date = models.DateField(null=True, blank=True)
-
     is_active = models.BooleanField(default=True)
     farmerName = models.CharField(max_length=100,null=True, blank=True)
     address = models .CharField(max_length=100,null=True,blank=True)
@@ -580,3 +580,35 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     def _str_(self):
         return self.title
+    
+
+class Payment(models.Model):
+    class PaymentStatusChoices(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        SUCCESSFUL = 'successful', 'Successful'
+        FAILED = 'failed', 'Failed'
+        
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Link the payment to a user
+    razorpay_order_id = models.CharField(max_length=255)  # Razorpay order ID
+    payment_id = models.CharField(max_length=255)  # Razorpay payment ID
+    amount = models.DecimalField(max_digits=8, decimal_places=2)  # Amount paid
+    currency = models.CharField(max_length=3)  # Currency code (e.g., "INR")
+    timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp of the payment
+    payment_status = models.CharField(max_length=20, choices=PaymentStatusChoices.choices, default=PaymentStatusChoices.PENDING)
+    MachineryApplication = models.ForeignKey(MachineryApplication, on_delete=models.CASCADE)
+
+    def str(self):
+        return f"Order for {self.user.username}"
+
+    class Meta:
+        ordering = ['-timestamp']
+
+#Update Status not implemented
+    def update_status(self):
+        # Calculate the time difference in minutes
+        time_difference = (timezone.now() - self.timestamp).total_seconds() / 60
+
+        if self.payment_status == self.PaymentStatusChoices.PENDING and time_difference > 1:
+            # Update the status to "Failed"
+            self.payment_status = self.PaymentStatusChoices.FAILED
+            self.save()

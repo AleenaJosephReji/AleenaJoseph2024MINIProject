@@ -166,8 +166,15 @@
                 <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
-                <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-hover" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">
+                        Machinery
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a href="{% url 'machinery' %}" class="dropdown-item">Rent Machinery</a>
+                        <a href="{% url 'applied_machineries' %}" class="dropdown-item">Applied Machineries</a>
+                    </div>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
