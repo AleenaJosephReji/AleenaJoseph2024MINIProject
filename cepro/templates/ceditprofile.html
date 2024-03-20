@@ -154,8 +154,16 @@
                         <a href="{% url 'crop' %}" class="dropdown-item">Crop Details</a>
                         <a href="{% url 'applied_crops' %}" class="dropdown-item">Applied Crops</a>
                     </div>
-                </li>                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
-                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
+                </li>                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-hover" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">
+                        Profile
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a href="{% url 'fmyprofile' %}" class="dropdown-item">My Profile</a>
+                        <a href="{% url 'ceditprofile' %}" class="dropdown-item">Edit Profile</a>
+                    </div>
+                </li> 
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
                 <li class="nav-item dropdown">
@@ -330,14 +338,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label style="color:black;"><b>Address </b> </label>
+                            <label style="color:black;"><b>Address</b></label>
                             <div class="form-group form-focus"> 
                                 <input type="text" class="form-control floating" value="{{ profile.address }}" name="address" id="address" style="border-radius:10px;">
                                 <small id="addressError" class="form-text text-danger"></small>
-                                {% comment %} <input type="text" class="form-control floating" value=" " name="address"> {% endcomment %}
                             </div>
                         </div>
-                        
                         <div class="col-md-6">
                             <label style="color:black;"><b>Panchayat</b></label>
                             <div class="form-group form-focus"> 
@@ -350,14 +356,12 @@
                             <div class="form-group form-focus">
                                 <input type="text" class="form-control floating" value="{{ profile.ward }}" name="ward" id="ward" style="border-radius:10px;">
                                 <small id="wardError" class="form-text text-danger"></small>
-
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label style="color:black;"><b>Pin Code  </b></label>
+                            <label style="color:black;"><b>Pin Code</b></label>
                             <div class="form-group form-focus">
                                 <input type="number" class="form-control floating" value="{{ profile.pin_code }}" name="pin_code" id="pin_code" style="border-radius:10px;">
-                                {% comment %} <input type="text" class="form-control floating" value="" name="pin_code"> {% endcomment %}
                                 <small id="pinError" class="form-text text-danger"></small>
                             </div>
                         </div>
@@ -460,6 +464,141 @@
                     houseNoError.textContent = "";
                 }
             });
+        });
+
+        document.getElementById('address').addEventListener('input', function() {
+            var addressInput = document.getElementById('address');
+            var addressValue = addressInput.value;
+    
+            // Regular expression to check for special characters
+            var specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+    
+            if (specialChars.test(addressValue)) {
+                document.getElementById('addressError').innerText = 'Address should not contain special characters.';
+            } else {
+                document.getElementById('addressError').innerText = '';
+            }
+        });
+    
+        // Event listener for form submission
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var addressInput = document.getElementById('address');
+            var addressValue = addressInput.value;
+    
+            // Regular expression to check for special characters
+            var specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+    
+            if (specialChars.test(addressValue)) {
+                document.getElementById('addressError').innerText = 'Address should not contain special characters.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                document.getElementById('addressError').innerText = '';
+            }
+        });
+
+        document.getElementById('ward').addEventListener('input', function() {
+            var wardInput = document.getElementById('ward');
+            var wardValue = wardInput.value;
+    
+            // Regular expression to check if ward contains only numbers
+            var numbersOnly = /^\d+$/;
+    
+            if (!numbersOnly.test(wardValue)) {
+                document.getElementById('wardError').innerText = 'Ward should contain only numbers.';
+            } else if (parseInt(wardValue) < 1 || parseInt(wardValue) > 8) {
+                document.getElementById('wardError').innerText = 'Ward should be between 1 and 8.';
+            } else {
+                document.getElementById('wardError').innerText = '';
+            }
+        });
+    
+        // Event listener for form submission
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var wardInput = document.getElementById('ward');
+            var wardValue = wardInput.value;
+    
+            // Regular expression to check if ward contains only numbers
+            var numbersOnly = /^\d+$/;
+    
+            if (!numbersOnly.test(wardValue) || parseInt(wardValue) < 1 || parseInt(wardValue) > 8) {
+                document.getElementById('wardError').innerText = 'Please enter a valid ward between 1 and 8.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                document.getElementById('wardError').innerText = '';
+            }
+        });
+        document.getElementById('pin_code').addEventListener('input', function() {
+            var pinInput = document.getElementById('pin_code');
+            var pinValue = pinInput.value;
+    
+            // Regular expression to check if pin code contains only numbers
+            var numbersOnly = /^\d+$/;
+    
+            if (!numbersOnly.test(pinValue)) {
+                document.getElementById('pinError').innerText = 'Pin code should contain only numbers.';
+            } else if (pinValue.length !== 6) {
+                document.getElementById('pinError').innerText = 'Pin code should be exactly 6 digits long.';
+            } else if (!pinValue.startsWith('68')) {
+                document.getElementById('pinError').innerText = 'Pin code should start with "68".';
+            } else if (["000000", "000001", "000010", "000100", "001000", "010000"].includes(pinValue)) {
+                document.getElementById('pinError').innerText = 'Invalid pin code.';
+            } else {
+                document.getElementById('pinError').innerText = '';
+            }
+        });
+    
+        // Event listener for form submission
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var pinInput = document.getElementById('pin_code');
+            var pinValue = pinInput.value;
+    
+            // Regular expression to check if pin code contains only numbers
+            var numbersOnly = /^\d+$/;
+    
+            if (!numbersOnly.test(pinValue) || pinValue.length !== 6 || !pinValue.startsWith('68') || ["000000", "000001", "000010", "000100", "001000", "010000"].includes(pinValue)) {
+                document.getElementById('pinError').innerText = 'Please enter a valid pin code.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                document.getElementById('pinError').innerText = '';
+            }
+        });
+
+        document.getElementById('phone_number').addEventListener('input', function() {
+            var phoneInput = document.getElementById('phone_number');
+            var phoneValue = phoneInput.value;
+    
+            // Regular expression to check if phone number contains only numbers
+            var numbersOnly = /^\d+$/;
+    
+            if (!numbersOnly.test(phoneValue)) {
+                document.getElementById('phoneError').innerText = 'Phone number should contain only numbers.';
+            } else if (phoneValue < 0) {
+                document.getElementById('phoneError').innerText = 'Phone number cannot be negative.';
+            } else if (phoneValue.length !== 10) {
+                document.getElementById('phoneError').innerText = 'Phone number should be exactly 10 digits long.';
+            } else if (!['9', '6', '8'].includes(phoneValue.charAt(0))) {
+                document.getElementById('phoneError').innerText = 'Phone number should start with 9, 6, or 8.';
+            } else if (["9999999999", "8888888888", "7777777777"].includes(phoneValue)) {
+                document.getElementById('phoneError').innerText = 'Invalid phone number.';
+            } else {
+                document.getElementById('phoneError').innerText = '';
+            }
+        });
+    
+        // Event listener for form submission
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var phoneInput = document.getElementById('phone_number');
+            var phoneValue = phoneInput.value;
+    
+            // Regular expression to check if phone number contains only numbers
+            var numbersOnly = /^\d+$/;
+    
+            if (!numbersOnly.test(phoneValue) || phoneValue < 0 || phoneValue.length !== 10 || !['9', '6', '8'].includes(phoneValue.charAt(0)) || ["9999999999", "8888888888", "7777777777"].includes(phoneValue)) {
+                document.getElementById('phoneError').innerText = 'Please enter a valid phone number.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                document.getElementById('phoneError').innerText = '';
+            }
         });
         // Add event listener to validate house number on input change
         // JavaScript to toggle the dropdown menu

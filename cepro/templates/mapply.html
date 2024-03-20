@@ -157,8 +157,16 @@
                         <a href="{% url 'crop' %}" class="dropdown-item">Crop Details</a>
                         <a href="{% url 'applied_crops' %}" class="dropdown-item">Applied Crops</a>
                     </div>
-                </li>                <a href="{% url 'ceditprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Edit Profile</a>
-                <a href="{% url 'fmyprofile' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px;  margin-top:5px;color:white; font-size:20px;">My Profile</a>
+                </li>                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-hover" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">
+                        Profile
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a href="{% url 'fmyprofile' %}" class="dropdown-item">My Profile</a>
+                        <a href="{% url 'ceditprofile' %}" class="dropdown-item">Edit Profile</a>
+                    </div>
+                </li> 
                 <a href="{% url 'pricelist2' %}" class="nav-item nav-link nav-hover" style="margin-left: 70px; margin-top:5px;color:white; font-size:20px;">Price List</a>
                 <a href="{% url 'selldetails' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Sales Tracker</a>
                 <li class="nav-item dropdown">

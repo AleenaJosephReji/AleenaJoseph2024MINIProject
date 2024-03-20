@@ -140,7 +140,7 @@
                         <li>
                             <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
                         <li>
@@ -192,26 +192,27 @@
                                        <input type="file" class="form-control" name="machinery_photo" id="mphoto">
                                </div>
                            {% comment %} </div> {% endcomment %}
-                            <div class="form-group">
-                                <label style="color:black;"><b>Machinery Name</b></label>
-                                <input class="form-control" type="text" name="mname">
-                                <small id="productNameError" class="form-text text-danger"></small>
-                            </div>                            
-                            <div class="form-group">
-                                <label style="color: black;"><b>Count</b></label>
-                                <input class="form-control" type="text" name="count">
-                                <small id="quantityError" class="form-text text-danger"></small>
-                            </div>                                                       
-                            <div class="form-group">
-                                <label style="color: black;"><b>Price</b></label>
-                                <input type="number" class="form-control" id="price" name="price">
-                                <small id="priceError" class="form-text text-danger"></small>
-                            </div>         
-                            <div class="form-group">
-                                <label style="color: black;"><b>Number of Days</b></label>
-                                <input type="number" class="form-control" id="days" name="days">
-                                <small id="priceError" class="form-text text-danger"></small>
-                            </div>                
+                           <div class="form-group">
+                            <label style="color:black;"><b>Machinery Name</b></label>
+                            <input class="form-control" type="text" name="mname" id="mname">
+                            <small id="productNameError" class="form-text text-danger"></small>
+                        </div>                          
+                        <div class="form-group">
+                            <label style="color: black;"><b>Count</b></label>
+                            <input class="form-control" type="number" name="count" id="count">
+                            <small id="quantityError" class="form-text text-danger"></small>
+                        </div>                                                    
+                        <div class="form-group">
+                            <label style="color: black;"><b>Price</b></label>
+                            <input type="number" class="form-control" id="price" name="price">
+                            <small id="priceError" class="form-text text-danger"></small>
+                        </div>        
+                        <div class="form-group">
+                            <label style="color: black;"><b>Number of Days</b></label>
+                            <input type="number" class="form-control" id="days" name="days">
+                            <small id="daysError" class="form-text text-danger"></small>
+                        </div>
+                                   
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color: green; color: white;" id="createmachinery">Add Machinery</button>
                             </div>
@@ -231,6 +232,111 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('mname').addEventListener('input', function() {
+            var mnameInput = document.getElementById('mname');
+            var mnameValue = mnameInput.value;
+                var validCharacters = /^[a-zA-Z0-9\s]+$/;
+    
+            if (!validCharacters.test(mnameValue)) {
+                mnameInput.setCustomValidity('Machinery Name should contain only numbers, alphabets, and spaces.');
+                document.getElementById('productNameError').innerText = 'Machinery Name should contain only numbers, alphabets, and spaces.';
+            } else {
+                mnameInput.setCustomValidity('');
+                document.getElementById('productNameError').innerText = '';
+            }
+        });
+            document.querySelector('form').addEventListener('submit', function (e) {
+            var mnameInput = document.getElementById('mname');
+            var mnameValue = mnameInput.value;
+                var validCharacters = /^[a-zA-Z0-9\s]+$/;
+    
+            if (!validCharacters.test(mnameValue)) {
+                mnameInput.setCustomValidity('Machinery Name should contain only numbers, alphabets, and spaces.');
+                document.getElementById('productNameError').innerText = 'Machinery Name should contain only numbers, alphabets, and spaces.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                mnameInput.setCustomValidity('');
+                document.getElementById('productNameError').innerText = '';
+            }
+        });
+        document.getElementById('count').addEventListener('input', function() {
+            var countInput = document.getElementById('count');
+            var countValue = countInput.value;
+                if (isNaN(countValue) || countValue <= 0 || countValue > 40 || countValue.charAt(0) === '0') {
+                countInput.setCustomValidity('Count should be a number between 1 and 40, and should not start with 0.');
+                document.getElementById('quantityError').innerText = 'Count should be a number between 1 and 40, and should not start with 0.';
+            } else {
+                countInput.setCustomValidity('');
+                document.getElementById('quantityError').innerText = '';
+            }
+        });
+            document.querySelector('form').addEventListener('submit', function (e) {
+            var countInput = document.getElementById('count');
+            var countValue = countInput.value;
+                if (isNaN(countValue) || countValue <= 0 || countValue > 40 || countValue.charAt(0) === '0') {
+                countInput.setCustomValidity('Count should be a number between 1 and 40, and should not start with 0.');
+                document.getElementById('quantityError').innerText = 'Count should be a number between 1 and 40, and should not start with 0.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                countInput.setCustomValidity('');
+                document.getElementById('quantityError').innerText = '';
+            }
+        });
+        document.getElementById('price').addEventListener('input', function() {
+            var priceInput = document.getElementById('price');
+            var priceValue = parseFloat(priceInput.value);
+                if (isNaN(priceValue) || priceValue <= 0 || priceValue > 5000) {
+                priceInput.setCustomValidity('Price should be a valid number between 0 and 5000.');
+                document.getElementById('priceError').innerText = 'Price should be a valid number between 0 and 5000.';
+            } else {
+                priceInput.setCustomValidity('');
+                document.getElementById('priceError').innerText = '';
+            }
+        });
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var priceInput = document.getElementById('price');
+            var priceValue = parseFloat(priceInput.value);
+                if (isNaN(priceValue) || priceValue <= 0 || priceValue > 5000) {
+                priceInput.setCustomValidity('Price should be a valid number between 0 and 5000.');
+                document.getElementById('priceError').innerText = 'Price should be a valid number between 0 and 5000.';
+                e.preventDefault();
+            } else {
+                priceInput.setCustomValidity('');
+                document.getElementById('priceError').innerText = '';
+            }
+        });
+     
+        document.getElementById('days').addEventListener('input', function() {
+            var daysInput = document.getElementById('days');
+            var daysValue = parseInt(daysInput.value);
+    
+            // Check if days is a valid number and within the specified range
+            if (isNaN(daysValue) || daysValue <= 0 || daysValue > 50) {
+                daysInput.setCustomValidity('Number of days should be a valid number between 1 and 50.');
+                document.getElementById('daysError').innerText = 'Number of days should be a valid number between 1 and 50.';
+            } else {
+                daysInput.setCustomValidity('');
+                document.getElementById('daysError').innerText = '';
+            }
+        });
+    
+        // Event listener for form submission
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var daysInput = document.getElementById('days');
+            var daysValue = parseInt(daysInput.value);
+    
+            // Check if days is a valid number and within the specified range
+            if (isNaN(daysValue) || daysValue <= 0 || daysValue > 50) {
+                daysInput.setCustomValidity('Number of days should be a valid number between 1 and 50.');
+                document.getElementById('daysError').innerText = 'Number of days should be a valid number between 1 and 50.';
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                daysInput.setCustomValidity('');
+                document.getElementById('daysError').innerText = '';
+            }
+        });
+    </script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
