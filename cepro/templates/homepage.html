@@ -177,7 +177,94 @@
                     margin-left: 10px; /* Adjust margin as needed */
                 }
              
-        
+                #google_translate_element .skiptranslate {
+                    display: inline !important;
+              
+                  }
+              
+                  #google_translate_element .skiptranslate {
+                    display: inline !important;
+              
+                  }
+              
+              
+                  .goog-te-gadget {
+                    color: transparent !important;
+                  }
+              
+                  /* Dark Theme for the select dropdown */
+                  .goog-te-combo {
+                    padding: 8px;
+                    /* Add padding for spacing */
+                    font-size: 14px;
+                    /* Set font size */
+                    border: 1px solid #666;
+                    /* Dark border */
+                    border-radius: 4px;
+                    /* Add rounded corners */
+                    background-color: #000000;
+                    /* Dark background color */
+                    color: #fff;
+                    /* Light text color */
+                  }
+              
+                  /* Style the select dropdown when it's hovered */
+                  .goog-te-combo:hover {
+                    border-color: #2da721;
+                    /* Darker border color on hover */
+                  }
+              
+                  /* Style the select dropdown when it's focused (clicked) */
+                  .goog-te-combo:focus {
+                    outline: none;
+                    /* Remove the default focus outline */
+                    border-color: #007bff;
+                    /* Change border color on focus */
+                    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                    /* Add a shadow on focus */
+                  }
+              
+                  /* Style the dropdown arrow */
+                  .goog-te-combo-arrow {
+                    font-size: 12px;
+                    /* Adjust arrow size */
+                    color: #fff;
+                    /* Light arrow color */
+                  }
+              
+                  /* Style the dropdown options */
+                  .goog-te-menu-value {
+                    font-size: 14px;
+                    /* Set font size for options */
+                    color: #fff;
+                    /* Light text color for options */
+                    background-color: #68dd3a;
+                    /* Dark background color for options */
+                  }
+                  .VIpgJd-ZVi9od-ORHb-OEVmcd{
+                    display: none;
+                  }
+                  /* Style the dropdown options on hover */
+                  .goog-te-menu-value:hover {
+                    background-color: #007bff;
+                    /* Change background color on hover */
+                    color: #fff;
+                    /* Light text color on hover */
+                  }
+                  .VIpgJd-ZVi9od-l4eHX-hSRGPd {
+                    display: none !important;
+                }
+                #startButton{
+                  z-index: 1;
+                      position: fixed;
+                      bottom: 60px;
+                      right: 20px;
+                      height: 45px;
+                      width: 45px;
+                      border-radius: 100%;
+                      border: none;
+                      background-color: #76b42f;
+              }
     </style>
 </head>
 <body>
@@ -222,7 +309,6 @@
                     </div>
                 </li>     
                 {% comment %} <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a> {% endcomment %}
-
                 <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
@@ -232,20 +318,21 @@
                         <h6 class="p-3 mb-0">Notifications</h6>
                         <div class="dropdown-divider"></div>
                         {% for notification in notifications %}
-                            <a class="dropdown-item">
-                                <div class="preview-thumbnail">
-                                    <div class="preview-icon bg-success">
-                                        <i class="mdi mdi-alert-circle-outline mx-0"></i>
-                                    </div>
+                        <a class="dropdown-item" href="#" onclick="markNotificationAsRead('{{ notification.id }}')">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-success">
+                                    <i class="mdi mdi-alert-circle-outline mx-0"></i>
                                 </div>
-                                <div class="preview-item-content">
-                                    <p class="preview-subject font-weight-medium">{{ notification.title }}</p>
-                                    <p class="font-weight-light small-text">{{ notification.message }}</p>
-                                </div>
-                            </a>
+                            </div>
+                            <div class="preview-item-content">
+                                <p class="preview-subject font-weight-medium">{{ notification.title }}</p>
+                                <p class="font-weight-light small-text">{{ notification.message }}</p>
+                            </div>
+                        </a>
                         {% endfor %}
                     </div>
                 </li>
+                
             </ul>
         </div>
        
@@ -885,96 +972,67 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-secondary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-
-    <!-- JavaScript Libraries -->
-        <script>
-            // JavaScript to toggle the dropdown menu
-            $(document).ready(function() {
-                $('.dropdown-toggle').dropdown();
-            });
-
-            $(document).ready(function () {
-                var notificationDropdownContent = $("#notificationDropdownContent");
-                var notificationsLoaded = false;
-            
-                // Function to load notifications asynchronously
-                function loadNotifications() {
-                  $.get("{% url 'notifications' %}", function (data) {
-                    $("#notificationDropdown .count").text(data.notification_count);
-            
-                    // Clear existing notifications
-                    notificationDropdownContent.empty();
-            
-                    if (data.notifications.length === 0) {
-                      // If there are no notifications, hide the notification section
-                      notificationDropdownContent.hide();
-                    } else {
-                      // If there are notifications, show the notification section and add new notifications
-                      notificationDropdownContent.show();
-            
-                      for (var i = 0; i < data.notifications.length; i++) {
-                        var notification = data.notifications[i];
-                        var notificationHtml = `
-                          <a class="dropdown-item preview-item" data-notification-id="${notification.id}">
-                            <div class="preview-item-content custom-max-width" style="max-width: 200px; /* Set the maximum width as needed */
-                              white-space: nowrap;
-                              overflow: auto;
-                              text-overflow: ellipsis;">
-                              <p class="preview-subject mb-1">${notification.title}</p>
-                              <p class="text-muted mb-1">${notification.message}</p>
-                            </div>
-                          </a>
-                          <div class="dropdown-divider"></div>`;
-                        notificationDropdownContent.append(notificationHtml);
-                      }
-            
-                      // Attach click event to mark notifications as read
-                      notificationDropdownContent.find(".preview-item").click(function () {
-                        var notificationId = $(this).data("notification-id");
-                        // Show a confirmation dialog
-                        var confirmed = confirm("Mark as read?");
-                        if (confirmed) {
-                          // Mark the notification as read
-                          markNotificationAsRead(notificationId);
-                        }
-                      });
-                    }
-                  });
-                }
-            
-                // Function to mark notification as read
-                function markNotificationAsRead(notificationId) {
-                  $.ajax({
+    <script>
+        $(document).ready(function () {
+            var notificationDropdownContent = $("#notificationDropdownContent");
+        
+            function markNotificationAsRead(notificationId) {
+                $.ajax({
                     type: 'POST',
                     url: '{% url "mark_notification_as_read" %}',
                     data: {
-                      'notification_id': notificationId,
-                      csrfmiddlewaretoken: '{{ csrf_token }}'
+                        'notification_id': notificationId,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function (response) {
-                      // Reload notifications after marking as read
-                      loadNotifications();
+                        loadNotifications();
+                        window.location.href = '{% url "crop" %}';
                     },
                     error: function (error) {
-                      console.error('Error marking notification as read:', error);
+                        console.error('Error marking notification as read:', error);
                     }
-                  });
-                }
-            
-                // Toggle visibility of notifications dropdown when clicking on the notifications icon
-                $("#notificationDropdown").click(function () {
-                  if (!notificationsLoaded) {
-                    // Load notifications only if they haven't been loaded before
-                    loadNotifications();
-                    notificationsLoaded = true;
-                  }
-                  notificationDropdownContent.toggle();
                 });
-              });
-              
-            </script>
-
-
+            }
+        
+            function loadNotifications() {
+                $.get("{% url 'notifications' %}", function (data) {
+                    $("#notificationDropdown .count").text(data.notification_count);
+        
+                    notificationDropdownContent.empty();
+        
+                    if (data.notifications.length === 0) {
+                        notificationDropdownContent.hide();
+                    } else {
+                        notificationDropdownContent.show();
+        
+                        for (var i = 0; i < data.notifications.length; i++) {
+                            var notification = data.notifications[i];
+                            var notificationHtml = `
+                                <a class="dropdown-item preview-item {% if notification.is_read %}read{% else %}unread{% endif %}" href="#" data-notification-id="${notification.id}">
+                                    <div class="preview-item-content custom-max-width" style="max-width: 200px;">
+                                        <p class="preview-subject mb-1">${notification.title}</p>
+                                        <p class="text-muted mb-1">${notification.message}</p>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>`;
+                            notificationDropdownContent.append(notificationHtml);
+                        }
+        
+                        notificationDropdownContent.find(".preview-item.unread").click(function () {
+                            var notificationId = $(this).data("notification-id");
+                            markNotificationAsRead(notificationId);
+                        });
+                    }
+                });
+            }
+        
+            $("#notificationDropdown").click(function () {
+                loadNotifications();
+                notificationDropdownContent.toggle();
+            });
+        });
+        </script>
+    
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -989,7 +1047,6 @@
 		}
 	</script>
 	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %} "></script>
 </body>
 

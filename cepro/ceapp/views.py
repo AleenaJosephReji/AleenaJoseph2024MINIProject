@@ -15,9 +15,7 @@ from .models import *
 from django.core.files.storage import FileSystemStorage
 from datetime import date
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
 
-from django.views.decorators.cache import never_cache
 
 # Create your views here.
 
@@ -135,7 +133,9 @@ def about(request):
 #     return render(request,'wishlist.html')
 # def gallery(request):
 #     return render(request,'gallery.html')
+from django.contrib.auth.decorators import login_required
 
+from django.views.decorators.cache import never_cache
 def applyerror(request):
     message = "This crop is unavailable."
     return render(request,'applyerror.html', { 'message': message})
@@ -411,6 +411,7 @@ def delete_member(request, member_id):
 
 # def cprofile(request):
 #     return render(request, 'cprofile.html')
+@never_cache
 @login_required
 def fmyprofile(request):
     profile = FarmerProfile.objects.get(user=request.user)
@@ -729,7 +730,6 @@ def adcrop(request):
 #     return render(request, 'admintemp/adaddcrop.html')
 
 from django.db.models import Max
-
 def adaddcrop(request):
     if request.method == 'POST':
         cname = request.POST.get('cname')
@@ -751,9 +751,10 @@ def adaddcrop(request):
         # Set current to False for all other crops
         Crop.objects.exclude(id=new_crop.id).update(current=False)
 
-        # Create a notification for the user
-        message = f'A new crop "{cname}" has been added.'
-        Notification.objects.create(user=request.user, title="New Crop Added", message=message, is_read=False)
+        if request.user.is_authenticated:
+            # Create a notification for the authenticated user
+            message = f'A new crop "{cname}" has been added.'
+            Notification.objects.create(user=request.user, title="New Crop Added", message=message, is_read=False)
 
         return redirect('adcrop')
 
@@ -3691,9 +3692,10 @@ def applied_machineries(request):
 def mark_notification_as_read(request):
     if request.method == 'POST':
         notification_id = request.POST.get('notification_id')
-        Notification.objects.filter(id=notification_id).update(is_read=True)
-    return JsonResponse({'status': 'success'})
-
+        Notification.objects.filter(id=notification_id, user=request.user).update(is_read=True)
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})
 @login_required
 def notifications(request):
     user = request.user
