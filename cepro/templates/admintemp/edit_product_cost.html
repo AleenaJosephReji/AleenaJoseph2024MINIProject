@@ -1,28 +1,17 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- add-department24:07-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
     <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    {% comment %} <style>
-        .green-option {
-            color: green;
-        }
-    </style> {% endcomment %}
-    <!--[if lt IE 9]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
+  
     <style>
             .header
             {
@@ -57,15 +46,8 @@
             color: red;
             font-size:28px;
         }
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
         h1 {
-            color: #007bff;
+            color: green;
         }
 
         form {
@@ -222,7 +204,7 @@
                         <li>
                             <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
-                        <li class="active">
+                        <li  class="active">
                             <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
                         <li>
@@ -249,11 +231,13 @@
                     </ul>
                 </div>
             </div>
-            
         </div>
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
+                    
+                </div>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
                     <div class="col-lg-8 offset-lg-2">
                         {% if messages %}
                         <ul class="messages error-messages">
@@ -262,12 +246,10 @@
                             {% endfor %}
                         </ul>
                         {% endif %}
-                        <h4 class="page-title" style="font-size:27px; color:#3c733c;"><b><i><u>Edit product Cost</b></i></u></h4>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <form method="post" enctype="multipart/form-data">
+                            <h1>Edit Product Cost  Details</h1>
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="pname">Product Name:</label>
@@ -286,26 +268,15 @@
                             </div>
                             
                             <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Save Changes</button>
+                                <button class="btn btn-primary submit-btn"  style="background-color: green;">Save Changes</button>
                             </div>
+                        </form>
+
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
-			<div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         const pnameInput = document.getElementById('pname');
         // Get the error element by its id

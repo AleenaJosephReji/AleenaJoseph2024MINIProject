@@ -428,11 +428,12 @@
 											</div>
 										</div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label style="color:black;"><b>Ward No</b></label>
-												<input class="form-control" type="number" name="wardno" id="wardno" required>
-											</div>
-										</div>
+                                            <div class="form-group">
+                                                <label style="color:black;"><b>Ward No</b></label>
+                                                <input class="form-control" type="number" name="wardno" id="wardno" required>
+                                                <small id="wardnoError" class="text-danger"></small>
+                                            </div>
+                                        </div>                                        
 
                                         <div class="col-sm-6 col-md-6 col-lg-3">
                                             <div class="form-group">
@@ -486,32 +487,22 @@
                 <script>
                     const farmerNameInput = document.getElementById('name');
                     const addressInput = document.getElementById('address');
-                    {% comment %} const contactNoInput = document.getElementById('phone'); {% endcomment %}
-                    {% comment %} const pinInput = document.getElementById('pin'); {% endcomment %}
-
-
+                    const phoneInput = document.getElementById('phone');
+                    const passwordInput = document.getElementById('password');
+                    const emailInput = document.getElementById('email');
+                    const pinInput = document.getElementById('pin');
+                    
                     const nameError = document.getElementById('nameError');
                     const addressError = document.getElementById('addressError');
-                    {% comment %} const contactNoError = document.getElementById('contactNoError'); {% endcomment %}
-                    {% comment %} const pinError = document.getElementById('pinError'); {% endcomment %}
-
-
-                    const phoneInput = document.getElementById('phone');
                     const contactNoError = document.getElementById('contactNoError');
-
-                    const passwordInput = document.getElementById('password');
                     const passwordError = document.getElementById('passwordError');
-
-                    const emailInput = document.getElementById('email');
                     const emailError = document.getElementById('emailError');
-
-                    const pinInput = document.getElementById('pin');
                     const pinError = document.getElementById('pinError');
-
+                    
                     pinInput.addEventListener('input', function () {
                         const postalCode = pinInput.value;
-                        const postalCodeRegex = /^[0-9]{6}$/; // Assuming a 5-digit postal code format
-
+                        const postalCodeRegex = /^[0-9]{6}$/; // Assuming a 6-digit postal code format
+                    
                         if (postalCodeRegex.test(postalCode)) {
                             pinError.textContent = '';
                         } else {
@@ -529,19 +520,21 @@
                             emailError.textContent = 'Please enter a valid email address.';
                         }
                     });
+                    
                     passwordInput.addEventListener('input', function () {
                         const password = passwordInput.value;
                         const validPasswordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$/;
-
+                    
                         if (validPasswordRegex.test(password)) {
                             passwordError.textContent = '';
                         } else {
                             passwordError.textContent = 'Password should contain at least 1 capital letter, 1 number, 1 special character, and be at least 8 characters long.';
                         }
                     });
+                    
                     function validateName() {
                         const nameValue = farmerNameInput.value.trim();
-                
+                    
                         if (!nameValue) {
                             nameError.textContent = 'Name is required.';
                             nameError.style.color = 'red';
@@ -555,10 +548,10 @@
                             return true;
                         }
                     }
-                
+                    
                     function validateAddress() {
                         const addressValue = addressInput.value.trim();
-                
+                    
                         if (!addressValue) {
                             addressError.textContent = 'Address is required.';
                             addressError.style.color = 'red';
@@ -572,6 +565,13 @@
                             return true;
                         }
                     }
+                    
+                    document.querySelector('form').addEventListener('submit', function (e) {
+                        if (!validateName() || !validateAddress()) {
+                            e.preventDefault(); // Prevent form submission if validation fails
+                        }
+                    });
+                    
                 
                     {% comment %} function validateContactNo() {
                         const contactNoValue = contactNoInput.value.trim();
@@ -617,6 +617,35 @@
                             event.preventDefault();
                         }
                     });
+
+                    const wardnoInput = document.getElementById('wardno');
+const wardnoError = document.getElementById('wardnoError');
+
+wardnoInput.addEventListener('input', function() {
+    const wardnoValue = parseInt(wardnoInput.value);
+
+    if (wardnoValue <= 0 || wardnoValue > 8) {
+        wardnoError.textContent = 'Ward No should be between 1 and 8.';
+        wardnoInput.setCustomValidity('Ward No should be between 1 and 8.');
+    } else {
+        wardnoError.textContent = '';
+        wardnoInput.setCustomValidity('');
+    }
+});
+
+document.querySelector('form').addEventListener('submit', function (e) {
+    const wardnoValue = parseInt(wardnoInput.value);
+
+    if (wardnoValue <= 0 || wardnoValue > 8) {
+        wardnoError.textContent = 'Ward No should be between 1 and 8.';
+        wardnoInput.setCustomValidity('Ward No should be between 1 and 8.');
+        e.preventDefault(); // Prevent form submission if validation fails
+    } else {
+        wardnoError.textContent = '';
+        wardnoInput.setCustomValidity('');
+    }
+});
+
                 </script>
             </div>
 			<div class="notification-box">

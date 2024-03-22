@@ -1,89 +1,113 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- add-doctor24:06-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}">
     <title>CropElevate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
-    <!--[if lt IE 9]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  
     <style>
-        .header
-        {
-            background-color:green;
+            .header
+            {
+                background-color:green;
+            }
+            .header .header-left 
+            {
+                background-color:green;
+            }
+            .green-background {
+                background-color: green; /* Set the background color to green */
+            }
+            {% comment %} .sidebar{
+                background-color: green;
+            } {% endcomment %}
+            .sidebar
+            {
+                background-color:green;
+            }
+            .sidebar-menu li a {
+                color:white;
+            }
+            .sidebar-menu li a:hover {
+                color: white;
+            }
+            .sidebar-menu li.active a {
+                color: green;
+                background-color: #f3f3f3;
+            }
+          
+        .error-messages {
+            color: red;
+            font-size:28px;
         }
-        .header .header-left 
-        {
-            background-color:green;
-        }
-        .green-background {
-            background-color: green; /* Set the background color to green */
-        }
-        {% comment %} .sidebar{
-            background-color: green;
-        } {% endcomment %}
-        .sidebar
-        {
-            background-color:green;
-        }
-        .sidebar-menu li a {
-            color:white;
-        }
-        .sidebar-menu li a:hover {
-            color: white;
-        }
-        .sidebar-menu li.active a {
+        h1 {
             color: green;
-            background-color: #f3f3f3;
         }
 
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.6);
-
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
-        table, th, td {
-            border: 1px solid black;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            color:black;
-        }
-
-        th {
-            background-color: Green;
-            color:white;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .dropdown-menu a {
-            color: #333; 
-            text-decoration: none; 
-            padding: 5px 15px; 
+        label {
             display: block;
-            
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
         }
-    
-        .dropdown-menu a:hover {
-            background-color: #f2f2f2; 
+
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .col-lg-8 {
+            margin: 0 auto;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: red;
+        }
+
+        .text-danger {
+            color: red;
         }
     </style> 
 </head>
@@ -99,8 +123,7 @@
 			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
@@ -113,28 +136,22 @@
                 </li>
                 <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
-                        <span>Admin</span>
+                        <span></span>
                     </a>
 					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
-						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-						<a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
 					</div>
                 </li>
             </ul>
             <div class="dropdown mobile-user-menu float-right">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adeditprofile' %}">Edit Profile</a>
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'adminlogin' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
                 </div>
             </div>
         </div>
@@ -142,218 +159,112 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        <li class="menu-title" style="color:#c9edbe; font-weight:bold;">Admin</li>
+                        <li class="menu-title" style="color:#661414; font-weight:bold;"><h4><b>Admin</b></h4></li>
                         <li>
                             <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-						<li>
-                            <a href="{% url 'admember' %}"><i class="fa fa-user-md"></i> <span>Members</span></a>
-                        </li>
-                        {% comment %} <li>
-                            <a href="patients.html"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="{% url 'adappointment' %}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li> {% endcomment %}
-                        
-                        <li>
-                            <a href="{% url 'adcrop' %}"><i class="fa fa-hospital-o"></i> <span>Crops</span></a>
-                        </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending Approval</span></a>
+						<li  class="active">
+                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
-                        </li>  {% endcomment %}
-
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
+                        </li>
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
                                 <li>
-                                    <a href="{% url 'adpendingapproval' %}"><i class="fa fa-hospital-o"></i> <span>Pending</span></a>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fas fa-exclamation-circle"></i>
+
+                                    </i> <span>Pending</span></a>
                                 </li>
                                 <li>
                                     <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'adpendinglist' %}"><i class="fa fa-calendar-check-o"></i> <span>Waiting List</span></a>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
                         </li>    
-
-                        <li>
-                            <a href="{% url 'adreport' %}"><i class="fa fa-calendar-check-o"></i> <span>Report</span></a>
-                        </li>
-                        {% comment %} <li>
-                            <a href="{% url 'adapproval' %}"><i class="fa fa-calendar"></i> <span></span></a>
-                        </li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="employees.html">Employees List</a></li>
-								<li><a href="leaves.html">Leaves</a></li>
-								<li><a href="holidays.html">Holidays</a></li>
-								<li><a href="attendance.html">Attendance</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="invoices.html">Invoices</a></li>
-								<li><a href="payments.html">Payments</a></li>
-								<li><a href="expenses.html">Expenses</a></li>
-								<li><a href="taxes.html">Taxes</a></li>
-								<li><a href="provident-fund.html">Provident Fund</a></li>
-							</ul>
-						</li> {% endcomment %}
-						{% comment %} <li class="submenu">
-							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
-							<ul style="display: none;">
-								<li><a href="salary.html"> Employee Salary </a></li>
-								<li><a href="salary-view.html"> Payslip </a></li>
-							</ul>
-						</li> {% endcomment %}
-                        {% comment %} <li>
-                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="voice-call.html">Voice Call</a></li>
-                                <li><a href="video-call.html">Video Call</a></li>
-                                <li><a href="incoming-call.html">Incoming Call</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                     {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adcompose' %}">Compose Mail</a></li>
-                                <li><a href="{% url 'adinbox' %}">Inbox</a></li>
-                                <li><a href="{% url 'admailview' %}">Mail View</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="{% url 'adblog' %}">Blog</a></li> 
-                                <li><a href="{% url 'adblogdetails' %}">Blog View</a></li> 
-                                <li><a href="{% url 'adaddblog' %}">Add Blog</a></li> 
-                                <li><a href="{% url 'adeditblog' %}">Edit Blog</a></li> 
-                            </ul>
-                        </li> {% endcomment %}
-						{% comment %} <li>
-							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
-						</li> {% endcomment %}
-						{% comment %} <li>
-							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
-						</li> {% endcomment %}
-						<li class="submenu">
-							{% comment %} <a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a> {% endcomment %}
-							{% comment %} <ul style="display: none;">
-								<li><a href="expense-reports.html"> Expense Report </a></li>
-								<li><a href="invoice-reports.html"> Invoice Report </a></li>
-							</ul> {% endcomment %}
-						</li>
-                        {% comment %} <li>
-                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="menu-title">UI Elements</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="uikit.html">UI Kit</a></li>
-                                <li><a href="typography.html">Typography</a></li>
-                                <li><a href="tabs.html">Tabs</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
-                                <li><a href="form-input-groups.html">Input Groups</a></li>
-                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
-                                <li><a href="form-vertical.html">Vertical Form</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="tables-basic.html">Basic Tables</a></li>
-                                <li><a href="tables-datatables.html">Data Table</a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        <li>
-                            <a href="{% url 'admeeting' %}"><i class="fa fa-wheelchair"></i> <span>Meeting</span></a>
-                        </li> 
-                        <li>
-                            <a href="{% url 'adcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
-                        </li>
-                        {% comment %} <li class="menu-title">Extras</li>
-                        <li class="submenu">
-                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="login.html"> Login </a></li>
-                                <li><a href="register.html"> Register </a></li>
-                                <li><a href="forgot-password.html"> Forgot Password </a></li>
-                                <li><a href="change-password2.html"> Change Password </a></li>
-                                <li><a href="lock-screen.html"> Lock Screen </a></li>
-                                <li><a href="profile.html"> Profile </a></li>
-                                <li><a href="gallery.html"> Gallery </a></li>
-                                <li><a href="error-404.html">404 Error </a></li>
-                                <li><a href="error-500.html">500 Error </a></li>
-                                <li><a href="blank-page.html"> Blank Page </a></li>
-                            </ul>
-                        </li> {% endcomment %}
-                        {% comment %} <li class="submenu">
-                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                        <li class="submenu">
-                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                            <ul style="display: none;">
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                                <li><a href="javascript:void(0);">Level 3</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                    </ul>
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0);"><span>Level 1</span></a>
+                                    <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
                                 </li>
                             </ul>
+                        </li>   
+                        <li>
+                            <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
+                        </li>
+                        {% comment %} <li>
+                            <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
                         </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'admachinery' %}"><i class="fas fa-cogs"></i> <span>Machinery</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            </i> <span>Report</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
+                            </i>
+                                <span>Calendar</span></a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="page-wrapper">
             <div class="content">
-
-
                 <div class="row">
-                    <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title">Add Member</h4>
-                    </div>
+                    
                 </div>
-                <div class="row">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+                    <div class="col-lg-8 offset-lg-2">
+                        {% if messages %}
+                        <ul class="messages error-messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
                     <div class="col-lg-8 offset-lg-2">
                         <form method="POST" action="" autocomplete="off" enctype="multipart/form-data">
+                            <h1>Edit Member Details</h1>
+
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label> Name <span class="text-danger">*</span></label>
+                                        <label for="name">Name <span class="text-danger">*</span></label>
                                         <input class="form-control" id="name" name="name" value="{{ member.Name }}">
+                                        <small id="nameError" class="text-danger"></small>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Email <span class="text-danger">*</span></label>
+                                        <label for="email">Email <span class="text-danger">*</span></label>
                                         <input class="form-control" id="email" name="email" value="{{ member.email }}">
+                                        <small id="emailError" class="text-danger"></small>
                                     </div>
                                 </div>
                                 {% comment %} <div class="col-sm-6">
@@ -387,52 +298,55 @@
                                 </div> {% endcomment %}
 
 								<div class="col-sm-12">
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="form-group">
-												<label>Address</label>
-												<textarea id="address" name="address">{{ member.address }}</textarea><br>
-											</div>
-										</div>
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>District</label>
-                                                <input class="form-control" type="text" id="district" name="district" value="{{ member.district }}">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="address">Address</label>
+                                                <textarea id="address" name="address">{{ member.address }}</textarea><br>
                                             </div>
-										</div>
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>Thaluk</label>
-												<input class="form-control" type="text" id="taluk" name="taluk" value="{{ member.taluk }}">
-											</div>
-										</div>
-
-                                        <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>Panchayath</label>
-												<input class="form-control" type="text" id="panchayat" name="panchayat" value="{{ member.Panchayat }}">
-											</div>
-										</div>
-
+                                            <small id="addressError" class="text-danger"></small>
+                                        </div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
                                             <div class="form-group">
-                                                <label>Ward</label>
+                                                <label for="district">District</label>
+                                                <input class="form-control" type="text" id="district" name="district" value="{{ member.district }}"readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-3">
+                                            <div class="form-group">
+                                                <label for="taluk">Thaluk</label>
+                                                <input class="form-control" type="text" id="taluk" name="taluk" value="{{ member.taluk }}"readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-3">
+                                            <div class="form-group">
+                                                <label for="panchayat">Panchayath</label>
+                                                <input class="form-control" type="text" id="panchayat" name="panchayat" value="{{ member.Panchayat }}"readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-3">
+                                            <div class="form-group">
+                                                <label for="ward">Ward</label>
                                                 <input type="text" class="form-control" id="ward" name="ward" value="{{ member.wardno }}">
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-6 col-lg-3">
-											<div class="form-group">
-												<label>Postal Code</label>
-												<input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}">
-											</div>
-										</div>
-									</div>
-								</div>
+                                            <div class="form-group">
+                                                <label for="postal">Postal Code</label>
+                                                <input type="text" class="form-control" id="postal" name="postal" value="{{ member.postal }}">
+                                                <small id="pinError" class="form-text text-danger"></small>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Phone </label>
-                                        <input class="form-control" id="phone" name="phone" value="{{ member.phone }}" >
+                                        <label for="phone">Phone</label>
+                                        <input class="form-control" id="phone" name="phone" value="{{ member.phone }}">
+                                        <small id="phoneError" class="form-text text-danger"></small>
                                     </div>
+                                    
                                 </div>
                             
 							<div class="form-group">
@@ -449,38 +363,117 @@
 
                                 
                             <div class="m-t-20 text-center">
-                                <button class="btn btn-primary submit-btn">Edit Memeber</button>
+                                <button class="btn btn-primary submit-btn" style="background:green;">Edit Memeber</button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
-			<div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                </li>
-                        </ul>
-                    </div>
-                    {% comment %} <div class="topnav-dropdown-footer">
-                        <a href="chat.html">See all messages</a>
-                    </div> {% endcomment %}
-                </div>
-            </div>
-        </div>
-    </div>
+                
+                <script>
+                
+                        const farmerNameInput = document.getElementById('name');
+                        const addressInput = document.getElementById('address');
+                        const emailInput = document.getElementById('email');
+
+                        const nameError = document.getElementById('nameError');
+                        const addressError = document.getElementById('addressError');
+                        const emailError = document.getElementById('emailError');
+
+                        const pinInput = document.getElementById('postal');
+                        const pinError = document.getElementById('pinError');
+                        const phoneInput = document.getElementById('phone');
+                        const phoneError = document.getElementById('phoneError');
+
+                        phoneInput.addEventListener('input', function () {
+                            const phoneNumber = phoneInput.value.trim();
+                            const phoneRegex = /^[9|8|6][0-9]{9}$/; // Phone number should start with 9, 8, or 6 and be exactly 10 digits long
+
+                            if (phoneRegex.test(phoneNumber)) {
+                                phoneError.textContent = '';
+                            } else {
+                                phoneError.textContent = 'Please enter a valid phone number starting with 9, 8, or 6 and exactly 10 digits long.';
+                            }
+                        });
+
+                        pinInput.addEventListener('input', function () {
+                            const pincode = pinInput.value;
+                            const pincodeRegex = /^[1-9][0-9]{5}$/; // 6-digit pincode not starting with 0
+
+                            if (pincodeRegex.test(pincode)) {
+                                pinError.textContent = '';
+                            } else {
+                                pinError.textContent = 'Please enter a valid 6-digit postal code.';
+                            }
+                        });
+
+                        // Function to validate email
+                        emailInput.addEventListener('input', function () {
+                            const email = emailInput.value;
+                            const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+
+                            if (emailRegex.test(email)) {
+                                emailError.textContent = '';
+                            } else {
+                                emailError.textContent = 'Please enter a valid email address.';
+                            }
+                        });
+
+                        // Function to validate name
+                        function validateName() {
+                            const nameValue = farmerNameInput.value.trim();
+
+                            if (!nameValue) {
+                                nameError.textContent = 'Name is required.';
+                                nameError.style.color = 'red';
+                                return false;
+                            } else if (!/^[a-zA-Z\s]+$/.test(nameValue)) {
+                                nameError.textContent = 'Name should contain only alphabetical characters and spaces.';
+                                nameError.style.color = 'red';
+                                return false;
+                            } else {
+                                nameError.textContent = ''; // Clear the error message
+                                return true;
+                            }
+                        }
+
+                        // Function to validate address
+                        function validateAddress() {
+                            const addressValue = addressInput.value.trim();
+
+                            if (!addressValue) {
+                                addressError.textContent = 'Address is required.';
+                                addressError.style.color = 'red';
+                                return false;
+                            } else if (!/^[a-zA-Z0-9\s]+$/.test(addressValue)) {
+                                addressError.textContent = 'Address should contain only alphabets, numbers, and spaces.';
+                                addressError.style.color = 'red';
+                                return false;
+                            } else {
+                                addressError.textContent = ''; // Clear the error message
+                                return true;
+                            }
+                        }
+
+                        // Event listeners for name and address fields
+                        farmerNameInput.addEventListener('input', validateName);
+                        addressInput.addEventListener('input', validateAddress);
+
+                        // Form submission validation
+                        document.querySelector('form').addEventListener('submit', function (e) {
+                            if (!validateName() || !validateAddress()) {
+                                e.preventDefault(); // Prevent form submission if validation fails
+                            }
+                        });
+
+                    
+                </script>
     <div class="sidebar-overlay" data-reff=""></div>
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
     <script src="{% static 'assets/js/select2.min.js' %}"></script>
-	<script src="{% static 'assets/js/moment.min.js' %}"></script>
-	<script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-
-
-<!-- add-doctor24:06-->
 </html>
+

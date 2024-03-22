@@ -201,30 +201,35 @@
         
                             <div class="form-group">
                                 <label style="color:black;"><b>Crop Name</b></label>
-                                <input class="form-control" type="text" name="cname">
+                                <input class="form-control" type="text" name="cname" id="cname" oninput="validateCropName()">
+                                <small id="cnameError" class="text-danger"></small>
                             </div>
                             <div class="form-group">
                                 <label style="color:black;"><b>Description</b></label>
-                                <textarea cols="30" rows="4" class="form-control" name="cdescription"></textarea>
+                                <textarea cols="30" rows="4" class="form-control" name="cdescription" id="cdescription"></textarea>
+                                <small id="cdescriptionError" class="text-danger"></small>
                             </div>
                             <label style="color:black;"><b>Available Date </b></label>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Start Date :</label>
-                                        <input type="date" class="form-control datetimepicker" name="start_date">
+                                    <label style="color:#0d1536;">Start Date :</label>
+                                    <input type="date" class="form-control datetimepicker" name="start_date" id="start_date">
+                                    <small id="startDateError" class="text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group" style="color:#0d1536;">
                                     <label>End Date :</label>
-                                        <input type="date" class="form-control datetimepicker" name="end_date">
+                                    <input type="date" class="form-control datetimepicker" name="end_date" id="end_date">
+                                    <small id="endDateError" class="text-danger"></small>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label style="color:black;"><b>Count</b></label>                                
-                                    <input class="form-control" type="text" name="count">
-                                 </div>
+                                    <label style="color:black;"><b>Count</b></label>
+                                    <input class="form-control" type="text" name="count" id="count">
+                                    <small id="countError" class="text-danger"></small>
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -253,6 +258,157 @@
         </div>
     </div>
     <script>
+            const cnameInput = document.getElementById('cname');
+            const cnameError = document.getElementById('cnameError');
+        
+            function validateCropName() {
+                const validCharactersPattern = /^[a-zA-Z ]*$/; // Only alphabets and spaces allowed
+        
+                if (!validCharactersPattern.test(cnameInput.value)) {
+                    cnameError.textContent = 'Only alphabets and spaces are allowed.';
+                } else {
+                    cnameError.textContent = '';
+                }
+            }
+            document.querySelector('form').addEventListener('submit', function (e) {
+                var cnameInput = document.getElementById('cname');
+                var cnameValue = cnameInput.value.trim(); // Remove leading and trailing spaces
+            
+                // Check if Crop Name contains only alphabets and spaces
+                const validCharactersPattern = /^[a-zA-Z\s]*$/;
+                if (!validCharactersPattern.test(cnameValue)) {
+                    cnameInput.setCustomValidity('Crop Name should contain only alphabets and spaces.');
+                    document.getElementById('cnameError').innerText = 'Crop Name should contain only alphabets and spaces.';
+                    e.preventDefault(); // Prevent form submission if validation fails
+                } else {
+                    cnameInput.setCustomValidity('');
+                    document.getElementById('cnameError').innerText = '';
+                }
+            });
+            const cdescriptionInput = document.getElementById('cdescription');
+            const cdescriptionError = document.getElementById('cdescriptionError');
+        
+            cdescriptionInput.addEventListener('input', function() {
+                const descriptionValue = cdescriptionInput.value.trim();
+        
+                // Check if Description does not start with 0
+                if (descriptionValue.startsWith('0')) {
+                    cdescriptionError.textContent = 'Description should not start with 0.';
+                    cdescriptionInput.setCustomValidity('Description should not start with 0.');
+                } else {
+                    cdescriptionError.textContent = '';
+                    cdescriptionInput.setCustomValidity('');
+                }
+            });
+        
+            document.querySelector('form').addEventListener('submit', function (e) {
+                const descriptionValue = cdescriptionInput.value.trim();
+        
+                // Check if Description does not start with 0
+                if (descriptionValue.startsWith('0')) {
+                    cdescriptionError.textContent = 'Description should not start with 0.';
+                    cdescriptionInput.setCustomValidity('Description should not start with 0.');
+                    e.preventDefault(); // Prevent form submission if validation fails
+                } else {
+                    cdescriptionError.textContent = '';
+                    cdescriptionInput.setCustomValidity('');
+                }
+            });
+            const startDateInput = document.getElementById('start_date');
+            const startDateError = document.getElementById('startDateError');
+        
+            startDateInput.addEventListener('input', function() {
+                const startDateValue = new Date(startDateInput.value);
+                const today = new Date();
+        
+                if (startDateValue < today || startDateValue > today) {
+                    startDateError.textContent = ''; // Clear any existing error message
+                    startDateInput.setCustomValidity('');
+                } else {
+                    startDateError.textContent = 'Start date should be either less than or greater than today.';
+                    startDateInput.setCustomValidity('Start date should be either less than or greater than today.');
+                }
+            });
+        
+            document.querySelector('form').addEventListener('submit', function (e) {
+                const startDateValue = new Date(startDateInput.value);
+                const today = new Date();
+        
+                if (startDateValue < today || startDateValue > today) {
+                    startDateError.textContent = ''; // Clear any existing error message
+                    startDateInput.setCustomValidity('');
+                } else {
+                    startDateError.textContent = 'Start date should be either less than or greater than today.';
+                    startDateInput.setCustomValidity('Start date should be either less than or greater than today.');
+                    e.preventDefault(); // Prevent form submission if validation fails
+                }
+            });
+
+
+            const endDateInput = document.getElementById('end_date');
+    const endDateError = document.getElementById('endDateError');
+
+    endDateInput.addEventListener('input', function() {
+        const endDateValue = new Date(endDateInput.value);
+        const today = new Date();
+
+        if (endDateValue > today) {
+            endDateError.textContent = ''; // Clear any existing error message
+            endDateInput.setCustomValidity('');
+        } else {
+            endDateError.textContent = 'End date should be greater than today.';
+            endDateInput.setCustomValidity('End date should be greater than today.');
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const endDateValue = new Date(endDateInput.value);
+        const today = new Date();
+
+        if (endDateValue > today) {
+            endDateError.textContent = ''; // Clear any existing error message
+            endDateInput.setCustomValidity('');
+        } else {
+            endDateError.textContent = 'End date should be greater than today.';
+            endDateInput.setCustomValidity('End date should be greater than today.');
+            e.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+
+    const countInput = document.getElementById('count');
+    const countError = document.getElementById('countError');
+
+    countInput.addEventListener('input', function() {
+        const countValue = countInput.value.trim();
+
+        // Regular expression to check if the input contains only whole numbers
+        const validCharactersPattern = /^[1-9][0-9]*$/;
+
+        if (!validCharactersPattern.test(countValue)) {
+            countError.textContent = 'Count should contain only whole numbers and cannot start with 0.';
+            countInput.setCustomValidity('Count should contain only whole numbers and cannot start with 0.');
+        } else {
+            countError.textContent = '';
+            countInput.setCustomValidity('');
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const countValue = countInput.value.trim();
+        const validCharactersPattern = /^[1-9][0-9]*$/;
+
+        if (!validCharactersPattern.test(countValue)) {
+            countError.textContent = 'Count should contain only whole numbers and cannot start with 0.';
+            countInput.setCustomValidity('Count should contain only whole numbers and cannot start with 0.');
+            e.preventDefault(); // Prevent form submission if validation fails
+        } else {
+            countError.textContent = '';
+            countInput.setCustomValidity('');
+        }
+    });
+            // You can also add an event listener for input changes to validate in real-time
+            cnameInput.addEventListener('input', validateCropName);
         const availableRadio = document.getElementById("available");
         const notAvailableRadio = document.getElementById("notavailable");
         availableRadio.addEventListener("click", function () {

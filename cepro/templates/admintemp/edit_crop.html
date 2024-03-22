@@ -1,16 +1,55 @@
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Crop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>CropElevate</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
-            padding: 20px;
+            .header
+            {
+                background-color:green;
+            }
+            .header .header-left 
+            {
+                background-color:green;
+            }
+            .green-background {
+                background-color: green; /* Set the background color to green */
+            }
+            {% comment %} .sidebar{
+                background-color: green;
+            } {% endcomment %}
+            .sidebar
+            {
+                background-color:green;
+            }
+            .sidebar-menu li a {
+                color:white;
+            }
+            .sidebar-menu li a:hover {
+                color: white;
+            }
+            .sidebar-menu li.active a {
+                color: green;
+                background-color: #f3f3f3;
+            }
+          
+        .error-messages {
+            color: red;
+            font-size:28px;
         }
-        
+        h1 {
+            color: green;
+        }
+
         form {
             max-width: 600px;
             margin: 0 auto;
@@ -19,96 +58,415 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
         }
-        
-        input[type="text"],
-        textarea {
+
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        .form-control {
             width: 100%;
             padding: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
         }
-        
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-        
+
         button[type="submit"] {
             background-color: #007bff;
             color: #fff;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
         }
-        
+
         button[type="submit"]:hover {
             background-color: #0056b3;
         }
-    </style>
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .col-lg-8 {
+            margin: 0 auto;
+        }
+
+        .error-message {
+            font-size: 14px;
+            color: red;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style> 
 </head>
+
 <body>
-    
-    <h1>Edit Crop</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-         
-
-        <label for="cname">Name:</label>
-        <input type="text" id="cname" name="cname" value="{{ crop.Namec }}"><br>
-        <label for="details">Details:</label>
-        <textarea id="details" name="details">{{ crop.des }}</textarea><br>
-        {% comment %} <label>Availability:</label>  {% endcomment %}
-        <label>Available Date :</label>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>Start Date :</label>
-                <input class="form-control" type="date" name="start_date" value="{{crop.start_date}}">
-                    {% comment %} <input type="date" class="form-control datetimepicker" name="start_date"> {% endcomment %}
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="{% url 'adindex' %}" class="logo">
+					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
+                </li> {% endcomment %}
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img"><img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
+							<span class="status online"></span></span>
+                        <span></span>
+                    </a>
+					<div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
+                </div>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>End Date :</label>
-                <input class="form-control" type="date" name="end_date" value="{{crop.end_date}}">
-                    {% comment %} <input type="date" class="form-control datetimepicker" name="end_date"> {% endcomment %}
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title" style="color:#661414; font-weight:bold;"><h4><b>Admin</b></h4></li>
+                        <li>
+                            <a href="{% url 'adindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+						<li>
+                            <a href="{% url 'admember' %}"><i class="fa fa-user"></i> <span>Members</span></a>
+                        </li>
+                        <li  class="active">
+                            <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
+                        </li>
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'adpendingapproval' %}"><i class="fas fa-exclamation-circle"></i>
+
+                                    </i> <span>Pending</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adapproval' %}"><i class="fa fa-calendar-check-o"></i> <span>Approved List</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'adpendinglist' %}"><i class="fas fa-hourglass-half"></i>
+                                    </i> <span>Waiting List</span></a>
+                                </li>
+                            </ul>
+                        </li>    
+                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                            <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
+                            <ul style="display: none;background-color:green;">
+                                <li>
+                                    <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
+                                    </i> <span>Meeting List</span></a>
+                                </li> 
+                                <li>
+                                    <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
+                                </li>
+                            </ul>
+                        </li>   
+                        <li>
+                            <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
+                        </li>
+                        {% comment %} <li>
+                            <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
+                        </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'admachinery' %}"><i class="fas fa-cogs"></i> <span>Machinery</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            </i> <span>Report</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
+                            </i>
+                                <span>Calendar</span></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>Count</label>                                
-            <input class="form-control" type="text" name="count" value="{{crop.count}}">
-        </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-               <label>Profile Photo</label>
-                   <input type="file" class="form-control" name="crop_photo" value="{{ crop.crop_photo }}" >
-           </div>
-       </div>
-        <br>
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    
+                </div>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+                    <div class="col-lg-8 offset-lg-2">
+                        {% if messages %}
+                        <ul class="messages error-messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-8 offset-lg-2">
+                        <form method="post" enctype="multipart/form-data">
+                            <h1>Edit Crop Sampling Details</h1>
 
-        
-            {% comment %} <label>Availability</label> {% endcomment %}
-            {% comment %} <div class="form-check">
-                <input class="form-check-input" type="radio" name="availability" id="available" value="1" {% if crop.available == 1 %}checked{% endif %}>
-                <label class="form-check-label" for="available">Available</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="availability" id="notavailable" value="0" {% if crop.available == 0 %}checked{% endif %}>
-                <label class="form-check-label" for="notavailable">Not Available</label>
-            </div>
-         {% endcomment %}
+                            {% csrf_token %}
+                             
+                            <label for="cname">Crop Name:</label>
+                            <input type="text" id="cname" name="cname" value="{{ crop.Namec }}" oninput="validateCropName()">
+                            <span id="cnameError" style="color: red;"></span><br>
+                            
+                            <div class="form-group">
+                                <label style="color:black;"><b>Description</b></label>
+                                <textarea cols="30" rows="4" class="form-control" name="cdescription" id="cdescription" oninput="validateDescription()"></textarea>
+                                <small id="cdescriptionError" class="text-danger"></small>
+                            </div>
+                            
+                            {% comment %} <label>Availability:</label>  {% endcomment %}
+                            <label>Available Date :</label>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Start Date :</label>
+                                    <input class="form-control" type="date" name="start_date" id="start_date" value="{{ crop.start_date }}">
+                                    <small id="startDateError" class="text-danger"></small>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>End Date :</label>
+                                    <input class="form-control" type="date" name="end_date" id="end_date" value="{{ crop.end_date }}">
+                                    <small id="endDateError" class="text-danger"></small>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Count</label>                                
+                                <input class="form-control" type="text" name="count" id="count" value="{{ crop.count }}">
+                                <small id="countError" class="text-danger"></small>
+                            </div>
+                            
+                                <div class="form-group">
+                                   <label>Profile Photo</label>
+                                       <input type="file" class="form-control" name="crop_photo" value="{{ crop.crop_photo }}" >
+                           </div>
+                            <br>
+                    
+                            
+                                {% comment %} <label>Availability</label> {% endcomment %}
+                                {% comment %} <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="availability" id="available" value="1" {% if crop.available == 1 %}checked{% endif %}>
+                                    <label class="form-check-label" for="available">Available</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="availability" id="notavailable" value="0" {% if crop.available == 0 %}checked{% endif %}>
+                                    <label class="form-check-label" for="notavailable">Not Available</label>
+                                </div>
+                             {% endcomment %}
+                    
+                            {% comment %} <input type="radio" id="available" name="available" >
+                            <label for="available">Available</label>
+                            <input type="radio" id="notavailable" name="notavailable" >
+                            <label for="notavailable">Not Available</label><br> {% endcomment %}
+ 
+                            <div class="m-t-20 text-center">
+                                <button class="btn btn-primary submit-btn" style="background-color:green;">Save Changes</button>
+                            </div>                        
+                        </form>
+                    
+                    </div>
+                </div>
+                <script>
+                    const cnameInput = document.getElementById('cname');
+                        const cnameError = document.getElementById('cnameError');
 
-        {% comment %} <input type="radio" id="available" name="available" >
-        <label for="available">Available</label>
-        <input type="radio" id="notavailable" name="notavailable" >
-        <label for="notavailable">Not Available</label><br> {% endcomment %}
-        <button type="submit">Save Changes</button>
-    </form>
+                        function validateCropName() {
+                            const validCharactersPattern = /^[a-zA-Z\s]*$/; // Only alphabets and spaces allowed
+
+                            if (!validCharactersPattern.test(cnameInput.value)) {
+                                cnameError.textContent = 'Crop Name should contain only alphabets and spaces.';
+                                cnameInput.setCustomValidity('Crop Name should contain only alphabets and spaces.');
+                            } else {
+                                cnameError.textContent = '';
+                                cnameInput.setCustomValidity('');
+                            }
+                        }
+
+                        document.querySelector('form').addEventListener('submit', function (e) {
+                            validateCropName(); // Validate Crop Name before form submission
+                            const cnameValue = cnameInput.value.trim(); // Remove leading and trailing spaces
+
+                            // Check if Crop Name contains only alphabets and spaces
+                            const validCharactersPattern = /^[a-zA-Z\s]*$/;
+                            if (!validCharactersPattern.test(cnameValue)) {
+                                cnameInput.setCustomValidity('Crop Name should contain only alphabets and spaces.');
+                                cnameError.textContent = 'Crop Name should contain only alphabets and spaces.';
+                                e.preventDefault(); // Prevent form submission if validation fails
+                            } else {
+                                cnameInput.setCustomValidity('');
+                                cnameError.textContent = '';
+                                // Proceed with form submission
+                            }
+                        });
+                        const cdescriptionInput = document.getElementById('cdescription');
+                        const cdescriptionError = document.getElementById('cdescriptionError');
+
+                        cdescriptionInput.addEventListener('input', function() {
+                            const descriptionValue = cdescriptionInput.value.trim();
+
+                            // Check if Description does not start with 0
+                            if (descriptionValue.startsWith('0')) {
+                                cdescriptionError.textContent = 'Description should not start with 0.';
+                                cdescriptionInput.setCustomValidity('Description should not start with 0.');
+                            } else {
+                                cdescriptionError.textContent = '';
+                                cdescriptionInput.setCustomValidity('');
+                            }
+                        });
+
+                        document.querySelector('form').addEventListener('submit', function (e) {
+                            const descriptionValue = cdescriptionInput.value.trim();
+
+                            // Check if Description does not start with 0
+                            if (descriptionValue.startsWith('0')) {
+                                cdescriptionError.textContent = 'Description should not start with 0.';
+                                cdescriptionInput.setCustomValidity('Description should not start with 0.');
+                                e.preventDefault(); // Prevent form submission if validation fails
+                            } else {
+                                cdescriptionError.textContent = '';
+                                cdescriptionInput.setCustomValidity('');
+                            }
+                        });
+                        const startDateInput = document.getElementById('start_date');
+                    const startDateError = document.getElementById('startDateError');
+
+                    startDateInput.addEventListener('input', function() {
+                        const startDateValue = new Date(startDateInput.value);
+                        const today = new Date();
+
+                        if (startDateValue > today) {
+                            startDateError.textContent = ''; // Clear any existing error message
+                            startDateInput.setCustomValidity('');
+                        } else {
+                            startDateError.textContent = 'Start date should be greater than today.';
+                            startDateInput.setCustomValidity('Start date should be greater than today.');
+                        }
+                    });
+
+                    const endDateInput = document.getElementById('end_date');
+                    const endDateError = document.getElementById('endDateError');
+
+                    endDateInput.addEventListener('input', function() {
+                        const endDateValue = new Date(endDateInput.value);
+                        const today = new Date();
+
+                        if (endDateValue > today) {
+                            endDateError.textContent = ''; // Clear any existing error message
+                            endDateInput.setCustomValidity('');
+                        } else {
+                            endDateError.textContent = 'End date should be greater than today.';
+                            endDateInput.setCustomValidity('End date should be greater than today.');
+                        }
+                    });
+
+                    document.querySelector('form').addEventListener('submit', function (e) {
+                        const startDateValue = new Date(startDateInput.value);
+                        const endDateValue = new Date(endDateInput.value);
+                        const today = new Date();
+
+                        if (startDateValue > today || endDateValue > today) {
+                            startDateError.textContent = ''; // Clear any existing error message
+                            endDateError.textContent = ''; // Clear any existing error message
+                            startDateInput.setCustomValidity('Start date and End date should be greater than today.');
+                            endDateInput.setCustomValidity('Start date and End date should be greater than today.');
+                            e.preventDefault(); // Prevent form submission if validation fails
+                        } else {
+                            startDateInput.setCustomValidity('');
+                            endDateInput.setCustomValidity('');
+                        }
+                    });
+                    const countInput = document.getElementById('count');
+                    const countError = document.getElementById('countError');
+                    
+                    countInput.addEventListener('input', function() {
+                        const countValue = countInput.value.trim();
+                    
+                        // Regular expression to check if the input contains only whole numbers
+                        const validCharactersPattern = /^[1-9][0-9]*$/;
+                    
+                        if (!validCharactersPattern.test(countValue)) {
+                            countError.textContent = 'Count should contain only whole numbers and cannot start with 0.';
+                            countInput.setCustomValidity('Count should contain only whole numbers and cannot start with 0.');
+                        } else {
+                            countError.textContent = '';
+                            countInput.setCustomValidity('');
+                        }
+                    });
+                    
+                    document.querySelector('form').addEventListener('submit', function (e) {
+                        const countValue = countInput.value.trim();
+                        const validCharactersPattern = /^[1-9][0-9]*$/;
+                    
+                        if (!validCharactersPattern.test(countValue)) {
+                            countError.textContent = 'Count should contain only whole numbers and cannot start with 0.';
+                            countInput.setCustomValidity('Count should contain only whole numbers and cannot start with 0.');
+                            e.preventDefault(); // Prevent form submission if validation fails
+                        } else {
+                            countError.textContent = '';
+                            countInput.setCustomValidity('');
+                        }
+                    });
+                    
+                                            
+                </script>
+    <div class="sidebar-overlay" data-reff=""></div>
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
 </html>
+
