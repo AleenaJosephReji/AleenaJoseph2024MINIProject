@@ -141,7 +141,7 @@
                     </a>
 					<div class="dropdown-menu">
 						{% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-						<a class="dropdown-item" href="#">Edit Profile</a>
+                        <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
 						{% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
 						<a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
 					</div>
@@ -151,7 +151,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="#">Edit Profile</a>
+                    <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a> 
                     {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
                     <a class="dropdown-item" href="{% url "loginn" %}">Logout</a>
                 </div>
@@ -213,6 +213,11 @@
                         <li>
                             <a href="{% url 'mleave' %}"><i class="fa fa-calendar-minus-o"></i>  <span>Apply Leave</span></a>
                         </li> 
+                        <li>
+                            <a href="{% url 'mmachinery' %}">
+                                <i class="fas fa-cogs"></i><span>Machinery List</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="{% url 'mcalendar' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>   
