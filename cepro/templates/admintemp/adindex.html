@@ -172,7 +172,7 @@
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
+                                    <a href="{% url 'admleaveapply' %}" id="leave"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
                                 </li>
                                 
                                 
@@ -197,15 +197,15 @@
                         <li>
                             <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
                         </li>
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
-                        </li>
+                        </li> {% endcomment %}
                         <li>
                             <a href="{% url 'admachinery' %}" id="rent"><i class="fas fa-cogs"></i> <span>Machinery</span></a>
                         </li>
                         
                         <li>
-                            <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
+                            <a href="{% url 'all_report' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
                         <li>

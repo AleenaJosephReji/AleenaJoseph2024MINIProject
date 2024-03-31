@@ -210,9 +210,9 @@
                         <li class="active">
                             <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
                         </li>
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
-                        </li>
+                        </li> {% endcomment %}
                         <li>
                             <a href="{% url 'admachinery' %}"><i class="fas fa-cogs"></i> <span>Machinery</span></a>
                         </li>
@@ -252,174 +252,128 @@
                     <table>
                         <thead>
                             <tr>
-                                <th style="color:white;"><b>No</b></th>
-                                <th style="color:white;"><b>Farmer Name</b></th>
-                                <th style="color:white;"><b>Address</b></th>
-                                {% comment %} <th style="color:white;"><b>Approved Member</b></th> {% endcomment %}
-                                <th style="color:white;"><b>Ward No</b></th>
-                                <th style="color:white;"><b>Product Name</b></th>
-                                <th style="color:white;"><b>Quantity</b></th>
-                                <th style="color:white;"><b>Date To Collect</b></th>
-                                <th style="color:white;"><b>Driver Name</b></th>
-                                <th style="color:white;"><b>Driver Phone</b></th>
-                                <th style="color:white;"><b>Collected</b></th>                     
-                                <th style="color:white;"><b>Total Cost</b></th>
-                                <th style="color:white;"></b>Pay</b></th>
-                                <th style="color:white;"><b>Paid Amount</b></th>
-                                <th style="color:white;"><b>Download</b></th>
+                                <th>No</th>
+                                <th>Farmer Name</th>
+                                <th>Address</th>
+                                <th>Ward No</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Date To Collect</th>
+                                <th>Driver Name</th>
+                                <th>Driver Phone</th>
+                                <th>Collected</th>
+                                <th>Total Cost</th>
+                                <th>Pay</th>
+                                <th>Paid Amount</th>
+                                <th>Download</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for entry in confirmed_data %}
-                                <tr>
-                                    <td style="color:black;">{{ forloop.counter }}</td>
-                                    <td style="color:black;">{{ entry.sell.farmerName }}</td>
-                                    <td style="color:black;">{{ entry.sell.address }}</td>
-                                    {% comment %} <td>
-                                        {% if entry.is_accept == 'accept' %}
-                                            {{ entry.user.name }}
-                                        {% else %}
-                                            Not Confirmed
-                                        {% endif %}
-                                    </td> {% endcomment %}
-                                    <td style="color:black;">{{ entry.sell.wardNo }}</td>
-                                    <td style="color:black;">{{ entry.sell.name }}</td>
-                                    <td style="color:black;">{{ entry.sell.quantity }}</td>
-                                    <td style="color:black;">{{ entry.sell.sell_date }}</td>
-
-                                    <td>
-                                        {% if entry.is_confirmed %}
-                                            {{ entry.driver.name }}
-                                        {% else %}
-                                            Not Confirmed
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if entry.is_confirmed %}
-                                            {{ entry.driver.dphone }}
-                                        {% else %}
-                                            Not Confirmed
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if entry.is_collected %}
-                                            Collected
-                                        {% else %}
-                                            Not Collected
-                                        {% endif %}
-                                    </td>                                    
-                                    <td style="color:black;">
-                                        {% if entry.total_cost == "Add Amount" %}
-                                        <form method="post" action="{% url 'update_total_cost' entry.id %}">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="entry_id" value="{{ entry.id }}">
-                                            <input type="text" name="total_cost" id="totalCostInput_{{ entry.id }}" placeholder="Enter Total Cost" oninput="validateTotalCost(this)">
-                                            <span id="validationMessage_{{ entry.id }}" style="color: red;"></span>
-                                            <button type="submit">Update</button>
-                                        </form>
-                                        
-                                        {% else %}
-                                            <span id="totalCost_{{ entry.id }}">
-                                                {% if entry.total_cost %}
-                                                    {{ entry.total_cost }}
-                                                {% else %}
-                                                    <!-- Add a default value or message if total_cost is not available -->
-                                                    N/A
-                                                {% endif %}
-                                            </span>
-                                        {% endif %}
-                                    </td>
-                                    {% comment %} <td style="color:black;">
-                                        {% if not entry.is_amount %}
-                                            <form method="post" action="{% url 'pay_entry' entry.id %}">
-                                                {% csrf_token %}
-                                                <button class="btn btn-primary" type="submit">Pay</button>
-                                            </form>
-                                        {% else %}
-                                            <p>Paid</p>
-                                        {% endif %}
-                                    </td>                                     {% endcomment %}
-
-
-                                    <td style="color:black;">
-                                        {% if not entry.is_amount %}
-                                            <span id="amountToPay_{{ entry.id }}">0</span> <!-- Display default value or 0 -->
-                                            <form method="post" action="{% url 'pay_entry' entry.id %}">
-                                                {% csrf_token %}
-                                                <button class="btn btn-primary" type="submit">Pay</button>
-                                            </form>
-                                        {% else %}
-                                            {% comment %} <span id="amountToPay_{{ entry.id }}">{{ entry.total_cost }}</span> {% endcomment %}
-                                            <p>Paid</p>
-                                        {% endif %}
-                                    </td>
-                                    <td style="color:black;">
-                                        {% if entry.is_amount %}
-                                        <span id="amountToPay_{{ entry.id }}">{{ entry.total_cost }}</span>
-                                        
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if entry.is_confirmed and entry.is_collected %}
-                                            <form action="{% url 'adgenerate_pdf_bill' entry.sell.id %}" method="post" target="_blank">
-                                                {% csrf_token %}
-                                                <button type="submit"><i class="fas fa-download"></i></button>
-                                            </form>
-                                        {% else %}
-                                            -
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-
                             <tr>
-                                <td colspan="11" style="text-align: right;"><b>Total Paid Amount:</b></td>
-                                <td style="color:black;">{{ total_paid_amount }}</td>
-                                <td colspan="3"></td>  <!-- colspan value should be adjusted based on the number of columns in your table -->
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ entry.sell.farmerName }}</td>
+                                <td>{{ entry.sell.address }}</td>
+                                <td>{{ entry.sell.wardNo }}</td>
+                                <td>{{ entry.sell.name }}</td>
+                                <td>{{ entry.sell.quantity }}</td>
+                                <td>{{ entry.sell.sell_date }}</td>
+                                <td>
+                                    {% if entry.is_confirmed %}
+                                    {{ entry.driver.name }}
+                                    {% else %}
+                                    Not Confirmed
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entry.is_confirmed %}
+                                    {{ entry.driver.dphone }}
+                                    {% else %}
+                                    Not Confirmed
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entry.is_collected %}
+                                    Collected
+                                    {% else %}
+                                    Not Collected
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entry.total_cost == 0 %}
+                                    <form method="post" action="{% url 'adselldetails' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                                        <input type="text" name="total_cost" placeholder="Enter Total Cost">
+                                        <button type="submit">Update</button>
+                                    </form>
+                                    {% else %}
+                                    {{ entry.total_cost }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if not entry.is_amount %}
+                                    <form method="post" action="{% url 'pay_entry' entry.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-primary" type="submit">Pay</button>
+                                    </form>
+                                    {% else %}
+                                    Paid
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entry.is_amount %}
+                                    {{ entry.total_cost }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if entry.is_confirmed and entry.is_collected %}
+                                    <form action="{% url 'adgenerate_pdf_bill' entry.sell.id %}" method="post" target="_blank">
+                                        {% csrf_token %}
+                                        <button type="submit"><i class="fas fa-download"></i></button>
+                                    </form>
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
                             </tr>
-                            
-                            {% comment %} {% for user_name, amount in total_paid_amount_by_user.items %}
-                                <tr>
-                                    <td colspan="11" style="text-align: right;"><b>Total Paid Amount for {{ user_name }}:</b></td>
-                                    <td style="color:black;">{{ amount }}</td>
-                                    <td colspan="3"></td>  <!-- colspan value should be adjusted based on the number of columns in your table -->
-                                </tr>
-                            {% endfor %} {% endcomment %}
-                            <!-- Add this block of code to display total_amount for each user -->
-<!-- Add this block of code to display total_amount for each user -->
-{% comment %} {% for user_name, amount in total_amount_by_user.items %}
-    <tr>
-        <td colspan="11" style="text-align: right;"><b>Total Amount for {{ user_name }}:</b></td>
-        <td style="color:black;">{{ amount }}</td>
-        <td colspan="3"></td>  <!-- colspan value should be adjusted based on the number of columns in your table -->
-    </tr>
-{% endfor %} {% endcomment %}
-
-<!-- Add this block of code to display total_paid_amount for all users -->
-
-{% for user_name, amount in total_paid_amount_by_user.items %}
-    <tr>
-        <td colspan="11" style="text-align: right;"><b>Total Paid Amount for {{ user_name }}:</b></td>
-        <td style="color:black;">{{ amount }}</td>
-        <td colspan="3"></td>  <!-- colspan value should be adjusted based on the number of columns in your table -->
-    </tr>
-{% endfor %}
-<!-- End of block -->
-
-<!-- Add this block of code to display total_amount for each user -->
-{% for user_name, amount in total_amount_by_user.items %}
-    <tr>
-        <td colspan="11" style="text-align: right;"><b>Total Amount for {{ user_name }}:</b></td>
-        <td style="color:black;">{{ amount }}</td>
-        <td colspan="3"></td>  <!-- colspan value should be adjusted based on the number of columns in your table -->
-    </tr>
-{% endfor %}
-<!-- End of block -->
-
-
-
+                            {% endfor %}
                         </tbody>
-                    </table>           
+                    </table>
+                    <h2 style="color:black;">Payment Details Of Each Farmers</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Farmer Name</th>
+                                <th>Total Amount</th>
+                                <th>Total Paid Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for farmer in total_amount_per_farmer %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ farmer.sell__farmerName }}</td>
+                                <td>{{ farmer.total_amount }}</td>
+                                <td>
+                                    {% for paid_farmer in paid_amount_per_farmer %}
+                                        {% if paid_farmer.sell__farmerName == farmer.sell__farmerName %}
+                                            {{ paid_farmer.total_paid }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+
+                    
+                    
+                    
+                    
+
                 </div>
                 </div>
             </div>

@@ -233,7 +233,7 @@
             </div>
         </div>
         <div class="container" style="padding-left: 250px; padding-top: 100px;">
-            <h1>Applied Leave</h1>
+            <h1 id="disleave">Applied Leave</h1>
 
             {% comment %} <input type="text" id="search-input" placeholder="Enter Crop Name">
             <button onclick="searchTable()">Search</button> {% endcomment %}
@@ -262,7 +262,7 @@
                                     <form method="post" action="{% url 'grant_certification' absent_member.id %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="absent_member_id" value="{{ absent_member.id }}">
-                                        <button class="btn btn-success approve-btn" type="submit">Approve</button>
+                                        <button class="btn btn-success approve-btn" type="submit" id="leaveapprove">Approve</button>
                                     </form>
                                 {% else %}
                                     <p>Approved</p>

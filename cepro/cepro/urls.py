@@ -200,7 +200,7 @@ urlpatterns = [
     # path('update_payment_status/<int:entry_id>/', views.update_payment_status, name='update_payment_status'),
     path('pay_entry/<int:entry_id>/', views.pay_entry, name='pay_entry'),
     path('adgenerate_pdf_bill/<int:sell_id>/', views.adgenerate_pdf_bill, name='adgenerate_pdf_bill'),
-    path('all_accounts', views.all_accounts, name='all_accounts'),
+    # path('all_accounts', views.all_accounts, name='all_accounts'),
     path('driver', views.driver, name='driver'),
     path('adddriver', views.adddriver, name='adddriver'),
     path('mleave', views.mleave, name='mleave'),
@@ -218,11 +218,12 @@ urlpatterns = [
     path('mmachinery', views.mmachinery, name='mmachinery'),
     path('mapplications', views.mapplications, name='mapplications'),
     path('applied_machineries', views.applied_machineries, name='applied_machineries'),
-    path('generate_pdf_all_accounts', views.generate_pdf_all_accounts, name='generate_pdf_all_accounts'),
+    # path('generate_pdf_all_accounts', views.generate_pdf_all_accounts, name='generate_pdf_all_accounts'),
     # path('success_page', views.success_page, name='success_page'),
     path('paymenthandler/', views.paymenthandler, name='paymenthandler'),
     path('payment/<int:machinery_id>/<int:application_id>/',views.payment,name='payment'),   
     path('applied_crops', views.applied_crops, name='applied_crops'),
+    path('all_report', views.all_report, name='all_report'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
 

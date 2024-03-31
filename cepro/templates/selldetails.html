@@ -383,13 +383,14 @@
                                 Not Collected
                             {% endif %}
                         </td>
-                        <td style="color:black;">
-                            {% if sell.total_cost == "Add Amount" %}
-                                <span id="enteredValue_{{ sell.id }}"></span>
+                        <td>
+                            {% if sell.total_cost == 0 %}
+                                {{ sell.sellapply_set.first.total_amount_new }}
                             {% else %}
-                                <span id="totalCost_{{ sell.id }}">{{ sell.total_cost }}</span>
+                                {{ sell.total_cost }}
                             {% endif %}
-                        </td>            
+                        </td>
+                                   
                         <td>
                             {% if sell.is_accept == 'accept' and sell.sellapply_set.first.is_confirmed and sell.sellapply_set.first.is_collected %}
                                 <form action="{% url 'generate_pdf_bill' sell.id %}" method="post" target="_blank">

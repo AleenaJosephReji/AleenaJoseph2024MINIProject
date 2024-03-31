@@ -362,7 +362,7 @@
                 
                 {% if user.is_authenticated %}
                 {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
-                <a class="dropdown-item" href="{% url 'account' %}">Account</a>
+                {% comment %} <a class="dropdown-item" href="{% url 'account' %}">Account</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
@@ -405,24 +405,51 @@
         <table border="1">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>User Name</th>
-                    <th>Total collected Amount</th>
-                    {% comment %} <th>Balance To Collect</th> {% endcomment %}
+                    <th>Farmer Name</th>
+                    <th>Total Amount</th>
+                    <th>Paid Amount</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user_name, total_paid_amount, balance in balance_list %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ user_name }}</td>
-                        <td>{{ total_paid_amount }}</td>
-                        {% comment %} <td>{{ balance }}</td>                     {% endcomment %}
-                    </tr>
+                {% for farmer_data in total_amount_per_farmer %}
+                <tr>
+                    <td>{{ farmer_data.sell__farmerName }}</td>
+                    <td>{{ farmer_data.total_amount }}</td>
+                    <td>
+                        {% for paid_amount in paid_amount_by_user %}
+                            {% if paid_amount.farmerName == farmer_data.sell__farmerName %}
+                                {{ paid_amount.paid_amount }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+        
+        <h2>Balance List</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Farmer Name</th>
+                    <th>Total Paid Amount</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for balance_item in balance_list %}
+                <tr>
+                    <td>{{ balance_item.0 }}</td>
+                    <td>{{ balance_item.1 }}</td>
+                    <td>{{ balance_item.2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        <h2>Total Amount: {{ total_amount }}</h2>
+        <h2>Total Paid Amount: {{ total_instance.paid_amount }}</h2>
+        <h2>Balance: {{ total_instance.balance }}</h2>
     
     
     {% comment %} <div class="container">

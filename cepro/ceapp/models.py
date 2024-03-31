@@ -485,12 +485,22 @@ class Sellapply(models.Model):
     is_amount = models.BooleanField(default=False)
     paid_amount = models.IntegerField(default=0)
     total_amount = models.IntegerField(null=True, blank=True)
+    total_amount_new = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
+class Total_Amount(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+
+    farmerName = models.CharField(max_length=100)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
 class Total(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     farmerName = models.CharField(max_length=100, null=True, blank=True)
-    total_amount = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
+    sellapply = models.ForeignKey(Sellapply, on_delete=models.CASCADE, blank=True, null=True)
+
+    # total_amount = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
     balance = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2)
     paid_amount = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2, default=0)
+    total_amount = models.DecimalField(null=True, blank=True, max_digits=10, decimal_places=2, default=0)
+    
 class Confirm(models.Model):
     CONFIRM = 'confirm'
     PENDING = 'pending'

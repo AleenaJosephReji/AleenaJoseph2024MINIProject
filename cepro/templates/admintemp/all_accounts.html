@@ -240,34 +240,24 @@
             {% comment %} <input type="text" id="search-input" placeholder="Enter Crop Name">
             <button onclick="searchTable()">Search</button> {% endcomment %}
             <div class="details">
-                {% for farmer in all_farmers %}
-                {% comment %} <h2>{{ farmer.farmer_profile.first_name }} {{ farmer.farmer_profile.last_name }} Account Details</h2> {% endcomment %}
                 <table border="1">
                     <thead>
                         <tr>
-                            <th>No</th>
                             <th>User Name</th>
+                            <th>Farmer Name</th>
                             <th>Total Paid Amount</th>
-                            {% comment %} <th>Balance</th> {% endcomment %}
                         </tr>
                     </thead>
                     <tbody>
-                        {% for user_name, total_paid_amount, balance in farmer.balance_list %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ user_name }}</td>
-                                <td>{{ total_paid_amount }}</td>
-                                {% comment %} <td>{{ balance|default:"-" }}</td> {% endcomment %}
-                            </tr>
-                        {% endfor %}
+                        {% for user_paid in users_total_paid %}
                         <tr>
-                            <td></td>
-                            <td>Total Amount:</td>
-                            <td>{{ farmer.total_amount }}</td>
+                            <td>{{ user_paid.user__username }}</td>
+                            <td>{{ user_paid.farmerName }}</td>
+                            <td>{{ user_paid.total_paid }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                {% endfor %}
             </div>
         </div> 
         </div>
