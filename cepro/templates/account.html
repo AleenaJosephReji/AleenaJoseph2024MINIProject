@@ -400,7 +400,9 @@
 </div>
     <h1>Account</h1>
     <div class="container mt-5">
-        <h2>Total Amount: {{ total_instance.total_amount|default:"-" }}</h2>
+        {% for farmer_data in total_amount_per_farmer %}
+
+        <h2>Total Amount: {{ farmer_data.total_amount }}</h2>
         
         <table border="1">
             <thead>
@@ -411,7 +413,6 @@
                 </tr>
             </thead>
             <tbody>
-                {% for farmer_data in total_amount_per_farmer %}
                 <tr>
                     <td>{{ farmer_data.sell__farmerName }}</td>
                     <td>{{ farmer_data.total_amount }}</td>

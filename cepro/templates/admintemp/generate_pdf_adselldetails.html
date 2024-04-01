@@ -20,14 +20,15 @@
             background-color: #fff;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
-
         h1 {
+            text-align:center;
+            font-size:30px;
             color: green;
             padding: 20px;
         }
 
         table {
-            width: 100%;
+            width: 1200px;
             border-collapse: collapse;
         }
 
@@ -42,31 +43,27 @@
         }
 
         th {
-            background-color: #4CAF50;
-            color: white;
+            {% comment %} background-color: #4CAF50; {% endcomment %}
+            color: black;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .header-left 
-        {
-            {% comment %} background-color:green; {% endcomment %}
-            color:green;
-            font-size:24px;
-            font-weight:bold;
-            text-align: center;
-        }
+       
+        
         h2{
             color:brown;
             font-size:18px;
+        }
+
+        h3{
+            color:black;
+            font-size:24px;
         }
     </style>
 </head>
 <body>
     <div class="header-left">
         <h1>CropElevate</h1>
-        <h3>Erumely Panchayath Crop Collection Report October 2023 </h3>
+        <h3>Erumely Panchayath Payment Report Of Collected Products </h3>
 
         {% comment %} <a href="" class="logo">
             <img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
@@ -96,12 +93,12 @@
                     <th>Quantity</th>
                     <th>Date To Collect</th>
                     <th>Driver Name</th>
-                    <th>Driver Phone</th>
+                    {% comment %} <th>Driver Phone</th> {% endcomment %}
                     <th>Collected</th>
                     <th>Total Cost</th>
                     <th>Pay</th>
                     <th>Paid Amount</th>
-                    <th>Download</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -121,13 +118,13 @@
                         Not Confirmed
                         {% endif %}
                     </td>
-                    <td>
+                    {% comment %} <td>
                         {% if entry.is_confirmed %}
                         {{ entry.driver.dphone }}
                         {% else %}
                         Not Confirmed
                         {% endif %}
-                    </td>
+                    </td> {% endcomment %}
                     <td>
                         {% if entry.is_collected %}
                         Collected
@@ -162,47 +159,12 @@
                         {{ entry.total_cost }}
                         {% endif %}
                     </td>
-                    <td>
-                        {% if entry.is_confirmed and entry.is_collected %}
-                        <form action="{% url 'adgenerate_pdf_bill' entry.sell.id %}" method="post" target="_blank">
-                            {% csrf_token %}
-                            <button type="submit"><i class="fas fa-download"></i></button>
-                        </form>
-                        {% else %}
-                        -
-                        {% endif %}
-                    </td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        <h2 style="color:black;">Payment Details Of Each Farmers</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Farmer Name</th>
-                    <th>Total Amount</th>
-                    <th>Total Paid Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for farmer in total_amount_per_farmer %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ farmer.sell__farmerName }}</td>
-                    <td>{{ farmer.total_amount }}</td>
-                    <td>
-                        {% for paid_farmer in paid_amount_per_farmer %}
-                            {% if paid_farmer.sell__farmerName == farmer.sell__farmerName %}
-                                {{ paid_farmer.total_paid }}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+       
     </div>
 </body>
 </html>

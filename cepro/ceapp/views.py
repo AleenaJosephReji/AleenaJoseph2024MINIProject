@@ -103,38 +103,9 @@ def register(request):
     
 # def index(request):
 #     return render(request,'index.html')
-
-# def home1(request):
-#     return render(request,'home1.html')
-# def service(request):
-    # return render(request,'service.html')
-# def about(request):
-    # return render(request,'about.html')
-# def testimonail(request):
-    # return render(request,'testimonail.html')
-
-# def contact(request):
-    # return render(request,'contact.html')
-
-
 def about(request):
     return render(request,'about.html')
-
-# def shop(request):
-#     return render(request,'shop.html')
-
-# def cart(request):
-#     return render(request,'cart.html')
-
-# def checkout(request):
-#     return render(request,'checkout.html')
-
-# def wishlist(request):
-#     return render(request,'wishlist.html')
-# def gallery(request):
-#     return render(request,'gallery.html')
 from django.contrib.auth.decorators import login_required
-
 from django.views.decorators.cache import never_cache
 def applyerror(request):
     message = "This crop is unavailable."
@@ -153,22 +124,10 @@ def about(request):
     return render(request,'about.html')
 def contact(request):
     return render(request,'contact.html')
-# def adproduct(request):
-#     return render(request,'admintemp/adproduct.html')
-# def product(request):
-#     return render(request,'product.html')
 def apply(request):
     return render(request,'apply.html')
-# def crop(request):
-#     return render(request,'crop.html')
-
-
-
-# def index2(request):
-#     return render(request,'Atemp/index2.html')
-# def aindex2(request):
-#     return render(request,'Atemp/aindex2.html')
-
+@never_cache
+@login_required
 def adindex(request):
     me = Member.objects.all()
     me_count = me.count()
@@ -222,6 +181,8 @@ def adeditblog(request):
     return render(request,'admintemp/adeditblog.html')
 def adblogdetails(request):
     return render(request,'admintemp/adblogdetails.html')
+@never_cache
+@login_required
 def adcalendar(request):
     return render(request,'admintemp/adcalendar.html')
 def adeditprofile(request):
@@ -236,7 +197,6 @@ def adsettings(request):
     return render(request,'admintemp/adsettings.html')
 def adapprovalpending(request):
     return render(request,'admintemp/adapprovalpending.html')
-
 def application(request):
     return render(request,'application.html')
 @never_cache
@@ -258,10 +218,10 @@ def mblog(request):
     return render(request,'membertemp/mblog.html')
 def mappointment(request):
     return render(request,'membertemp/mappointment.html')
+@never_cache
+@login_required
 def mcalendar(request):
     return render(request,'membertemp/mcalendar.html')
-
-
 
 def mlogin(request):
     # if request.method == "POST":
@@ -293,10 +253,14 @@ def adblog(request):
 
 
 from django.shortcuts import render, redirect
-from .models import Crop  # Import your Crop model
+from .models import Crop  
+@never_cache
+@login_required
 def admember(request):
     members = Member.objects.filter(is_active=True)
     return render(request, 'admintemp/admember.html', {'members': members})
+@never_cache
+@login_required
 def adaddmember(request):
     # user=None
     # profile1 = MemberProfile(user=user)
@@ -346,7 +310,8 @@ def loggout(request):
 # editmember
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Member
-
+@never_cache
+@login_required
 def edit_member(request, member_id):
     member = get_object_or_404(Member, id=member_id)
 
@@ -489,70 +454,6 @@ def ceditprofile(request):
 
     return render(request, 'ceditprofile.html',context)
 
-
-
-# def adeditprofile(request):
-    
-#     user = request.user
-#     adprofile = FarmerProfile.objects.get(user=user)
-    
-#     if request.method == "POST":
-#         print ('POST')
-#         # user.first_name=request.POST.get('first_name')
-#         # user.last_name=request.POST.get('last_name')
-#         # Process the form data and save/update the profile
-
-#         adprofile.first_name = request.POST.get('first_name')
-#         print("first name :",adprofile.first_name)
-#         adprofile.last_name = request.POST.get('last_name')
-#         print("last name :",adprofile.last_name)
-        
-#         # profile.birth_date = request.POST.get('birth_date')
-#         # print("Date of Birth :",profile.birth_date)
-     
-#         adprofile.email = request.POST.get('email')
-#         print("email name :",adprofile.email)
-
-        
-#         adprofile.gender = request.POST.get('gender')
-#         print("gender :",adprofile.gender)
-
-#         # profile.house_name = request.POST.get('house_name')
-#         # print("house name :",profile.house_name)
-
-#         adprofile.house_no = request.POST.get('house_no')
-#         print("house no :",adprofile.house_no)
-
-#         adprofile.address = request.POST.get('address')
-#         print("adsress :",adprofile.address)
-
-#         adprofile.ward = request.POST.get('ward')
-#         print("ward :",adprofile.ward)
-
-#         adprofile.pin_code = request.POST.get('pin_code')
-#         print("pin code :",adprofile.pin_code)
-
-#         adprofile.phone_number = request.POST.get('phone_number')
-#         print("phone :",adprofile.phone_number)
-
-#         # profile.phone_number = request.POST.get('phone_number')
-#         profile.fprofile_photo = request.FILES.get('fprofile_photo')
-#         print("phone :",profile.fprofile_photo)
-
-#         profile.save()
-        
-            
-
-#         # messages.success(request, 'Profile updated successfully.')
-#         return redirect('adeditprofile')  # Redirect to the profile page
-#     context = {
-#         'user': user,
-#         'profile': profile
-#     }
-
-#     return render(request, 'ceditprofile.html',context)
-
-
 from django.contrib.auth import update_session_auth_hash
 # @login_required(login_url='login_page')
 @never_cache
@@ -621,7 +522,8 @@ def meditprofile(request):
 
 
 
-   
+@never_cache
+@login_required   
 def meditprofile(request):
    
     user = request.user
@@ -696,41 +598,18 @@ def meditprofile(request):
 
     return render(request, 'membertemp/meditprofile.html',context)
 
-# add_crop
-
 from django.shortcuts import render, redirect
 from .models import Crop 
-# from .models import Notification 
 
- # Import your Crop model
-
+@never_cache
+@login_required
 def adcrop(request):
     crops = Crop.objects.all()
     return render(request, 'admintemp/adcrop.html', {'crops': crops})
 
-
-# def adaddcrop(request):
-#     if request.method == 'POST':
-#         cname = request.POST.get('cname')
-#         cdescription = request.POST.get('cdescription')
-        
-#         # Check if the "available" form field was submitted and set it to True or False accordingly
-#         available = request.POST.get('cavailability')
-#         if available == 'Available':
-#             avail = True
-#         else:
-#             avail = False
-
-#         # Create a new Crop instance with the provided data
-#         new_crop = Crop(Namec=cname, des=cdescription, available=avail)
-#         new_crop.save()
-
-#         # Redirect to the appropriate page after adding the new crop
-#         return redirect('adcrop')
-
-#     return render(request, 'admintemp/adaddcrop.html')
-
 from django.db.models import Max
+@never_cache
+@login_required
 def adaddcrop(request):
     if request.method == 'POST':
         cname = request.POST.get('cname')
@@ -761,21 +640,6 @@ def adaddcrop(request):
 
     return render(request, 'admintemp/adaddcrop.html')
 
-# def adaddcrop(request):
-#     if request.method == 'POST':
-#         cname = request.POST.get('cname')
-#         cdescription = request.POST.get('cdescription')
-#         avail = request.POST.get('available') == 'on'  
-#         notavail = request.POST.get('notavailable') == 'on'  
-
-#         obj = Crop(Namec=cname, des=cdescription, available=avail, not_available=notavail)
-#         obj.save()
-#         return redirect('adcrop') 
-
-#     return render(request,'admintemp/adaddcrop.html')  
-
-
-
 
 
 # from .models import Crop, Notification
@@ -800,14 +664,6 @@ def adaddcrop(request):
 
 #     return render(request, 'admintemp/adaddcrop.html')
 
-
-
-
-
-
-
-#crop
-
 def delete_crop(request, crop_id):
     crop = get_object_or_404(Crop, id=crop_id)
 
@@ -819,6 +675,8 @@ def delete_crop(request, crop_id):
         return redirect('adcrop')
 
     return render(request, 'admintemp/delete_crop.html', {'crop': crop})
+@never_cache
+@login_required
 def edit_crop(request, crop_id):
     crop = get_object_or_404(Crop, id=crop_id)
 
@@ -887,17 +745,6 @@ def crop(request):
         'profile': profile,
         'existing_certifications': existing_certifications
     })
-
-#application for crops 
-
-
-    
-  
-
-
-
-
-
 # def crop(request):
 #     crops = Crop.objects.all()  # Retrieve all crops from the database
 #     return render(request, 'crop.html', {'crops': crops})
@@ -1158,7 +1005,8 @@ def mapprove(request):
 
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import ApplyCrop, Crop
-
+@never_cache
+@login_required
 def adpendingapproval(request):
     # Retrieve the approved details from your model or database
 
@@ -1223,7 +1071,8 @@ def adpendingapproval(request):
     # }
     # return render(request, 'admintemp/adpendingapproval.html', context)
 
-
+@never_cache
+@login_required
 def adapproval(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
     # crops = Crop.objects.all()
@@ -1323,7 +1172,8 @@ def mpending(request):
 
 
 
-
+@never_cache
+@login_required
 def adpendinglist(request):
     pending_details = ApplyCrop.objects.filter(is_approved='waiting')
     application_waiting = ApplyCrop.objects.filter(is_approvedd='waiting').first()
@@ -1446,7 +1296,8 @@ from .models import ApplyCrop, Crop, Meeting
 from django.shortcuts import render
 from .models import ApplyCrop, Crop, Meeting
 from datetime import date  # Import the date module
-
+@never_cache
+@login_required
 def adreport(request):
     approved_details = ApplyCrop.objects.filter(is_approvedd='approved')
     crops = Crop.objects.all()
@@ -1489,7 +1340,8 @@ def reject_attcertification(request, attendance_id):
     attendance.is_present = WardAttendance.ABSENT
     attendance.save()
     return redirect('adaddattendance')
-
+@never_cache
+@login_required
 def adattendance(request):
     if request.method == 'POST':
         selected_wards = request.POST.getlist('ward')
@@ -1516,7 +1368,8 @@ def adattendance(request):
     meetings = Meeting.objects.all()
     return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
 
-
+@never_cache
+@login_required
 def adaddattendance(request, meeting_id):
     # Retrieve the meeting details based on meeting_id
     meeting = Meeting.objects.get(id=meeting_id)
@@ -1588,7 +1441,8 @@ from django.shortcuts import render
 from .models import WardAttendance, Meeting
 from django.shortcuts import render
 from .models import Meeting, Member, WardAttendance
-
+@never_cache
+@login_required
 def view_attendance(request, meeting_id):
     # Retrieve the meeting details based on meeting_id
     meeting = Meeting.objects.get(id=meeting_id)
@@ -1644,7 +1498,8 @@ def display_attendance(request):
 from django.shortcuts import render, redirect
 from .models import Meeting
 # from .models import Attendee
-
+@never_cache
+@login_required
 def admeeting(request):
     meetings = Meeting.objects.filter(is_active=True)
     from django.utils import timezone
@@ -1677,7 +1532,8 @@ def admeeting(request):
 #             attendee.save()
 
 #     return redirect("admeeting")
-
+@never_cache
+@login_required
 def adaddmeeting(request):
     if request.method == 'POST':
         meeting_date = request.POST.get('meeting_date')
@@ -1697,7 +1553,8 @@ def adaddmeeting(request):
         meeting.save()
         return redirect('admeeting')
     return render(request,'admintemp/adaddmeeting.html')
-
+@never_cache
+@login_required
 def edit_meeting(request, meeting_id):
     meeting = get_object_or_404(Meeting, id=meeting_id)
     if request.method == 'POST':
@@ -1801,38 +1658,6 @@ def generate_pdfreport(request):
     response.write(pdf)
 
     return response
-
-#graph
-
-# views.py
-# from django.shortcuts import render
-# import matplotlib.pyplot as plt
-# from io import BytesIO
-# import base64
-
-# from .models import Crop
-
-# def crop_graph(request):
-#     crops = Crop.objects.all()
-#     crop_names = [crop.Namec for crop in crops]
-#     crop_counts = [crop.count for crop in crops]
-
-#     plt.figure(figsize=(10, 6))
-#     plt.bar(crop_names, crop_counts)
-#     plt.xlabel('Crop Name')
-#     plt.ylabel('Crop Count')
-#     plt.title('Crop Count Distribution')
-
-#     buffer = BytesIO()
-#     plt.savefig(buffer, format='png')
-#     plt.close()
-#     buffer.seek(0)
-
-#     image_png = buffer.getvalue()
-#     buffer.close()
-#     graph = base64.b64encode(image_png).decode()
-
-#     return render(request, 'admintemp/adindex.html', {'graph': graph})
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -1859,7 +1684,8 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 #new
     
     
-    
+@never_cache
+@login_required    
 def edit_attendance(request, meeting_id):
     meeting = get_object_or_404(Meeting, id=meeting_id)
     if request.method == 'POST':
@@ -1974,7 +1800,8 @@ from .models import CustomUser, Driver
 #     drivers = Driver.objects.filter(is_active=True)
 #     return render(request, 'admintemp/addriver.html', {'drivers': drivers})
 
-    
+@never_cache
+@login_required    
 def dapplied(request):
     products = Sell.objects.all()  # Retrieve all products from the Sell model
     return render(request, 'drivertemp/dapplied.html', {'products': products})
@@ -2110,7 +1937,8 @@ def deditprofile(request):
         'driver': driver
     }
     return render(request, 'drivertemp/deditprofile.html',context)
-
+@never_cache
+@login_required
 def dcalender(request):
     return render(request,'drivertemp/dcalender.html')
 # def msell(request):
@@ -2139,7 +1967,8 @@ def remove_scertification(request, certification_id):
         certification.is_accept = Sell.REMOVE  # Set it to 'rejected'
         certification.save()
     return redirect('msellapprove')
-
+@never_cache
+@login_required
 def edit_driver(request, driver_id):
     driver = get_object_or_404(Driver, id=driver_id)
 
@@ -2214,9 +2043,13 @@ def search_driver(request):
     return render(request, 'admintemp/addriver.html', {'drivers': drivers, 'drivername': drivername})
 
 #ProductCost
+@never_cache
+@login_required
 def adproductcost(request):
     product_costs = Productcost.objects.filter(is_active=True)
     return render(request, 'admintemp/adproductcost.html', {'product_costs': product_costs})
+@never_cache
+@login_required
 def adaddproductcost(request):
     if request.method == 'POST':
         pname = request.POST.get('pname')
@@ -2230,6 +2063,8 @@ def adaddproductcost(request):
         obj.save()
         return redirect('adproductcost') 
     return render(request, 'admintemp/adaddproductcost.html')
+@never_cache
+@login_required
 def edit_product_cost(request, product_cost_id):
     productcost = get_object_or_404(Productcost, id=product_cost_id)
     if request.method == 'POST':
@@ -2345,6 +2180,8 @@ from .models import Sell
 
 
 from django.http import HttpResponseForbidden
+@never_cache
+@login_required
 def sellcrop2(request):
     farmer_profile = FarmerProfile.objects.get(user=request.user)
     product_name = request.GET.get('product_name', '')
@@ -2836,8 +2673,6 @@ from django.shortcuts import get_object_or_404
 
 #     return render(request, 'account.html', {'total_paid_amount_by_user': total_paid_amount_by_user, 'total_amount': total_amount})
 from decimal import Decimal
-# @never_cache
-# @login_required
 from django.db.models import Sum
 @never_cache
 @login_required
@@ -2972,7 +2807,8 @@ from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Sellapply, Total
-
+@never_cache
+@login_required
 def adselldetails(request):
     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
     
@@ -3330,7 +3166,8 @@ from .models import Total
 #     response['Content-Disposition'] = 'attachment; filename="payment_details.pdf"'
 
 #     return response
-
+@never_cache
+@login_required
 def adddriver(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -3421,7 +3258,8 @@ def grant_certification(request, absent_member_id):
         absent_member.is_grant = WardAttendance.GRANT  # Set it to 'grant'
         absent_member.save()
     return redirect('admleaveapply')
-
+@never_cache
+@login_required
 def admleaveapply(request):
     absent_members = WardAttendance.objects.filter(leave_applied=True)
     return render(request, 'admintemp/admleaveapply.html', {'absent_members': absent_members})
@@ -3429,7 +3267,8 @@ def admleaveapply(request):
 # def adaddmachinery(request):
     # views.py
 from .models import AddMachinery
-
+@never_cache
+@login_required
 def adaddmachinery(request):
     if request.method == 'POST':
         machinery_photo = request.FILES.get('machinery_photo')
@@ -3451,10 +3290,13 @@ def adaddmachinery(request):
             return redirect('admachinery')  # Redirect to a success page or wherever you want
 
     return render(request, 'admintemp/adaddmachinery.html')
-
+@never_cache
+@login_required
 def admachinery(request):
     machineries = AddMachinery.objects.filter(is_active = True)
     return render(request, 'admintemp/admachinery.html', {'machineries': machineries})
+@never_cache
+@login_required
 def edit_machinery(request, machineries_id):
     machinery = get_object_or_404(AddMachinery, id=machineries_id)
 
@@ -3492,80 +3334,20 @@ def delete_machinery(request, machineries_id):
         return redirect('admachinery')
 
     return render(request, 'admintemp/delete_machinery.html', {'machinery': machinery})
-from django.shortcuts import render, redirect
-# 
-# from .models import Machinery, FarmerProfile
-from datetime import timedelta
 from django.contrib.auth.decorators import login_required
-
-from django.shortcuts import render
-
-# def machinery(request):
-#     machineries = AddMachinery.objects.filter(is_active = True)
-#     return render(request, 'machinery.html', {'machineries': machineries})
 from django.shortcuts import render, redirect
 from .models import AddMachinery
-from django.shortcuts import render, redirect
 from .models import FarmerProfile, AddMachinery
 from datetime import timedelta
 
-# def machinery(request):
-#     farmer_profile = FarmerProfile.objects.get(user=request.user)
-    
-#     if request.method == 'POST':
-#         # Assuming you are handling the form submission here
-#         mname = request.POST.get('mname')
-#         price = request.POST.get('price')
-#         apply_date = request.POST.get('apply_date')
-#         farmer_name = request.POST.get('farmerName')
-#         days = int(request.POST.get('days', 0))  # Assuming days is an integer field in your form
-
-#         machinery_instance, created = AddMachinery.objects.update_or_create(
-#             mname=mname,
-#             defaults={
-#                 'price': price,
-#                 'apply_date': apply_date,
-#                 'farmerName': farmer_name,
-#                 'days': days,
-#             }
-#         )
-
-#         # You can redirect to a success page or render a confirmation message
-#         return redirect('machinery')
-
-#     else:
-#         machineries = AddMachinery.objects.filter(is_active=True)
-#         for machinery in machineries:
-#             # Calculate and add end_date to each machinery instance in the context
-#             machinery.end_date = machinery.apply_date + timedelta(days=machinery.days) if machinery.apply_date and machinery.days else None
-
-#         return render(request, 'machinery.html', {'machineries': machineries, 'farmer_profile': farmer_profile})
-
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .models import AddMachinery, FarmerProfile
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import AddMachinery, MachineryApplication
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
-from .models import AddMachinery, MachineryApplication
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
-from datetime import timedelta
-from .models import AddMachinery, MachineryApplication
-from datetime import datetime, timedelta
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, reverse
 from .models import AddMachinery, MachineryApplication
 from django.shortcuts import get_object_or_404
-
-from django.shortcuts import render, get_object_or_404, reverse
-from django.http import HttpResponseRedirect
-from datetime import datetime, timedelta
-from .models import AddMachinery, MachineryApplication
 from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta
@@ -3903,3 +3685,25 @@ def all_report(request):
 # def see_attendance2(request, meeting_id):
 #     meeting = Meeting.objects.get(id=meeting_id)
 #     return render(request, 'admintemp/see_attendance2.html', {'meeting': meeting})
+def generate_pdf_adselldetails(request):
+    template_path = 'admintemp/generate_pdf_adselldetails.html'
+    context = {
+        'confirmed_data': Sellapply.objects.filter(is_confirmed=True),
+    }
+    # Render template
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Create a PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="generate_pdf_adselldetails.pdf"'
+
+    # Enable debugging
+    pisa.showLogging()
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF')
+
+    return response
