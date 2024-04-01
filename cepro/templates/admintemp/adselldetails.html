@@ -232,6 +232,7 @@
             </div>
         </div>
         <div class="page-wrapper">
+            
             <div class="content">
                 <div class="row">
                     <div class="col-sm-5 col-5">
@@ -248,6 +249,12 @@
                     </div>
                 </div>
                 <div class="container">
+                    <!-- Add this button where you want it in your HTML -->
+{% comment %} <form action="{% url 'generate_pdf_adselldetails' %}" method="post" target="_blank">
+    {% csrf_token %}
+    <button type="submit">Download PDF</button>
+</form> {% endcomment %}
+
                     <h1><b>Collected Applications</b></h1>
                     <table>
                         <thead>

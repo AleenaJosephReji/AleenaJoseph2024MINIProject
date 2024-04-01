@@ -94,6 +94,147 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        #google_translate_element .skiptranslate{
+            display: inline !important;
+    
+        }
+        .goog-te-gadget{
+            color: transparent !important;
+        }
+        /* Dark Theme for the select dropdown */
+        .goog-te-combo {
+            padding: 8px; /* Add padding for spacing */
+            font-size: 14px; /* Set font size */
+            border: 1px solid #666; /* Dark border */
+            border-radius: 4px; /* Add rounded corners */
+            background-color: #333; /* Dark background color */
+            color: #fff; /* Light text color */
+        }
+    
+        /* Style the select dropdown when it's hovered */
+        .goog-te-combo:hover {
+            border-color: #999; /* Darker border color on hover */
+        }
+    
+        /* Style the select dropdown when it's focused (clicked) */
+        .goog-te-combo:focus {
+            outline: none; /* Remove the default focus outline */
+            border-color: #007bff; /* Change border color on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow on focus */
+        }
+    
+        /* Style the dropdown arrow */
+        .goog-te-combo-arrow {
+            font-size: 12px; /* Adjust arrow size */
+            color: #fff; /* Light arrow color */
+        }
+    
+        /* Style the dropdown options */
+        .goog-te-menu-value {
+            font-size: 14px; /* Set font size for options */
+            color: #fff; /* Light text color for options */
+            background-color: #333; /* Dark background color for options */
+        }
+    
+        /* Style the dropdown options on hover */
+        .goog-te-menu-value:hover {
+            background-color: #007bff; /* Change background color on hover */
+            color: #fff; /* Light text color on hover */
+        }
+         
+            .language-selector {
+                display: inline-block;
+                margin-left: 10px; /* Adjust margin as needed */
+            }
+         
+            #google_translate_element .skiptranslate {
+                display: inline !important;
+          
+              }
+          
+              #google_translate_element .skiptranslate {
+                display: inline !important;
+          
+              }
+          
+          
+              .goog-te-gadget {
+                color: transparent !important;
+              }
+          
+              /* Dark Theme for the select dropdown */
+              .goog-te-combo {
+                padding: 8px;
+                /* Add padding for spacing */
+                font-size: 14px;
+                /* Set font size */
+                border: 1px solid #666;
+                /* Dark border */
+                border-radius: 4px;
+                /* Add rounded corners */
+                background-color: #000000;
+                /* Dark background color */
+                color: #fff;
+                /* Light text color */
+              }
+          
+              /* Style the select dropdown when it's hovered */
+              .goog-te-combo:hover {
+                border-color: #2da721;
+                /* Darker border color on hover */
+              }
+          
+              /* Style the select dropdown when it's focused (clicked) */
+              .goog-te-combo:focus {
+                outline: none;
+                /* Remove the default focus outline */
+                border-color: #007bff;
+                /* Change border color on focus */
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                /* Add a shadow on focus */
+              }
+          
+              /* Style the dropdown arrow */
+              .goog-te-combo-arrow {
+                font-size: 12px;
+                /* Adjust arrow size */
+                color: #fff;
+                /* Light arrow color */
+              }
+          
+              /* Style the dropdown options */
+              .goog-te-menu-value {
+                font-size: 14px;
+                /* Set font size for options */
+                color: #fff;
+                /* Light text color for options */
+                background-color: #68dd3a;
+                /* Dark background color for options */
+              }
+              .VIpgJd-ZVi9od-ORHb-OEVmcd{
+                display: none;
+              }
+              /* Style the dropdown options on hover */
+              .goog-te-menu-value:hover {
+                background-color: #007bff;
+                /* Change background color on hover */
+                color: #fff;
+                /* Light text color on hover */
+              }
+              .VIpgJd-ZVi9od-l4eHX-hSRGPd {
+                display: none !important;
+            }
+            #startButton{
+              z-index: 1;
+                  position: fixed;
+                  bottom: 60px;
+                  right: 20px;
+                  height: 45px;
+                  width: 45px;
+                  border-radius: 100%;
+                  border: none;
+                  background-color: #76b42f;
+          }
     </style>
     {% comment %} <style>
         body{
@@ -144,22 +285,18 @@
 						</span>
 						{% comment %} <span>Admin</span> {% endcomment %}
                     </a>
-					<div class="dropdown-menu">
-						{% comment %} <a class="dropdown-item" href="{% url 'meditprofile' %}">Edit Profile</a>  {% endcomment %}
-						{% comment %} <a class="dropdown-item" href="adsettings.html">Settings</a>
-						<a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
-					</div>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
+                
+                        {% if user.is_authenticated %}
+                        <a class="dropdown-item" href="{% url 'deditprofile' %}">Profile</a>
+                        {% comment %} <a class="dropdown-item" href="{% url 'account' %}">Account</a> {% endcomment %}
+                        <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
+                        {% else %}
+                        <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
+                        {% endif %}
+                    </div>
                 </li>
             </ul>
-            <div class="dropdown mobile-user-menu float-right">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    {% comment %} <a class="dropdown-item" href="profile.html">My Profile</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'deditprofile' %}">Edit Profile</a> 
-                    {% comment %} <a class="dropdown-item" href="settings.html">Settings</a> {% endcomment %}
-                    <a class="dropdown-item" href="{% url 'loginn' %}">Logout</a>
-                </div>
-            </div>
         </div>
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
@@ -232,7 +369,13 @@
     <script src="{% static 'assets/js/Chart.bundle.js' %}"></script>
     <script src="{% static 'assets/js/chart.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
-
+    <script type="text/javascript"> 
+		function googleTranslateElementInit() 
+		{
+			new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+		}
+	</script>
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 

@@ -84,46 +84,125 @@
         
         <!-- Agricultural Report Details section -->
         <!-- Agricultural Report Details section -->
-{% for application in applications %}
-<div class="details">
-    <h2 style="margin-left:60px; color:black; font-weight:bold;">{{ application.cname }}</h2>
-    <table>
-        <tr>
-            <th>No</th>
-            <th>Farmer Name</th>
-            <th>Address</th>
-            <th>Contact No</th>
-            <th>Ward No</th>
-            <th>Annual Income</th>
-            <th>Land</th>
-            <th>Crop Count</th>
-            <th>Date</th>
-        </tr>
-        {% comment %} {% for application in applications %} {% endcomment %}
-<tr>
-    <td>{{ forloop.counter }}</td>
-    <td>{{ application.farmerName }}</td>
-    <td>{{ application.address }}</td>
-    <td>{{ application.contactNo }}</td>
-    <td>{{ application.wardNo }}</td>
-    <td>{{ application.AnnualIncome }}</td>
-    <td>{{ application.land }}</td>
-    <td>
-        {% if application.land > 100 %}
-            60
-        {% elif application.land >= 50 and application.land < 100 %}
-            40
-        {% else %}
-            20
-        {% endif %}
-    </td>
-    <td>{{ application.crop_giventime }}</td>
-</tr>
-    </table>
-</div>
-{% comment %} {% endfor %} {% endcomment %}
-{% endfor %}
 
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Farmer Name</th>
+                    <th>Address</th>
+                    <th>Ward No</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Date To Collect</th>
+                    <th>Driver Name</th>
+                    <th>Driver Phone</th>
+                    <th>Collected</th>
+                    <th>Total Cost</th>
+                    <th>Pay</th>
+                    <th>Paid Amount</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in confirmed_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ entry.sell.farmerName }}</td>
+                    <td>{{ entry.sell.address }}</td>
+                    <td>{{ entry.sell.wardNo }}</td>
+                    <td>{{ entry.sell.name }}</td>
+                    <td>{{ entry.sell.quantity }}</td>
+                    <td>{{ entry.sell.sell_date }}</td>
+                    <td>
+                        {% if entry.is_confirmed %}
+                        {{ entry.driver.name }}
+                        {% else %}
+                        Not Confirmed
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if entry.is_confirmed %}
+                        {{ entry.driver.dphone }}
+                        {% else %}
+                        Not Confirmed
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if entry.is_collected %}
+                        Collected
+                        {% else %}
+                        Not Collected
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if entry.total_cost == 0 %}
+                        <form method="post" action="{% url 'adselldetails' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                            <input type="text" name="total_cost" placeholder="Enter Total Cost">
+                            <button type="submit">Update</button>
+                        </form>
+                        {% else %}
+                        {{ entry.total_cost }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not entry.is_amount %}
+                        <form method="post" action="{% url 'pay_entry' entry.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-primary" type="submit">Pay</button>
+                        </form>
+                        {% else %}
+                        Paid
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if entry.is_amount %}
+                        {{ entry.total_cost }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if entry.is_confirmed and entry.is_collected %}
+                        <form action="{% url 'adgenerate_pdf_bill' entry.sell.id %}" method="post" target="_blank">
+                            {% csrf_token %}
+                            <button type="submit"><i class="fas fa-download"></i></button>
+                        </form>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2 style="color:black;">Payment Details Of Each Farmers</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Farmer Name</th>
+                    <th>Total Amount</th>
+                    <th>Total Paid Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for farmer in total_amount_per_farmer %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ farmer.sell__farmerName }}</td>
+                    <td>{{ farmer.total_amount }}</td>
+                    <td>
+                        {% for paid_farmer in paid_amount_per_farmer %}
+                            {% if paid_farmer.sell__farmerName == farmer.sell__farmerName %}
+                                {{ paid_farmer.total_paid }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

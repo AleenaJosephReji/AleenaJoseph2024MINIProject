@@ -2587,20 +2587,6 @@ def selldetails(request):
     update_total_amount(request.user)
 
     return render(request, 'selldetails.html', {'sells': sells})
-
-
-# def adselldetails(request):
-#     confirmed_data = Sellapply.objects.filter(is_confirmed=True)
-
-#     for entry in confirmed_data:
-#         try:
-#             product_cost = Productcost.objects.get(pname=entry.sell.name)
-#             entry.total_cost = int(entry.sell.quantity) * product_cost.price
-#         except Productcost.DoesNotExist:
-#             entry.total_cost = "Add Amount"  # Set a message when the product is not found
-
-#     return render(request, 'admintemp/adselldetails.html', {'confirmed_data': confirmed_data})
-
 from django.shortcuts import render, redirect
 from .models import Sellapply
 
@@ -3911,7 +3897,7 @@ def paymenthandler(request):
 def all_report(request):
     return render(request,'admintemp/all_report.html')
 
-    
+
 # def see_attendance(request):
 #     return render(request,'admintemp/see_attendance.html')
 # def see_attendance2(request, meeting_id):

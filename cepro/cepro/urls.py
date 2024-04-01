@@ -107,7 +107,7 @@ urlpatterns = [
     path('submit_attendance/', views.submit_attendance, name='submit_attendance'),
     # path('see_attendance/', views.see_attendance, name='see_attendance'),
     # path('see_attendance2/<int:meeting_id>/', views.see_attendance2, name='see_attendance2'),
-
+    # path('generate_pdf_adselldetails/', views.generate_pdf_adselldetails, name='generate_pdf_adselldetails'),
     path('display_attendance/', views.display_attendance, name='display_attendance'),
     path('approve_attcertification/<int:attendance_id>/', views.approve_attcertification, name='approve_attcertification'),
     path('reject_attcertification/<int:attendance_id>/', views.reject_attcertification, name='reject_attcertification'),
