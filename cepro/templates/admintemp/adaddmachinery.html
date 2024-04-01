@@ -105,7 +105,7 @@
                         <li>
                             <a href="{% url 'adcrop' %}"><i class="fas fa-seedling fa-2x"></i> <span>Crops Sampling</span></a>
                         </li>
-                        <li class="submenu green-background"> <!-- Add the "green-background" class -->
+                        <li class="submenu green-background">
                             <a href="#"><i class="fa fa-user"></i> <span></span>Applied <span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
                                 <li>
@@ -146,9 +146,9 @@
                         <li>
                             <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
                         </li>
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
-                        </li>
+                        </li> {% endcomment %}
                         {% comment %} <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
                         </li> {% endcomment %}

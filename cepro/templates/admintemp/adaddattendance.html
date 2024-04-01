@@ -212,9 +212,9 @@
                         <li>
                             <a href="{% url 'adselldetails' %}"><i class="fas fa-shopping-cart"></i> <span>Collected</span></a>
                         </li>
-                        <li>
+                        {% comment %} <li>
                             <a href="{% url 'all_accounts' %}"><i class="fa fa-address-card"></i> <span>Account</span></a>
-                        </li>
+                        </li> {% endcomment %}
                         <li>
                             <a href="{% url 'admachinery' %}"><i class="fas fa-cogs"></i> <span>Machinery</span></a>
                         </li>
@@ -235,15 +235,27 @@
                 </div>
             </div>
         </div>
-      
-                <div class="container">
+       <div class="container">    
+                    <br>
+                    <br>
+                    <br>
+                    <button onclick="window.location.href='{% url 'adattendance' %}'" class="btn btn-primary">Back</button>                 
                     <div class="details">
+                       
+                        <br>
+                        <br>
+                        <div class="viewatt" style="color:black;font-size:20px;font-weight:bold;text-align:center;"> 
+                        <p>Attendance for {{ meeting.meeting_date }}</p>  <!-- Display meeting_date -->
+                        <p>Meeting Time: {{ meeting.meeting_time }}</p>  <!-- Display meeting_time -->
+                        <p>Venue: {{ meeting.meeting_venue }}</p>  <!-- Display meeting_venue -->
+                        </div> 
                         <br>
                         <br>
                         <br>
-                        <h1>Attendence</h1>
                         <table>
-                            <tr>
+                            
+                        </tr>
+                                <tr>
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Attendance</th>
@@ -280,6 +292,7 @@
                             </tr>
                             {% endfor %}
                         </table>
+                        <a href="{% url 'view_attendance' meeting.id %}" class="btn btn-primary">View Attendance</a>
                     </div>
             <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">

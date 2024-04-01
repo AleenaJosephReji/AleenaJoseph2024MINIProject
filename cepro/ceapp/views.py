@@ -239,7 +239,8 @@ def adapprovalpending(request):
 
 def application(request):
     return render(request,'application.html')
-
+@never_cache
+@login_required
 def mindex(request):
     user = request.user
     profile = Member.objects.get(user=user)
@@ -255,8 +256,6 @@ def mindex(request):
     return render(request,'membertemp/mindex.html',context)
 def mblog(request):
     return render(request,'membertemp/mblog.html')
-# def mcrop(request):
-#     return render(request,'membertemp/mcrop.html')
 def mappointment(request):
     return render(request,'membertemp/mappointment.html')
 def mcalendar(request):
@@ -556,6 +555,8 @@ def ceditprofile(request):
 
 from django.contrib.auth import update_session_auth_hash
 # @login_required(login_url='login_page')
+@never_cache
+@login_required
 def meditprofile(request):
     
     # user = request.user
@@ -852,7 +853,8 @@ def edit_crop(request, crop_id):
         return redirect('adcrop')
 
     return render(request, 'admintemp/edit_crop.html', {'crop': crop})
-
+@never_cache
+@login_required
 def mcrop(request):
     crops = Crop.objects.all()  # Retrieve all crops from the database
     return render(request, 'membertemp/mcrop.html', {'crops': crops})
@@ -955,19 +957,6 @@ def apply(request,crop_id):
         'farmer_file_upload' : farmer_profile.file_upload
      
     })
-    
-# def applied_crops(request):
-#     user = request.user
-#     today = date.today()
-#     crops = Crop.objects.all()
-    
-#     existing_certifications = ApplyCrop.objects.filter(user=user)
-    
-#     return render(request, 'applied_crops.html', {
-#         'crops': crops,
-#         'today': today,
-#         'existing_certifications': existing_certifications
-#     })
 @never_cache
 @login_required
 def applied_crops(request):
@@ -1028,14 +1017,6 @@ def applied_crops(request):
 #         'farmer_annual_income': farmer_profile.annual_income,
      
 #     })
-    
-
-        
- 
-
-
-    
-
 # def disapply(request):
 #     # Retrieve details from the database
 #     details = ApplyCrop.objects.all()  # You might need to filter this based on your requirements
@@ -1047,7 +1028,8 @@ def applied_crops(request):
 # views.py
 from django.shortcuts import render
 from .models import ApplyCrop  # Import your model
-
+@never_cache
+@login_required
 def mfregistered(request):
     user = request.user
     profile = Member.objects.get(user=user)
@@ -1159,7 +1141,8 @@ def wait_certification(request, application_id):
         certification.is_approvedd = ApplyCrop.WAITING  # Set it to 'approved'
         certification.save()
     return redirect('adpendingapproval')
-
+@never_cache
+@login_required
 def mapprove(request):
     user = request.user
     profile = Member.objects.get(user=user)
@@ -1304,6 +1287,8 @@ def search_member(request):
 
 
 from django.http import JsonResponse
+@never_cache
+@login_required
 def mpending(request):
     user = request.user
     profile = Member.objects.get(user=user)
@@ -1505,7 +1490,6 @@ def reject_attcertification(request, attendance_id):
     attendance.save()
     return redirect('adaddattendance')
 
-
 def adattendance(request):
     if request.method == 'POST':
         selected_wards = request.POST.getlist('ward')
@@ -1533,34 +1517,32 @@ def adattendance(request):
     return render(request, 'admintemp/adattendance.html', {'meetings': meetings})
 
 
-def adaddattendance(request,meeting_id):
+def adaddattendance(request, meeting_id):
+    # Retrieve the meeting details based on meeting_id
+    meeting = Meeting.objects.get(id=meeting_id)
+
+    # Fetch members and attendance records
     members = Member.objects.filter(is_active=True)
     attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
-    meeting_day = Meeting.objects.get(id=meeting_id)
+
+    # Prepare data for rendering in the template
     member_data = {}
-
     for member in members:
-        attendance_record = attendance_records.filter(member=member,meeting=meeting_day).first()
-        
+        attendance_record = attendance_records.filter(member=member, meeting=meeting).first()
         if attendance_record:
-            # If the member is in attendance records, set the value to is_present
             member_data[member.id] = {
-            'is_present': attendance_record.is_present,  # Replace with the actual field name
-            'Name': member.Name,  # Replace with actual field names
-        
-            # Add other fields as needed
-            }  # Replace with the actual field name
-        else:
-            # Member is not in attendance records, set the value to 'pending'
-            member_data[member.id] = {
-            'is_present': 'pending',  # Replace with the actual field name
-            'Name': member.Name,  # Replace with actual field names
-           
-            # Add other fields as needed
+                'is_present': attendance_record.is_present,
+                'Name': member.Name,
+                # Add other fields as needed
             }
-    print(member_data.items())
-    return render(request, 'admintemp/adaddattendance.html', {'members': member_data, 'attendance_records': attendance_records, 'meeting':meeting_day})
+        else:
+            member_data[member.id] = {
+                'is_present': 'pending',
+                'Name': member.Name,
+                # Add other fields as needed
+            }
 
+    return render(request, 'admintemp/adaddattendance.html', {'members': member_data, 'meeting': meeting})
 
 # def adaddattendance(request):
 #     members = Member.objects.filter(is_active=True)
@@ -1602,6 +1584,38 @@ def mark_attendance(request, meeting_id):
             obj.save()
 
     return redirect('adaddattendance', meeting_id)
+from django.shortcuts import render
+from .models import WardAttendance, Meeting
+from django.shortcuts import render
+from .models import Meeting, Member, WardAttendance
+
+def view_attendance(request, meeting_id):
+    # Retrieve the meeting details based on meeting_id
+    meeting = Meeting.objects.get(id=meeting_id)
+
+    # Fetch members and attendance records
+    members = Member.objects.filter(is_active=True)
+    attendance_records = WardAttendance.objects.all()  # Retrieve attendance records
+
+    # Prepare data for rendering in the template
+    member_data = {}
+    for member in members:
+        attendance_record = attendance_records.filter(member=member, meeting=meeting).first()
+        if attendance_record:
+            member_data[member.id] = {
+                'is_present': attendance_record.is_present,
+                'Name': member.Name,
+                # Add other fields as needed
+            }
+        else:
+            member_data[member.id] = {
+                'is_present': 'pending',
+                'Name': member.Name,
+                # Add other fields as needed
+            }
+
+    return render(request, 'admintemp/view_attendance.html', {'members': member_data, 'meeting': meeting})
+
 
 def display_attendance(request):
     # Fetch all members
@@ -1712,7 +1726,8 @@ def delete_meeting(request, meeting_id):
         return redirect('admeeting')
     return render(request, 'admintemp/delete_meeting.html', {'meeting': meeting})
 
-
+@never_cache
+@login_required
 def mmeeting(request):
     meetings = Meeting.objects.filter(is_active=True)
     from django.utils import timezone
@@ -1963,6 +1978,7 @@ from .models import CustomUser, Driver
 def dapplied(request):
     products = Sell.objects.all()  # Retrieve all products from the Sell model
     return render(request, 'drivertemp/dapplied.html', {'products': products})
+@never_cache
 @login_required
 def homepage(request):
     user = request.user
@@ -2026,7 +2042,8 @@ def delete_service(request, service_id):
         return redirect('adservice')
     return render(request, 'admintemp/delete_service.html', {'service': service})
 
-
+@never_cache
+@login_required
 def dindex(request):
     user = request.user
     profile = Driver.objects.get(user=user)
@@ -2039,6 +2056,8 @@ def dindex(request):
     return render(request,'drivertemp/dindex.html',{'confirmed':confirmed,'confirmed_count':confirmed_count,'collected':collected,'collected_count':collected_count,'applied':applied,'applied_count':applied_count})
 def dleave(request):
     return render(request,'drivertemp/dleave.html')
+@never_cache
+@login_required
 def deditprofile(request):
     
     # user = request.user
@@ -2376,13 +2395,15 @@ def sellcrop2(request):
         'sell_date': sell_date,  # Pass sell_date to the template
         'error_message': error_message  # Pass error_message to the template
     })
-
+@never_cache
+@login_required
 def msell(request):
     profile = Member.objects.get(user=request.user)
     today_date = timezone.now().date()
     products = Sell.objects.filter(member=profile, is_accept='pending', sell_date__gte=today_date)
     return render(request, 'membertemp/msell.html', {'products': products, 'today_date': today_date})
-
+@never_cache
+@login_required
 def msellapprove(request):
     profile = Member.objects.get(user=request.user)
 
@@ -2390,7 +2411,8 @@ def msellapprove(request):
 
     approved_products = Sell.objects.filter(member=profile,is_accept='accept')
     return render(request, 'membertemp/msellapprove.html', {'approved_products': approved_products ,'today_date':today_date})
-
+@never_cache
+@login_required
 def driverapply(request):
     approved_products = Sell.objects.filter(is_accept='accept')
     data = []  # List to store dictionaries containing product, is_apply status, and confirmation status
@@ -2427,7 +2449,8 @@ def apply_certification(request, certification_id):
             is_apply=Sellapply.APPLY,
         )
     return redirect('driverapply')
-    
+@never_cache
+@login_required
 def mdriverapplied(request):
     profile = Member.objects.get(user=request.user)
     sells = Sell.objects.filter(member=profile)
@@ -2460,7 +2483,8 @@ def confirmation(request, apply_id):
 #     profile = Driver.objects.get(user=user)
 #     confirmed_data = Sellapply.objects.filter(is_confirmed=True,driver_id=profile.id)
 #     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
-
+@never_cache
+@login_required
 def dconfirmed(request):
     user = request.user
     profile = Driver.objects.get(user=user)
@@ -2478,7 +2502,7 @@ def dconfirmed(request):
 
     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
 
-    
+
 def collected(request, collection_id):
     collection = get_object_or_404(Sellapply, id=collection_id)
     
@@ -2829,7 +2853,8 @@ from decimal import Decimal
 # @never_cache
 # @login_required
 from django.db.models import Sum
-
+@never_cache
+@login_required
 def account(request):
     current_farmer_profile = request.user.farmerprofile
 
@@ -3366,7 +3391,8 @@ def driver(request):
     drivers = Driver.objects.filter(is_active=True)
     return render(request, 'admintemp/driver.html', {'drivers': drivers})
 
-
+@never_cache
+@login_required
 def mleave(request):
     today = date.today()
     profile = Member.objects.get(user=request.user)
@@ -3377,7 +3403,8 @@ def mleave(request):
         print(f"Member: {absent_member.member.Name}, Leave Applied: {absent_member.leave_applied}")
 
     return render(request, 'membertemp/mleave.html', {'absent_members': absent_members, 'today': today})
-
+@never_cache
+@login_required
 def apply_leave(request, absent_member_id):
     absent_member = get_object_or_404(WardAttendance, id=absent_member_id)
 
@@ -3692,7 +3719,8 @@ def mapply(request, machinery_id):
         return redirect('payment', machinery_id=machinery_id, application_id=application.id)
 
     return render(request, 'mapply.html', {'machinery': machinery, 'farmer_profile': farmer_profile})
-
+@never_cache
+@login_required
 def mmachinery(request):
     machineries = AddMachinery.objects.filter(is_active=True)
     return render(request, 'membertemp/mmachinery.html', {'machineries': machineries})
@@ -3882,3 +3910,10 @@ def paymenthandler(request):
 
 def all_report(request):
     return render(request,'admintemp/all_report.html')
+
+    
+# def see_attendance(request):
+#     return render(request,'admintemp/see_attendance.html')
+# def see_attendance2(request, meeting_id):
+#     meeting = Meeting.objects.get(id=meeting_id)
+#     return render(request, 'admintemp/see_attendance2.html', {'meeting': meeting})

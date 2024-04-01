@@ -1,10 +1,6 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- schedule23:20-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -29,6 +25,12 @@
         {
             background-color:green;
         }
+        .green-background {
+            background-color: green; /* Set the background color to green */
+        }
+        {% comment %} .sidebar{
+            background-color: green;
+        } {% endcomment %}
         .sidebar
         {
             background-color:green;
@@ -43,57 +45,61 @@
             color: green;
             background-color: #f3f3f3;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .details {
-            margin-top: 20px;
-        }
-
         table {
-            width: 100%;
+            width: 70%;
             border-collapse: collapse;
             margin-top: 20px;
+            margin-left:10% ;
+            box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.6);
         }
-
+        h1{
+            margin-left:80px;
+            color:black;
+        }
         table, th, td {
             border: 1px solid black;
         }
-
         th, td {
-            padding: 10px;
+            padding: 8px;
             text-align: left;
             color:black;
         }
-
         th {
-            background-color: green;
-            color: white;
+            background-color: Green;
+            color:white;
         }
 
-        .no-details {
-            text-align: center;
-            color: #777;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
-
-        .text-right {
-            text-align: right;
+        .dropdown-menu a {
+            color: #333; /* Link color */
+            text-decoration: none; /* Remove underline */
+            padding: 5px 15px; /* Add padding for spacing */
+            display: block; /* Display links as block elements */
+            
         }
-
-        .btn-primary {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
+    
+        .dropdown-menu a:hover {
+            background-color: #f2f2f2; /* Background color on hover */
         }
+            /* Optional CSS for better formatting */
+            .custom-dropdown {
+                display: inline-block;
+                position: relative;
+            }
+    
+            .custom-dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 150px;
+                border: 1px solid #ccc;
+            }
+    
+            .custom-checkbox {
+                display: block;
+            }
     </style> 
 </head>
 
@@ -116,14 +122,9 @@
                         </div>
                         <div class="drop-scroll">
                             <ul class="notification-list">
-                            </ul>
-                        </div>
-                        <div class="topnav-dropdown-footer">
-                            <a href="activities.html">View all Notifications</a>
-                        </div>
                     </div>
-                </li> {% endcomment %}
-                {% comment %} <li class="nav-item dropdown d-none d-sm-block">
+                </li>
+                <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right"></span></a>
                 </li> {% endcomment %}
                 <li class="nav-item dropdown has-arrow">
@@ -183,7 +184,7 @@
                                     </i> <span>Waiting List</span></a>
                                 </li>
                             </ul>
-                        </li>    
+                        </li>  
                         <li class="submenu green-background"> <!-- Add the "green-background" class -->
                             <a href="#"><i class="fas fa-users fa-2x"></i> <span></span> Meeting<span class="menu-arrow"></span></a>
                             <ul style="display: none;background-color:green;">
@@ -191,20 +192,20 @@
                                     <a href="{% url 'admeeting' %}"><i class="fas fa-users fa-2x"></i>
                                     </i> <span>Meeting List</span></a>
                                 </li> 
-                                <li>
+                                <li class="active">
                                     <a href="{% url 'adattendance' %}"><i class="fa fa-calendar-check-o"></i> <span>Attendance</span></a>
                                 </li>
-                                <li class="active">
+                                <li>
                                     <a href="{% url 'admleaveapply' %}"><i class="fa fa-calendar-minus-o"></i> <span>Leave</span></a>
                                 </li>
                             </ul>
-                        </li>    
+                        </li>      
                         <li>
                             <a href="{% url 'driver' %}"><i class="fas fa-truck"></i> <span>Drivers</span></a>
                         </li>
-                        {% comment %} <li>
+                        <li>
                             <a href="{% url 'adproduct' %}" id="memind"><i class="fa fa-user"></i> <span>Product</span></a>
-                        </li> {% endcomment %}
+                        </li>
                         <li>
                             <a href="{% url 'adproductcost' %}"><i class="fas fa-dollar-sign"></i> <span>Product Cost</span></a>
                         </li>
@@ -221,102 +222,45 @@
                             <a href="{% url 'adreport' %}"><i class="fas fa-file-text"></i>
                             </i> <span>Report</span></a>
                         </li>
+
+						</li>
                         <li>
                             <a href="{% url 'adcalendar' %}"><i class="far fa-calendar-alt fa-2x"></i>
 
                             </i>
                                 <span>Calendar</span></a>
                         </li>
-                        
+                      
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="container" style="padding-left: 250px; padding-top: 100px;">
-            <h1 id="disleave">Applied Leave</h1>
-
-            {% comment %} <input type="text" id="search-input" placeholder="Enter Crop Name">
-            <button onclick="searchTable()">Search</button> {% endcomment %}
-
-            <div class="details">
-                <table>
-                    <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Meeting Date</th>
-                        <th>Meeting Time</th>
-                        <th>Meeting Venue</th>
-                        <th>Leave Reason</th>
-                        <th>Approve</th>
-                    </tr>
-                    {% for absent_member in absent_members %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ absent_member.member.Name }}</td>
-                            <td>{{ absent_member.meeting.meeting_date }}</td>
-                            <td>{{ absent_member.meeting.meeting_time }}</td>
-                            <td>{{ absent_member.meeting.meeting_venue }}</td>
-                            <td>{{ absent_member.reason }}</td>
-                            <td>
-                                {% if absent_member.is_grant == 'pending' %}
-                                    <form method="post" action="{% url 'grant_certification' absent_member.id %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="absent_member_id" value="{{ absent_member.id }}">
-                                        <button class="btn btn-success approve-btn" type="submit" id="leaveapprove">Approve</button>
-                                    </form>
-                                {% else %}
-                                    <p>Approved</p>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>  
-        </div>       
-	</div>
-        </div>
-        </div>
-            </div>
-            {% comment %} <div class="notification-box">
+       <div class="container">    
+                    <br>
+                    <br>
+                    <br>
+                    <button onclick="window.location.href='{% url 'adattendance' %}'" class="btn btn-primary">Back</button>                 
+                    <div class="details">
+                        <a href="{% url 'view_attendance' meeting.id %}" class="btn btn-primary">View Attendance</a>
+                    </div>
+            <div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
                         <span>Messages</span>
                     </div>
-                    <div class="drop-scroll msg-list-scroll" id="msg_list">
-                        <ul class="list-box">
                         </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="chat.html">See all messages</a>
-                    </div>
+                    </div>          
                 </div>
-            </div> {% endcomment %}
+            </div>
 		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>
     <script>
-        {% comment %} function searchTable() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("search-input");
-            filter = input.value.toUpperCase();
-            table = document.querySelector(".details table");
-            tr = table.getElementsByTagName("tr");
-        
-            for (i = 1; i < tr.length; i++) {  // Start from 1 to skip the table header row
-                td = tr[i].getElementsByTagName("td")[1];  // Assuming the crop name is in the second column (index 1)
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        } {% endcomment %}
-        </script>
-        
+        function toggleDropdown(button) {
+            var dropdownContent = button.nextElementSibling;
+            dropdownContent.style.display = (dropdownContent.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>   
     <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'assets/js/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
@@ -326,7 +270,4 @@
     <script src="{% static 'assets/js/bootstrap-datetimepicker.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
 </body>
-
-
-<!-- schedule23:21-->
 </html>
