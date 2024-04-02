@@ -2010,7 +2010,7 @@ def edit_driver(request, driver_id):
         driver.save()
 
         # Redirect to the member list page after editing
-        return redirect('addriver')
+        return redirect('driver')
 
     return render(request, 'admintemp/edit_driver.html', {'driver': driver})
 
