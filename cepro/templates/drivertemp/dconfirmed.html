@@ -342,6 +342,9 @@
                             <a href="{% url 'dconfirmed' %}"><i class="fa fa-check-circle"></i> <span>confirmed</span></a>
                         </li>
                         <li>
+                            <a href="{% url 'dconfirmed_report' %}"><i class="fa fa-check-circle"></i> <span>Report</span></a>
+                        </li> 
+                        <li>
                             <a href="{% url 'dcalender' %}"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
                         </li>   
                     </ul>
@@ -370,6 +373,9 @@
                 </div>
                 <div class="container">
                     <h1><b>Confirmed Applications</b></h1>
+                    <!-- Add this button or link in your HTML -->
+                    <a href="{% url 'generate_pdf_dconfirmed' %}" class="btn btn-primary" target="_blank">Generate PDF Report</a>
+
                     <table>
                         <thead>
                             <tr>

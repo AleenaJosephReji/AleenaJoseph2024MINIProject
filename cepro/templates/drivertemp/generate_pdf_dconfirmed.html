@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- departments23:21-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    {% comment %} <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b3f59d;
+            {% comment %} background-image: url('{% static "img/img2.jfif" %}'); {% endcomment %}
+            {% comment %} background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed; {% endcomment %}
+            margin: 0;
+            padding: 0;
+        }
+        .header
+        {
+            background-color:#88a60f;
+
+        }
+        .header .header-left 
+        {
+            background-color:#88a60f;
+
+            {% comment %} background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145)); {% endcomment %}
+
+        }
+        .sidebar-menu li a {
+             color:black;
+            {% comment %} color:white; {% endcomment %}
+        }
+        .sidebar-menu li a:hover {
+            color:#88a60f;
+            {% comment %} color: white; {% endcomment %}
+        }
+        .sidebar-menu li.active a {
+            color:#88a60f;
+            background-color: #f3f3f3;
+        }
+            {% comment %} body {
+                background-image:linear-gradient(rgb(153, 245, 93), rgb(241, 243, 145));
+                font-family: Arial, sans-serif;
+                background-color: #f2f2f2;
+                margin: 0;
+                padding: 0;
+            } {% endcomment %}
+    
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 1.9);
+                border-radius: 5px;
+                
+            }
+    
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+    
+            .details {
+                margin-top: 20px;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+    
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+    
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+    
+            th {
+                background-color: lightgreen;
+            }
+    
+            .no-details {
+                text-align: center;
+                color: #777;
+            }
+    
+            .text-right {
+                text-align: right;
+            }
+    
+            .btn-primary {
+                background-color: #007BFF;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+            .apply-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            }
+           
+    </style>
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				{% comment %} <a href="{% url 'dindex' %}" class="logo">
+					<img src="{% static 'assets/img/adminlogo1.png' %}" width="35" height="35" alt=""> <span>CropElevate</span>
+				</a> {% endcomment %}
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+           
+                </div>
+            </div>
+        </div>
+        <div class="page-wrapper">
+            
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-5 col-5">
+                        <h4 class="page-title"></h4>
+                    </div>  
+                </div>   
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <h1 style="font-size:24px; background-color:white;">CropElevate</h1>
+                <h3 style="font-size:20px;background-color:white;text-align:center;">Erumely Panchayath Payment Collection Report</h3>
+        
+                <div class="container">
+                    <h2><b>Confirmed Applications</b></h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="color:black;"><b>No</b></th>
+                                <th style="color:black;"><b>Farmer Name</b></th>
+                                <th style="color:black;"><b>Address</b></th>
+                                <th style="color:black;"><b>Ward No</b></th>
+                                <th style="color:black;"><b>Product Name</b></th>
+                                <th style="color:black;"><b>Quantity</b></th>
+                                <th style="color:black;"><b>Date To Collect</b></th>
+                                <th style="color:black;"><b>Total Cost</b></th>
+                                <th style="color:black;"><b>Product Collection Status </b></th>
+                                <!-- Add any other fields you want to display -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in confirmed_data %}
+                                <tr>
+                                    <td style="color:black;">{{ forloop.counter }}</td>
+                                    <td style="color:black;">{{ entry.sell.farmerName }}</td>
+                                    <td style="color:black;">{{ entry.sell.address }}</td>
+                                    <td style="color:black;">{{ entry.sell.wardNo }}</td>
+                                    <td style="color:black;">{{ entry.sell.name }}</td>
+                                    <td style="color:black;">{{ entry.sell.quantity }}</td>
+                                    <td style="color:black;">{{ entry.sell.sell_date }}</td>
+                                    <td style="color:black;">{{ entry.total_cost }}</td>   
+                                    <td style="color:black;">
+                                        {% if not entry.is_collected %}
+                                            <form method="post" action="{% url 'collected' entry.id %}">
+                                                {% csrf_token %}
+                                                <button class="btn btn-primary" type="submit">Collected</button>
+                                            </form>
+                                        {% else %}
+                                            <p>Collected</p>
+                                        {% endif %}
+                                    </td>
+                                                                             
+                                     <!-- Add any other fields you want to display -->
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            
+		</div>
+    </div>
+    <div class="sidebar-overlay" data-reff=""></div>
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script type="text/javascript"> 
+		function googleTranslateElementInit() 
+		{
+			new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+		}
+	</script>
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

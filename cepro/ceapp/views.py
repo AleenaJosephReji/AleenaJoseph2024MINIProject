@@ -2338,6 +2338,50 @@ def dconfirmed(request):
         entry.save()
 
     return render(request, 'drivertemp/dconfirmed.html', {'confirmed_data': confirmed_data})
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from .models import Driver, Sellapply, Productcost
+def dconfirmed_report(request):
+    return render(request,'drivertemp/dconfirmed_report.html')
+def generate_pdf_dconfirmed(request):
+    user = request.user
+    profile = Driver.objects.get(user=user)
+    confirmed_data = Sellapply.objects.filter(is_confirmed=True, driver_id=profile.id)
+
+    for entry in confirmed_data:
+        try:
+            product_cost = Productcost.objects.get(pname=entry.sell.name)
+            entry.total_cost = float(entry.sell.quantity) * product_cost.price
+        except Productcost.DoesNotExist:
+            entry.total_cost = 0  # Set a default value when the product is not found
+
+        # Save the updated entry to persist changes in the database
+        entry.save()
+
+    template_path = 'drivertemp/generate_pdf_dconfirmed.html'
+    context = {'confirmed_data': confirmed_data}
+
+    # Render the template
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Create a PDF response
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="generate_pdf_dconfirmed.pdf"'
+
+    # Generate PDF using PISA
+    pisa_status = pisa.CreatePDF(
+        html,
+        dest=response,
+        encoding='UTF-8',
+    )
+
+    if pisa_status.err:
+        return HttpResponse('Failed to generate PDF: {}'.format(pisa_status.err))
+
+    return response
 
 
 def collected(request, collection_id):

@@ -283,10 +283,6 @@
 
 <body>
     <div class="main-wrapper">
-        <div class="language-selector">
-            <span>Select Language: </span>
-            <div id="google_translate_element"></div>
-        </div>
         <div class="header">
 			<div class="header-left">
 				<a href="{% url 'dindex' %}" class="logo">
@@ -318,7 +314,7 @@
                             <img class="rounded-circle" src="{% static 'assets/img/user.jpg' %}" width="40" alt="Admin">
 							<span class="status online"></span></span>
                     </a>
-					<div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
+                    <div class="dropdown-menu" aria-labelledby="userDropdown" style="background-color: #c1d18a;">
                 
                         {% if user.is_authenticated %}
                         <a class="dropdown-item" href="{% url 'deditprofile' %}">Profile</a>
@@ -339,13 +335,13 @@
                         <li >
                             <a href="{% url 'dindex' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="{% url 'driverapply' %}"><i class="fa fa-user"></i> <span>Apply</span></a>
                         </li>
-                        <li>
-                            <a href="{% url 'dconfirmed' %}"><i class="fa fa-check-circle"></i><span>confirmed</span></a>
+                        <li >
+                            <a href="{% url 'dconfirmed' %}"><i class="fa fa-check-circle"></i> <span>confirmed</span></a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="{% url 'dconfirmed_report' %}"><i class="fa fa-check-circle"></i> <span>Report</span></a>
                         </li> 
                         <li>
@@ -356,6 +352,10 @@
             </div>
         </div>
         <div class="page-wrapper">
+            <div class="language-selector">
+                <span>Select Language: </span>
+                <div id="google_translate_element"></div>
+            </div>
             <div class="content">
                 <div class="row">
                     <div class="col-sm-5 col-5">
@@ -372,64 +372,15 @@
                     </div>
                 </div>
                 <div class="container">
-                    <h1><b>Apply to Collect</b></h1>                  
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="color:black;"><b>No</b></th>
-                                <th style="color:black;"><b>Farmer Name</b></th>
-                                <th style="color:black;"><b>Address</b></th>
-                                <th style="color:black;"><b>Ward No</b></th>
-                                <th style="color:black;"><b>Product Name</b></th>
-                                <th style="color:black;"><b>Quantity</b></th>
-                                <th style="color:black;"><b>Date To Collect</b></th>
-                                <th style="color:black;"><b>Actions</b></th>
-                                <th style="color:black;"><b>Confirmation From Member</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for entry in data %}
-                                <tr>
-                                    <td style="color:black;">{{ forloop.counter }}</td>
-                                    <td style="color:black;">{{ entry.product.farmerName }}</td>
-                                    <td style="color:black;">{{ entry.product.address }}</td>
-                                    <td style="color:black;">{{ entry.product.wardNo }}</td>
-                                    <td style="color:black;">{{ entry.product.name }}</td>
-                                    <td style="color:black;">{{ entry.product.quantity }}</td>
-                                    <td style="color:black;">{{entry.product.sell_date }}</td>
-                                    <td style="color:black;">
-                                        {% if entry.is_apply == 'pending' and entry.product.sell_date > today_date %}
-                                            <form method="post" action="{% url 'apply_certification' entry.product.id %}">
-                                                {% csrf_token %}
-                                                <button class="btn btn-success approve-btn" type="submit">Apply</button>
-                                            </form>
-                                        {% elif entry.is_apply == 'apply' %}
-                                            <p style="color:#2de80c;">Applied</p>
-                                        {% else %}
-                                            <p>closed</p>
-                                        {% endif %}
-                                    </td>
-                                    <td style="color:black;">
-                                        {% if entry.is_confirmed %}
-                                            <p>Confirmed</p>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <h1><b>Report Of Confirmed Applications</b></h1>
+                    <!-- Add this button or link in your HTML -->
+                    <a href="{% url 'generate_pdf_dconfirmed' %}" class="btn btn-primary" target="_blank">Generate PDF Report</a>
                 </div>
                 </div>
             </div>
             </div>
             </div>
-            <div class="notification-box">
-                <div class="msg-sidebar notifications msg-noti">
-                    <div class="topnav-dropdown-header">
-                        <span>Messages</span>
-                    </div>
-                </div>
-            </div>
+            
 		</div>
     </div>
     <div class="sidebar-overlay" data-reff=""></div>

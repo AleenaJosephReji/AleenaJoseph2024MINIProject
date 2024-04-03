@@ -229,9 +229,9 @@ urlpatterns = [
     path('applied_crops', views.applied_crops, name='applied_crops'),
     path('all_report', views.all_report, name='all_report'),
     path('applied_machineries_admin', views.applied_machineries_admin, name='applied_machineries_admin'),
-
+    path('generate_pdf_dconfirmed', views.generate_pdf_dconfirmed, name='generate_pdf_dconfirmed'),
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
-
+    path('dconfirmed_report', views.dconfirmed_report, name='dconfirmed_report'),
     path('password-reset-confirm/<uidb64>/<token>/',
          auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),
          name='password_reset_confirm'),
