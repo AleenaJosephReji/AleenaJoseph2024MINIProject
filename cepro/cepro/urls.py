@@ -228,6 +228,7 @@ urlpatterns = [
     path('payment/<int:machinery_id>/<int:application_id>/',views.payment,name='payment'),   
     path('applied_crops', views.applied_crops, name='applied_crops'),
     path('all_report', views.all_report, name='all_report'),
+    path('applied_machineries_admin', views.applied_machineries_admin, name='applied_machineries_admin'),
 
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
 

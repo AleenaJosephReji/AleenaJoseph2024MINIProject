@@ -3506,6 +3506,11 @@ def applied_machineries(request):
     applied_machineries = MachineryApplication.objects.filter(farmer_profile=request.user.farmerprofile)
 
     return render(request, 'applied_machineries.html', {'applied_machineries': applied_machineries})
+def applied_machineries_admin(request):
+    # Fetch all applied machinery details
+    applied_machineries = MachineryApplication.objects.all()
+
+    return render(request, 'admintemp/applied_machineries_admin.html', {'applied_machineries': applied_machineries})
 
 # def confirm_machinery(request):
 #     # Retrieve the latest MachineryApplication instance
