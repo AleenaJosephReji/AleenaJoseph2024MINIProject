@@ -283,7 +283,7 @@
                         <a href="{% url 'applied_machineries' %}" class="dropdown-item">Applied Machineries</a>
                     </div>
                 </li>                
-                <li class="nav-item dropdown">
+                {% comment %} <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
                         <span class="count">{{ notification_count }}</span>
@@ -305,7 +305,7 @@
                             </a>
                         {% endfor %}
                     </div>
-                </li>
+                </li> {% endcomment %}
             </ul>
         </div>
           

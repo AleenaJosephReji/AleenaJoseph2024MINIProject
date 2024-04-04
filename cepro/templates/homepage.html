@@ -309,7 +309,7 @@
                     </div>
                 </li>     
                 {% comment %} <a href="{% url 'machinery' %}" class="nav-item nav-link nav-hover" style="margin-left: 60px; margin-top:5px;color:white; font-size:20px;">Machinery</a> {% endcomment %}
-                <li class="nav-item dropdown">
+                {% comment %} <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
                         <span class="count">{{ notification_count }}</span>
@@ -331,7 +331,7 @@
                         </a>
                         {% endfor %}
                     </div>
-                </li>
+                </li> {% endcomment %}
                 
             </ul>
         </div>
@@ -350,7 +350,7 @@
                 
                 {% if user.is_authenticated %}
                 {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
-                <a class="dropdown-item" href="{% url 'account' %}">Account</a>
+                {% comment %} <a class="dropdown-item" href="{% url 'account' %}">Account</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
@@ -370,9 +370,13 @@
         </ul>
     </div>
 {% endif %}
-
-    <!-- Carousel Start -->
-   <!-- Carousel Start -->
+{% comment %} {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %} {% endcomment %}
    <div class="container-fluid p-0">
     <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
                <div class="carousel-inner">
@@ -973,7 +977,7 @@
     <a href="#" class="btn btn-secondary py-3 fs-4 back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <script>
-        $(document).ready(function () {
+        {% comment %} $(document).ready(function () {
             var notificationDropdownContent = $("#notificationDropdownContent");
         
             function markNotificationAsRead(notificationId) {
@@ -1044,7 +1048,7 @@
 		function googleTranslateElementInit() 
 		{
 			new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-		}
+		} {% endcomment %}
 	</script>
 	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script src="{% static 'js/main.js' %} "></script>

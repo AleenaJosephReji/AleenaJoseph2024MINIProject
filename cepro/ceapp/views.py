@@ -1562,13 +1562,13 @@ def edit_meeting(request, meeting_id):
         meeting_time = request.POST.get('meeting_time')
         meeting_venue = request.POST.get('meeting_venue')
         meeting_agenda = request.POST.get('meeting_agenda')
-        desmeeting = request.POST.get('desmeeting')
+        # desmeeting = request.POST.get('desmeeting')
         report = request.POST.get('report')
         meeting.meeting_date = meeting_date
         meeting.meeting_time = meeting_time
         meeting.meeting_venue = meeting_venue
         meeting.meeting_agenda = meeting_agenda
-        meeting.desmeeting = desmeeting
+        # meeting.desmeeting = desmeeting
         meeting.report = report
         meeting.save()
         return redirect('admeeting')
@@ -2210,7 +2210,6 @@ def sellcrop2(request):
 
             if existing_sell:
                 error_message = "You have already applied for the same product and quantity on the same day."
-
             else:
                 sell_instance = Sell(
                     farmerName=farmerName,
@@ -2222,6 +2221,10 @@ def sellcrop2(request):
                     sell_date=sell_date  # Assign sell_date directly
                 )
                 sell_instance.save()
+
+                # Add success message
+                messages.success(request, 'Your application has been submitted successfully.')
+                return redirect('homepage')  # Redirect to the homepage after successful submission
 
     return render(request, 'sellcrop2.html', {
         'farmer_name': farmer_profile.first_name,
@@ -2451,6 +2454,8 @@ def selldetails(request):
     sells = Sell.objects.filter(farmerName=f"{current_farmer_profile.first_name} {current_farmer_profile.last_name}") \
                         .select_related('member', 'driver')
 
+    total_amount = 0  # Initialize total_amount variable
+
     for sell in sells:
         try:
             product_cost = Productcost.objects.get(pname=sell.name)
@@ -2461,13 +2466,16 @@ def selldetails(request):
             if sell_applies.exists():
                 sell.total_cost = sell_applies.first().total_cost
                 sell.save()
+
+            total_amount += sell.total_cost  # Add to total_amount
         except Productcost.DoesNotExist:
             sell.total_cost = 0
 
     # Update the total_amount for the current user
     update_total_amount(request.user)
 
-    return render(request, 'selldetails.html', {'sells': sells})
+    return render(request, 'selldetails.html', {'sells': sells, 'total_amount': total_amount})
+
 from django.shortcuts import render, redirect
 from .models import Sellapply
 

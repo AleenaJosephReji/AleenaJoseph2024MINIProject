@@ -534,7 +534,7 @@
                                     <th>Agenda</th>
                                     {% comment %} <th>Attendance</th> {% endcomment %}
                                     {% comment %} <th id="displayAttendanceHeader">Display Attendence</th> {% endcomment %}
-                                    <th>Details Discussed</th>
+                                    {% comment %} <th>Details Discussed</th> {% endcomment %}
                                     {% comment %} <th>Report (upload pdf)</th> {% endcomment %}
                                     <th>Actions</th>
                                 </tr>
@@ -575,18 +575,13 @@
                                     {% comment %} </td> {% endcomment %}
                                     
                                     
-                                    <td>{{ meeting.desmeeting }}</td>
+                                    {% comment %} <td>{{ meeting.desmeeting }}</td> {% endcomment %}
                                     {% comment %} <td>{{ meeting.report }}</td> {% endcomment %}
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown{{ forloop.counter }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: green; color: #fff;">
-                                                ...
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="actionsDropdown{{ forloop.counter }}">
-                                                <a class="dropdown-item" href="{% url 'edit_meeting' meeting.id %}" style="background-color: #007bff; color: #fff;">Edit</a>
-                                                <a class "dropdown-item" href="{% url 'delete_meeting' meeting.id %}" style="background-color: #dc3545; color: #fff;">Delete</a>
-                                            </div>
-                                        </div>
+                                    
+                                    <td class="table-actions">
+                                        <a href="{% url 'edit_meeting' meeting.id %}">Edit</a>
+                                    
+                                        <a href="{% url 'delete_meeting' meeting.id %}">Delete</a>
                                     </td>
                                 </tr>
                                 {% empty %}

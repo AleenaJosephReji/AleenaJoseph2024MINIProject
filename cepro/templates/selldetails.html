@@ -268,7 +268,7 @@
                         <a href="{% url 'applied_machineries' %}" class="dropdown-item">Applied Machineries</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
+                {% comment %} <li class="nav-item dropdown">
                     <a class="nav-link" id="notificationDropdown" href="#" data-toggle="dropdown">
                         <i class="mdi mdi-bell"></i>
                         <span class="count">{{ notification_count }}</span>
@@ -290,7 +290,7 @@
                             </a>
                         {% endfor %}
                     </div>
-                </li>
+                </li> {% endcomment %}
             </ul>
         </div>
           
@@ -305,7 +305,7 @@
                 
                 {% if user.is_authenticated %}
                 {% comment %} <a class="dropdown-item" href="{% url 'ceditprofile' %}">Profile</a> {% endcomment %}
-                <a class="dropdown-item" href="{% url 'account' %}">Account</a>
+                {% comment %} <a class="dropdown-item" href="{% url 'account' %}">Account</a> {% endcomment %}
                 <a class="dropdown-item" href="{% url 'loggout' %}">Logout</a>
                 {% else %}
                 <a class="dropdown-item" href="{% url 'loginn' %}">Login</a>
@@ -320,7 +320,8 @@
     </div>
     <div class="container mt-5">
         <h1>Sell Details</h1>
-        <h2>Total Amount: {{ request.user.farmerprofile.total_amount }}</h2>
+        <h2>Total Amount: {{ total_amount }}</h2>            
+        </h2>
         <table>
             <thead>
                 <tr>
@@ -442,7 +443,7 @@
             $(document).ready(function() {
                 $('.dropdown-toggle').dropdown();
             });
-
+{% comment %} 
             $(document).ready(function () {
                 var notificationDropdownContent = $("#notificationDropdownContent");
                 var notificationsLoaded = false;
@@ -520,7 +521,7 @@
                   }
                   notificationDropdownContent.toggle();
                 });
-              });
+              }); {% endcomment %}
 
 
     </script>

@@ -421,10 +421,10 @@
                                 <input class="form-control" name="meeting_agenda" type="text" id="meeting_agenda" value={{ meeting.meeting_agenda }}>
                                 <small class="form-text text-danger" id="meetingmodeError"></small>
                             </div>
-                            <div class="form-group">
+                            {% comment %} <div class="form-group">
                                 <label for="desmeeting">Details Discussed:</label>
                                 <textarea cols="30" rows="4" class="form-control" name="desmeeting"required>{{ meeting.desmeeting }}</textarea>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="m-t-20 text-center">
                                 <button class="btn btn-primary submit-btn" style="background-color:green;">Save</button>
                             </div>
